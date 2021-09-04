@@ -12,7 +12,7 @@ class AppPages {
   Route<dynamic> getRoute(RouteSettings settings) {
     switch (settings.name) {
       case AppRoutes.ROOT:
-        Map<String, dynamic> arguments = _getArguments(settings);
+        Map<String, dynamic>? arguments = _getArguments(settings);
         return _buildRoute(settings, App(), _getSlideMode(arguments));
       default:
         return _buildRoute(settings, App(), SlideMode.right);
@@ -33,8 +33,8 @@ class AppPages {
     }
   }
 
-  _getArguments(RouteSettings settings) {
-    return (settings.arguments as Map<String, dynamic>);
+  _getArguments(RouteSettings? settings) {
+    return (settings!.arguments);
   }
 
   _getSlideMode(Map<String, dynamic>? arguments) {
