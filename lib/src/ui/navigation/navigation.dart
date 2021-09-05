@@ -2,6 +2,8 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile_2school/src/themes/app_colors.dart';
+import 'package:flutter_mobile_2school/src/themes/theme_service.dart';
+import 'package:flutter_mobile_2school/src/ui/calendar/calendar_screen.dart';
 import 'package:flutter_mobile_2school/src/ui/common/network_cached.dart';
 import 'package:flutter_mobile_2school/src/ui/home/home_screen.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -21,7 +23,7 @@ class _NavigationState extends State<Navigation> {
     HomeScreen(),
     Container(),
     Container(),
-    Container(),
+    CalendarScreen(),
     Container(),
   ];
 
@@ -44,7 +46,7 @@ class _NavigationState extends State<Navigation> {
         : Scaffold(
             bottomNavigationBar: BottomAppBar(
               clipBehavior: Clip.antiAliasWithSaveLayer,
-              color: mCL,
+              color: Theme.of(context).scaffoldBackgroundColor,
               elevation: .0,
               child: Container(
                 height: 48.sp,
@@ -70,7 +72,7 @@ class _NavigationState extends State<Navigation> {
                       PhosphorIcons.graduationCap,
                       PhosphorIcons.graduationCapFill,
                       1,
-                      'Search',
+                      'Classes',
                     ),
                     _buildItemBottomBar(
                       PhosphorIcons.chatsTeardrop,
@@ -79,10 +81,10 @@ class _NavigationState extends State<Navigation> {
                       'Message',
                     ),
                     _buildItemBottomBar(
-                      PhosphorIcons.bell,
-                      PhosphorIcons.bellBold,
+                      PhosphorIcons.calendar,
+                      PhosphorIcons.calendarCheck,
                       3,
-                      'Notifications',
+                      'Calendar',
                     ),
                     _buildItemBottomAccount(
                       'https://avatars.githubusercontent.com/u/60530946?v=4',
@@ -118,7 +120,9 @@ class _NavigationState extends State<Navigation> {
                 child: Icon(
                   index == currentPage ? activeIcon : inActiveIcon,
                   size: 21.5.sp,
-                  color: index == currentPage ? colorPrimary : colorTitle,
+                  color: index == currentPage
+                      ? colorPrimary
+                      : Theme.of(context).textTheme.bodyText2!.color,
                 ),
               ),
               SizedBox(height: 2.5.sp),
@@ -126,7 +130,7 @@ class _NavigationState extends State<Navigation> {
                 height: 4.sp,
                 width: 4.sp,
                 decoration: BoxDecoration(
-                  color: index == 3 ? colorPrimary : Colors.transparent,
+                  color: index == 2 ? colorPrimary : Colors.transparent,
                   shape: BoxShape.circle,
                 ),
               ),
@@ -144,6 +148,7 @@ class _NavigationState extends State<Navigation> {
     return Expanded(
       child: GestureDetector(
         onTap: () {
+          themeService.changeThemeMode();
           setState(() {
             currentPage = index;
           });
@@ -187,7 +192,7 @@ class _NavigationState extends State<Navigation> {
                 height: 4.sp,
                 width: 4.sp,
                 decoration: BoxDecoration(
-                  color: index == 3 ? colorPrimary : Colors.transparent,
+                  color: index == 2 ? colorPrimary : Colors.transparent,
                   shape: BoxShape.circle,
                 ),
               ),

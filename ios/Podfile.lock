@@ -1,4 +1,6 @@
 PODS:
+  - blurhash (0.1.2):
+    - Flutter
   - Flutter (1.0.0)
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
@@ -10,6 +12,7 @@ PODS:
     - FMDB (>= 2.7.5)
 
 DEPENDENCIES:
+  - blurhash (from `.symlinks/plugins/blurhash/ios`)
   - Flutter (from `Flutter`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
@@ -19,6 +22,8 @@ SPEC REPOS:
     - FMDB
 
 EXTERNAL SOURCES:
+  blurhash:
+    :path: ".symlinks/plugins/blurhash/ios"
   Flutter:
     :path: Flutter
   path_provider:
@@ -27,6 +32,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/sqflite/ios"
 
 SPEC CHECKSUMS:
+  blurhash: 84acbeea8839e88055fcb99b320c5ebf5f27ae3b
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
