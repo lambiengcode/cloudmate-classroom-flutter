@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_2school/src/ui/home/home_screen.dart';
+import 'package:flutter_mobile_2school/src/ui/navigation/navigation.dart';
 
 class App extends StatefulWidget {
   @override
@@ -9,6 +9,6 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
-    return HomeScreen();
+    return Navigation();
   }
 }
