@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobile_2school/src/resources/hard/hard_post.dart';
 import 'package:flutter_mobile_2school/src/themes/app_colors.dart';
 import 'package:flutter_mobile_2school/src/themes/font_family.dart';
+import 'package:flutter_mobile_2school/src/themes/theme_service.dart';
 import 'package:flutter_mobile_2school/src/ui/home/widgets/attendance_in_post.dart';
 import 'package:flutter_mobile_2school/src/ui/home/widgets/deadline_in_post.dart';
 import 'package:flutter_mobile_2school/src/ui/home/widgets/exam_in_post.dart';
@@ -24,6 +25,7 @@ class _PostCardState extends State<PostCard> {
   final GlobalKey<LikeButtonState> _globalKey = GlobalKey<LikeButtonState>();
   int likeCount = 555;
   bool isLiked = false;
+  bool isSaved = false;
 
   Future<bool> onLikeButtonTapped(bool isLiked) async {
     setState(() {
@@ -74,10 +76,19 @@ class _PostCardState extends State<PostCard> {
           _buildInfoWritter(context),
           IconButton(
             icon: Icon(
-              PhosphorIcons.bookmark,
+              isSaved ? PhosphorIcons.bookmarkFill : PhosphorIcons.bookmark,
               size: 25.sp,
+              color: isSaved
+                  ? themeService.isDarkMode
+                      ? Colors.amberAccent
+                      : Colors.amberAccent.shade700
+                  : null,
             ),
-            onPressed: () => null,
+            onPressed: () {
+              setState(() {
+                isSaved = !isSaved;
+              });
+            },
           )
         ],
       ),

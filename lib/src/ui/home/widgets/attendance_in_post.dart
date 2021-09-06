@@ -4,6 +4,7 @@ import 'package:flutter_mobile_2school/src/resources/hard/hard_attended.dart';
 import 'package:flutter_mobile_2school/src/themes/app_colors.dart';
 import 'package:flutter_mobile_2school/src/themes/app_decorations.dart';
 import 'package:flutter_mobile_2school/src/themes/font_family.dart';
+import 'package:flutter_mobile_2school/src/themes/theme_service.dart';
 import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
@@ -37,7 +38,9 @@ class _ExamInPostCard extends State<AttendanceInPost> {
                   style: TextStyle(
                     fontSize: 12.5.sp,
                     fontWeight: FontWeight.w600,
-                    color: colorAttendance,
+                    color: themeService.isSavedDarkMode()
+                        ? colorAttendance
+                        : colorActive,
                     fontFamily: FontFamily.lato,
                   ),
                 ),
@@ -86,12 +89,14 @@ class _ExamInPostCard extends State<AttendanceInPost> {
             height: 32.sp,
             width: 32.sp,
             decoration: BoxDecoration(
-              color: colorAttendance,
+              color: themeService.isSavedDarkMode()
+                  ? colorAttendance
+                  : colorActive,
               borderRadius: BorderRadius.circular(8.sp),
             ),
             alignment: Alignment.center,
             child: Icon(
-              FontAwesome5Solid.hand_peace,
+              FontAwesome5Solid.hand_paper,
               color: mC,
               size: 14.sp,
             ),

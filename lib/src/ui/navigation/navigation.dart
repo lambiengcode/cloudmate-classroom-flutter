@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile_2school/src/themes/app_colors.dart';
-import 'package:flutter_mobile_2school/src/ui/calendar/calendar_screen.dart';
+import 'package:flutter_mobile_2school/src/ui/classes/classes_screen.dart';
 import 'package:flutter_mobile_2school/src/ui/common/network_cached.dart';
 import 'package:flutter_mobile_2school/src/ui/home/home_screen.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -20,9 +20,10 @@ class _NavigationState extends State<Navigation> {
   bool _loading = false;
   var _pages = [
     HomeScreen(),
+    ClassesScreen(),
     Container(),
+    // CalendarScreen(),
     Container(),
-    CalendarScreen(),
     Container(),
   ];
 
@@ -80,8 +81,8 @@ class _NavigationState extends State<Navigation> {
                       'Message',
                     ),
                     _buildItemBottomBar(
-                      PhosphorIcons.calendar,
-                      PhosphorIcons.calendarCheck,
+                      PhosphorIcons.clock,
+                      PhosphorIcons.alarmBold,
                       3,
                       'Calendar',
                     ),
