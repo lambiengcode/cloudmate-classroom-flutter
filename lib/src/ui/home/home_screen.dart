@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_mobile_2school/src/resources/hard/hard_chat.dart';
+import 'package:flutter_mobile_2school/src/resources/hard/hard_post.dart';
 import 'package:flutter_mobile_2school/src/themes/app_colors.dart';
+import 'package:flutter_mobile_2school/src/themes/theme_service.dart';
 import 'package:flutter_mobile_2school/src/ui/home/widgets/active_friend_card.dart';
 import 'package:flutter_mobile_2school/src/ui/home/widgets/post_card.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -43,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () => themeService.changeThemeMode(),
             icon: Icon(
               PhosphorIcons.qrCode,
               size: 24.sp,
@@ -74,13 +76,16 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Expanded(
                 child: ListView.builder(
-                  padding: EdgeInsets.only(top: 12.sp),
+                  padding: EdgeInsets.only(top: 12.sp, bottom: 20.sp),
                   physics: BouncingScrollPhysics(),
-                  itemCount: 2,
+                  itemCount: posts.length + 1,
                   itemBuilder: (context, index) {
                     return index == 0
                         ? _buildActiveFriend(context)
-                        : PostCard(idPost: index.toString());
+                        : PostCard(
+                            post: posts[index - 1],
+                            isLast: index == posts.length,
+                          );
                   },
                 ),
               ),

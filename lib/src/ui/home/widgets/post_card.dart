@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile_2school/src/resources/hard/hard_post.dart';
 import 'package:flutter_mobile_2school/src/themes/app_colors.dart';
 import 'package:flutter_mobile_2school/src/themes/font_family.dart';
+import 'package:flutter_mobile_2school/src/ui/home/widgets/attendance_in_post.dart';
+import 'package:flutter_mobile_2school/src/ui/home/widgets/deadline_in_post.dart';
 import 'package:flutter_mobile_2school/src/ui/home/widgets/exam_in_post.dart';
+import 'package:flutter_mobile_2school/src/ui/home/widgets/image_body_post.dart';
 import 'package:flutter_mobile_2school/src/utils/blurhash.dart';
 import 'package:like_button/like_button.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 class PostCard extends StatefulWidget {
-  final String idPost;
+  final Post post;
   final bool isInDetails;
-  PostCard({required this.idPost, this.isInDetails = false});
+  final bool isLast;
+  PostCard({required this.post, this.isInDetails = false, this.isLast = false});
   @override
   State<StatefulWidget> createState() => _PostCardState();
 }
@@ -41,12 +46,14 @@ class _PostCardState extends State<PostCard> {
         bottom: widget.isInDetails ? 12.sp : 4.sp,
       ),
       decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            width: .3,
-            color: Theme.of(context).dividerColor,
-          ),
-        ),
+        border: widget.isLast
+            ? null
+            : Border(
+                bottom: BorderSide(
+                  width: .3,
+                  color: Theme.of(context).dividerColor,
+                ),
+              ),
       ),
       child: Column(
         children: [
@@ -85,24 +92,41 @@ class _PostCardState extends State<PostCard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 8.sp),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 3.w),
-              child: Text(
-                'Nhớ đúng giờ nha các bạn',
-                style: TextStyle(
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w400,
-                ),
-                textAlign: TextAlign.start,
-                maxLines: 2,
-              ),
-            ),
-            SizedBox(height: 6.sp),
-            // ImageBodyPost(
-            //   blurHashs: [''],
-            //   images: ['https://avatars.githubusercontent.com/u/60530946?v=4'],
-            // ),
-            ExamInPost(),
+            widget.post.content != ''
+                ? Column(
+                    children: [
+                      SizedBox(height: 4.sp),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 3.w),
+                        child: Text(
+                          widget.post.content,
+                          style: TextStyle(
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          textAlign: TextAlign.start,
+                          maxLines: 2,
+                        ),
+                      ),
+                      SizedBox(height: 6.sp),
+                    ],
+                  )
+                : Container(),
+            widget.post.status == 0
+                ? ExamInPost(
+                    exam: widget.post.exam!,
+                  )
+                : widget.post.status == 1
+                    ? DeadlineInPost(deadline: widget.post.deadline!)
+                    : widget.post.status == 2
+                        ? AttendanceInPost(attendance: widget.post.attendance!)
+                        : Padding(
+                            padding: EdgeInsets.only(top: 6.sp),
+                            child: ImageBodyPost(
+                              blurHashs: widget.post.images,
+                              images: widget.post.images,
+                            ),
+                          ),
             SizedBox(height: 12.sp),
           ],
         ),
@@ -298,8 +322,7 @@ class _PostCardState extends State<PostCard> {
             borderRadius: BorderRadius.circular(6.sp),
             child: BlurHash(
               hash: '',
-              image:
-                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzy6LtbJQP3wf-qBbtsfO1zJO3q_RZp59Yow&usqp=CAU',
+              image: widget.post.imageGroup,
               imageFit: BoxFit.cover,
               color: colorPrimary,
             ),
@@ -311,7 +334,7 @@ class _PostCardState extends State<PostCard> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Flutter Class',
+              widget.post.groupName,
               style: TextStyle(
                 fontSize: 12.25.sp,
                 fontFamily: FontFamily.lato,
@@ -320,7 +343,7 @@ class _PostCardState extends State<PostCard> {
             ),
             SizedBox(height: 2.15.sp),
             Text(
-              'lambiengcode',
+              widget.post.authorName,
               style: TextStyle(
                 fontSize: 11.sp,
                 fontFamily: FontFamily.lato,

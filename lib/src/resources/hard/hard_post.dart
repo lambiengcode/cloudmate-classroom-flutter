@@ -1,5 +1,9 @@
 import 'dart:convert';
 
+import 'package:flutter_mobile_2school/src/resources/hard/hard_attended.dart';
+import 'package:flutter_mobile_2school/src/resources/hard/hard_exam_post.dart';
+import 'package:flutter_mobile_2school/src/resources/hard/hard_schedule.dart';
+
 class Post {
   final String id;
   String groupName;
@@ -7,6 +11,12 @@ class Post {
   String imageGroup;
   String imageAuthor;
   String content;
+  int status;
+  Exam? exam;
+  ScheduleDeadline? deadline;
+  Attendance? attendance;
+  List<String>? images;
+
   Post({
     required this.id,
     required this.groupName,
@@ -14,6 +24,11 @@ class Post {
     required this.imageGroup,
     required this.imageAuthor,
     required this.content,
+    required this.status,
+    this.attendance,
+    this.deadline,
+    this.exam,
+    this.images,
   });
 
   Post copyWith({
@@ -31,6 +46,7 @@ class Post {
       imageGroup: imageGroup ?? this.imageGroup,
       imageAuthor: imageAuthor ?? this.imageAuthor,
       content: content ?? this.content,
+      status: status,
     );
   }
 
@@ -53,6 +69,7 @@ class Post {
       imageGroup: map['imageGroup'],
       imageAuthor: map['imageAuthor'],
       content: map['content'],
+      status: map['status'],
     );
   }
 
@@ -88,3 +105,94 @@ class Post {
         content.hashCode;
   }
 }
+
+List<Post> posts = [
+  Post(
+    id: '4',
+    groupName: 'Java - Khoa Phạm',
+    authorName: 'Hồng Vinh',
+    imageGroup:
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZv7zDrthWh4shEHklZp5N3ZPRJ6LCCU-01A&usqp=CAU',
+    imageAuthor: 'https://avatars.githubusercontent.com/u/60530946?v=4',
+    content: 'Điểm danh nào...',
+    status: 2,
+    attendance: Attendance(
+      id: '',
+      attendances: [],
+      startTime: DateTime.now(),
+      endTime: DateTime.now().add(
+        Duration(minutes: 10),
+      ),
+      total: 5,
+    ),
+  ),
+  Post(
+    id: '1',
+    groupName: 'Flutter Advance',
+    authorName: 'lambiengcode',
+    imageGroup:
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzy6LtbJQP3wf-qBbtsfO1zJO3q_RZp59Yow&usqp=CAU',
+    imageAuthor: 'https://avatars.githubusercontent.com/u/60530946?v=4',
+    content: 'Nhớ đúng giờ nha các bạn!',
+    status: 0,
+    exam: Exam(
+      id: '',
+      name: 'Kiểm tra tuần 7',
+      duration: 3600,
+      startTime: DateTime.now().add(
+        Duration(minutes: 60),
+      ),
+    ),
+  ),
+  Post(
+    id: '5',
+    groupName: 'Android',
+    authorName: 'Hồng Vinh',
+    imageGroup:
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx76WJZ8G-wqyr91nJvMjDncnXnn0t71tsQg&usqp=CAU',
+    imageAuthor: 'https://avatars.githubusercontent.com/u/60530946?v=4',
+    content: 'Cho mình hỏi đoạn code này sao không chạy được ạ!',
+    status: 3,
+    images: [
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTr_EjIBVG_pHGRh8XXILO16yrHVdGuJXXdLg&usqp=CAU',
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcxkPUiY5_NjA_6pW2ZZaPvApUenWYEpCAeA&usqp=CAU',
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbe3oX8tPa3qcpeQKkbvSJC0P1V4bOlZfspg&usqp=CAU',
+    ],
+  ),
+  Post(
+    id: '2',
+    groupName: 'Javascript Basic',
+    authorName: 'lambiengcode',
+    imageGroup:
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRle534gajxIaVBiruE-qYOJ5rWSoIOuXhzyQ&usqp=CAU',
+    imageAuthor: 'https://avatars.githubusercontent.com/u/60530946?v=4',
+    content: '',
+    status: 0,
+    exam: Exam(
+      id: '',
+      name: 'Kiểm tra giữa kỳ',
+      duration: 1200,
+      startTime: DateTime.now().add(
+        Duration(minutes: 60),
+      ),
+    ),
+  ),
+  Post(
+    id: '3',
+    groupName: 'Java - Khoa Phạm',
+    authorName: 'Hồng Vinh',
+    imageGroup:
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZv7zDrthWh4shEHklZp5N3ZPRJ6LCCU-01A&usqp=CAU',
+    imageAuthor: 'https://avatars.githubusercontent.com/u/60530946?v=4',
+    content: 'Nộp BTVN đúng nha các em...',
+    status: 1,
+    deadline: ScheduleDeadline(
+      id: '',
+      name: 'Bài tập về nhà tuần 7',
+      deadline: DateTime.now().add(
+        Duration(minutes: 60),
+      ),
+      fileName: '',
+    ),
+  ),
+];

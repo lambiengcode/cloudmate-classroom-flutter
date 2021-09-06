@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:flutter_mobile_2school/src/helpers/string.dart';
-import 'package:flutter_mobile_2school/src/resources/hard/hard_exam_post.dart';
+import 'package:flutter_mobile_2school/src/resources/hard/hard_attended.dart';
 import 'package:flutter_mobile_2school/src/themes/app_colors.dart';
 import 'package:flutter_mobile_2school/src/themes/app_decorations.dart';
 import 'package:flutter_mobile_2school/src/themes/font_family.dart';
@@ -9,14 +8,14 @@ import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
-class ExamInPost extends StatefulWidget {
-  final Exam exam;
-  ExamInPost({required this.exam});
+class AttendanceInPost extends StatefulWidget {
+  final Attendance attendance;
+  AttendanceInPost({required this.attendance});
   @override
   State<StatefulWidget> createState() => _ExamInPostCard();
 }
 
-class _ExamInPostCard extends State<ExamInPost> {
+class _ExamInPostCard extends State<AttendanceInPost> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -30,27 +29,29 @@ class _ExamInPostCard extends State<ExamInPost> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  widget.exam.name,
+                  'Điểm danh: ' +
+                      DateFormat('dd/MM/yyyy')
+                          .format(widget.attendance.startTime),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 12.5.sp,
-                    fontFamily: FontFamily.lato,
                     fontWeight: FontWeight.w600,
-                    color: colorPrimary,
+                    color: colorAttendance,
+                    fontFamily: FontFamily.lato,
                   ),
                 ),
                 SizedBox(height: 6.sp),
                 Row(
                   children: [
                     Icon(
-                      PhosphorIcons.clock,
+                      PhosphorIcons.clockClockwise,
                       size: 15.sp,
                     ),
                     SizedBox(width: 6.sp),
                     Text(
                       DateFormat('HH:mm aa - dd/MM/yyyy').format(
-                        widget.exam.startTime,
+                        widget.attendance.endTime,
                       ),
                       style: TextStyle(
                         fontSize: 11.sp,
@@ -64,14 +65,12 @@ class _ExamInPostCard extends State<ExamInPost> {
                 Row(
                   children: [
                     Icon(
-                      PhosphorIcons.hourglassMedium,
+                      PhosphorIcons.user,
                       size: 15.sp,
                     ),
                     SizedBox(width: 6.sp),
                     Text(
-                      StringHelper().printDuration(
-                        Duration(seconds: widget.exam.duration),
-                      ),
+                      '${widget.attendance.attendances.length}/${widget.attendance.total}',
                       style: TextStyle(
                         fontSize: 11.sp,
                         fontFamily: FontFamily.lato,
@@ -87,14 +86,14 @@ class _ExamInPostCard extends State<ExamInPost> {
             height: 32.sp,
             width: 32.sp,
             decoration: BoxDecoration(
-              color: colorPrimary,
-              borderRadius: BorderRadius.circular(6.sp),
+              color: colorAttendance,
+              borderRadius: BorderRadius.circular(8.sp),
             ),
             alignment: Alignment.center,
             child: Icon(
-              Feather.eye,
+              FontAwesome5Solid.hand_peace,
               color: mC,
-              size: 15.sp,
+              size: 14.sp,
             ),
           ),
         ],

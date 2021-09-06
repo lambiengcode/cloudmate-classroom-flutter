@@ -2,7 +2,6 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile_2school/src/themes/app_colors.dart';
-import 'package:flutter_mobile_2school/src/themes/theme_service.dart';
 import 'package:flutter_mobile_2school/src/ui/calendar/calendar_screen.dart';
 import 'package:flutter_mobile_2school/src/ui/common/network_cached.dart';
 import 'package:flutter_mobile_2school/src/ui/home/home_screen.dart';
@@ -148,7 +147,6 @@ class _NavigationState extends State<Navigation> {
     return Expanded(
       child: GestureDetector(
         onTap: () {
-          themeService.changeThemeMode();
           setState(() {
             currentPage = index;
           });

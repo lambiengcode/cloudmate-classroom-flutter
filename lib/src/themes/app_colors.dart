@@ -12,6 +12,7 @@ var colorLow = colorPrimary;
 var colorCompleted = Colors.green;
 var colorFailed = colorDarkGrey;
 var colorActive = Color(0xFF00D72F);
+var colorAttendance = Color(0xFF0CCF4C);
 
 Color mC = Colors.grey.shade100;
 Color mCL = Colors.white;
