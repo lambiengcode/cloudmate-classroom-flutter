@@ -35,6 +35,7 @@ dependencies:
   get_storage: ^2.0.3
   timelines: ^0.1.0
   intl: ^0.17.0
+  ezanimation: ^0.5.0
 
   # Image
   blurhash: ^0.2.1 
@@ -95,6 +96,10 @@ flutter:
     - family: Allison
       fonts:
         - asset: assets/fonts/Allison-Regular.ttf
+
+    - family: DancingScript
+      fonts:
+        - asset: assets/fonts/DancingScript.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

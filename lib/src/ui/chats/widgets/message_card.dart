@@ -69,7 +69,11 @@ class _MessageCardState extends State<MessageCard> {
                               fontSize: 13.sp,
                               fontWeight: FontWeight.w600,
                               fontFamily: FontFamily.lato,
-                              wordSpacing: .01,
+                              color: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2!
+                                  .color!
+                                  .withOpacity(.88),
                             ),
                           ),
                           SizedBox(height: 4.sp),
@@ -89,7 +93,7 @@ class _MessageCardState extends State<MessageCard> {
                   ),
                 ),
                 Container(
-                  width: 30.sp,
+                  width: 35.sp,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -110,10 +114,7 @@ class _MessageCardState extends State<MessageCard> {
                           : widget.pendingMessage == 0
                               ? Container()
                               : Container(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 12.5,
-                                    vertical: 4.0,
-                                  ),
+                                  padding: EdgeInsets.all(6.sp),
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: colorPrimary,
@@ -121,7 +122,7 @@ class _MessageCardState extends State<MessageCard> {
                                   child: Text(
                                     widget.pendingMessage.toString(),
                                     style: TextStyle(
-                                      fontSize: 8.sp,
+                                      fontSize: 9.sp,
                                       color: mCL,
                                       fontWeight: FontWeight.w600,
                                       fontFamily: FontFamily.lato,

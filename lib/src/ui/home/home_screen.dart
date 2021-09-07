@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile_2school/src/resources/hard/hard_chat.dart';
 import 'package:flutter_mobile_2school/src/resources/hard/hard_post.dart';
+import 'package:flutter_mobile_2school/src/themes/app_colors.dart';
+import 'package:flutter_mobile_2school/src/themes/font_family.dart';
 import 'package:flutter_mobile_2school/src/themes/theme_service.dart';
 import 'package:flutter_mobile_2school/src/ui/home/widgets/active_friend_card.dart';
+import 'package:flutter_mobile_2school/src/ui/home/widgets/new_post.dart';
 import 'package:flutter_mobile_2school/src/ui/home/widgets/post_card.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
@@ -28,19 +31,29 @@ class _HomeScreenState extends State<HomeScreen> {
             size: 22.sp,
           ),
         ),
-        title: Container(
-          height: 28.sp,
-          width: 28.sp,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            image: DecorationImage(
-              image: NetworkImage(
-                'https://avatars.githubusercontent.com/u/60530946?v=4',
+        title: RichText(
+            text: TextSpan(
+          children: [
+            TextSpan(
+              text: 'Cloud',
+              style: TextStyle(
+                fontSize: 22.sp,
+                fontWeight: FontWeight.w600,
+                fontFamily: FontFamily.dancing,
+                color: colorPrimary,
               ),
-              fit: BoxFit.cover,
             ),
-          ),
-        ),
+            TextSpan(
+              text: 'mate',
+              style: TextStyle(
+                fontSize: 22.sp,
+                fontWeight: FontWeight.w600,
+                fontFamily: FontFamily.dancing,
+                color: Theme.of(context).textTheme.bodyText1!.color,
+              ),
+            ),
+          ],
+        )),
         actions: [
           IconButton(
             onPressed: () => themeService.changeThemeMode(),
@@ -78,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemCount: posts.length + 1,
                   itemBuilder: (context, index) {
                     return index == 0
-                        ? _buildActiveFriend(context)
+                        ? NewPost()
                         : PostCard(
                             post: posts[index - 1],
                             isLast: index == posts.length,
@@ -125,43 +138,4 @@ class _HomeScreenState extends State<HomeScreen> {
   //     ),
   //   );
   // }
-
-  Widget _buildActiveFriend(context) {
-    return Container(
-      child: Column(
-        children: [
-          Container(
-            height: 65.sp,
-            width: 100.w,
-            child: NotificationListener<OverscrollIndicatorNotification>(
-              onNotification: (overscroll) {
-                overscroll.disallowGlow();
-                return true;
-              },
-              child: ListView.builder(
-                padding: EdgeInsets.symmetric(horizontal: 2.w),
-                physics: BouncingScrollPhysics(),
-                scrollDirection: Axis.horizontal,
-                itemCount: chats.length,
-                itemBuilder: (context, index) {
-                  return ActiveFriendCard(
-                    blurHash: chats[index].blurHash,
-                    urlToImage: chats[index].image,
-                    fullName: chats[index].fullName,
-                  );
-                },
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: 2.h, bottom: .5.h),
-            child: Divider(
-              height: .2,
-              thickness: .2,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }

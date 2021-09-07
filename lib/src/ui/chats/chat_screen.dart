@@ -50,7 +50,7 @@ class _ChatScreenState extends State<ChatScreen> {
           IconButton(
             onPressed: () => null,
             icon: Icon(
-              PhosphorIcons.videoCameraBold,
+              PhosphorIcons.videoCamera,
               color: Theme.of(context).textTheme.bodyText1!.color,
               size: 20.sp,
             ),
