@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile_2school/src/themes/app_colors.dart';
+import 'package:flutter_mobile_2school/src/ui/chats/chat_screen.dart';
 import 'package:flutter_mobile_2school/src/ui/classes/classes_screen.dart';
 import 'package:flutter_mobile_2school/src/ui/common/network_cached.dart';
 import 'package:flutter_mobile_2school/src/ui/home/home_screen.dart';
@@ -21,7 +22,7 @@ class _NavigationState extends State<Navigation> {
   var _pages = [
     HomeScreen(),
     ClassesScreen(),
-    Container(),
+    ChatScreen(),
     // CalendarScreen(),
     Container(),
     Container(),

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_mobile_2school/src/resources/hard/hard_chat.dart';
 import 'package:flutter_mobile_2school/src/resources/hard/hard_post.dart';
-import 'package:flutter_mobile_2school/src/themes/app_colors.dart';
 import 'package:flutter_mobile_2school/src/themes/theme_service.dart';
 import 'package:flutter_mobile_2school/src/ui/home/widgets/active_friend_card.dart';
 import 'package:flutter_mobile_2school/src/ui/home/widgets/post_card.dart';
@@ -26,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
         leading: IconButton(
           onPressed: () {},
           icon: Icon(
-            PhosphorIcons.bellSimple,
+            PhosphorIcons.slidersHorizontal,
             size: 22.sp,
           ),
         ),
@@ -54,9 +52,8 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             onPressed: () {},
             icon: Icon(
-              FontAwesome5Solid.feather,
-              size: 18.sp,
-              color: colorPrimary,
+              PhosphorIcons.bellSimple,
+              size: 22.sp,
             ),
           ),
         ],

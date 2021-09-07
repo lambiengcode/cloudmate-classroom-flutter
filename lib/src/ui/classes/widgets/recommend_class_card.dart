@@ -77,9 +77,9 @@ class _RecommendClassCardState extends State<RecommendClassCard> {
                         Row(
                           children: [
                             StackAvatar(
-                              size: 18.sp,
+                              size: 18.25.sp,
                               images: chats
-                                  .sublist(1, 4)
+                                  .sublist(3, 6)
                                   .map((e) => e.image!)
                                   .toList(),
                             ),

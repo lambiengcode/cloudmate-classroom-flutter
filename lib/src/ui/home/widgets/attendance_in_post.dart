@@ -40,7 +40,7 @@ class _ExamInPostCard extends State<AttendanceInPost> {
                     fontWeight: FontWeight.w600,
                     color: themeService.isSavedDarkMode()
                         ? colorAttendance
-                        : colorActive,
+                        : colorGreenLight,
                     fontFamily: FontFamily.lato,
                   ),
                 ),
@@ -91,7 +91,7 @@ class _ExamInPostCard extends State<AttendanceInPost> {
             decoration: BoxDecoration(
               color: themeService.isSavedDarkMode()
                   ? colorAttendance
-                  : colorActive,
+                  : colorGreenLight,
               borderRadius: BorderRadius.circular(8.sp),
             ),
             alignment: Alignment.center,
