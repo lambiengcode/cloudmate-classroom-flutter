@@ -160,14 +160,14 @@ class AppDecoration {
           color: colorPrimaryBlack,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(.8),
-              offset: Offset(1, 1),
-              blurRadius: 1,
+              color: Colors.black.withOpacity(.4),
+              offset: Offset(4, 4),
+              blurRadius: 4,
             ),
             BoxShadow(
-              color: colorBlack.withOpacity(.35),
+              color: Colors.black.withOpacity(.15),
               offset: Offset(-1, -1),
-              blurRadius: 1,
+              blurRadius: 20,
             ),
           ],
         ),
@@ -180,13 +180,13 @@ class AppDecoration {
           boxShadow: [
             BoxShadow(
               color: mCD,
-              offset: Offset(3, 3),
-              blurRadius: 3,
+              offset: Offset(5, 5),
+              blurRadius: 5,
             ),
             BoxShadow(
               color: mCL,
-              offset: Offset(-3, -3),
-              blurRadius: 3,
+              offset: Offset(-2, -2),
+              blurRadius: 2,
             ),
           ],
         ),

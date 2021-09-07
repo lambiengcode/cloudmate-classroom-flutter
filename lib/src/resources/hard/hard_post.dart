@@ -109,10 +109,10 @@ class Post {
 List<Post> posts = [
   Post(
     id: '4',
-    groupName: 'Java - Khoa Phạm',
+    groupName: 'Kotlin - Khoa Phạm',
     authorName: 'Hồng Vinh',
     imageGroup:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZv7zDrthWh4shEHklZp5N3ZPRJ6LCCU-01A&usqp=CAU',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ87JPs-UCb6UdsnWVx9H0O57TczZ9m8yOYIA&usqp=CAU',
     imageAuthor: 'https://avatars.githubusercontent.com/u/60530946?v=4',
     content: 'Điểm danh nào...',
     status: 2,
@@ -145,11 +145,22 @@ List<Post> posts = [
     ),
   ),
   Post(
-    id: '5',
+    id: '6',
     groupName: 'Android',
     authorName: 'Hồng Vinh',
     imageGroup:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx76WJZ8G-wqyr91nJvMjDncnXnn0t71tsQg&usqp=CAU',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQM_ZRIHU7JMPfPUhWh-kdOQd4E9BUYFyrw9UYRS0goplX9UW4TNRfcqiAh5Ax7ZNXYwiM&usqp=CAU',
+    imageAuthor: 'https://avatars.githubusercontent.com/u/60530946?v=4',
+    content: 'Xin chào mọi người, mình muốn hỏi cách xuất file apk bằng lệnh ạ',
+    status: 3,
+    images: [],
+  ),
+  Post(
+    id: '5',
+    groupName: 'Firebase',
+    authorName: 'Hồng Vinh',
+    imageGroup:
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbZjMN-zPpVvCQuVbOFLpd65m58i6Ro__uJg&usqp=CAU',
     imageAuthor: 'https://avatars.githubusercontent.com/u/60530946?v=4',
     content: 'Cho mình hỏi đoạn code này sao không chạy được ạ!',
     status: 3,
@@ -179,10 +190,10 @@ List<Post> posts = [
   ),
   Post(
     id: '3',
-    groupName: 'Java - Khoa Phạm',
+    groupName: 'Java Spring Boot',
     authorName: 'Hồng Vinh',
     imageGroup:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZv7zDrthWh4shEHklZp5N3ZPRJ6LCCU-01A&usqp=CAU',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNUxJc3GaGeWGdkAUX2HV26TuJwVM5f9yvxA&usqp=CAU',
     imageAuthor: 'https://avatars.githubusercontent.com/u/60530946?v=4',
     content: 'Nộp BTVN đúng nha các em...',
     status: 1,

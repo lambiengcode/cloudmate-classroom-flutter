@@ -3,7 +3,8 @@ import 'package:sizer/sizer.dart';
 
 class StackAvatar extends StatefulWidget {
   final List<String>? images;
-  StackAvatar({this.images});
+  final double size;
+  StackAvatar({this.images, this.size = 25});
   @override
   State<StatefulWidget> createState() => _StackAvatarState();
 }
@@ -24,8 +25,8 @@ class _StackAvatarState extends State<StackAvatar> {
 
   Widget _buildAvatar(context, index) {
     return Container(
-      height: 22.5.sp,
-      width: 22.5.sp,
+      height: widget.size,
+      width: widget.size,
       margin: EdgeInsets.only(left: (2 - index) * 12.sp),
       decoration: BoxDecoration(
         shape: BoxShape.circle,

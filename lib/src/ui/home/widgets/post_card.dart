@@ -131,13 +131,15 @@ class _PostCardState extends State<PostCard> {
                     ? DeadlineInPost(deadline: widget.post.deadline!)
                     : widget.post.status == 2
                         ? AttendanceInPost(attendance: widget.post.attendance!)
-                        : Padding(
-                            padding: EdgeInsets.only(top: 6.sp),
-                            child: ImageBodyPost(
-                              blurHashs: widget.post.images,
-                              images: widget.post.images,
-                            ),
-                          ),
+                        : widget.post.images!.length > 0
+                            ? Padding(
+                                padding: EdgeInsets.only(top: 6.sp),
+                                child: ImageBodyPost(
+                                  blurHashs: widget.post.images,
+                                  images: widget.post.images,
+                                ),
+                              )
+                            : Container(),
             SizedBox(height: 12.sp),
           ],
         ),

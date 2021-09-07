@@ -5,6 +5,7 @@ import 'package:flutter_mobile_2school/src/themes/app_colors.dart';
 import 'package:flutter_mobile_2school/src/themes/font_family.dart';
 import 'package:flutter_mobile_2school/src/themes/theme_service.dart';
 import 'package:flutter_mobile_2school/src/ui/classes/widgets/class_card.dart';
+import 'package:flutter_mobile_2school/src/ui/classes/widgets/recommend_class_card.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
@@ -70,11 +71,16 @@ class _ClassesScreenState extends State<ClassesScreen> {
             Expanded(
               child: ListView.builder(
                 padding: EdgeInsets.only(top: 8.sp, bottom: 16.sp),
-                itemCount: 1,
+                itemCount: posts.length + 1,
                 itemBuilder: (context, index) {
                   return index == 0
                       ? _buildCurrentClasses(context)
-                      : Container();
+                      : RecommendClassCard(
+                          imageClass: posts[index - 1].imageGroup,
+                          className: posts[index - 1].groupName,
+                          star: '4.5 / 5.0',
+                          teacher: posts[index - 1].authorName,
+                        );
                 },
               ),
             ),

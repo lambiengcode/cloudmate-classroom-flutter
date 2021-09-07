@@ -11,7 +11,7 @@ var colorMedium = Colors.amber.shade700;
 var colorLow = colorPrimary;
 var colorCompleted = Colors.green;
 var colorFailed = colorDarkGrey;
-var colorActive = Colors.greenAccent.shade700;
+var colorActive = Color(0xFF009E60);
 var colorAttendance = Color(0xFF0CCF4C);
 
 Color mC = Colors.grey.shade100;
