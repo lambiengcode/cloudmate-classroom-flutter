@@ -155,7 +155,8 @@ class _NewPostState extends State<NewPost> {
     return Expanded(
       child: Icon(
         icon,
-        color: color,
+        color: color ??
+            Theme.of(context).textTheme.bodyText2!.color!.withOpacity(.7),
         size: 18.sp,
       ),
     );

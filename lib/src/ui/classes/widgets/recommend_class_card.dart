@@ -70,7 +70,7 @@ class _RecommendClassCardState extends State<RecommendClassCard> {
                         SizedBox(height: 4.sp),
                         _buildTileInfo(
                           widget.teacher,
-                          PhosphorIcons.userSquareFill,
+                          PhosphorIcons.graduationCapFill,
                           Colors.pinkAccent.shade100,
                         ),
                         SizedBox(height: 4.sp),
@@ -85,7 +85,7 @@ class _RecommendClassCardState extends State<RecommendClassCard> {
                             ),
                             SizedBox(width: 6.sp),
                             Text(
-                              '32 học viên',
+                              '35 học viên',
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
@@ -96,7 +96,7 @@ class _RecommendClassCardState extends State<RecommendClassCard> {
                                     .textTheme
                                     .bodyText1!
                                     .color!
-                                    .withOpacity(.75),
+                                    .withOpacity(.6),
                               ),
                             ),
                           ],

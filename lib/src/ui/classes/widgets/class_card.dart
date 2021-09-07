@@ -159,7 +159,7 @@ class _ClassCardState extends State<ClassCard> {
                     SizedBox(height: 2.5.sp),
                     _buildTileInfo(
                       widget.teacher,
-                      PhosphorIcons.userCircleFill,
+                      PhosphorIcons.graduationCapFill,
                       Colors.pinkAccent.shade100,
                     ),
                   ],

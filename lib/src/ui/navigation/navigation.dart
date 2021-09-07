@@ -6,6 +6,7 @@ import 'package:flutter_mobile_2school/src/ui/chats/chat_screen.dart';
 import 'package:flutter_mobile_2school/src/ui/classes/classes_screen.dart';
 import 'package:flutter_mobile_2school/src/ui/common/network_cached.dart';
 import 'package:flutter_mobile_2school/src/ui/home/home_screen.dart';
+import 'package:flutter_mobile_2school/src/ui/profile/profile_screen.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
@@ -25,7 +26,7 @@ class _NavigationState extends State<Navigation> {
     ChatScreen(),
     // CalendarScreen(),
     Container(),
-    Container(),
+    ProfileScreen(),
   ];
 
   @override

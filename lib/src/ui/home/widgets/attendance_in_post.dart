@@ -22,7 +22,8 @@ class _ExamInPostCard extends State<AttendanceInPost> {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 8.sp, vertical: 4.sp),
       padding: EdgeInsets.all(12.5.sp),
-      decoration: AppDecoration.buttonActionBorder(context, 6.sp).decoration,
+      decoration:
+          AppDecoration.buttonActionBorderActive(context, 10.sp).decoration,
       child: Row(
         children: [
           Expanded(
@@ -40,7 +41,7 @@ class _ExamInPostCard extends State<AttendanceInPost> {
                     fontWeight: FontWeight.w600,
                     color: themeService.isSavedDarkMode()
                         ? colorAttendance
-                        : colorGreenLight,
+                        : colorActive,
                     fontFamily: FontFamily.lato,
                   ),
                 ),
@@ -53,7 +54,7 @@ class _ExamInPostCard extends State<AttendanceInPost> {
                     ),
                     SizedBox(width: 6.sp),
                     Text(
-                      DateFormat('HH:mm aa - dd/MM/yyyy').format(
+                      DateFormat('HH:mm - dd/MM/yyyy').format(
                         widget.attendance.endTime,
                       ),
                       style: TextStyle(
@@ -91,7 +92,7 @@ class _ExamInPostCard extends State<AttendanceInPost> {
             decoration: BoxDecoration(
               color: themeService.isSavedDarkMode()
                   ? colorAttendance
-                  : colorGreenLight,
+                  : colorActive,
               borderRadius: BorderRadius.circular(8.sp),
             ),
             alignment: Alignment.center,
