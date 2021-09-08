@@ -6,11 +6,21 @@ import 'package:flutter_mobile_2school/src/themes/themes.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 final GlobalKey<NavigatorState> navGlogbalKey = new GlobalKey<NavigatorState>();
+var baseUrl;
+var socketUrl;
 
 void main() async {
+  await dotenv.load(fileName: ".env");
   await GetStorage.init();
+  try {
+    baseUrl = dotenv.env['BASE_URL'];
+    socketUrl = dotenv.env['SOCKET_URL'];
+  } catch (error) {
+    debugPrint(error.toString());
+  }
   runApp(MyApp());
 }
 
@@ -29,7 +39,7 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             navigatorKey: navGlogbalKey,
             debugShowCheckedModeBanner: false,
-            title: '2School!',
+            title: 'Cloudmate',
             locale: Locale('vi', 'VN'),
             initialRoute: AppRoutes.ROOT,
             theme: AppTheme.light().data,

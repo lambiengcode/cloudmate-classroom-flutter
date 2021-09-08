@@ -35,7 +35,7 @@ class _ClassCardState extends State<ClassCard> {
             bottom: 12.sp,
             top: 4.sp,
           ),
-          padding: EdgeInsets.only(bottom: 8.5.sp),
+          padding: EdgeInsets.only(bottom: 9.25.sp),
           child: Stack(
             children: [
               Column(
@@ -68,7 +68,6 @@ class _ClassCardState extends State<ClassCard> {
                         ),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30.0),
-                          color: colorPrimary,
                           boxShadow: [
                             BoxShadow(
                               color: mCD,
@@ -76,6 +75,23 @@ class _ClassCardState extends State<ClassCard> {
                               blurRadius: 4,
                             ),
                           ],
+                          gradient: LinearGradient(
+                            colors: [
+                              Color(0xFF22BFC3),
+                              colorPrimary,
+                              Colors.blueAccent.shade200,
+                              Colors.blueAccent.shade400,
+                            ],
+                            stops: [
+                              .05,
+                              .15,
+                              .7,
+                              1.0,
+                            ],
+                            tileMode: TileMode.repeated,
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
                         ),
                         child: Text(
                           'Xem',
@@ -143,7 +159,7 @@ class _ClassCardState extends State<ClassCard> {
                     SizedBox(height: 2.5.sp),
                     _buildTileInfo(
                       widget.teacher,
-                      PhosphorIcons.userCircleFill,
+                      PhosphorIcons.graduationCapFill,
                       Colors.pinkAccent.shade100,
                     ),
                   ],

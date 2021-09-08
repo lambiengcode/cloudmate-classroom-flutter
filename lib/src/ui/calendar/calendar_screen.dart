@@ -107,12 +107,12 @@ class _InnerTimeline extends StatelessWidget {
           nodePosition: 0,
           connectorTheme: TimelineTheme.of(context).connectorTheme.copyWith(
                 thickness: 1.0,
-                color: colorActive,
+                color: colorGreenLight,
               ),
           indicatorTheme: TimelineTheme.of(context).indicatorTheme.copyWith(
                 size: 10.0,
                 position: 0.5,
-                color: colorActive,
+                color: colorGreenLight,
               ),
         ),
         builder: TimelineTileBuilder(

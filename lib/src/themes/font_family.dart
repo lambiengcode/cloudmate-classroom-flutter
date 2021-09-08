@@ -3,4 +3,5 @@ class FontFamily {
 
   static const String lato = 'Lato';
   static const String allison = 'Allison';
+  static const String dancing = 'DancingScript';
 }

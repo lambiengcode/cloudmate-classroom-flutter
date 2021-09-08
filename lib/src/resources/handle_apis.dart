@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart' as diox;
+import 'package:flutter_mobile_2school/main.dart';
 import 'dart:convert' as convert;
 import 'dart:async';
-import 'package:flutter_mobile_2school/src/secret_key.dart';
 
 class BaseRepository {
   var dio = diox.Dio(diox.BaseOptions(

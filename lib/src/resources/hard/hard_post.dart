@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_mobile_2school/src/resources/hard/hard_attended.dart';
+import 'package:flutter_mobile_2school/src/resources/hard/hard_chat.dart';
 import 'package:flutter_mobile_2school/src/resources/hard/hard_exam_post.dart';
 import 'package:flutter_mobile_2school/src/resources/hard/hard_schedule.dart';
 
@@ -164,11 +165,7 @@ List<Post> posts = [
     imageAuthor: 'https://avatars.githubusercontent.com/u/60530946?v=4',
     content: 'Cho mình hỏi đoạn code này sao không chạy được ạ!',
     status: 3,
-    images: [
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTr_EjIBVG_pHGRh8XXILO16yrHVdGuJXXdLg&usqp=CAU',
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcxkPUiY5_NjA_6pW2ZZaPvApUenWYEpCAeA&usqp=CAU',
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbe3oX8tPa3qcpeQKkbvSJC0P1V4bOlZfspg&usqp=CAU',
-    ],
+    images: chats.sublist(1).map((e) => e.image!).toList(),
   ),
   Post(
     id: '2',

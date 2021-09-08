@@ -33,7 +33,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
         title: Text(
           'Classes',
           style: TextStyle(
-            fontSize: 15.sp,
+            fontSize: 16.sp,
             fontWeight: FontWeight.w600,
             fontFamily: FontFamily.lato,
             color: Theme.of(context).textTheme.bodyText1!.color,
@@ -98,9 +98,8 @@ class _ClassesScreenState extends State<ClassesScreen> {
           _buildTitle(
             'Your Classes',
             PhosphorIcons.chalkboardSimpleBold,
-            themeService.isSavedDarkMode() ? colorAttendance : colorActive,
+            themeService.isSavedDarkMode() ? colorAttendance : colorGreenLight,
           ),
-          SizedBox(height: 4.sp),
           Container(
             height: 164.sp,
             width: 100.w,
@@ -117,7 +116,6 @@ class _ClassesScreenState extends State<ClassesScreen> {
               },
             ),
           ),
-          SizedBox(height: 4.sp),
           _buildTitle(
             'Recommend Class',
             PhosphorIcons.presentationChartBold,

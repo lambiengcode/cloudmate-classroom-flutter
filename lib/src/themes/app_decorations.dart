@@ -81,10 +81,10 @@ class AppDecoration {
       return AppDecoration(
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: Colors.black.withOpacity(.3),
+          color: Colors.black.withOpacity(.4),
           boxShadow: [
             BoxShadow(
-              color: colorPrimaryBlack.withOpacity(.125),
+              color: Colors.grey.shade900,
               offset: Offset(2, 2),
               blurRadius: 2,
               spreadRadius: -2,
@@ -96,6 +96,40 @@ class AppDecoration {
       return AppDecoration(
         decoration: BoxDecoration(
           shape: BoxShape.circle,
+          color: mCD,
+          boxShadow: [
+            BoxShadow(
+              color: mCL,
+              offset: Offset(2, 2),
+              blurRadius: 2,
+              spreadRadius: -2,
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
+  factory AppDecoration.buttonActionBorderActive(context, radius) {
+    if (Theme.of(context).brightness == Brightness.dark) {
+      return AppDecoration(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(radius),
+          color: Colors.black.withOpacity(.4),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.shade900,
+              offset: Offset(2, 2),
+              blurRadius: 2,
+              spreadRadius: -2,
+            ),
+          ],
+        ),
+      );
+    } else {
+      return AppDecoration(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(radius),
           color: mCD,
           boxShadow: [
             BoxShadow(

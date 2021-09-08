@@ -20,7 +20,8 @@ class _ExamInPostCard extends State<DeadlineInPost> {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 8.sp, vertical: 4.sp),
       padding: EdgeInsets.all(12.5.sp),
-      decoration: AppDecoration.buttonActionBorder(context, 6.sp).decoration,
+      decoration:
+          AppDecoration.buttonActionBorderActive(context, 10.sp).decoration,
       child: Row(
         children: [
           Expanded(
@@ -47,7 +48,7 @@ class _ExamInPostCard extends State<DeadlineInPost> {
                     ),
                     SizedBox(width: 6.sp),
                     Text(
-                      DateFormat('HH:mm aa - dd/MM/yyyy').format(
+                      DateFormat('HH:mm - dd/MM/yyyy').format(
                         widget.deadline.deadline,
                       ),
                       style: TextStyle(
