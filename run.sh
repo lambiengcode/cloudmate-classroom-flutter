@@ -26,20 +26,20 @@ flutter pub get
 clear
 
 # Analyze before build
-flutter analyze
-if [ ! $? -eq 0 ]; then
-    exit 1
-fi
+# flutter analyze
+# if [ ! $? -eq 0 ]; then
+#     exit 1
+# fi
 
 # Generate app icons & splash screen
-flutter pub run flutter_launcher_icons:main
+# flutter pub run flutter_launcher_icons:main
 
 # Remove ununsed icons
-rm -f ./ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-50x50@1x.png
-rm -f ./ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-50x50@2x.png
-rm -f ./ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-57x57@1x.png
-rm -f ./ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-57x57@2x.png
-rm -f ./ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-72x72@1x.png
-rm -f ./ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-72x72@2x.png
+# rm -f ./ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-50x50@1x.png
+# rm -f ./ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-50x50@2x.png
+# rm -f ./ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-57x57@1x.png
+# rm -f ./ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-57x57@2x.png
+# rm -f ./ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-72x72@1x.png
+# rm -f ./ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-72x72@2x.png
 
-flutter run -d all
+flutter run

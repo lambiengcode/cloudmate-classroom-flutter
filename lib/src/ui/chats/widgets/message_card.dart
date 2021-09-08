@@ -44,10 +44,10 @@ class _MessageCardState extends State<MessageCard> {
                   child: Row(
                     children: [
                       Container(
-                        height: 40.sp,
-                        width: 40.sp,
+                        height: 42.5.sp,
+                        width: 42.5.sp,
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(12.25.sp),
+                          borderRadius: BorderRadius.circular(250.sp),
                           child: BlurHash(
                             hash: widget.blurHash ?? '',
                             image: widget.urlToImage,
@@ -76,7 +76,7 @@ class _MessageCardState extends State<MessageCard> {
                                   .withOpacity(.88),
                             ),
                           ),
-                          SizedBox(height: 4.sp),
+                          SizedBox(height: 4.5.sp),
                           Text(
                             widget.lastMessage!,
                             overflow: TextOverflow.ellipsis,
