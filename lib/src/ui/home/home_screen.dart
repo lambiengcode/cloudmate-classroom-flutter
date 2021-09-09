@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_2school/src/resources/hard/hard_chat.dart';
 import 'package:flutter_mobile_2school/src/resources/hard/hard_post.dart';
 import 'package:flutter_mobile_2school/src/themes/app_colors.dart';
 import 'package:flutter_mobile_2school/src/themes/font_family.dart';
 import 'package:flutter_mobile_2school/src/themes/theme_service.dart';
-import 'package:flutter_mobile_2school/src/ui/home/widgets/active_friend_card.dart';
 import 'package:flutter_mobile_2school/src/ui/home/widgets/new_post.dart';
 import 'package:flutter_mobile_2school/src/ui/home/widgets/post_card.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';

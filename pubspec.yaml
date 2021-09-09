@@ -33,7 +33,6 @@ dependencies:
   sizer: ^2.0.13
   provider: ^6.0.0
   get_storage: ^2.0.3
-  timelines: ^0.1.0
   intl: ^0.17.0
   ezanimation: ^0.5.0
   flutter_dotenv: ^5.0.2

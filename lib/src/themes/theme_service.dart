@@ -28,6 +28,7 @@ class ThemeService extends ChangeNotifier {
   }
 
   ThemeMode getThemeMode() {
+    switchStatusColor();
     return isSavedDarkMode() ? ThemeMode.dark : ThemeMode.light;
   }
 

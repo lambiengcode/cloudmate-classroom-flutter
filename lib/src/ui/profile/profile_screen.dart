@@ -153,19 +153,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             SizedBox(height: 4.sp),
             Expanded(
-              child: ListView.builder(
-                controller: scrollController,
-                padding: EdgeInsets.only(bottom: 12.sp),
-                physics: ClampingScrollPhysics(),
-                itemCount: posts.length,
-                itemBuilder: (context, index) {
-                  return RecommendClassCard(
-                    imageClass: posts[index].imageGroup,
-                    className: posts[index].groupName,
-                    star: '4.5 / 5.0',
-                    teacher: posts[index].authorName,
-                  );
+              child: NotificationListener<OverscrollIndicatorNotification>(
+                onNotification: (overscroll) {
+                  overscroll.disallowGlow();
+                  return true;
                 },
+                child: ListView.builder(
+                  controller: scrollController,
+                  padding: EdgeInsets.only(bottom: 12.sp),
+                  physics: ClampingScrollPhysics(),
+                  itemCount: posts.length,
+                  itemBuilder: (context, index) {
+                    return RecommendClassCard(
+                      imageClass: posts[index].imageGroup,
+                      className: posts[index].groupName,
+                      star: '4.5 / 5.0',
+                      teacher: posts[index].authorName,
+                    );
+                  },
+                ),
               ),
             ),
           ],
@@ -269,7 +275,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             onPressed: () => null,
             icon: Icon(
               PhosphorIcons.pushPinFill,
-              size: 20.sp,
+              size: 18.sp,
             ),
           ),
         ],
