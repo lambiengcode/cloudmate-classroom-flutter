@@ -70,6 +70,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
             ),
             Expanded(
               child: ListView.builder(
+                physics: BouncingScrollPhysics(),
                 padding: EdgeInsets.only(top: 8.sp, bottom: 16.sp),
                 itemCount: posts.length + 1,
                 itemBuilder: (context, index) {

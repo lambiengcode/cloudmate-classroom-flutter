@@ -45,5 +45,3 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 lib/src/secret_key.dart
-
-.env
