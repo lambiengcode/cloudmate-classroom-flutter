@@ -13,10 +13,10 @@ jobs:
       with:
         flutter-version: '2.2.3'
     - run: flutter pub get
-    - run: flutter test
-    - run: flutter build apk --debug --split-per-abi
+    # - run: flutter test --no-sound-null-safety
+    - run: flutter build apk --release --no-sound-null-safety
     - name: Create a Release APK
       uses: ncipollo/release-action@v1
       with:
-        artifacts: "build/app/outputs/apk/debug/*.apk"
+        artifacts: "build/app/outputs/apk/release/*.apk"
         token: ${{ secrets.TOKEN }}
