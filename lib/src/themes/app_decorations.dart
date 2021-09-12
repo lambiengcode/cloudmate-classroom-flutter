@@ -26,7 +26,7 @@ class AppDecoration {
             BoxShadow(
               color: mCL,
               offset: Offset(-2, -2),
-              blurRadius: 2,
+              blurRadius: 20,
             ),
           ],
         ),
