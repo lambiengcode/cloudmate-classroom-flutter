@@ -1,11 +1,12 @@
 import 'package:dio/dio.dart' as diox;
-import 'package:flutter_mobile_2school/main.dart';
 import 'dart:convert' as convert;
 import 'dart:async';
 
+import 'package:cloudmate/src/configs/application.dart';
+
 class BaseRepository {
   var dio = diox.Dio(diox.BaseOptions(
-    baseUrl: baseUrl,
+    baseUrl: Application.baseUrl!,
     connectTimeout: 5000,
     receiveTimeout: 3000,
   )); // with default Options

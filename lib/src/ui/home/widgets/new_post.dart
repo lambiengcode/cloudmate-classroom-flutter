@@ -1,8 +1,8 @@
 import 'package:ezanimation/ezanimation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:flutter_mobile_2school/src/themes/app_colors.dart';
-import 'package:flutter_mobile_2school/src/themes/theme_service.dart';
+import 'package:cloudmate/src/themes/app_colors.dart';
+import 'package:cloudmate/src/themes/theme_service.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
@@ -115,9 +115,9 @@ class _NewPostState extends State<NewPost> {
                       labelText: 'Whats going on?',
                       floatingLabelBehavior: FloatingLabelBehavior.never,
                       labelStyle: TextStyle(
-                        color: themeService.isSavedDarkMode()
+                        color: ThemeService.currentTheme == ThemeMode.dark
                             ? Colors.white.withOpacity(.75)
-                            : null,
+                            : colorDarkGrey,
                       ),
                       border: OutlineInputBorder(
                         borderSide: BorderSide.none,

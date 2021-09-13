@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_2school/src/themes/app_decorations.dart';
+import 'package:cloudmate/src/themes/app_decorations.dart';
 
 class ErrorLoadingImage extends StatelessWidget {
   @override

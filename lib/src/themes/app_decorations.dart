@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_2school/src/themes/app_colors.dart';
+import 'package:cloudmate/src/themes/app_colors.dart';
 
 class AppDecoration {
   final BoxDecoration decoration;
@@ -13,7 +13,7 @@ class AppDecoration {
             BoxShadow(
               color: colorBlack.withOpacity(.65),
               offset: Offset(-2, -2),
-              blurRadius: 2,
+              blurRadius: 10,
             ),
           ],
         ),
@@ -26,7 +26,7 @@ class AppDecoration {
             BoxShadow(
               color: mCL,
               offset: Offset(-2, -2),
-              blurRadius: 20,
+              blurRadius: 10,
             ),
           ],
         ),

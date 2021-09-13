@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_2school/src/themes/app_colors.dart';
+import 'package:cloudmate/src/themes/app_colors.dart';
 
 class AppTheme {
   AppTheme({

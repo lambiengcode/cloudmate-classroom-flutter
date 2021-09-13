@@ -1,13 +1,13 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_2school/src/resources/hard/hard_chat.dart';
-import 'package:flutter_mobile_2school/src/resources/hard/hard_post.dart';
-import 'package:flutter_mobile_2school/src/themes/app_colors.dart';
-import 'package:flutter_mobile_2school/src/themes/app_decorations.dart';
-import 'package:flutter_mobile_2school/src/themes/font_family.dart';
-import 'package:flutter_mobile_2school/src/ui/home/widgets/post_card.dart';
-import 'package:flutter_mobile_2school/src/utils/stack_avatar.dart';
+import 'package:cloudmate/src/resources/hard/hard_chat.dart';
+import 'package:cloudmate/src/resources/hard/hard_post.dart';
+import 'package:cloudmate/src/themes/app_colors.dart';
+import 'package:cloudmate/src/themes/app_decorations.dart';
+import 'package:cloudmate/src/themes/font_family.dart';
+import 'package:cloudmate/src/ui/home/widgets/post_card.dart';
+import 'package:cloudmate/src/utils/stack_avatar.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
@@ -17,9 +17,23 @@ class ClassInformationScreen extends StatefulWidget {
 }
 
 class _ClassInformationScreenState extends State<ClassInformationScreen> {
+  ScrollController scrollController = ScrollController();
+  double heightOfClassImage = 38.h;
+
   @override
   void initState() {
     super.initState();
+    scrollController.addListener(() {
+      if (scrollController.offset <= 0) {
+        setState(() {
+          heightOfClassImage = 38.h;
+        });
+      } else {
+        setState(() {
+          heightOfClassImage = 38.h / scrollController.offset;
+        });
+      }
+    });
   }
 
   @override
@@ -31,14 +45,15 @@ class _ClassInformationScreenState extends State<ClassInformationScreen> {
           Container(
             height: 100.h,
             width: 100.w,
-            color: mC,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Stack(
                   children: [
-                    Container(
-                      height: 35.h,
+                    AnimatedContainer(
+                      duration: Duration(milliseconds: 180),
+                      curve: Curves.fastOutSlowIn,
+                      height: heightOfClassImage,
                       width: 100.w,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.vertical(
@@ -58,20 +73,37 @@ class _ClassInformationScreenState extends State<ClassInformationScreen> {
                       right: 0,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           GestureDetector(
                             onTap: () {
                               Navigator.of(context).pop();
                             },
                             child: Container(
-                              padding: EdgeInsets.all(10.sp),
-                              margin: EdgeInsets.only(left: 12.sp),
+                              padding: EdgeInsets.all(9.25.sp),
+                              margin: EdgeInsets.only(left: 10.sp),
                               decoration: BoxDecoration(
-                                color: Colors.black.withOpacity(.2),
+                                color: Colors.black.withOpacity(.15),
                                 borderRadius: BorderRadius.circular(8.sp),
                               ),
                               child: Icon(
                                 PhosphorIcons.arrowLeftBold,
+                                size: 18.sp,
+                                color: mC,
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {},
+                            child: Container(
+                              padding: EdgeInsets.all(9.25.sp),
+                              margin: EdgeInsets.only(right: 10.sp),
+                              decoration: BoxDecoration(
+                                color: Colors.black.withOpacity(.15),
+                                borderRadius: BorderRadius.circular(8.sp),
+                              ),
+                              child: Icon(
+                                PhosphorIcons.slidersHorizontal,
                                 size: 18.sp,
                                 color: mC,
                               ),
@@ -85,6 +117,7 @@ class _ClassInformationScreenState extends State<ClassInformationScreen> {
                 SizedBox(height: 16.sp),
                 Expanded(
                   child: SingleChildScrollView(
+                    controller: scrollController,
                     physics: BouncingScrollPhysics(),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

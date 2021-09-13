@@ -1,4 +1,4 @@
-import 'package:flutter_mobile_2school/src/models/activity.dart';
+import 'package:cloudmate/src/models/activity.dart';
 
 List<Activity> activities = [
   Activity(

@@ -1,4 +1,4 @@
-## 2School!
+## Cloudmate!
 
 ### Description:
 - This is mobile application about cloud classroom, students and teachers can 

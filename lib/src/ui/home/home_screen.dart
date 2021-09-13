@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_2school/src/resources/hard/hard_post.dart';
-import 'package:flutter_mobile_2school/src/themes/app_colors.dart';
-import 'package:flutter_mobile_2school/src/themes/font_family.dart';
-import 'package:flutter_mobile_2school/src/themes/theme_service.dart';
-import 'package:flutter_mobile_2school/src/ui/home/widgets/new_post.dart';
-import 'package:flutter_mobile_2school/src/ui/home/widgets/post_card.dart';
+import 'package:cloudmate/src/blocs/app_bloc.dart';
+import 'package:cloudmate/src/blocs/theme/theme_event.dart';
+import 'package:cloudmate/src/resources/hard/hard_post.dart';
+import 'package:cloudmate/src/themes/app_colors.dart';
+import 'package:cloudmate/src/themes/font_family.dart';
+import 'package:cloudmate/src/themes/theme_service.dart';
+import 'package:cloudmate/src/ui/home/widgets/new_post.dart';
+import 'package:cloudmate/src/ui/home/widgets/post_card.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
@@ -54,7 +56,13 @@ class _HomeScreenState extends State<HomeScreen> {
         )),
         actions: [
           IconButton(
-            onPressed: () => themeService.changeThemeMode(),
+            onPressed: () => AppBloc.themeBloc.add(
+              OnChangeTheme(
+                themeMode: ThemeService.currentTheme == ThemeMode.dark
+                    ? ThemeMode.light
+                    : ThemeMode.dark,
+              ),
+            ),
             icon: Icon(
               PhosphorIcons.qrCode,
               size: 24.sp,

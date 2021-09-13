@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_2school/src/themes/app_colors.dart';
-import 'package:flutter_mobile_2school/src/themes/app_decorations.dart';
-import 'package:flutter_mobile_2school/src/themes/font_family.dart';
-import 'package:flutter_mobile_2school/src/utils/blurhash.dart';
+import 'package:cloudmate/src/themes/app_colors.dart';
+import 'package:cloudmate/src/themes/app_decorations.dart';
+import 'package:cloudmate/src/themes/font_family.dart';
+import 'package:cloudmate/src/utils/blurhash.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
@@ -56,51 +56,48 @@ class _ClassCardState extends State<ClassCard> {
                       ),
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () => print('follow'),
+                  Container(
+                    width: 120.sp,
+                    alignment: Alignment.center,
                     child: Container(
-                      width: 120.sp,
-                      alignment: Alignment.center,
-                      child: Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 20.sp,
-                          vertical: 4.sp,
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30.0),
-                          boxShadow: [
-                            BoxShadow(
-                              color: mCD,
-                              offset: Offset(4, 4),
-                              blurRadius: 4,
-                            ),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 20.sp,
+                        vertical: 4.sp,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: mCD,
+                            offset: Offset(4, 4),
+                            blurRadius: 4,
+                          ),
+                        ],
+                        gradient: LinearGradient(
+                          colors: [
+                            Color(0xFF22BFC3),
+                            colorPrimary,
+                            Colors.blueAccent.shade200,
+                            Colors.blueAccent.shade400,
                           ],
-                          gradient: LinearGradient(
-                            colors: [
-                              Color(0xFF22BFC3),
-                              colorPrimary,
-                              Colors.blueAccent.shade200,
-                              Colors.blueAccent.shade400,
-                            ],
-                            stops: [
-                              .05,
-                              .15,
-                              .7,
-                              1.0,
-                            ],
-                            tileMode: TileMode.repeated,
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
+                          stops: [
+                            .05,
+                            .15,
+                            .7,
+                            1.0,
+                          ],
+                          tileMode: TileMode.repeated,
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
                         ),
-                        child: Text(
-                          'Xem',
-                          style: TextStyle(
-                            color: mCL,
-                            fontSize: 8.5.sp,
-                            fontWeight: FontWeight.w600,
-                            fontFamily: FontFamily.lato,
-                          ),
+                      ),
+                      child: Text(
+                        'Xem',
+                        style: TextStyle(
+                          color: mCL,
+                          fontSize: 8.5.sp,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: FontFamily.lato,
                         ),
                       ),
                     ),

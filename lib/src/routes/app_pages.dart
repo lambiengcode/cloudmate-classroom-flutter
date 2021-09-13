@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_2school/src/app.dart';
-import 'package:flutter_mobile_2school/src/models/slide_mode.dart';
-import 'package:flutter_mobile_2school/src/routes/app_routes.dart';
-import 'package:flutter_mobile_2school/src/routes/slides/slide_from_bottom_route.dart';
-import 'package:flutter_mobile_2school/src/routes/slides/slide_from_left_route.dart';
-import 'package:flutter_mobile_2school/src/routes/slides/slide_from_right_route.dart';
-import 'package:flutter_mobile_2school/src/routes/slides/slide_from_top_route.dart';
-import 'package:flutter_mobile_2school/src/ui/classes/screens/class_information_screen.dart';
+import 'package:cloudmate/src/app.dart';
+import 'package:cloudmate/src/models/slide_mode.dart';
+import 'package:cloudmate/src/routes/app_routes.dart';
+import 'package:cloudmate/src/routes/slides/slide_from_bottom_route.dart';
+import 'package:cloudmate/src/routes/slides/slide_from_left_route.dart';
+import 'package:cloudmate/src/routes/slides/slide_from_right_route.dart';
+import 'package:cloudmate/src/routes/slides/slide_from_top_route.dart';
+import 'package:cloudmate/src/ui/classes/screens/class_information_screen.dart';
+import 'package:cloudmate/src/ui/navigation/navigation.dart';
 
 class AppPages {
   SlideMode defautlSlide = SlideMode.right;
@@ -14,7 +15,11 @@ class AppPages {
     Map<String, dynamic>? arguments = _getArguments(settings);
     switch (settings.name) {
       case AppRoutes.ROOT:
-        return _buildRoute(settings, App(), _getSlideMode(arguments));
+        return _buildRoute(
+          settings,
+          Navigation(),
+          _getSlideMode(arguments),
+        );
       case AppRoutes.DETAILS_CLASS:
         return _buildRoute(
           settings,

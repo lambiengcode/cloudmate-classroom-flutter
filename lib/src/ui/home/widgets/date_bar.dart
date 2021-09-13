@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_2school/src/themes/app_colors.dart';
-import 'package:flutter_mobile_2school/src/themes/app_decorations.dart';
-import 'package:flutter_mobile_2school/src/themes/theme_service.dart';
+import 'package:cloudmate/src/themes/app_colors.dart';
+import 'package:cloudmate/src/themes/app_decorations.dart';
+import 'package:cloudmate/src/themes/theme_service.dart';
 import 'package:sizer/sizer.dart';
 
 class DateBarPicker extends StatefulWidget {

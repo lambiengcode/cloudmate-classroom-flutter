@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_2school/src/resources/hard/hard_post.dart';
-import 'package:flutter_mobile_2school/src/themes/app_colors.dart';
-import 'package:flutter_mobile_2school/src/themes/font_family.dart';
-import 'package:flutter_mobile_2school/src/themes/theme_service.dart';
-import 'package:flutter_mobile_2school/src/ui/home/widgets/attendance_in_post.dart';
-import 'package:flutter_mobile_2school/src/ui/home/widgets/deadline_in_post.dart';
-import 'package:flutter_mobile_2school/src/ui/home/widgets/exam_in_post.dart';
-import 'package:flutter_mobile_2school/src/ui/home/widgets/image_body_post.dart';
-import 'package:flutter_mobile_2school/src/utils/blurhash.dart';
+import 'package:cloudmate/src/resources/hard/hard_post.dart';
+import 'package:cloudmate/src/themes/app_colors.dart';
+import 'package:cloudmate/src/themes/font_family.dart';
+import 'package:cloudmate/src/themes/theme_service.dart';
+import 'package:cloudmate/src/ui/home/widgets/attendance_in_post.dart';
+import 'package:cloudmate/src/ui/home/widgets/deadline_in_post.dart';
+import 'package:cloudmate/src/ui/home/widgets/exam_in_post.dart';
+import 'package:cloudmate/src/ui/home/widgets/image_body_post.dart';
+import 'package:cloudmate/src/utils/blurhash.dart';
 import 'package:like_button/like_button.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
@@ -79,7 +79,7 @@ class _PostCardState extends State<PostCard> {
               isSaved ? PhosphorIcons.bookmarkFill : PhosphorIcons.bookmark,
               size: 25.sp,
               color: isSaved
-                  ? themeService.isDarkMode
+                  ? themeService.isSavedDarkMode()
                       ? Colors.amberAccent
                       : Colors.amberAccent.shade700
                   : null,

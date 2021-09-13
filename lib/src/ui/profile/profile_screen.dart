@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_2school/src/resources/hard/hard_post.dart';
-import 'package:flutter_mobile_2school/src/themes/app_colors.dart';
-import 'package:flutter_mobile_2school/src/themes/app_decorations.dart';
-import 'package:flutter_mobile_2school/src/themes/font_family.dart';
-import 'package:flutter_mobile_2school/src/ui/classes/widgets/recommend_class_card.dart';
+import 'package:cloudmate/src/resources/hard/hard_post.dart';
+import 'package:cloudmate/src/themes/app_colors.dart';
+import 'package:cloudmate/src/themes/app_decorations.dart';
+import 'package:cloudmate/src/themes/font_family.dart';
+import 'package:cloudmate/src/ui/classes/widgets/recommend_class_card.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
@@ -84,8 +84,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 width: 100.w,
                 alignment: Alignment.center,
                 child: Container(
-                  height: 108.sp,
-                  width: 108.sp,
+                  height: 105.sp,
+                  width: 105.sp,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(
@@ -95,8 +95,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   alignment: Alignment.center,
                   child: Container(
-                    height: 96.sp,
-                    width: 96.sp,
+                    height: 95.sp,
+                    width: 95.sp,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
