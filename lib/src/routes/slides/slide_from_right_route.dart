@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 class SlideFromRightRoute extends PageRouteBuilder {
   final Widget? page;
   final Duration duration;
+  final RouteSettings settings;
   SlideFromRightRoute(
-      {this.page, this.duration = const Duration(milliseconds: 800)})
+      {required this.settings,
+      this.page,
+      this.duration = const Duration(milliseconds: 200)})
       : super(
+            settings: settings,
             pageBuilder: (context, animation, anotherAnimation) => page!,
             transitionDuration: duration,
             reverseTransitionDuration: Duration(milliseconds: 340),

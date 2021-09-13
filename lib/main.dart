@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobile_2school/src/routes/app_pages.dart';
 import 'package:flutter_mobile_2school/src/routes/app_routes.dart';
 import 'package:flutter_mobile_2school/src/themes/theme_service.dart';
@@ -15,6 +16,9 @@ var socketUrl;
 void main() async {
   await dotenv.load(fileName: ".env");
   await GetStorage.init();
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+  ));
   try {
     baseUrl = dotenv.env['BASE_URL'];
     socketUrl = dotenv.env['SOCKET_URL'];

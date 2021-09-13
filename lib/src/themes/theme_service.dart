@@ -7,16 +7,6 @@ class ThemeService extends ChangeNotifier {
   final storageKey = 'isDarkMode';
   bool isDarkMode = false;
 
-  initStatusColor() {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarBrightness:
-          isSavedDarkMode() ? Brightness.dark : Brightness.light,
-      statusBarIconBrightness:
-          isSavedDarkMode() ? Brightness.dark : Brightness.light,
-    ));
-  }
-
   switchStatusColor() {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
@@ -53,7 +43,6 @@ class ThemeService extends ChangeNotifier {
     } else {
       isDarkMode = false;
     }
-    initStatusColor();
   }
 }
 

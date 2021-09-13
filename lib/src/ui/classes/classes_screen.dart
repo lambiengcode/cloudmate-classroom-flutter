@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_mobile_2school/src/models/slide_mode.dart';
 import 'package:flutter_mobile_2school/src/resources/hard/hard_post.dart';
+import 'package:flutter_mobile_2school/src/routes/app_routes.dart';
 import 'package:flutter_mobile_2school/src/themes/app_colors.dart';
 import 'package:flutter_mobile_2school/src/themes/font_family.dart';
 import 'package:flutter_mobile_2school/src/themes/theme_service.dart';
@@ -109,10 +111,20 @@ class _ClassesScreenState extends State<ClassesScreen> {
               scrollDirection: Axis.horizontal,
               itemCount: posts.length,
               itemBuilder: (context, index) {
-                return ClassCard(
-                  className: posts[index].groupName,
-                  imageClass: posts[index].imageGroup,
-                  teacher: posts[index].authorName,
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pushNamed(
+                      AppRoutes.DETAILS_CLASS,
+                      arguments: {
+                        'slide': SlideMode.bot,
+                      },
+                    );
+                  },
+                  child: ClassCard(
+                    className: posts[index].groupName,
+                    imageClass: posts[index].imageGroup,
+                    teacher: posts[index].authorName,
+                  ),
                 );
               },
             ),
