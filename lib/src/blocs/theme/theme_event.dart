@@ -1,4 +1,11 @@
-part of 'theme_bloc.dart';
+import 'package:flutter/material.dart';
 
-@immutable
 abstract class ThemeEvent {}
+
+class OnChangeTheme extends ThemeEvent {
+  final ThemeMode? themeMode;
+
+  OnChangeTheme({
+    this.themeMode,
+  });
+}

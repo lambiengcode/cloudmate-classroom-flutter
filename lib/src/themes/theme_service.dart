@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
 
+enum ThemeOptions { light, dark }
+
 class ThemeService extends ChangeNotifier {
+  static ThemeOptions themeOptions = ThemeOptions.light;
+  static ThemeMode currentTheme = ThemeMode.light;
   final _getStorage = GetStorage();
   final storageKey = 'isDarkMode';
   bool isDarkMode = false;

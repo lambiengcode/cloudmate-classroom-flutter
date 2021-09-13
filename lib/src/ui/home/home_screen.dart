@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile_2school/src/blocs/app_bloc.dart';
+import 'package:flutter_mobile_2school/src/blocs/theme/theme_event.dart';
 import 'package:flutter_mobile_2school/src/resources/hard/hard_post.dart';
 import 'package:flutter_mobile_2school/src/themes/app_colors.dart';
 import 'package:flutter_mobile_2school/src/themes/font_family.dart';
@@ -54,7 +56,13 @@ class _HomeScreenState extends State<HomeScreen> {
         )),
         actions: [
           IconButton(
-            onPressed: () => themeService.changeThemeMode(),
+            onPressed: () => AppBloc.themeBloc.add(
+              OnChangeTheme(
+                themeMode: ThemeService.currentTheme == ThemeMode.dark
+                    ? ThemeMode.light
+                    : ThemeMode.dark,
+              ),
+            ),
             icon: Icon(
               PhosphorIcons.qrCode,
               size: 24.sp,

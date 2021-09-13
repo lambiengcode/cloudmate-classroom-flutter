@@ -29,7 +29,6 @@ dependencies:
   rxdart: ^0.27.2
   dio: ^4.0.0
   sizer: ^2.0.13
-  provider: ^6.0.0
   flutter_bloc: ^7.2.0
   get_storage: ^2.0.3
   intl: ^0.17.0
