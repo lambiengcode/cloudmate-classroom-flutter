@@ -17,9 +17,23 @@ class ClassInformationScreen extends StatefulWidget {
 }
 
 class _ClassInformationScreenState extends State<ClassInformationScreen> {
+  ScrollController scrollController = ScrollController();
+  double heightOfClassImage = 38.h;
+
   @override
   void initState() {
     super.initState();
+    scrollController.addListener(() {
+      if (scrollController.offset <= 0) {
+        setState(() {
+          heightOfClassImage = 38.h;
+        });
+      } else {
+        setState(() {
+          heightOfClassImage = 38.h / scrollController.offset;
+        });
+      }
+    });
   }
 
   @override
@@ -31,14 +45,15 @@ class _ClassInformationScreenState extends State<ClassInformationScreen> {
           Container(
             height: 100.h,
             width: 100.w,
-            color: mC,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Stack(
                   children: [
-                    Container(
-                      height: 35.h,
+                    AnimatedContainer(
+                      duration: Duration(milliseconds: 180),
+                      curve: Curves.fastOutSlowIn,
+                      height: heightOfClassImage,
                       width: 100.w,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.vertical(
@@ -85,6 +100,7 @@ class _ClassInformationScreenState extends State<ClassInformationScreen> {
                 SizedBox(height: 16.sp),
                 Expanded(
                   child: SingleChildScrollView(
+                    controller: scrollController,
                     physics: BouncingScrollPhysics(),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
