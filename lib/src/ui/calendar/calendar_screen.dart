@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_2school/src/ui/home/widgets/date_bar.dart';
+import 'package:cloudmate/src/ui/home/widgets/date_bar.dart';
 import 'package:sizer/sizer.dart';
 
 class CalendarScreen extends StatefulWidget {

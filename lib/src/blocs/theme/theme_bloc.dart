@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:flutter_mobile_2school/src/themes/theme_service.dart';
+import 'package:cloudmate/src/themes/theme_service.dart';
 import 'bloc.dart';
 
 class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {

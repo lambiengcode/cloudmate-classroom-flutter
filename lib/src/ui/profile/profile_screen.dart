@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_2school/src/resources/hard/hard_post.dart';
-import 'package:flutter_mobile_2school/src/themes/app_colors.dart';
-import 'package:flutter_mobile_2school/src/themes/app_decorations.dart';
-import 'package:flutter_mobile_2school/src/themes/font_family.dart';
-import 'package:flutter_mobile_2school/src/ui/classes/widgets/recommend_class_card.dart';
+import 'package:cloudmate/src/resources/hard/hard_post.dart';
+import 'package:cloudmate/src/themes/app_colors.dart';
+import 'package:cloudmate/src/themes/app_decorations.dart';
+import 'package:cloudmate/src/themes/font_family.dart';
+import 'package:cloudmate/src/ui/classes/widgets/recommend_class_card.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 

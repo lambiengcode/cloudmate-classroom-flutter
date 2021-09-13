@@ -1,5 +1,5 @@
 import 'dart:developer' as developer;
-import 'package:flutter_mobile_2school/src/configs/application.dart';
+import 'package:cloudmate/src/configs/application.dart';
 
 class UtilLogger {
   static const String TAG = "SALEBOLT";

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_mobile_2school/src/app.dart';
-import 'package:flutter_mobile_2school/src/utils/logger.dart';
+import 'package:cloudmate/src/app.dart';
+import 'package:cloudmate/src/utils/logger.dart';
 
 final GlobalKey<NavigatorState> navGlogbalKey = new GlobalKey<NavigatorState>();
 

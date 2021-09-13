@@ -2,7 +2,7 @@ import 'package:dio/dio.dart' as diox;
 import 'dart:convert' as convert;
 import 'dart:async';
 
-import 'package:flutter_mobile_2school/src/configs/application.dart';
+import 'package:cloudmate/src/configs/application.dart';
 
 class BaseRepository {
   var dio = diox.Dio(diox.BaseOptions(

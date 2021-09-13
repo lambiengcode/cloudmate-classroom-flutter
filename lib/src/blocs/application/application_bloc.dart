@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_2school/src/blocs/app_bloc.dart';
-import 'package:flutter_mobile_2school/src/blocs/bloc.dart';
-import 'package:flutter_mobile_2school/src/configs/application.dart';
-import 'package:flutter_mobile_2school/src/themes/theme_service.dart';
+import 'package:cloudmate/src/blocs/app_bloc.dart';
+import 'package:cloudmate/src/blocs/bloc.dart';
+import 'package:cloudmate/src/configs/application.dart';
+import 'package:cloudmate/src/themes/theme_service.dart';
 import 'bloc.dart';
 
 class ApplicationBloc extends Bloc<ApplicationEvent, ApplicationState> {

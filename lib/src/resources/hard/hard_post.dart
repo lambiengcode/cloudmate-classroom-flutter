@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:flutter_mobile_2school/src/resources/hard/hard_attended.dart';
-import 'package:flutter_mobile_2school/src/resources/hard/hard_chat.dart';
-import 'package:flutter_mobile_2school/src/resources/hard/hard_exam_post.dart';
-import 'package:flutter_mobile_2school/src/resources/hard/hard_schedule.dart';
+import 'package:cloudmate/src/resources/hard/hard_attended.dart';
+import 'package:cloudmate/src/resources/hard/hard_chat.dart';
+import 'package:cloudmate/src/resources/hard/hard_exam_post.dart';
+import 'package:cloudmate/src/resources/hard/hard_schedule.dart';
 
 class Post {
   final String id;

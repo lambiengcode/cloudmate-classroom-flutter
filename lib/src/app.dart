@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_mobile_2school/main.dart';
-import 'package:flutter_mobile_2school/src/blocs/app_bloc.dart';
-import 'package:flutter_mobile_2school/src/blocs/bloc.dart';
-import 'package:flutter_mobile_2school/src/routes/app_pages.dart';
-import 'package:flutter_mobile_2school/src/routes/app_routes.dart';
-import 'package:flutter_mobile_2school/src/themes/theme_service.dart';
-import 'package:flutter_mobile_2school/src/themes/themes.dart';
+import 'package:cloudmate/main.dart';
+import 'package:cloudmate/src/blocs/app_bloc.dart';
+import 'package:cloudmate/src/blocs/bloc.dart';
+import 'package:cloudmate/src/routes/app_pages.dart';
+import 'package:cloudmate/src/routes/app_routes.dart';
+import 'package:cloudmate/src/themes/theme_service.dart';
+import 'package:cloudmate/src/themes/themes.dart';
 import 'package:sizer/sizer.dart';
 
 class App extends StatefulWidget {
