@@ -19,7 +19,7 @@ class _AppState extends State<App> {
   @override
   void initState() {
     super.initState();
-    themeService.initThemeMode();
+    AppBloc.applicationBloc.add(OnSetupApplication());
   }
 
   @override

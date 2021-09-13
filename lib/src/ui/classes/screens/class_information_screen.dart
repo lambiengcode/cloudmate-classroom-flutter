@@ -73,20 +73,37 @@ class _ClassInformationScreenState extends State<ClassInformationScreen> {
                       right: 0,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           GestureDetector(
                             onTap: () {
                               Navigator.of(context).pop();
                             },
                             child: Container(
-                              padding: EdgeInsets.all(10.sp),
-                              margin: EdgeInsets.only(left: 12.sp),
+                              padding: EdgeInsets.all(9.25.sp),
+                              margin: EdgeInsets.only(left: 10.sp),
                               decoration: BoxDecoration(
-                                color: Colors.black.withOpacity(.2),
+                                color: Colors.black.withOpacity(.15),
                                 borderRadius: BorderRadius.circular(8.sp),
                               ),
                               child: Icon(
                                 PhosphorIcons.arrowLeftBold,
+                                size: 18.sp,
+                                color: mC,
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {},
+                            child: Container(
+                              padding: EdgeInsets.all(9.25.sp),
+                              margin: EdgeInsets.only(right: 10.sp),
+                              decoration: BoxDecoration(
+                                color: Colors.black.withOpacity(.15),
+                                borderRadius: BorderRadius.circular(8.sp),
+                              ),
+                              child: Icon(
+                                PhosphorIcons.slidersHorizontal,
                                 size: 18.sp,
                                 color: mC,
                               ),

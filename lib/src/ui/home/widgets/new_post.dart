@@ -115,9 +115,9 @@ class _NewPostState extends State<NewPost> {
                       labelText: 'Whats going on?',
                       floatingLabelBehavior: FloatingLabelBehavior.never,
                       labelStyle: TextStyle(
-                        color: themeService.isSavedDarkMode()
+                        color: ThemeService.currentTheme == ThemeMode.dark
                             ? Colors.white.withOpacity(.75)
-                            : null,
+                            : colorDarkGrey,
                       ),
                       border: OutlineInputBorder(
                         borderSide: BorderSide.none,

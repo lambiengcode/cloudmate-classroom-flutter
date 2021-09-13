@@ -1,11 +1,11 @@
 import 'dart:developer' as developer;
-import 'package:flutter_mobile_2school/main.dart';
+import 'package:flutter_mobile_2school/src/configs/application.dart';
 
 class UtilLogger {
   static const String TAG = "SALEBOLT";
 
   static log([String tag = TAG, dynamic msg]) {
-    if (mode == 'DEV') {
+    if (Application.mode == 'DEV') {
       developer.log('$msg', name: tag);
     }
   }

@@ -3,29 +3,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_mobile_2school/src/app.dart';
 import 'package:flutter_mobile_2school/src/utils/logger.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 final GlobalKey<NavigatorState> navGlogbalKey = new GlobalKey<NavigatorState>();
-var baseUrl;
-var socketUrl;
-var mode;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = AppBlocObserver();
-  await dotenv.load(fileName: ".env");
-  await GetStorage.init();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
   ));
-  try {
-    baseUrl = dotenv.env['BASE_URL'];
-    socketUrl = dotenv.env['SOCKET_URL'];
-    mode = dotenv.env['MODE'];
-  } catch (error) {
-    debugPrint(error.toString());
-  }
   runApp(MyApp());
 }
 
@@ -52,7 +38,7 @@ class AppBlocObserver extends BlocObserver {
 
   @override
   void onTransition(Bloc bloc, Transition transition) {
-    UtilLogger.log('BLOC TRANSITION', transition);
+    UtilLogger.log('BLOC TRANSITION', transition.event);
     super.onTransition(bloc, transition);
   }
 }

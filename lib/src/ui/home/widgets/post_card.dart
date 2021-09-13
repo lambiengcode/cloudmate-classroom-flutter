@@ -79,7 +79,7 @@ class _PostCardState extends State<PostCard> {
               isSaved ? PhosphorIcons.bookmarkFill : PhosphorIcons.bookmark,
               size: 25.sp,
               color: isSaved
-                  ? themeService.isDarkMode
+                  ? themeService.isSavedDarkMode()
                       ? Colors.amberAccent
                       : Colors.amberAccent.shade700
                   : null,

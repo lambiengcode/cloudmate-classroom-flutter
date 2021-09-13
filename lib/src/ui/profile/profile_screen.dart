@@ -84,8 +84,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 width: 100.w,
                 alignment: Alignment.center,
                 child: Container(
-                  height: 108.sp,
-                  width: 108.sp,
+                  height: 105.sp,
+                  width: 105.sp,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(
@@ -95,8 +95,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   alignment: Alignment.center,
                   child: Container(
-                    height: 96.sp,
-                    width: 96.sp,
+                    height: 95.sp,
+                    width: 95.sp,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
