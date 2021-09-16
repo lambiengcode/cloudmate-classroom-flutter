@@ -1,3 +1,5 @@
+import 'package:cloudmate/src/lang/language_service.dart';
+import 'package:cloudmate/src/lang/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:cloudmate/src/models/slide_mode.dart';
@@ -8,6 +10,7 @@ import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
 import 'package:cloudmate/src/ui/classes/widgets/class_card.dart';
 import 'package:cloudmate/src/ui/classes/widgets/recommend_class_card.dart';
+import 'package:i18n_extension/i18n_widget.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
@@ -33,7 +36,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
           ),
         ),
         title: Text(
-          'Classes',
+          classTitle.i18n,
           style: TextStyle(
             fontSize: 16.sp,
             fontWeight: FontWeight.w600,
@@ -43,14 +46,19 @@ class _ClassesScreenState extends State<ClassesScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              LanguageService().switchLanguage(context);
+            },
             icon: Icon(
               PhosphorIcons.magnifyingGlassBold,
               size: 20.sp,
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              I18n.of(context).locale =
+                  (I18n.localeStr == "vi_vn") ? null : const Locale("vi", "VN");
+            },
             icon: Icon(
               Feather.plus_square,
               size: 20.sp,
@@ -99,7 +107,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
       child: Column(
         children: [
           _buildTitle(
-            'Your Classes',
+            yourClass.i18n,
             PhosphorIcons.chalkboardSimpleBold,
             themeService.isSavedDarkMode() ? colorAttendance : colorGreenLight,
           ),
@@ -130,7 +138,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
             ),
           ),
           _buildTitle(
-            'Recommend Class',
+            recommendClass.i18n,
             PhosphorIcons.presentationChartBold,
             colorPrimary,
           ),

@@ -26,14 +26,16 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   cupertino_icons: ^1.0.2
-  rxdart: ^0.27.2
   dio: ^4.0.0
-  sizer: ^2.0.13
   flutter_bloc: ^7.2.0
-  get_storage: ^2.0.3
-  intl: ^0.17.0
-  ezanimation: ^0.5.0
+
+  # Utils
+  i18n_extension: ^4.1.2
   flutter_dotenv: ^5.0.2
+  sizer: ^2.0.13
+  intl: ^0.17.0
+  get_storage: ^2.0.3
+  ezanimation: ^0.5.0
 
   # Image
   blurhash: ^0.2.1 

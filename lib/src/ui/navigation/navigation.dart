@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloudmate/src/lang/language_service.dart';
 import 'package:flutter/material.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/ui/calendar/calendar_screen.dart';
@@ -33,6 +34,9 @@ class _NavigationState extends State<Navigation> {
   void initState() {
     super.initState();
     currentPage = widget.initialIndex;
+    Future.delayed(Duration(milliseconds: 800), () async {
+      LanguageService().initialLanguage(context);
+    });
   }
 
   @override

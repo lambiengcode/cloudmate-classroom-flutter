@@ -12,6 +12,9 @@ class AppBloc {
     BlocProvider<AppStateBloc>(
       create: (context) => appStateBloc,
     ),
+    BlocProvider<ApplicationBloc>(
+      create: (context) => applicationBloc,
+    ),
     BlocProvider<ThemeBloc>(
       create: (context) => themeBloc,
     ),
@@ -19,6 +22,7 @@ class AppBloc {
 
   static void dispose() {
     appStateBloc.close();
+    applicationBloc.close();
     themeBloc.close();
   }
 
