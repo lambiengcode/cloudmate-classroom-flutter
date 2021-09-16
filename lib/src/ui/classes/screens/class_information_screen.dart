@@ -30,7 +30,7 @@ class _ClassInformationScreenState extends State<ClassInformationScreen> {
         });
       } else {
         setState(() {
-          heightOfClassImage = 38.h / scrollController.offset;
+          heightOfClassImage = 38.h / (scrollController.offset * 20);
         });
       }
     });

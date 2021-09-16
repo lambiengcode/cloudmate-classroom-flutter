@@ -1,3 +1,4 @@
+import 'package:cloudmate/src/configs/language.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -8,6 +9,7 @@ import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/routes/app_routes.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
 import 'package:cloudmate/src/themes/themes.dart';
+import 'package:i18n_extension/i18n_widget.dart';
 import 'package:sizer/sizer.dart';
 
 class App extends StatefulWidget {
@@ -34,23 +36,32 @@ class _AppState extends State<App> {
       providers: AppBloc.providers,
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, theme) {
-          return Sizer(
-            builder: (context, orientation, deviceType) {
-              return MaterialApp(
-                navigatorKey: navGlogbalKey,
-                debugShowCheckedModeBanner: false,
-                title: 'Cloudmate',
-                locale: Locale('vi', 'VN'),
-                localizationsDelegates: [
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
-                  GlobalCupertinoLocalizations.delegate,
-                ],
-                initialRoute: AppRoutes.ROOT,
-                theme: AppTheme.light().data,
-                darkTheme: AppTheme.dark().data,
-                themeMode: ThemeService.currentTheme,
-                onGenerateRoute: (settings) => AppPages().getRoute(settings),
+          return BlocBuilder<ApplicationBloc, ApplicationState>(
+            builder: (context, application) {
+              return Sizer(
+                builder: (context, orientation, deviceType) {
+                  return I18n(
+                    child: MaterialApp(
+                      navigatorKey: navGlogbalKey,
+                      debugShowCheckedModeBanner: false,
+                      title: 'Cloudmate',
+                      locale: AppLanguage.defaultLanguage,
+                      supportedLocales: AppLanguage.supportLanguage,
+                      localizationsDelegates: [
+                        GlobalMaterialLocalizations.delegate,
+                        GlobalWidgetsLocalizations.delegate,
+                        GlobalCupertinoLocalizations.delegate,
+                      ],
+                      initialRoute: AppRoutes.ROOT,
+                      theme: AppTheme.light().data,
+                      darkTheme: AppTheme.dark().data,
+                      themeMode: ThemeService.currentTheme,
+                      onGenerateRoute: (settings) {
+                        return AppPages().getRoute(settings);
+                      },
+                    ),
+                  );
+                },
               );
             },
           );

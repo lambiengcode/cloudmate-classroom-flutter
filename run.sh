@@ -42,4 +42,4 @@ clear
 # rm -f ./ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-72x72@1x.png
 # rm -f ./ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-72x72@2x.png
 
-flutter run
+flutter run --no-sound-null-safety
