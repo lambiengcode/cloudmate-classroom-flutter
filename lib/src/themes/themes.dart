@@ -40,7 +40,6 @@ class AppTheme {
         bodyText1: TextStyle(color: appColors.contentText1),
         bodyText2: TextStyle(color: appColors.contentText2),
       ),
-      buttonColor: appColors.primary,
       dividerColor: appColors.divider,
     );
     return AppTheme(
@@ -82,7 +81,6 @@ class AppTheme {
         bodyText1: TextStyle(color: appColors.contentText1),
         bodyText2: TextStyle(color: appColors.contentText2),
       ),
-      buttonColor: appColors.primary,
       dividerColor: appColors.divider,
     );
     return AppTheme(
