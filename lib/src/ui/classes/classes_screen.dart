@@ -23,13 +23,13 @@ class _ClassesScreenState extends State<ClassesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        brightness: Theme.of(context).brightness,
+        systemOverlayStyle: ThemeService.systemBrightness,
         backgroundColor: Colors.transparent,
         elevation: 0.0,
         centerTitle: true,
         leading: IconButton(
           onPressed: () {
-            Navigator.of(context).pushNamed(AppRoutes.LIST_REQUEST);
+            Navigator.of(context).pushNamed(AppRoutes.ROAD_MAP);
           },
           icon: Icon(
             PhosphorIcons.slidersHorizontal,

@@ -1,5 +1,6 @@
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
+import 'package:cloudmate/src/themes/theme_service.dart';
 import 'package:cloudmate/src/ui/classes/widgets/user_request_card.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -16,24 +17,23 @@ class _ListRequestClassScreenState extends State<ListRequestClassScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        brightness: Theme.of(context).brightness,
+        systemOverlayStyle: ThemeService.systemBrightness,
         centerTitle: true,
         elevation: .0,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
           icon: Icon(
             PhosphorIcons.caretLeft,
-            color: colorTitle,
             size: 20.sp,
           ),
         ),
         title: Text(
           'Yêu cầu tham gia',
           style: TextStyle(
-            color: colorTitle,
             fontSize: 15.sp,
             fontFamily: FontFamily.lato,
             fontWeight: FontWeight.bold,
+            color: Theme.of(context).textTheme.bodyText1!.color,
           ),
         ),
       ),

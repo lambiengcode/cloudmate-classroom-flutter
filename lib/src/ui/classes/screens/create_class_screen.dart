@@ -1,5 +1,6 @@
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
+import 'package:cloudmate/src/themes/theme_service.dart';
 import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -31,31 +32,29 @@ class _CreateClassScreenState extends State<CreateClassScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        brightness: Theme.of(context).brightness,
+        systemOverlayStyle: ThemeService.systemBrightness,
         centerTitle: true,
         elevation: .0,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
           icon: Icon(
             PhosphorIcons.caretLeft,
-            color: colorTitle,
             size: 20.sp,
           ),
         ),
         title: Text(
           'Tạo lớp học mới',
           style: TextStyle(
-            color: colorTitle,
             fontSize: 15.sp,
             fontFamily: FontFamily.lato,
             fontWeight: FontWeight.bold,
+            color: Theme.of(context).textTheme.bodyText1!.color,
           ),
         ),
       ),
       body: Container(
         height: 100.h,
         width: 100.w,
-        color: mC,
         child: Form(
           key: _formKey,
           child: NotificationListener<OverscrollIndicatorNotification>(
@@ -157,10 +156,10 @@ class _CreateClassScreenState extends State<CreateClassScreen> {
       padding: EdgeInsets.fromLTRB(14.0, 18.0, 18.0, 4.0),
       child: TextFormField(
         controller: controller,
-        cursorColor: colorTitle,
+        cursorColor: Theme.of(context).textTheme.bodyText1!.color,
         cursorRadius: Radius.circular(30.0),
         style: TextStyle(
-          color: colorTitle,
+          color: Theme.of(context).textTheme.bodyText1!.color,
           fontSize: _size.width / 26.0,
           fontWeight: FontWeight.w500,
         ),
@@ -199,7 +198,8 @@ class _CreateClassScreenState extends State<CreateClassScreen> {
           border: InputBorder.none,
           labelText: title,
           labelStyle: TextStyle(
-            color: colorTitle,
+            color:
+                Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
             fontSize: _size.width / 26.0,
             fontWeight: FontWeight.w600,
           ),
@@ -210,7 +210,6 @@ class _CreateClassScreenState extends State<CreateClassScreen> {
 
   Widget _buildDivider(context) {
     return Divider(
-      color: Colors.grey.shade400,
       thickness: .25,
       height: .25,
       indent: 25.0,
