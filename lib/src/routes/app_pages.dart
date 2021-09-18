@@ -1,3 +1,5 @@
+import 'package:cloudmate/src/blocs/bloc.dart';
+import 'package:cloudmate/src/ui/classes/screens/create_class_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cloudmate/src/app.dart';
 import 'package:cloudmate/src/models/slide_mode.dart';
@@ -11,7 +13,8 @@ import 'package:cloudmate/src/ui/navigation/navigation.dart';
 
 class AppPages {
   SlideMode defautlSlide = SlideMode.right;
-  Route<dynamic> getRoute(RouteSettings settings) {
+  Route<dynamic> getRoute(
+      RouteSettings settings, ApplicationState application) {
     Map<String, dynamic>? arguments = _getArguments(settings);
     switch (settings.name) {
       case AppRoutes.ROOT:
@@ -24,6 +27,12 @@ class AppPages {
         return _buildRoute(
           settings,
           ClassInformationScreen(),
+          _getSlideMode(arguments),
+        );
+      case AppRoutes.CREATE_CLASS:
+        return _buildRoute(
+          settings,
+          CreateClassScreen(),
           _getSlideMode(arguments),
         );
       default:

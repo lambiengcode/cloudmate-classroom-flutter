@@ -1,4 +1,3 @@
-import 'package:cloudmate/src/lang/language_service.dart';
 import 'package:cloudmate/src/lang/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -47,7 +46,8 @@ class _ClassesScreenState extends State<ClassesScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              LanguageService().switchLanguage(context);
+              I18n.of(context).locale =
+                  (I18n.localeStr == "vi_vn") ? null : const Locale("vi", "VN");
             },
             icon: Icon(
               PhosphorIcons.magnifyingGlassBold,
@@ -56,8 +56,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
           ),
           IconButton(
             onPressed: () {
-              I18n.of(context).locale =
-                  (I18n.localeStr == "vi_vn") ? null : const Locale("vi", "VN");
+              Navigator.of(context).pushNamed(AppRoutes.CREATE_CLASS);
             },
             icon: Icon(
               Feather.plus_square,
