@@ -28,7 +28,9 @@ class _ClassesScreenState extends State<ClassesScreen> {
         elevation: 0.0,
         centerTitle: true,
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).pushNamed(AppRoutes.LIST_REQUEST);
+          },
           icon: Icon(
             PhosphorIcons.slidersHorizontal,
             size: 22.sp,

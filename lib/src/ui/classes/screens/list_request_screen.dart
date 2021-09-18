@@ -1,5 +1,6 @@
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
+import 'package:cloudmate/src/ui/classes/widgets/user_request_card.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
@@ -51,9 +52,17 @@ class _ListRequestClassScreenState extends State<ListRequestClassScreen> {
               child: ListView.builder(
                 padding: EdgeInsets.only(bottom: 16.sp),
                 physics: BouncingScrollPhysics(),
-                itemCount: 10,
+                itemCount: 4,
                 itemBuilder: (context, index) {
-                  return Container();
+                  return UserRequestCard(
+                    fullName: 'lambiengcode',
+                    urlToImage:
+                        'https://avatars.githubusercontent.com/u/60530946?v=4',
+                    blurHash: '',
+                    isLast: index == 3,
+                    requestTime: DateTime.now(),
+                    requestMessage: 'Tham gia lớp học',
+                  );
                 },
               ),
             ),

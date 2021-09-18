@@ -1,5 +1,6 @@
 import 'package:cloudmate/src/blocs/bloc.dart';
 import 'package:cloudmate/src/ui/classes/screens/create_class_screen.dart';
+import 'package:cloudmate/src/ui/classes/screens/list_request_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cloudmate/src/app.dart';
 import 'package:cloudmate/src/models/slide_mode.dart';
@@ -33,6 +34,12 @@ class AppPages {
         return _buildRoute(
           settings,
           CreateClassScreen(),
+          _getSlideMode(arguments),
+        );
+      case AppRoutes.LIST_REQUEST:
+        return _buildRoute(
+          settings,
+          ListRequestClassScreen(),
           _getSlideMode(arguments),
         );
       default:
