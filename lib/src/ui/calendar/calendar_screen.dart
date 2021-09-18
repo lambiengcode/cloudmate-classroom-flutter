@@ -1,6 +1,5 @@
+import 'package:cloudmate/src/ui/common/widgets/custom_date_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:cloudmate/src/ui/home/widgets/date_bar.dart';
-import 'package:sizer/sizer.dart';
 
 class CalendarScreen extends StatefulWidget {
   @override
@@ -15,9 +14,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
         child: Container(
           child: Column(
             children: [
-              SizedBox(height: 16.sp),
-              DateBarPicker(),
-              SizedBox(height: 4.sp),
+              CustomDayPicker(
+                handlePickerSelected: null,
+                isTheOtherPickerSelected: null,
+              ),
             ],
           ),
         ),

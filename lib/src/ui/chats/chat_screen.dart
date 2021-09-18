@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:cloudmate/src/themes/theme_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:cloudmate/src/resources/hard/hard_chat.dart';
@@ -24,7 +25,7 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        brightness: Theme.of(context).brightness,
+        systemOverlayStyle: ThemeService.systemBrightness,
         elevation: .0,
         automaticallyImplyLeading: false,
         centerTitle: false,
@@ -41,7 +42,7 @@ class _ChatScreenState extends State<ChatScreen> {
           IconButton(
             onPressed: () => null,
             icon: Icon(
-              PhosphorIcons.magnifyingGlassBold,
+              PhosphorIcons.magnifyingGlass,
               color: Theme.of(context).textTheme.bodyText1!.color,
               size: 20.sp,
             ),

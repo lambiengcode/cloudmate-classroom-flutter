@@ -7,6 +7,9 @@ enum ThemeOptions { light, dark }
 class ThemeService extends ChangeNotifier {
   static ThemeOptions themeOptions = ThemeOptions.light;
   static ThemeMode currentTheme = ThemeMode.light;
+  static final systemBrightness = SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+  );
   final _getStorage = GetStorage();
   final storageKey = 'isDarkMode';
 

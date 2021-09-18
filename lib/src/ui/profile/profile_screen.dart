@@ -1,3 +1,4 @@
+import 'package:cloudmate/src/themes/theme_service.dart';
 import 'package:flutter/material.dart';
 import 'package:cloudmate/src/resources/hard/hard_post.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
@@ -40,7 +41,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        brightness: Theme.of(context).brightness,
+        systemOverlayStyle: ThemeService.systemBrightness,
         backgroundColor: Colors.transparent,
         elevation: .0,
         centerTitle: true,

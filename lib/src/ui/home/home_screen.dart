@@ -20,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        brightness: Theme.of(context).brightness,
+        systemOverlayStyle: ThemeService.systemBrightness,
         backgroundColor: Colors.transparent,
         elevation: 0.0,
         centerTitle: true,

@@ -57,7 +57,7 @@ class _AppState extends State<App> {
                       darkTheme: AppTheme.dark().data,
                       themeMode: ThemeService.currentTheme,
                       onGenerateRoute: (settings) {
-                        return AppPages().getRoute(settings);
+                        return AppPages().getRoute(settings, application);
                       },
                     ),
                   );

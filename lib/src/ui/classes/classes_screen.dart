@@ -1,4 +1,3 @@
-import 'package:cloudmate/src/lang/language_service.dart';
 import 'package:cloudmate/src/lang/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -24,12 +23,14 @@ class _ClassesScreenState extends State<ClassesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        brightness: Theme.of(context).brightness,
+        systemOverlayStyle: ThemeService.systemBrightness,
         backgroundColor: Colors.transparent,
         elevation: 0.0,
         centerTitle: true,
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).pushNamed(AppRoutes.ROAD_MAP);
+          },
           icon: Icon(
             PhosphorIcons.slidersHorizontal,
             size: 22.sp,
@@ -47,7 +48,8 @@ class _ClassesScreenState extends State<ClassesScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              LanguageService().switchLanguage(context);
+              I18n.of(context).locale =
+                  (I18n.localeStr == "vi_vn") ? null : const Locale("vi", "VN");
             },
             icon: Icon(
               PhosphorIcons.magnifyingGlassBold,
@@ -56,8 +58,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
           ),
           IconButton(
             onPressed: () {
-              I18n.of(context).locale =
-                  (I18n.localeStr == "vi_vn") ? null : const Locale("vi", "VN");
+              Navigator.of(context).pushNamed(AppRoutes.CREATE_CLASS);
             },
             icon: Icon(
               Feather.plus_square,
