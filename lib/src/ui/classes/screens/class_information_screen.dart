@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cloudmate/src/ui/classes/widgets/drawer_option.dart';
 import 'package:flutter/material.dart';
 import 'package:cloudmate/src/resources/hard/hard_chat.dart';
 import 'package:cloudmate/src/resources/hard/hard_post.dart';
@@ -17,6 +18,7 @@ class ClassInformationScreen extends StatefulWidget {
 }
 
 class _ClassInformationScreenState extends State<ClassInformationScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   ScrollController scrollController = ScrollController();
   double heightOfClassImage = 38.h;
 
@@ -39,7 +41,14 @@ class _ClassInformationScreenState extends State<ClassInformationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       extendBodyBehindAppBar: true,
+      endDrawer: Container(
+        width: 60.w,
+        child: Drawer(
+          child: DrawerOption(),
+        ),
+      ),
       body: Stack(
         children: [
           Container(
@@ -94,7 +103,9 @@ class _ClassInformationScreenState extends State<ClassInformationScreen> {
                             ),
                           ),
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              _scaffoldKey.currentState!.openEndDrawer();
+                            },
                             child: Container(
                               padding: EdgeInsets.all(9.25.sp),
                               margin: EdgeInsets.only(right: 10.sp),

@@ -11,12 +11,10 @@ class LanguageService {
   }
 
   Future<void> saveLocale(String locale) async {
-    print('s2');
     await _getStorage.write(storageKey, locale);
   }
 
   switchLanguage(context) async {
-    print('s1');
     await saveLocale((I18n.localeStr == "vi_vn") ? "en_us" : "vi_vn");
     I18n.of(context).locale =
         (I18n.localeStr == "vi_vn") ? null : const Locale("vi", "VN");
@@ -24,7 +22,6 @@ class LanguageService {
 
   initialLanguage(context) {
     String localeStr = getLocale();
-    print(localeStr);
     if (localeStr == "vi_vn") {
       I18n.of(context).locale = Locale("vi", "VN");
     } else {
