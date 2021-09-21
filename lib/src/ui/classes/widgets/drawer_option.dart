@@ -1,3 +1,4 @@
+import 'package:cloudmate/src/routes/app_routes.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:flutter/material.dart';
@@ -26,37 +27,58 @@ class _DrawerOptionState extends State<DrawerOption> {
                   SizedBox(height: 20.sp),
                   _buildLine(
                     context,
-                    'Roadmap',
+                    'Bộ đề kiểm tra',
+                    PhosphorIcons.clipboard,
+                    colorHigh,
+                    AppRoutes.LIST_EXAM,
+                  ),
+                  _buildDividerTransparant(context),
+                  _buildLine(
+                    context,
+                    'Điểm danh',
+                    PhosphorIcons.handGrabbing,
+                    colorHigh,
+                    null,
+                  ),
+                  _buildDividerTransparant(context),
+                  _buildLine(
+                    context,
+                    'Lộ trình',
                     PhosphorIcons.graduationCap,
                     null,
+                    null,
                   ),
                   _buildDividerTransparant(context),
                   _buildLine(
                     context,
-                    'Members',
+                    'Thành viên',
                     PhosphorIcons.usersFour,
                     null,
-                  ),
-                  _buildDividerTransparant(context),
-                  _buildLine(
-                    context,
-                    'Notification',
-                    PhosphorIcons.bellSimple,
                     null,
                   ),
                   _buildDividerTransparant(context),
                   _buildLine(
                     context,
-                    'Report',
+                    'Thông báo',
+                    PhosphorIcons.bellSimple,
+                    null,
+                    null,
+                  ),
+                  _buildDividerTransparant(context),
+                  _buildLine(
+                    context,
+                    'Báo cáo',
                     PhosphorIcons.info,
+                    null,
                     null,
                   ),
                   _buildDivider(context),
                   _buildLine(
                     context,
-                    'Leave Class',
+                    'Rời lớp',
                     PhosphorIcons.signOut,
                     colorPrimary,
+                    null,
                   ),
                   SizedBox(height: 10.h),
                 ],
@@ -68,9 +90,13 @@ class _DrawerOptionState extends State<DrawerOption> {
     );
   }
 
-  Widget _buildLine(context, title, icon, color) {
+  Widget _buildLine(context, title, icon, color, routeName) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        if (routeName != null) {
+          Navigator.of(context).pushNamed(routeName);
+        }
+      },
       child: Container(
         color: Colors.transparent,
         padding: EdgeInsets.only(left: 12.0, right: 8.0),
