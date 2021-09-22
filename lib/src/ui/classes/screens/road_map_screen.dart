@@ -112,6 +112,24 @@ class _RoadMapScreenState extends State<RoadMapScreen> {
         message:
             'Do something every single day that moves you in the direction of your most important goal at the moment. Develop the discipline of doing something 365 days each year that is moving you forward. You will be absolutely astonished at how much you accomplish when you utilize this formula in your life every single day.',
       ),
+      const Step(
+        step: 7,
+        title: 'Do Something Every Day',
+        message:
+            'Do something every single day that moves you in the direction of your most important goal at the moment. Develop the discipline of doing something 365 days each year that is moving you forward. You will be absolutely astonished at how much you accomplish when you utilize this formula in your life every single day.',
+      ),
+      const Step(
+        step: 7,
+        title: 'Do Something Every Day',
+        message:
+            'Do something every single day that moves you in the direction of your most important goal at the moment. Develop the discipline of doing something 365 days each year that is moving you forward. You will be absolutely astonished at how much you accomplish when you utilize this formula in your life every single day.',
+      ),
+      const Step(
+        step: 7,
+        title: 'Do Something Every Day',
+        message:
+            'Do something every single day that moves you in the direction of your most important goal at the moment. Develop the discipline of doing something 365 days each year that is moving you forward. You will be absolutely astonished at how much you accomplish when you utilize this formula in your life every single day.',
+      ),
     ];
   }
 }
@@ -223,8 +241,18 @@ class _TimelineStepsChild extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: isLeftAlign
-          ? EdgeInsets.only(right: 30.sp, top: 16, bottom: 16, left: 10)
-          : EdgeInsets.only(left: 30.sp, top: 16, bottom: 16, right: 10),
+          ? EdgeInsets.only(
+              right: 26.sp,
+              top: 12.sp,
+              bottom: 12.sp,
+              left: 6.sp,
+            )
+          : EdgeInsets.only(
+              left: 26.sp,
+              top: 12.sp,
+              bottom: 12.sp,
+              right: 6.sp,
+            ),
       child: Column(
         crossAxisAlignment:
             isLeftAlign ? CrossAxisAlignment.end : CrossAxisAlignment.start,
@@ -239,7 +267,7 @@ class _TimelineStepsChild extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 12.sp),
+          SizedBox(height: 6.sp),
           Text(
             subtitle,
             textAlign: isLeftAlign ? TextAlign.right : TextAlign.left,

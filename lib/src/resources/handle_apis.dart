@@ -92,7 +92,10 @@ class BaseRepository {
     return diox.Options(
       headers: {
         'Authorization': 'Bearer ',
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Connection': 'keep-alive',
+        'Accept': '*/*',
+        'Accept-Encoding': 'gzip, deflate, br',
       },
     );
   }
