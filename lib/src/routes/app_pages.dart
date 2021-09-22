@@ -1,5 +1,6 @@
 import 'package:cloudmate/src/blocs/bloc.dart';
 import 'package:cloudmate/src/ui/classes/screens/create_class_screen.dart';
+import 'package:cloudmate/src/ui/classes/screens/create_exam_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/list_exam_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/list_request_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/road_map_screen.dart';
@@ -48,6 +49,12 @@ class AppPages {
         return _buildRoute(
           settings,
           ListExamScreen(),
+          _getSlideMode(arguments),
+        );
+      case AppRoutes.CREATE_EXAM:
+        return _buildRoute(
+          settings,
+          CreateExamScreen(),
           _getSlideMode(arguments),
         );
       case AppRoutes.ROAD_MAP:

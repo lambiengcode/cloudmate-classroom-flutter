@@ -1,4 +1,5 @@
 import 'package:cloudmate/src/models/exam.dart';
+import 'package:cloudmate/src/routes/app_routes.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
@@ -40,7 +41,9 @@ class _ListExamScreenState extends State<ListExamScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pushNamed(AppRoutes.CREATE_EXAM);
+            },
             icon: Icon(
               Feather.plus_square,
               size: 20.sp,
