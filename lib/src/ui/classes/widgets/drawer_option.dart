@@ -29,7 +29,7 @@ class _DrawerOptionState extends State<DrawerOption> {
                     context,
                     'Bộ đề kiểm tra',
                     PhosphorIcons.clipboard,
-                    colorHigh,
+                    colorPrimary,
                     AppRoutes.LIST_EXAM,
                   ),
                   _buildDividerTransparant(context),
@@ -37,7 +37,7 @@ class _DrawerOptionState extends State<DrawerOption> {
                     context,
                     'Điểm danh',
                     PhosphorIcons.handGrabbing,
-                    colorHigh,
+                    colorPrimary,
                     null,
                   ),
                   _buildDividerTransparant(context),
@@ -46,7 +46,7 @@ class _DrawerOptionState extends State<DrawerOption> {
                     'Lộ trình',
                     PhosphorIcons.graduationCap,
                     null,
-                    null,
+                    AppRoutes.ROAD_MAP,
                   ),
                   _buildDividerTransparant(context),
                   _buildLine(
@@ -67,7 +67,7 @@ class _DrawerOptionState extends State<DrawerOption> {
                   _buildDividerTransparant(context),
                   _buildLine(
                     context,
-                    'Báo cáo',
+                    'Báo xấu',
                     PhosphorIcons.info,
                     null,
                     null,
@@ -77,7 +77,7 @@ class _DrawerOptionState extends State<DrawerOption> {
                     context,
                     'Rời lớp',
                     PhosphorIcons.signOut,
-                    colorPrimary,
+                    colorHigh,
                     null,
                   ),
                   SizedBox(height: 10.h),
@@ -94,6 +94,7 @@ class _DrawerOptionState extends State<DrawerOption> {
     return GestureDetector(
       onTap: () {
         if (routeName != null) {
+          Navigator.pop(context);
           Navigator.of(context).pushNamed(routeName);
         }
       },

@@ -29,7 +29,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
         centerTitle: true,
         leading: IconButton(
           onPressed: () {
-            Navigator.of(context).pushNamed(AppRoutes.ROAD_MAP);
+            Navigator.of(context).pushNamed(AppRoutes.LIST_REQUEST);
           },
           icon: Icon(
             PhosphorIcons.slidersHorizontal,
