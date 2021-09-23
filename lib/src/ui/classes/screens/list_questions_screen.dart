@@ -1,20 +1,20 @@
-import 'package:cloudmate/src/models/exam.dart';
+import 'package:cloudmate/src/models/question.dart';
 import 'package:cloudmate/src/routes/app_routes.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
-import 'package:cloudmate/src/ui/classes/widgets/exam_card.dart';
+import 'package:cloudmate/src/ui/classes/widgets/question_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
-class ListExamScreen extends StatefulWidget {
+class ListQuestionScreen extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _ListExamScreenState();
+  State<StatefulWidget> createState() => _ListQuestionScreenState();
 }
 
-class _ListExamScreenState extends State<ListExamScreen> {
+class _ListQuestionScreenState extends State<ListQuestionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +31,7 @@ class _ListExamScreenState extends State<ListExamScreen> {
           ),
         ),
         title: Text(
-          'Bộ đề kiểm tra',
+          'Bài kiểm tra số 1',
           style: TextStyle(
             fontSize: 15.sp,
             fontFamily: FontFamily.lato,
@@ -42,7 +42,7 @@ class _ListExamScreenState extends State<ListExamScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              // Navigator.of(context).pushNamed(AppRoutes.CREATE_EXAM);
+              Navigator.of(context).pushNamed(AppRoutes.CREATE_EXAM);
             },
             icon: Icon(
               Feather.plus_square,
@@ -65,16 +65,12 @@ class _ListExamScreenState extends State<ListExamScreen> {
               child: ListView.builder(
                 padding: EdgeInsets.only(bottom: 16.sp),
                 physics: BouncingScrollPhysics(),
-                itemCount: exams.length,
+                itemCount: questions.length,
                 itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).pushNamed(AppRoutes.LIST_QUESTION);
-                    },
-                    child: ExamCard(
-                      exam: exams[index],
-                      isLast: index == exams.length - 1,
-                    ),
+                  return QuestionCard(
+                    question: questions[index],
+                    isLast: index == questions.length - 1,
+                    index: index + 1,
                   );
                 },
               ),
