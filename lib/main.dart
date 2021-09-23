@@ -7,8 +7,6 @@ import 'package:cloudmate/src/app.dart';
 import 'package:cloudmate/src/utils/logger.dart';
 import 'package:flutter_isolate/flutter_isolate.dart';
 
-final GlobalKey<NavigatorState> navGlogbalKey = new GlobalKey<NavigatorState>();
-
 void isolate2(String arg) {
   Timer.periodic(
       Duration(seconds: 10), (timer) => print("Timer Running From Isolate 2"));

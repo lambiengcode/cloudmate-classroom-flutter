@@ -1,4 +1,5 @@
 import 'package:cloudmate/src/lang/localization.dart';
+import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:cloudmate/src/models/slide_mode.dart';
@@ -29,7 +30,8 @@ class _ClassesScreenState extends State<ClassesScreen> {
         centerTitle: true,
         leading: IconButton(
           onPressed: () {
-            Navigator.of(context).pushNamed(AppRoutes.LIST_REQUEST);
+            AppNavigator.push(AppRoutes.LIST_REQUEST);
+            print(AppNavigator.currentRoute(context));
           },
           icon: Icon(
             PhosphorIcons.slidersHorizontal,
@@ -58,7 +60,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
           ),
           IconButton(
             onPressed: () {
-              Navigator.of(context).pushNamed(AppRoutes.CREATE_CLASS);
+              AppNavigator.push(AppRoutes.CREATE_CLASS);
             },
             icon: Icon(
               Feather.plus_square,
@@ -122,7 +124,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {
-                    Navigator.of(context).pushNamed(
+                    AppNavigator.push(
                       AppRoutes.DETAILS_CLASS,
                       arguments: {
                         'slide': SlideMode.bot,

@@ -2,26 +2,27 @@ import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
+import 'package:cloudmate/src/ui/classes/widgets/character_counter.dart';
 import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
-class CreateExamScreen extends StatefulWidget {
+class CreateQuestionScreen extends StatefulWidget {
   @override
-  _CreateExamScreenState createState() => _CreateExamScreenState();
+  _CreateQuestionScreenState createState() => _CreateQuestionScreenState();
 }
 
-class _CreateExamScreenState extends State<CreateExamScreen> {
+class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController _phoneController = TextEditingController();
-  TextEditingController _fullNameController = TextEditingController();
+  TextEditingController _questionController = TextEditingController();
+  TextEditingController _durationController = TextEditingController();
   FocusNode textFieldFocus = FocusNode();
-  String name = '';
-  String description = '';
-  bool hidePassword = true;
+  List<String> _answers = [];
+  List<int> _corrects = [];
+  String _question = '';
+  String _duration = '';
 
   hideKeyboard() => textFieldFocus.unfocus();
 
@@ -41,7 +42,7 @@ class _CreateExamScreenState extends State<CreateExamScreen> {
           ),
         ),
         title: Text(
-          'Tạo bài kiểm tra',
+          'Tạo câu hỏi',
           style: TextStyle(
             fontSize: 15.sp,
             fontFamily: FontFamily.lato,
@@ -80,23 +81,24 @@ class _CreateExamScreenState extends State<CreateExamScreen> {
                             SizedBox(height: 12.0),
                             _buildLineInfo(
                               context,
-                              'Tên bộ đề',
+                              'Nhập câu hỏi',
                               'Hãy nhập tên bài kiểm tra',
-                              _phoneController,
+                              _questionController,
                             ),
                             _buildDivider(context),
                             _buildLineInfo(
                               context,
-                              'Mô tả',
-                              'Hãy nhập mô tả cho bài kiểm tra này',
-                              _fullNameController,
+                              'Đặt thời gian trả lời',
+                              'Hãy đặt thời gian trả lời cho câu hỏi',
+                              _durationController,
                             ),
                             _buildDivider(context),
-                            SizedBox(height: 8.0),
+                            SizedBox(height: 8.sp),
+                            _buildTitle(context, 'Câu trả lời'),
                           ],
                         ),
                       ),
-                      SizedBox(height: 20.sp),
+                      SizedBox(height: 24.sp),
                       GestureDetector(
                         onTap: () async {
                           if (_formKey.currentState!.validate()) {
@@ -112,7 +114,7 @@ class _CreateExamScreenState extends State<CreateExamScreen> {
                           ),
                           child: Center(
                             child: Text(
-                              'Tạo bài',
+                              'Lưu câu hỏi',
                               style: TextStyle(
                                 color: mC,
                                 fontSize: 11.5.sp,
@@ -137,8 +139,9 @@ class _CreateExamScreenState extends State<CreateExamScreen> {
   Widget _buildLineInfo(context, title, valid, controller) {
     final _size = MediaQuery.of(context).size;
     return Container(
-      padding: EdgeInsets.fromLTRB(14.0, 18.0, 18.0, 4.0),
+      padding: EdgeInsets.fromLTRB(14.0, 18.0, 12.0, 4.0),
       child: TextFormField(
+        maxLines: null,
         controller: controller,
         cursorColor: Theme.of(context).textTheme.bodyText1!.color,
         cursorRadius: Radius.circular(30.0),
@@ -148,20 +151,19 @@ class _CreateExamScreenState extends State<CreateExamScreen> {
           fontWeight: FontWeight.w500,
         ),
         validator: (val) {
-          if (title == 'Số điện thoại') {
-            return GetUtils.isPhoneNumber(val!.trim()) ? null : valid;
-          } else if (title == 'Tên của bạn') {
-            return val!.trim().length == 0 ? valid : null;
-          } else if (title == 'Mật khẩu') {
-            return val!.trim().length < 6 ? valid : null;
-          }
           return null;
         },
         onChanged: (val) {
-          setState(() {});
+          setState(() {
+            if (title == '') {
+              _question = val.trim();
+            } else {
+              _duration = val.trim();
+            }
+          });
         },
         inputFormatters: [
-          title == 'Số điện thoại'
+          title != 'Nhập câu hỏi'
               ? FilteringTextInputFormatter.digitsOnly
               : FilteringTextInputFormatter.singleLineFormatter,
         ],
@@ -179,6 +181,9 @@ class _CreateExamScreenState extends State<CreateExamScreen> {
             fontSize: _size.width / 26.0,
             fontWeight: FontWeight.w600,
           ),
+          suffixIcon: title == 'Nhập câu hỏi'
+              ? CharacterCounter(min: 60, value: _question.length)
+              : null,
         ),
       ),
     );
@@ -190,6 +195,38 @@ class _CreateExamScreenState extends State<CreateExamScreen> {
       height: .25,
       indent: 25.0,
       endIndent: 25.0,
+    );
+  }
+
+  Widget _buildTitle(context, title) {
+    return Padding(
+      padding: EdgeInsets.only(left: 22.sp, right: 10.sp),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w600,
+              fontFamily: FontFamily.lato,
+              color: Theme.of(context)
+                  .textTheme
+                  .bodyText1!
+                  .color!
+                  .withOpacity(.72),
+            ),
+          ),
+          IconButton(
+            onPressed: () => null,
+            icon: Icon(
+              PhosphorIcons.plusCircleBold,
+              color: colorPrimary,
+              size: 20.sp,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

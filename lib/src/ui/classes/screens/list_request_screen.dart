@@ -1,3 +1,4 @@
+import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
@@ -21,7 +22,9 @@ class _ListRequestClassScreenState extends State<ListRequestClassScreen> {
         centerTitle: true,
         elevation: .0,
         leading: IconButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            AppNavigator.pop();
+          },
           icon: Icon(
             PhosphorIcons.caretLeft,
             size: 20.sp,

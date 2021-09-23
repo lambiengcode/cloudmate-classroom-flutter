@@ -1,4 +1,5 @@
 import 'package:cloudmate/src/models/question.dart';
+import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/routes/app_routes.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
@@ -24,7 +25,7 @@ class _ListQuestionScreenState extends State<ListQuestionScreen> {
         centerTitle: true,
         elevation: .0,
         leading: IconButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => AppNavigator.pop(),
           icon: Icon(
             PhosphorIcons.caretLeft,
             size: 20.sp,
@@ -42,7 +43,7 @@ class _ListQuestionScreenState extends State<ListQuestionScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.of(context).pushNamed(AppRoutes.CREATE_EXAM);
+              AppNavigator.push(AppRoutes.CREATE_QUESTION);
             },
             icon: Icon(
               Feather.plus_square,

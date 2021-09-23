@@ -1,6 +1,7 @@
 import 'package:cloudmate/src/blocs/bloc.dart';
 import 'package:cloudmate/src/ui/classes/screens/create_class_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/create_exam_screen.dart';
+import 'package:cloudmate/src/ui/classes/screens/create_question_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/list_exam_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/list_questions_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/list_request_screen.dart';
@@ -16,7 +17,8 @@ import 'package:cloudmate/src/routes/slides/slide_from_top_route.dart';
 import 'package:cloudmate/src/ui/classes/screens/class_information_screen.dart';
 import 'package:cloudmate/src/ui/navigation/navigation.dart';
 
-class AppPages {
+class AppNavigator {
+  static GlobalKey<NavigatorState> navigatorKey = GlobalKey();
   SlideMode defautlSlide = SlideMode.right;
   Route<dynamic> getRoute(
       RouteSettings settings, ApplicationState application) {
@@ -64,6 +66,12 @@ class AppPages {
           ListQuestionScreen(),
           _getSlideMode(arguments),
         );
+      case AppRoutes.CREATE_QUESTION:
+        return _buildRoute(
+          settings,
+          CreateQuestionScreen(),
+          _getSlideMode(arguments),
+        );
       case AppRoutes.ROAD_MAP:
         return _buildRoute(
           settings,
@@ -100,4 +108,17 @@ class AppPages {
       return arguments['slide'];
     }
   }
+
+  static Future push<T>(String route, {Map<String, dynamic>? arguments}) =>
+      state.pushNamed(route, arguments: arguments);
+
+  static Future replaceWith<T>(String route,
+          {Map<String, dynamic>? arguments}) =>
+      state.pushReplacementNamed(route, arguments: arguments);
+
+  static void pop() => state.pop();
+
+  static String currentRoute(context) => ModalRoute.of(context)!.settings.name!;
+
+  static NavigatorState get state => navigatorKey.currentState!;
 }

@@ -39,6 +39,7 @@ dependencies:
   get_storage: ^2.0.3
   ezanimation: ^0.5.0
   timeline_tile: ^2.0.0
+  percent_indicator: ^3.0.1
 
   # Image
   blurhash: ^0.2.1 

@@ -1,4 +1,5 @@
 import 'package:cloudmate/src/models/exam.dart';
+import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/routes/app_routes.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
@@ -16,6 +17,11 @@ class ListExamScreen extends StatefulWidget {
 
 class _ListExamScreenState extends State<ListExamScreen> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -24,7 +30,7 @@ class _ListExamScreenState extends State<ListExamScreen> {
         centerTitle: true,
         elevation: .0,
         leading: IconButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => AppNavigator.pop(),
           icon: Icon(
             PhosphorIcons.caretLeft,
             size: 20.sp,
@@ -42,7 +48,7 @@ class _ListExamScreenState extends State<ListExamScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              // Navigator.of(context).pushNamed(AppRoutes.CREATE_EXAM);
+              AppNavigator.push(AppRoutes.CREATE_EXAM);
             },
             icon: Icon(
               Feather.plus_square,
@@ -69,7 +75,7 @@ class _ListExamScreenState extends State<ListExamScreen> {
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
-                      Navigator.of(context).pushNamed(AppRoutes.LIST_QUESTION);
+                      AppNavigator.push(AppRoutes.LIST_QUESTION);
                     },
                     child: ExamCard(
                       exam: exams[index],
