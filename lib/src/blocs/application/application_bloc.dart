@@ -1,6 +1,6 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
+import 'package:cloudmate/src/blocs/authentication/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/blocs/bloc.dart';
@@ -23,6 +23,9 @@ class ApplicationBloc extends Bloc<ApplicationEvent, ApplicationState> {
               : ThemeMode.light,
         ),
       );
+
+      AppBloc.authBloc.add(OnAuthCheck());
+
       yield ApplicationCompleted();
     }
   }

@@ -1,11 +1,15 @@
+import 'package:cloudmate/src/blocs/authentication/authentication_bloc.dart';
+import 'package:cloudmate/src/blocs/authentication/bloc.dart';
 import 'package:cloudmate/src/configs/language.dart';
+import 'package:cloudmate/src/ui/authentication/authentication_screen.dart';
+import 'package:cloudmate/src/ui/navigation/navigation.dart';
+import 'package:cloudmate/src/ui/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/blocs/bloc.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
-import 'package:cloudmate/src/routes/app_routes.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
 import 'package:cloudmate/src/themes/themes.dart';
 import 'package:i18n_extension/i18n_widget.dart';
@@ -35,8 +39,8 @@ class _AppState extends State<App> {
       providers: AppBloc.providers,
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, theme) {
-          return BlocBuilder<ApplicationBloc, ApplicationState>(
-            builder: (context, application) {
+          return BlocBuilder<AuthBloc, AuthState>(
+            builder: (context, auth) {
               return Sizer(
                 builder: (context, orientation, deviceType) {
                   return I18n(
@@ -51,13 +55,25 @@ class _AppState extends State<App> {
                         GlobalWidgetsLocalizations.delegate,
                         GlobalCupertinoLocalizations.delegate,
                       ],
-                      initialRoute: AppRoutes.ROOT,
                       theme: AppTheme.light().data,
                       darkTheme: AppTheme.dark().data,
                       themeMode: ThemeService.currentTheme,
                       onGenerateRoute: (settings) {
-                        return AppNavigator().getRoute(settings, application);
+                        return AppNavigator().getRoute(settings);
                       },
+                      home: BlocBuilder<ApplicationBloc, ApplicationState>(
+                        builder: (context, application) {
+                          if (application is ApplicationCompleted) {
+                            if (auth is AuthenticationFail) {
+                              return AuthenticateScreen();
+                            }
+                            if (auth is AuthenticationSuccess) {
+                              return Navigation();
+                            }
+                          }
+                          return SplashScreen();
+                        },
+                      ),
                     ),
                   );
                 },

@@ -115,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
                                       text: TextSpan(
                                         style: TextStyle(
                                           fontFamily: FontFamily.lato,
-                                          fontSize: 11.sp,
+                                          fontSize: 10.sp,
                                           color: Theme.of(context)
                                               .textTheme
                                               .bodyText2!
@@ -171,7 +171,7 @@ class _LoginPageState extends State<LoginPage> {
                 Text(
                   '@${DateTime.now().year} Cloudmate copyright',
                   style: TextStyle(
-                    fontSize: 8.sp,
+                    fontSize: 7.sp,
                     fontFamily: FontFamily.lato,
                     fontWeight: FontWeight.w400,
                   ),
