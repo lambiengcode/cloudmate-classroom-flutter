@@ -1,4 +1,5 @@
 import 'package:cloudmate/src/blocs/bloc.dart';
+import 'package:cloudmate/src/ui/authentication/authentication_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/create_class_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/create_exam_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/create_question_screen.dart';
@@ -27,7 +28,8 @@ class AppNavigator {
       case AppRoutes.ROOT:
         return _buildRoute(
           settings,
-          Navigation(),
+          // Navigation(),
+          AuthenticatePage(),
           _getSlideMode(arguments),
         );
       case AppRoutes.DETAILS_CLASS:
@@ -115,6 +117,8 @@ class AppNavigator {
   static Future replaceWith<T>(String route,
           {Map<String, dynamic>? arguments}) =>
       state.pushReplacementNamed(route, arguments: arguments);
+
+  static void popUntil<T>(String route) => state.popUntil((route) => false);
 
   static void pop() => state.pop();
 
