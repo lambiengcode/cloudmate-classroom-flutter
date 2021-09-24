@@ -1,3 +1,4 @@
+import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/routes/app_routes.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
@@ -94,8 +95,8 @@ class _DrawerOptionState extends State<DrawerOption> {
     return GestureDetector(
       onTap: () {
         if (routeName != null) {
-          Navigator.pop(context);
-          Navigator.of(context).pushNamed(routeName);
+          AppNavigator.pop();
+          AppNavigator.push(routeName);
         }
       },
       child: Container(

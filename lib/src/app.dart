@@ -2,7 +2,6 @@ import 'package:cloudmate/src/configs/language.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:cloudmate/main.dart';
 import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/blocs/bloc.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
@@ -42,7 +41,7 @@ class _AppState extends State<App> {
                 builder: (context, orientation, deviceType) {
                   return I18n(
                     child: MaterialApp(
-                      navigatorKey: navGlogbalKey,
+                      navigatorKey: AppNavigator.navigatorKey,
                       debugShowCheckedModeBanner: false,
                       title: 'Cloudmate',
                       locale: AppLanguage.defaultLanguage,
@@ -57,7 +56,7 @@ class _AppState extends State<App> {
                       darkTheme: AppTheme.dark().data,
                       themeMode: ThemeService.currentTheme,
                       onGenerateRoute: (settings) {
-                        return AppPages().getRoute(settings, application);
+                        return AppNavigator().getRoute(settings, application);
                       },
                     ),
                   );

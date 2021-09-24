@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/ui/classes/widgets/drawer_option.dart';
 import 'package:flutter/material.dart';
 import 'package:cloudmate/src/resources/hard/hard_chat.dart';
@@ -86,7 +87,7 @@ class _ClassInformationScreenState extends State<ClassInformationScreen> {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              Navigator.of(context).pop();
+                              AppNavigator.pop();
                             },
                             child: Container(
                               padding: EdgeInsets.all(9.25.sp),

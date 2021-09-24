@@ -1,18 +1,21 @@
+import 'package:cloudmate/src/models/question.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
+import 'package:cloudmate/src/routes/app_routes.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
-import 'package:cloudmate/src/ui/classes/widgets/user_request_card.dart';
+import 'package:cloudmate/src/ui/classes/widgets/question_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
-class ListRequestClassScreen extends StatefulWidget {
+class ListQuestionScreen extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _ListRequestClassScreenState();
+  State<StatefulWidget> createState() => _ListQuestionScreenState();
 }
 
-class _ListRequestClassScreenState extends State<ListRequestClassScreen> {
+class _ListQuestionScreenState extends State<ListQuestionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,16 +25,14 @@ class _ListRequestClassScreenState extends State<ListRequestClassScreen> {
         centerTitle: true,
         elevation: .0,
         leading: IconButton(
-          onPressed: () {
-            AppNavigator.pop();
-          },
+          onPressed: () => AppNavigator.pop(),
           icon: Icon(
             PhosphorIcons.caretLeft,
             size: 20.sp,
           ),
         ),
         title: Text(
-          'Yêu cầu tham gia',
+          'Bài kiểm tra số 1',
           style: TextStyle(
             fontSize: 15.sp,
             fontFamily: FontFamily.lato,
@@ -39,10 +40,20 @@ class _ListRequestClassScreenState extends State<ListRequestClassScreen> {
             color: Theme.of(context).textTheme.bodyText1!.color,
           ),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              AppNavigator.push(AppRoutes.CREATE_QUESTION);
+            },
+            icon: Icon(
+              Feather.plus_square,
+              size: 20.sp,
+              color: colorPrimary,
+            ),
+          ),
+        ],
       ),
       body: Container(
-        height: 100.h,
-        width: 100.w,
         child: Column(
           children: [
             SizedBox(height: 2.5.sp),
@@ -55,16 +66,12 @@ class _ListRequestClassScreenState extends State<ListRequestClassScreen> {
               child: ListView.builder(
                 padding: EdgeInsets.only(bottom: 16.sp),
                 physics: BouncingScrollPhysics(),
-                itemCount: 4,
+                itemCount: questions.length,
                 itemBuilder: (context, index) {
-                  return UserRequestCard(
-                    fullName: 'lambiengcode',
-                    urlToImage:
-                        'https://avatars.githubusercontent.com/u/60530946?v=4',
-                    blurHash: '',
-                    isLast: index == 3,
-                    requestTime: DateTime.now(),
-                    requestMessage: 'Tham gia lớp học',
+                  return QuestionCard(
+                    question: questions[index],
+                    isLast: index == questions.length - 1,
+                    index: index + 1,
                   );
                 },
               ),
