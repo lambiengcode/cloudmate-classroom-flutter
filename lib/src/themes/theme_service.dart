@@ -37,8 +37,8 @@ class ThemeService extends ChangeNotifier {
   }
 
   void changeThemeMode() {
-    switchStatusColor();
     saveThemeMode(!isSavedDarkMode());
+    switchStatusColor();
     notifyListeners();
   }
 }
