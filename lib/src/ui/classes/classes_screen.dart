@@ -1,3 +1,4 @@
+import 'package:cloudmate/src/lang/language_service.dart';
 import 'package:cloudmate/src/lang/localization.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:flutter/material.dart';
@@ -50,8 +51,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              I18n.of(context).locale =
-                  (I18n.localeStr == "vi_vn") ? null : const Locale("vi", "VN");
+              LanguageService().switchLanguage(context);
             },
             icon: Icon(
               PhosphorIcons.magnifyingGlassBold,

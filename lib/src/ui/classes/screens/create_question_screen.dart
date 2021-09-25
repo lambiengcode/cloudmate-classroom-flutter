@@ -3,6 +3,7 @@ import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
 import 'package:cloudmate/src/ui/classes/widgets/character_counter.dart';
+import 'package:cloudmate/src/ui/classes/widgets/dialog_add_answer.dart';
 import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,12 +20,45 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
   TextEditingController _questionController = TextEditingController();
   TextEditingController _durationController = TextEditingController();
   FocusNode textFieldFocus = FocusNode();
-  List<String> _answers = [];
-  List<int> _corrects = [];
+  List<String> _answers = ['A đúng', 'B đúng', 'C đúng', 'Tất cả đều đúng'];
+  List<String> _corrects = [];
   String _question = '';
   String _duration = '';
 
   hideKeyboard() => textFieldFocus.unfocus();
+
+  bool _checkIsCorrect(String answer) {
+    return _corrects.contains(answer);
+  }
+
+  _handleAddAnswer(String answer) {
+    setState(() {
+      _answers.add(answer);
+    });
+  }
+
+  _handleToggleAnswer(String answer) {
+    int index = _corrects.indexOf(answer);
+    setState(() {
+      if (index != -1) {
+        _corrects.removeAt(index);
+      } else {
+        _corrects.add(answer);
+      }
+    });
+  }
+
+  _handlePressedAddQuestion() async {
+    await dialogAnimationWrapper(
+      context: context,
+      dismissible: true,
+      slideFrom: 'bottom',
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      child: DialogAddAnswer(
+        handleFinish: _handleAddAnswer,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +84,16 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
             color: Theme.of(context).textTheme.bodyText1!.color,
           ),
         ),
+        actions: [
+          IconButton(
+            onPressed: () => AppNavigator.pop(),
+            icon: Icon(
+              PhosphorIcons.checkBold,
+              size: 20.sp,
+              color: colorPrimary,
+            ),
+          ),
+        ],
       ),
       body: Container(
         height: 100.h,
@@ -88,43 +132,53 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
                             _buildDivider(context),
                             _buildLineInfo(
                               context,
-                              'Đặt thời gian trả lời',
+                              'Đặt thời gian trả lời (giây)',
                               'Hãy đặt thời gian trả lời cho câu hỏi',
                               _durationController,
                             ),
                             _buildDivider(context),
                             SizedBox(height: 8.sp),
                             _buildTitle(context, 'Câu trả lời'),
+                            SizedBox(height: 4.sp),
+                            Container(
+                              width: double.infinity,
+                              padding: EdgeInsets.symmetric(horizontal: 22.sp),
+                              child: Wrap(
+                                spacing: 5,
+                                runSpacing: 10,
+                                children: _answers.map((answer) {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      _handleToggleAnswer(answer);
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(
+                                        vertical: 6.5.sp,
+                                        horizontal: 20.sp,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(
+                                          30.sp,
+                                        ),
+                                        color: _checkIsCorrect(answer)
+                                            ? Theme.of(context).primaryColor
+                                            : Colors.grey,
+                                      ),
+                                      child: Text(
+                                        answer,
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                            )
                           ],
                         ),
                       ),
                       SizedBox(height: 24.sp),
-                      GestureDetector(
-                        onTap: () async {
-                          if (_formKey.currentState!.validate()) {
-                            showDialogLoading(context);
-                          }
-                        },
-                        child: Container(
-                          height: 38.sp,
-                          margin: EdgeInsets.symmetric(horizontal: 40.sp),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12.sp),
-                            color: colorPrimary,
-                          ),
-                          child: Center(
-                            child: Text(
-                              'Lưu câu hỏi',
-                              style: TextStyle(
-                                color: mC,
-                                fontSize: 11.5.sp,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 36.0),
                     ],
                   )
                 ],
@@ -155,7 +209,7 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
         },
         onChanged: (val) {
           setState(() {
-            if (title == '') {
+            if (title == 'Nhập câu hỏi') {
               _question = val.trim();
             } else {
               _duration = val.trim();
@@ -218,7 +272,7 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
             ),
           ),
           IconButton(
-            onPressed: () => null,
+            onPressed: () => _handlePressedAddQuestion(),
             icon: Icon(
               PhosphorIcons.plusCircleBold,
               color: colorPrimary,

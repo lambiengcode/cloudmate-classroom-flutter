@@ -70,116 +70,122 @@ class _RegisterPageState extends State<RegisterPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                SizedBox(height: .0),
-                Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        child: Column(
-                          children: <Widget>[
-                            SizedBox(height: 12.0),
-                            _buildLineInfo(
-                              context,
-                              'Số điện thoại',
-                              'Hãy nhập số điện thoại',
-                              _phoneController,
-                            ),
-                            _buildDivider(context),
-                            _buildLineInfo(
-                              context,
-                              'Tên của bạn',
-                              'Hãy nhập tên của bạn',
-                              _fullNameController,
-                            ),
-                            _buildDivider(context),
-                            _buildLineInfo(
-                              context,
-                              'Email',
-                              'Hãy nhập email của bạn',
-                              _emailController,
-                            ),
-                            _buildDivider(context),
-                            _buildLineInfo(
-                              context,
-                              'Mật khẩu',
-                              'Mật khẩu phải có tối thiểu 6 kí tự',
-                              _passwordController,
-                            ),
-                            _buildDivider(context),
-                            Container(
-                              padding:
-                                  EdgeInsets.fromLTRB(14.0, 24.0, 18.0, 4.0),
-                              child: TextFormField(
-                                controller: _confirmPswController,
-                                cursorColor: colorTitle,
-                                cursorRadius: Radius.circular(30.0),
-                                style: TextStyle(
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1!
-                                      .color!
-                                      .withOpacity(.95),
-                                  fontSize: 11.sp,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                                validator: (val) => val!.trim() != password
-                                    ? 'Mật khẩu không khớp'
-                                    : null,
-                                obscureText: hidePassword,
-                                decoration: InputDecoration(
-                                  floatingLabelBehavior:
-                                      FloatingLabelBehavior.always,
-                                  contentPadding: EdgeInsets.only(
-                                    left: 12.0,
-                                  ),
-                                  border: InputBorder.none,
-                                  labelText: 'Nhập lại mật khẩu',
-                                  labelStyle: TextStyle(
+                SizedBox(height: 2.5.sp),
+                Divider(
+                  height: .25,
+                  thickness: .25,
+                ),
+                Expanded(
+                  child: Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          child: Column(
+                            children: <Widget>[
+                              SizedBox(height: 12.0),
+                              _buildLineInfo(
+                                context,
+                                'Số điện thoại',
+                                'Hãy nhập số điện thoại',
+                                _phoneController,
+                              ),
+                              _buildDivider(context),
+                              _buildLineInfo(
+                                context,
+                                'Tên của bạn',
+                                'Hãy nhập tên của bạn',
+                                _fullNameController,
+                              ),
+                              _buildDivider(context),
+                              _buildLineInfo(
+                                context,
+                                'Email',
+                                'Hãy nhập email của bạn',
+                                _emailController,
+                              ),
+                              _buildDivider(context),
+                              _buildLineInfo(
+                                context,
+                                'Mật khẩu',
+                                'Mật khẩu phải có tối thiểu 6 kí tự',
+                                _passwordController,
+                              ),
+                              _buildDivider(context),
+                              Container(
+                                padding:
+                                    EdgeInsets.fromLTRB(14.0, 24.0, 18.0, 4.0),
+                                child: TextFormField(
+                                  controller: _confirmPswController,
+                                  cursorColor: colorTitle,
+                                  cursorRadius: Radius.circular(30.0),
+                                  style: TextStyle(
                                     color: Theme.of(context)
                                         .textTheme
                                         .bodyText1!
                                         .color!
-                                        .withOpacity(.8),
+                                        .withOpacity(.95),
                                     fontSize: 11.sp,
-                                    fontWeight: FontWeight.w600,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  validator: (val) => val!.trim() != password
+                                      ? 'Mật khẩu không khớp'
+                                      : null,
+                                  obscureText: hidePassword,
+                                  decoration: InputDecoration(
+                                    floatingLabelBehavior:
+                                        FloatingLabelBehavior.always,
+                                    contentPadding: EdgeInsets.only(
+                                      left: 12.0,
+                                    ),
+                                    border: InputBorder.none,
+                                    labelText: 'Nhập lại mật khẩu',
+                                    labelStyle: TextStyle(
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1!
+                                          .color!
+                                          .withOpacity(.8),
+                                      fontSize: 11.sp,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            _buildDivider(context),
-                            SizedBox(height: 8.0),
-                          ],
+                              _buildDivider(context),
+                              SizedBox(height: 8.0),
+                            ],
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 12.0),
-                      GestureDetector(
-                        onTap: () async {
-                          if (_formKey.currentState!.validate()) {}
-                        },
-                        child: Container(
-                          height: 40.sp,
-                          margin: EdgeInsets.symmetric(
-                            horizontal: 12.w,
-                          ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.sp),
-                            color: colorPrimary,
-                          ),
-                          child: Center(
-                            child: Text(
-                              'Đăng kí ngay',
-                              style: TextStyle(
-                                color: mC,
-                                fontSize: 10.sp,
-                                fontWeight: FontWeight.w600,
+                        SizedBox(height: 12.0),
+                        GestureDetector(
+                          onTap: () async {
+                            if (_formKey.currentState!.validate()) {}
+                          },
+                          child: Container(
+                            height: 40.sp,
+                            margin: EdgeInsets.symmetric(
+                              horizontal: 12.w,
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.sp),
+                              color: colorPrimary,
+                            ),
+                            child: Center(
+                              child: Text(
+                                'Đăng kí ngay',
+                                style: TextStyle(
+                                  color: mC,
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      SizedBox(height: 36.0),
-                    ],
+                        SizedBox(height: 36.0),
+                      ],
+                    ),
                   ),
                 )
               ],

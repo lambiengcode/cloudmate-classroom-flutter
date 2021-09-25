@@ -1,5 +1,3 @@
-import 'package:cloudmate/src/blocs/bloc.dart';
-import 'package:cloudmate/src/ui/authentication/authentication_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/create_class_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/create_exam_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/create_question_screen.dart';
@@ -16,20 +14,17 @@ import 'package:cloudmate/src/routes/slides/slide_from_left_route.dart';
 import 'package:cloudmate/src/routes/slides/slide_from_right_route.dart';
 import 'package:cloudmate/src/routes/slides/slide_from_top_route.dart';
 import 'package:cloudmate/src/ui/classes/screens/class_information_screen.dart';
-import 'package:cloudmate/src/ui/navigation/navigation.dart';
 
 class AppNavigator {
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey();
   SlideMode defautlSlide = SlideMode.right;
-  Route<dynamic> getRoute(
-      RouteSettings settings, ApplicationState application) {
+  Route<dynamic> getRoute(RouteSettings settings) {
     Map<String, dynamic>? arguments = _getArguments(settings);
     switch (settings.name) {
       case AppRoutes.ROOT:
         return _buildRoute(
           settings,
-          // Navigation(),
-          AuthenticatePage(),
+          App(),
           _getSlideMode(arguments),
         );
       case AppRoutes.DETAILS_CLASS:
