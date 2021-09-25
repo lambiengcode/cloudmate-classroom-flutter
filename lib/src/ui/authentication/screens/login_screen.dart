@@ -1,6 +1,9 @@
+import 'package:cloudmate/src/blocs/app_bloc.dart';
+import 'package:cloudmate/src/blocs/authentication/bloc.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/app_decorations.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
+import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
@@ -138,7 +141,15 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                                 SizedBox(height: 6.sp),
                                 GestureDetector(
-                                  onTap: () async {},
+                                  onTap: () async {
+                                    showDialogLoading(context);
+                                    AppBloc.authBloc.add(
+                                      OnAuthProcess(
+                                        username: email,
+                                        password: password,
+                                      ),
+                                    );
+                                  },
                                   child: Container(
                                     height: 40.sp,
                                     margin:
@@ -192,8 +203,18 @@ class _LoginPageState extends State<LoginPage> {
         cursorColor: Theme.of(context).primaryColor,
         focusNode: focusNode,
         onFieldSubmitted: (val) {
-          usernameFocus.unfocus();
-          passwordFocus.requestFocus();
+          if (title == 'Email') {
+            usernameFocus.unfocus();
+            passwordFocus.requestFocus();
+          } else {
+            showDialogLoading(context);
+            AppBloc.authBloc.add(
+              OnAuthProcess(
+                username: email,
+                password: password,
+              ),
+            );
+          }
         },
         cursorRadius: Radius.circular(30.0),
         style: TextStyle(

@@ -1,12 +1,11 @@
-import 'package:cloudmate/src/models/user.dart';
-
 abstract class AuthEvent {}
 
 class OnAuthCheck extends AuthEvent {}
 
 class OnAuthProcess extends AuthEvent {
-  final UserModel user;
-  OnAuthProcess({required this.user});
+  final String username;
+  final String password;
+  OnAuthProcess({required this.username, required this.password});
 }
 
 class OnClear extends AuthEvent {}

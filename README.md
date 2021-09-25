@@ -9,5 +9,10 @@ exchange about lesson. Support submit homework and take the test online... :pand
 - Support Null-Safety
 - Run file bash ***run.sh***
 
+### Coding Guideline 
+
+- BLoC pattern
+<img src="https://bloclibrary.dev/assets/bloc_architecture_full.png"/>
+
 ### How I can join project?
 - Contact by email: lambiengcode@gmail.com
