@@ -11,7 +11,6 @@ import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
 import 'package:cloudmate/src/ui/classes/widgets/class_card.dart';
 import 'package:cloudmate/src/ui/classes/widgets/recommend_class_card.dart';
-import 'package:i18n_extension/i18n_widget.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
@@ -32,7 +31,6 @@ class _ClassesScreenState extends State<ClassesScreen> {
         leading: IconButton(
           onPressed: () {
             AppNavigator.push(AppRoutes.LIST_REQUEST);
-            print(AppNavigator.currentRoute(context));
           },
           icon: Icon(
             PhosphorIcons.slidersHorizontal,

@@ -106,12 +106,19 @@ class AppNavigator {
     }
   }
 
-  static Future push<T>(String route, {Map<String, dynamic>? arguments}) =>
-      state.pushNamed(route, arguments: arguments);
+  static Future push<T>(
+    String route, {
+    Map<String, dynamic>? arguments,
+  }) {
+    return state.pushNamed(route, arguments: arguments);
+  }
 
-  static Future replaceWith<T>(String route,
-          {Map<String, dynamic>? arguments}) =>
-      state.pushReplacementNamed(route, arguments: arguments);
+  static Future replaceWith<T>(
+    String route, {
+    Map<String, dynamic>? arguments,
+  }) {
+    return state.pushReplacementNamed(route, arguments: arguments);
+  }
 
   static void popUntil<T>(String route) => state.popUntil((route) => false);
 

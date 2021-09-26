@@ -86,7 +86,10 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: () => AppNavigator.pop(),
+            onPressed: () {
+              print(_duration);
+              AppNavigator.pop();
+            },
             icon: Icon(
               PhosphorIcons.checkBold,
               size: 20.sp,
