@@ -87,11 +87,21 @@ class _ClassesScreenState extends State<ClassesScreen> {
                 itemBuilder: (context, index) {
                   return index == 0
                       ? _buildCurrentClasses(context)
-                      : RecommendClassCard(
-                          imageClass: posts[index - 1].imageGroup,
-                          className: posts[index - 1].groupName,
-                          star: '4.5 / 5.0',
-                          teacher: posts[index - 1].authorName,
+                      : GestureDetector(
+                          onTap: () {
+                            AppNavigator.push(
+                              AppRoutes.DETAILS_CLASS,
+                              arguments: {
+                                'slide': SlideMode.bot,
+                              },
+                            );
+                          },
+                          child: RecommendClassCard(
+                            imageClass: posts[index - 1].imageGroup,
+                            className: posts[index - 1].groupName,
+                            star: '4.5 / 5.0',
+                            teacher: posts[index - 1].authorName,
+                          ),
                         );
                 },
               ),
@@ -110,7 +120,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
           _buildTitle(
             yourClass.i18n,
             PhosphorIcons.chalkboardSimpleBold,
-            themeService.isSavedDarkMode() ? colorAttendance : colorGreenLight,
+            themeService.isSavedDarkMode() ? colorAttendance : colorActive,
           ),
           Container(
             height: 164.sp,

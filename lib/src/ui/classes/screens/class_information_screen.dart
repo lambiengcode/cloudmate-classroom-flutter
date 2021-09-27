@@ -86,8 +86,7 @@ class _ClassInformationScreenState extends State<ClassInformationScreen> {
                         right: 0,
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             GestureDetector(
                               onTap: () {
@@ -98,8 +97,7 @@ class _ClassInformationScreenState extends State<ClassInformationScreen> {
                                 margin: EdgeInsets.only(left: 10.sp),
                                 decoration: BoxDecoration(
                                   color: Colors.black.withOpacity(.15),
-                                  borderRadius:
-                                      BorderRadius.circular(8.sp),
+                                  borderRadius: BorderRadius.circular(8.sp),
                                 ),
                                 child: Icon(
                                   PhosphorIcons.arrowLeftBold,
@@ -110,16 +108,14 @@ class _ClassInformationScreenState extends State<ClassInformationScreen> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                _scaffoldKey.currentState!
-                                    .openEndDrawer();
+                                _scaffoldKey.currentState!.openEndDrawer();
                               },
                               child: Container(
                                 padding: EdgeInsets.all(9.25.sp),
                                 margin: EdgeInsets.only(right: 10.sp),
                                 decoration: BoxDecoration(
                                   color: Colors.black.withOpacity(.15),
-                                  borderRadius:
-                                      BorderRadius.circular(8.sp),
+                                  borderRadius: BorderRadius.circular(8.sp),
                                 ),
                                 child: Icon(
                                   PhosphorIcons.slidersHorizontal,
