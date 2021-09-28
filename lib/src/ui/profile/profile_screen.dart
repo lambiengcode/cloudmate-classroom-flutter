@@ -1,3 +1,5 @@
+import 'package:cloudmate/src/blocs/app_bloc.dart';
+import 'package:cloudmate/src/blocs/authentication/bloc.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
 import 'package:flutter/material.dart';
 import 'package:cloudmate/src/resources/hard/hard_post.dart';
@@ -67,10 +69,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
           IconButton(
             splashRadius: 10.0,
             icon: Icon(
-              PhosphorIcons.rows,
-              size: 22.5.sp,
+              PhosphorIcons.signOutBold,
+              size: 20.sp,
+              color: colorHigh,
             ),
-            onPressed: () => null,
+            onPressed: () => AppBloc.authBloc.add(LogOutEvent()),
           ),
         ],
       ),

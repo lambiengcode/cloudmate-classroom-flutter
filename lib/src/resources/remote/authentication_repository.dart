@@ -9,10 +9,13 @@ class AuthenticationRepository {
       'username': username,
       'password': password,
     };
-    Response response = await BaseRepository().postRoute(
+    Response? response = await BaseRepository().postRoute(
       ApiGateway.LOGIN,
       body,
     );
+    if (response == null) {
+      return false;
+    }
     if (response.statusCode == 200) {
       UserLocal().saveAccessToken(response.data['data']['token']);
       return true;
@@ -32,10 +35,13 @@ class AuthenticationRepository {
       'username': username,
       'password': password,
     };
-    Response response = await BaseRepository().postRoute(
+    Response? response = await BaseRepository().postRoute(
       ApiGateway.REGISTER,
       body,
     );
+    if (response == null) {
+      return false;
+    }
     if (response.statusCode == 200) {
       UserLocal().saveAccessToken(response.data['data']['token']);
       return true;

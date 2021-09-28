@@ -41,7 +41,7 @@ class BaseRepository {
     return response;
   }
 
-  Future<diox.Response<dynamic>> postRoute(
+  Future<diox.Response<dynamic>?> postRoute(
     String gateway,
     Map<String, String> body,
   ) async {
@@ -96,6 +96,7 @@ class BaseRepository {
 
   diox.Options getOptions() {
     return diox.Options(
+      validateStatus: (status) => true,
       headers: {
         'Authorization': 'Bearer ' + UserLocal().getAccessToken(),
         'Content-Type': 'application/json; charset=UTF-8',
@@ -112,6 +113,6 @@ class BaseRepository {
 
   printResponse(diox.Response<dynamic> response) {
     print('StatusCode: ${response.statusCode}');
-    // print('Body: ${response.data.toString()}');
+    print('Body: ${response.data.toString()}');
   }
 }
