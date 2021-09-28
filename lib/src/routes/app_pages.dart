@@ -1,6 +1,7 @@
 import 'package:cloudmate/src/ui/classes/screens/create_class_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/create_exam_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/create_question_screen.dart';
+import 'package:cloudmate/src/ui/classes/screens/do_exam_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/list_exam_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/list_questions_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/list_request_screen.dart';
@@ -75,6 +76,12 @@ class AppNavigator {
           RoadMapScreen(),
           _getSlideMode(arguments),
         );
+      case AppRoutes.DO_EXAM:
+        return _buildRoute(
+          settings,
+          DoExamScreen(),
+          _getSlideMode(arguments),
+        );
       default:
         return _buildRoute(settings, App(), SlideMode.right);
     }
@@ -106,12 +113,19 @@ class AppNavigator {
     }
   }
 
-  static Future push<T>(String route, {Map<String, dynamic>? arguments}) =>
-      state.pushNamed(route, arguments: arguments);
+  static Future push<T>(
+    String route, {
+    Map<String, dynamic>? arguments,
+  }) {
+    return state.pushNamed(route, arguments: arguments);
+  }
 
-  static Future replaceWith<T>(String route,
-          {Map<String, dynamic>? arguments}) =>
-      state.pushReplacementNamed(route, arguments: arguments);
+  static Future replaceWith<T>(
+    String route, {
+    Map<String, dynamic>? arguments,
+  }) {
+    return state.pushReplacementNamed(route, arguments: arguments);
+  }
 
   static void popUntil<T>(String route) => state.popUntil((route) => false);
 

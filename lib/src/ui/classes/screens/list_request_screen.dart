@@ -1,5 +1,4 @@
 import 'package:cloudmate/src/routes/app_pages.dart';
-import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
 import 'package:cloudmate/src/ui/classes/widgets/user_request_card.dart';

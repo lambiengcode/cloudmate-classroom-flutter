@@ -11,7 +11,6 @@ import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
 import 'package:cloudmate/src/ui/classes/widgets/class_card.dart';
 import 'package:cloudmate/src/ui/classes/widgets/recommend_class_card.dart';
-import 'package:i18n_extension/i18n_widget.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
@@ -31,8 +30,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
         centerTitle: true,
         leading: IconButton(
           onPressed: () {
-            AppNavigator.push(AppRoutes.LIST_REQUEST);
-            print(AppNavigator.currentRoute(context));
+            AppNavigator.push(AppRoutes.DO_EXAM);
           },
           icon: Icon(
             PhosphorIcons.slidersHorizontal,
@@ -89,11 +87,21 @@ class _ClassesScreenState extends State<ClassesScreen> {
                 itemBuilder: (context, index) {
                   return index == 0
                       ? _buildCurrentClasses(context)
-                      : RecommendClassCard(
-                          imageClass: posts[index - 1].imageGroup,
-                          className: posts[index - 1].groupName,
-                          star: '4.5 / 5.0',
-                          teacher: posts[index - 1].authorName,
+                      : GestureDetector(
+                          onTap: () {
+                            AppNavigator.push(
+                              AppRoutes.DETAILS_CLASS,
+                              arguments: {
+                                'slide': SlideMode.bot,
+                              },
+                            );
+                          },
+                          child: RecommendClassCard(
+                            imageClass: posts[index - 1].imageGroup,
+                            className: posts[index - 1].groupName,
+                            star: '4.5 / 5.0',
+                            teacher: posts[index - 1].authorName,
+                          ),
                         );
                 },
               ),
@@ -112,7 +120,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
           _buildTitle(
             yourClass.i18n,
             PhosphorIcons.chalkboardSimpleBold,
-            themeService.isSavedDarkMode() ? colorAttendance : colorGreenLight,
+            themeService.isSavedDarkMode() ? colorAttendance : colorActive,
           ),
           Container(
             height: 164.sp,

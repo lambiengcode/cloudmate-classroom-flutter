@@ -1,4 +1,8 @@
 class ApiGateway {
-  static const LOGIN = '/login';
-  static const REGISTER = '/register';
+  // Authentication
+  static const LOGIN = 'api/authentication/login';
+  static const REGISTER = 'api/authentication/register';
+
+  // User
+  static const GET_INFO = 'api/user/info';
 }

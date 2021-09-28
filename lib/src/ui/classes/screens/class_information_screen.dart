@@ -55,213 +55,206 @@ class _ClassInformationScreenState extends State<ClassInformationScreen> {
           Container(
             height: 100.h,
             width: 100.w,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Stack(
-                  children: [
-                    AnimatedContainer(
-                      duration: Duration(milliseconds: 180),
-                      curve: Curves.fastOutSlowIn,
-                      height: heightOfClassImage,
-                      width: 100.w,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.vertical(
-                          bottom: Radius.circular(35.sp),
-                        ),
-                        image: DecorationImage(
-                          image: NetworkImage(
-                            'https://i.pinimg.com/originals/02/89/09/02890993e3735184e80ecdf9db079e05.png',
+            child: SingleChildScrollView(
+              controller: scrollController,
+              physics: BouncingScrollPhysics(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Stack(
+                    children: [
+                      AnimatedContainer(
+                        duration: Duration(milliseconds: 180),
+                        curve: Curves.fastOutSlowIn,
+                        height: heightOfClassImage,
+                        width: 100.w,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.vertical(
+                            bottom: Radius.circular(35.sp),
                           ),
-                          fit: BoxFit.cover,
+                          image: DecorationImage(
+                            image: NetworkImage(
+                              'https://i.pinimg.com/originals/02/89/09/02890993e3735184e80ecdf9db079e05.png',
+                            ),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
-                    ),
-                    Positioned(
-                      top: 35.sp,
-                      left: 0,
-                      right: 0,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              AppNavigator.pop();
-                            },
-                            child: Container(
-                              padding: EdgeInsets.all(9.25.sp),
-                              margin: EdgeInsets.only(left: 10.sp),
-                              decoration: BoxDecoration(
-                                color: Colors.black.withOpacity(.15),
-                                borderRadius: BorderRadius.circular(8.sp),
-                              ),
-                              child: Icon(
-                                PhosphorIcons.arrowLeftBold,
-                                size: 18.sp,
-                                color: mC,
-                              ),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              _scaffoldKey.currentState!.openEndDrawer();
-                            },
-                            child: Container(
-                              padding: EdgeInsets.all(9.25.sp),
-                              margin: EdgeInsets.only(right: 10.sp),
-                              decoration: BoxDecoration(
-                                color: Colors.black.withOpacity(.15),
-                                borderRadius: BorderRadius.circular(8.sp),
-                              ),
-                              child: Icon(
-                                PhosphorIcons.slidersHorizontal,
-                                size: 18.sp,
-                                color: mC,
+                      Positioned(
+                        top: 35.sp,
+                        left: 0,
+                        right: 0,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                AppNavigator.pop();
+                              },
+                              child: Container(
+                                padding: EdgeInsets.all(9.25.sp),
+                                margin: EdgeInsets.only(left: 10.sp),
+                                decoration: BoxDecoration(
+                                  color: Colors.black.withOpacity(.15),
+                                  borderRadius: BorderRadius.circular(8.sp),
+                                ),
+                                child: Icon(
+                                  PhosphorIcons.arrowLeftBold,
+                                  size: 18.sp,
+                                  color: mC,
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                            GestureDetector(
+                              onTap: () {
+                                _scaffoldKey.currentState!.openEndDrawer();
+                              },
+                              child: Container(
+                                padding: EdgeInsets.all(9.25.sp),
+                                margin: EdgeInsets.only(right: 10.sp),
+                                decoration: BoxDecoration(
+                                  color: Colors.black.withOpacity(.15),
+                                  borderRadius: BorderRadius.circular(8.sp),
+                                ),
+                                child: Icon(
+                                  PhosphorIcons.slidersHorizontal,
+                                  size: 18.sp,
+                                  color: mC,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 16.sp),
-                Expanded(
-                  child: SingleChildScrollView(
-                    controller: scrollController,
-                    physics: BouncingScrollPhysics(),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    ],
+                  ),
+                  SizedBox(height: 16.sp),
+                  Container(
+                    padding: EdgeInsets.only(left: 10.sp, right: 12.sp),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Container(
-                          padding: EdgeInsets.only(left: 10.sp, right: 12.sp),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      posts[1].groupName + ' - \nBeginner',
-                                      style: TextStyle(
-                                        fontSize: 18.sp,
-                                        fontFamily: FontFamily.lato,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    SizedBox(height: 5.sp),
-                                    Row(
-                                      children: [
-                                        StackAvatar(
-                                          size: 22.sp,
-                                          images: chats
-                                              .sublist(3, 6)
-                                              .map((e) => e.image!)
-                                              .toList(),
-                                        ),
-                                        SizedBox(width: 6.sp),
-                                        Text(
-                                          '40 học viên',
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            fontSize: 12.sp,
-                                            fontFamily: FontFamily.lato,
-                                            fontWeight: FontWeight.w400,
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1!
-                                                .color!,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Text(
-                                '\$ Free',
-                                style: TextStyle(
-                                  fontSize: 15.sp,
-                                  fontFamily: FontFamily.lato,
-                                  fontWeight: FontWeight.w600,
-                                  color: colorPrimary,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 12.sp),
-                        Container(
-                          padding: EdgeInsets.only(left: 10.sp, right: 12.sp),
+                        Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Intro',
+                                posts[1].groupName + ' - \nBeginner',
                                 style: TextStyle(
-                                  fontSize: 15.sp,
+                                  fontSize: 18.sp,
                                   fontFamily: FontFamily.lato,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
-                              SizedBox(height: 10.sp),
-                              Text(
-                                'This is a class for a beginner in Flutter. You will learn about the basic'
-                                ' of object structure and some mobile application. Join with us today.',
-                                style: TextStyle(
-                                  fontSize: 12.sp,
-                                  fontFamily: FontFamily.lato,
-                                  fontWeight: FontWeight.w400,
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .bodyText2!
-                                      .color!
-                                      .withOpacity(.8),
-                                ),
+                              SizedBox(height: 5.sp),
+                              Row(
+                                children: [
+                                  StackAvatar(
+                                    size: 22.sp,
+                                    images: chats
+                                        .sublist(3, 6)
+                                        .map((e) => e.image!)
+                                        .toList(),
+                                  ),
+                                  SizedBox(width: 6.sp),
+                                  Text(
+                                    '40 học viên',
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontSize: 12.sp,
+                                      fontFamily: FontFamily.lato,
+                                      fontWeight: FontWeight.w400,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1!
+                                          .color!,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
                         ),
-                        SizedBox(height: 16.sp),
-                        Container(
-                          padding: EdgeInsets.only(left: 10.sp, right: 12.sp),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Posts',
-                                style: TextStyle(
-                                  fontSize: 15.sp,
-                                  fontFamily: FontFamily.lato,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
+                        Text(
+                          '\$ Free',
+                          style: TextStyle(
+                            fontSize: 15.sp,
+                            fontFamily: FontFamily.lato,
+                            fontWeight: FontWeight.w600,
+                            color: colorPrimary,
                           ),
-                        ),
-                        ListView.builder(
-                          shrinkWrap: true,
-                          padding: EdgeInsets.only(
-                            bottom: 80.sp,
-                          ),
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: posts.length,
-                          itemBuilder: (context, index) {
-                            return PostCard(
-                              post: posts[index],
-                              isLast: index == posts.length - 1,
-                            );
-                          },
                         ),
                       ],
                     ),
                   ),
-                ),
-              ],
+                  SizedBox(height: 12.sp),
+                  Container(
+                    padding: EdgeInsets.only(left: 10.sp, right: 12.sp),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Intro',
+                          style: TextStyle(
+                            fontSize: 15.sp,
+                            fontFamily: FontFamily.lato,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        SizedBox(height: 10.sp),
+                        Text(
+                          'This is a class for a beginner in Flutter. You will learn about the basic'
+                          ' of object structure and some mobile application. Join with us today.',
+                          style: TextStyle(
+                            fontSize: 12.sp,
+                            fontFamily: FontFamily.lato,
+                            fontWeight: FontWeight.w400,
+                            color: Theme.of(context)
+                                .textTheme
+                                .bodyText2!
+                                .color!
+                                .withOpacity(.8),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 16.sp),
+                  Container(
+                    padding: EdgeInsets.only(left: 10.sp, right: 12.sp),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Posts',
+                          style: TextStyle(
+                            fontSize: 15.sp,
+                            fontFamily: FontFamily.lato,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    padding: EdgeInsets.only(
+                      bottom: 80.sp,
+                    ),
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: posts.length,
+                    itemBuilder: (context, index) {
+                      return PostCard(
+                        post: posts[index],
+                        isLast: index == posts.length - 1,
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
           _buildBottomBar(),
