@@ -1,6 +1,9 @@
+import 'package:cloudmate/src/blocs/app_bloc.dart';
+import 'package:cloudmate/src/blocs/authentication/bloc.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
+import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -19,11 +22,11 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _confirmPswController = TextEditingController();
-  TextEditingController _phoneController = TextEditingController();
-  TextEditingController _fullNameController = TextEditingController();
+  TextEditingController _lastNameController = TextEditingController();
+  TextEditingController _firstNameController = TextEditingController();
   FocusNode textFieldFocus = FocusNode();
-  String fullName = '';
-  String phone = '';
+  String firstName = '';
+  String lastName = '';
   String email = '';
   String password = '';
 
@@ -86,16 +89,16 @@ class _RegisterPageState extends State<RegisterPage> {
                               SizedBox(height: 12.0),
                               _buildLineInfo(
                                 context,
-                                'Số điện thoại',
-                                'Hãy nhập số điện thoại',
-                                _phoneController,
+                                'Họ của bạn',
+                                'Hãy nhập họ của bạn',
+                                _firstNameController,
                               ),
                               _buildDivider(context),
                               _buildLineInfo(
                                 context,
                                 'Tên của bạn',
                                 'Hãy nhập tên của bạn',
-                                _fullNameController,
+                                _lastNameController,
                               ),
                               _buildDivider(context),
                               _buildLineInfo(
@@ -160,7 +163,17 @@ class _RegisterPageState extends State<RegisterPage> {
                         SizedBox(height: 12.0),
                         GestureDetector(
                           onTap: () async {
-                            if (_formKey.currentState!.validate()) {}
+                            if (_formKey.currentState!.validate()) {
+                              showDialogLoading(context);
+                              AppBloc.authBloc.add(
+                                RegisterEvent(
+                                  username: email,
+                                  password: password,
+                                  firstName: firstName,
+                                  lastName: lastName,
+                                ),
+                              );
+                            }
                           },
                           child: Container(
                             height: 40.sp,
@@ -212,7 +225,17 @@ class _RegisterPageState extends State<RegisterPage> {
           return;
         },
         onChanged: (val) {
-          setState(() {});
+          setState(() {
+            if (title == 'Họ của bạn') {
+              firstName = val.trim();
+            } else if (title == 'Tên của bạn') {
+              lastName = val.trim();
+            } else if (title == 'Email') {
+              email = val.trim();
+            } else if (title == 'Mật khẩu') {
+              password = val.trim();
+            } else {}
+          });
         },
         inputFormatters: [
           title == 'Số điện thoại'

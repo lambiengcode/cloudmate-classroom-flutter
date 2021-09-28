@@ -1,3 +1,4 @@
+import 'package:cloudmate/src/blocs/authentication/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/blocs/theme/theme_event.dart';
@@ -25,7 +26,9 @@ class _HomeScreenState extends State<HomeScreen> {
         elevation: 0.0,
         centerTitle: true,
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            AppBloc.authBloc.add(LogOutEvent());
+          },
           icon: Icon(
             PhosphorIcons.slidersHorizontal,
             size: 22.sp,

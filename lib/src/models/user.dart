@@ -2,31 +2,48 @@ import 'dart:convert';
 
 class UserModel {
   final String id;
-  final String image;
-  final String email;
-  final String phone;
-  final String fullName;
+  final String? image;
+  final String? blurHash;
+  final String? phone;
+  final String? displayName;
+  final String? firstName;
+  final String? lastName;
+  final int? status;
+  final String? intro;
+
   UserModel({
     required this.id,
-    required this.image,
-    required this.email,
-    required this.phone,
-    required this.fullName,
+    this.image,
+    this.blurHash,
+    this.phone,
+    this.displayName,
+    this.firstName,
+    this.lastName,
+    this.status,
+    this.intro,
   });
 
   UserModel copyWith({
     String? id,
     String? image,
-    String? email,
+    String? blurHash,
     String? phone,
-    String? fullName,
+    String? displayName,
+    String? firstName,
+    String? lastName,
+    int? status,
+    String? intro,
   }) {
     return UserModel(
       id: id ?? this.id,
       image: image ?? this.image,
-      email: email ?? this.email,
+      blurHash: blurHash ?? this.blurHash,
       phone: phone ?? this.phone,
-      fullName: fullName ?? this.fullName,
+      displayName: displayName ?? this.displayName,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      status: status ?? this.status,
+      intro: intro ?? this.intro,
     );
   }
 
@@ -34,50 +51,65 @@ class UserModel {
     return {
       'id': id,
       'image': image,
-      'email': email,
+      'blurHash': blurHash,
       'phone': phone,
-      'fullName': fullName,
+      'displayName': displayName,
+      'firstName': firstName,
+      'lastName': lastName,
+      'status': status,
+      'intro': intro,
     };
   }
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-      id: map['id'],
+      id: map['_id'],
       image: map['image'],
-      email: map['email'],
+      blurHash: map['blurHash'],
       phone: map['phone'],
-      fullName: map['fullName'],
+      displayName: map['displayName'],
+      firstName: map['firstName'],
+      lastName: map['lastName'],
+      status: map['status'],
+      intro: map['intro'],
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory UserModel.fromJson(String source) =>
-      UserModel.fromMap(json.decode(source));
+  factory UserModel.fromJson(String source) => UserModel.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'UserModel(id: $id, image: $image, email: $email, phone: $phone, fullName: $fullName)';
+    return 'UserModel(id: $id, image: $image, blurHash: $blurHash, phone: $phone, displayName: $displayName, firstName: $firstName, lastName: $lastName, status: $status, intro: $intro)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-
+  
     return other is UserModel &&
-        other.id == id &&
-        other.image == image &&
-        other.email == email &&
-        other.phone == phone &&
-        other.fullName == fullName;
+      other.id == id &&
+      other.image == image &&
+      other.blurHash == blurHash &&
+      other.phone == phone &&
+      other.displayName == displayName &&
+      other.firstName == firstName &&
+      other.lastName == lastName &&
+      other.status == status &&
+      other.intro == intro;
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
-        image.hashCode ^
-        email.hashCode ^
-        phone.hashCode ^
-        fullName.hashCode;
+      image.hashCode ^
+      blurHash.hashCode ^
+      phone.hashCode ^
+      displayName.hashCode ^
+      firstName.hashCode ^
+      lastName.hashCode ^
+      status.hashCode ^
+      intro.hashCode;
   }
 }

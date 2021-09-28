@@ -68,8 +68,11 @@ class _LoginPageState extends State<LoginPage> {
                             child: Lottie.asset('assets/lottie/splash.json'),
                           ),
                           Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 10.w,
+                            padding: EdgeInsets.fromLTRB(
+                              10.w,
+                              0.0,
+                              10.w,
+                              MediaQuery.of(context).viewInsets.bottom,
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -143,8 +146,10 @@ class _LoginPageState extends State<LoginPage> {
                                 GestureDetector(
                                   onTap: () async {
                                     showDialogLoading(context);
+                                    print(email);
+                                    print(password);
                                     AppBloc.authBloc.add(
-                                      OnAuthProcess(
+                                      LoginEvent(
                                         username: email,
                                         password: password,
                                       ),
@@ -209,7 +214,7 @@ class _LoginPageState extends State<LoginPage> {
           } else {
             showDialogLoading(context);
             AppBloc.authBloc.add(
-              OnAuthProcess(
+              LoginEvent(
                 username: email,
                 password: password,
               ),

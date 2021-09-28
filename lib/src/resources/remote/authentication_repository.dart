@@ -1,5 +1,6 @@
 import 'package:cloudmate/src/resources/api_gateway.dart';
-import 'package:cloudmate/src/resources/handle_apis.dart';
+import 'package:cloudmate/src/resources/base_repository.dart';
+import 'package:cloudmate/src/resources/local/user_local.dart';
 import 'package:dio/dio.dart';
 
 class AuthenticationRepository {
@@ -13,20 +14,21 @@ class AuthenticationRepository {
       body,
     );
     if (response.statusCode == 200) {
+      UserLocal().saveAccessToken(response.data['data']['token']);
       return true;
     }
     return false;
   }
 
   Future<bool> register({
-    required String fullName,
-    required String phone,
+    required String fistName,
+    required String lastName,
     required String username,
     required String password,
   }) async {
     var body = {
-      'fullName': fullName,
-      'phone': phone,
+      'fistName': fistName,
+      'lastName': lastName,
       'username': username,
       'password': password,
     };
@@ -35,8 +37,14 @@ class AuthenticationRepository {
       body,
     );
     if (response.statusCode == 200) {
+      UserLocal().saveAccessToken(response.data['data']['token']);
       return true;
     }
+    return false;
+  }
+
+  Future<bool> logOut() async {
+    UserLocal().saveAccessToken('');
     return false;
   }
 }
