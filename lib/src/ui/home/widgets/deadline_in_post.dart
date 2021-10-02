@@ -1,3 +1,4 @@
+import 'package:cloudmate/src/ui/classes/screens/submit_deadline_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cloudmate/src/resources/hard/hard_schedule.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
@@ -15,6 +16,21 @@ class DeadlineInPost extends StatefulWidget {
 }
 
 class _ExamInPostCard extends State<DeadlineInPost> {
+  _handlePressedOpenSubmit() {
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(12.sp),
+        ),
+      ),
+      isDismissible: true,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => SubmitDeadlineScreen(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -82,18 +98,24 @@ class _ExamInPostCard extends State<DeadlineInPost> {
               ],
             ),
           ),
-          Container(
-            height: 32.sp,
-            width: 32.sp,
-            decoration: BoxDecoration(
-              color: widget.deadline.fileName == '' ? colorHigh : colorDarkGrey,
-              borderRadius: BorderRadius.circular(8.sp),
-            ),
-            alignment: Alignment.center,
-            child: Icon(
-              PhosphorIcons.folderNotchOpenFill,
-              size: 15.sp,
-              color: mC,
+          GestureDetector(
+            onTap: () {
+              _handlePressedOpenSubmit();
+            },
+            child: Container(
+              height: 32.sp,
+              width: 32.sp,
+              decoration: BoxDecoration(
+                color:
+                    widget.deadline.fileName == '' ? colorHigh : colorDarkGrey,
+                borderRadius: BorderRadius.circular(8.sp),
+              ),
+              alignment: Alignment.center,
+              child: Icon(
+                PhosphorIcons.folderNotchOpenFill,
+                size: 15.sp,
+                color: mC,
+              ),
             ),
           ),
         ],

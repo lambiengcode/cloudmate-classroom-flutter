@@ -102,6 +102,5 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _handleGetUserInfo() async {
     UserModel? user = await UserRepository().getInfoUser();
     userModel = user;
-    print(userModel!.displayName);
   }
 }
