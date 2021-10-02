@@ -71,13 +71,14 @@ class UserModel {
       firstName: map['firstName'],
       lastName: map['lastName'],
       status: map['status'],
-      intro: map['intro'],
+      intro: map['intro'] == '' ? null : map['intro'],
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory UserModel.fromJson(String source) => UserModel.fromMap(json.decode(source));
+  factory UserModel.fromJson(String source) =>
+      UserModel.fromMap(json.decode(source));
 
   @override
   String toString() {
@@ -87,29 +88,29 @@ class UserModel {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-  
+
     return other is UserModel &&
-      other.id == id &&
-      other.image == image &&
-      other.blurHash == blurHash &&
-      other.phone == phone &&
-      other.displayName == displayName &&
-      other.firstName == firstName &&
-      other.lastName == lastName &&
-      other.status == status &&
-      other.intro == intro;
+        other.id == id &&
+        other.image == image &&
+        other.blurHash == blurHash &&
+        other.phone == phone &&
+        other.displayName == displayName &&
+        other.firstName == firstName &&
+        other.lastName == lastName &&
+        other.status == status &&
+        other.intro == intro;
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
-      image.hashCode ^
-      blurHash.hashCode ^
-      phone.hashCode ^
-      displayName.hashCode ^
-      firstName.hashCode ^
-      lastName.hashCode ^
-      status.hashCode ^
-      intro.hashCode;
+        image.hashCode ^
+        blurHash.hashCode ^
+        phone.hashCode ^
+        displayName.hashCode ^
+        firstName.hashCode ^
+        lastName.hashCode ^
+        status.hashCode ^
+        intro.hashCode;
   }
 }

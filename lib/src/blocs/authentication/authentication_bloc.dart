@@ -26,14 +26,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
 
     if (event is OnClear) {
-      yield AuthenticationSuccess(userModel: userModel);
+      yield AuthenticationSuccess(
+        userModel: userModel,
+      );
     }
 
     if (event is LoginEvent) {
       bool isSuccess = await _handleLogin(event);
       AppNavigator.pop();
       if (isSuccess) {
-        yield AuthenticationSuccess();
+        yield AuthenticationSuccess(
+          userModel: userModel,
+        );
       } else {
         yield AuthenticationFail();
       }
@@ -43,7 +47,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       bool isSuccess = await _handleRegister(event);
       AppNavigator.pop();
       if (isSuccess) {
-        yield AuthenticationSuccess();
+        yield AuthenticationSuccess(
+          userModel: userModel,
+        );
       } else {
         yield AuthenticationFail();
       }
@@ -57,8 +63,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
 
     if (event is GetInfoUser) {
-      _handleGetUserInfo();
-      yield AuthenticationSuccess();
+      await _handleGetUserInfo();
+      yield AuthenticationSuccess(
+        userModel: userModel,
+      );
     }
   }
 
@@ -94,6 +102,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _handleGetUserInfo() async {
     UserModel? user = await UserRepository().getInfoUser();
     userModel = user;
-    print(userModel.toString());
+    print(userModel!.displayName);
   }
 }

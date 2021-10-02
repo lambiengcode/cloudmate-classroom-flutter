@@ -146,8 +146,6 @@ class _LoginPageState extends State<LoginPage> {
                                 GestureDetector(
                                   onTap: () async {
                                     showDialogLoading(context);
-                                    print(email);
-                                    print(password);
                                     AppBloc.authBloc.add(
                                       LoginEvent(
                                         username: email,

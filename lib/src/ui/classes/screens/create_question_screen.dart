@@ -54,8 +54,10 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
       dismissible: true,
       slideFrom: 'bottom',
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      child: DialogAddAnswer(
+      child: DialogInput(
         handleFinish: _handleAddAnswer,
+        title: 'Nhập câu trả lời',
+        buttonTitle: 'Thêm câu trả lời',
       ),
     );
   }
