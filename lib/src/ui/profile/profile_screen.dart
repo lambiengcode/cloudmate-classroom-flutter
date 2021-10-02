@@ -137,7 +137,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             padding: EdgeInsets.symmetric(horizontal: 10.w),
                             alignment: Alignment.center,
                             child: Text(
-                              auth.userModel!.intro ?? 'Chưa cập nhật',
+                              auth.userModel!.intro ?? '☃ Chưa cập nhật ☃',
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(

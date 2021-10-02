@@ -1,5 +1,3 @@
-import 'package:cloudmate/src/blocs/authentication/bloc.dart';
-
 abstract class AuthEvent {}
 
 class OnAuthCheck extends AuthEvent {}

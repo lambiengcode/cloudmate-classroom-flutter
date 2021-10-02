@@ -1,11 +1,13 @@
+import 'package:cloudmate/src/public/constants.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
+import 'package:cloudmate/src/ui/classes/blocs/class/class_bloc.dart';
 import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
@@ -16,17 +18,19 @@ class CreateClassScreen extends StatefulWidget {
 
 class _CreateClassScreenState extends State<CreateClassScreen> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController _phoneController = TextEditingController();
-  TextEditingController _fullNameController = TextEditingController();
-  FocusNode textFieldFocus = FocusNode();
-  String fullName = '';
-  String phone = '';
-  String email = '';
-  String password = '';
+  late ClassBloc _classBloc;
+  TextEditingController _nameClassController = TextEditingController();
+  TextEditingController _classTopicController = TextEditingController();
+  TextEditingController _introClassController = TextEditingController();
+  String _name = '';
+  String _topic = '';
+  String _intro = '';
 
-  bool hidePassword = true;
-
-  hideKeyboard() => textFieldFocus.unfocus();
+  @override
+  void initState() {
+    super.initState();
+    _classBloc = BlocProvider.of<ClassBloc>(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,30 +87,23 @@ class _CreateClassScreenState extends State<CreateClassScreen> {
                             SizedBox(height: 12.0),
                             _buildLineInfo(
                               context,
-                              'Tên lớp học',
+                              Constants.className,
                               'Hãy nhập tên lớp học',
-                              _phoneController,
+                              _nameClassController,
                             ),
                             _buildDivider(context),
                             _buildLineInfo(
                               context,
-                              'Chủ đề',
+                              Constants.classTopic,
                               'Hãy nhập chủ đề của lớp học',
-                              _fullNameController,
+                              _classTopicController,
                             ),
                             _buildDivider(context),
                             _buildLineInfo(
                               context,
-                              'Chủ đề',
-                              'Hãy nhập chủ đề của lớp học',
-                              _fullNameController,
-                            ),
-                            _buildDivider(context),
-                            _buildLineInfo(
-                              context,
-                              'Giới thiệu về lớp học',
+                              Constants.classIntro,
                               'Hãy nhập giới thiệu về lớp học của bạn',
-                              _fullNameController,
+                              _introClassController,
                             ),
                             _buildDivider(context),
                             SizedBox(height: 8.0),
@@ -118,6 +115,14 @@ class _CreateClassScreenState extends State<CreateClassScreen> {
                         onTap: () async {
                           if (_formKey.currentState!.validate()) {
                             showDialogLoading(context);
+                            _classBloc.add(
+                              CreateClass(
+                                context: context,
+                                name: _name,
+                                intro: _intro,
+                                topic: _topic,
+                              ),
+                            );
                           }
                         },
                         child: Container(
@@ -165,23 +170,16 @@ class _CreateClassScreenState extends State<CreateClassScreen> {
           fontWeight: FontWeight.w500,
         ),
         validator: (val) {
-          if (title == 'Số điện thoại') {
-            return GetUtils.isPhoneNumber(val!.trim()) ? null : valid;
-          } else if (title == 'Tên của bạn') {
-            return val!.trim().length == 0 ? valid : null;
-          } else if (title == 'Mật khẩu') {
-            return val!.trim().length < 6 ? valid : null;
-          }
-          return null;
+          return val!.trim().length == 0 ? valid : null;
         },
         onChanged: (val) {
           setState(() {
-            if (title == 'Số điện thoại') {
-              phone = val.trim();
-            } else if (title == 'Tên của bạn') {
-              fullName = val.trim();
-            } else if (title == 'Mật khẩu') {
-              password = val.trim();
+            if (title == Constants.className) {
+              _name = val.trim();
+            } else if (title == Constants.classTopic) {
+              _topic = val.trim();
+            } else if (title == Constants.classIntro) {
+              _intro = val.trim();
             }
           });
         },

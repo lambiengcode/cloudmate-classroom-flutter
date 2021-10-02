@@ -71,6 +71,7 @@ flutter:
   assets:
     - .env
     - assets/lottie/splash.json
+    - assets/lottie/cat_sleeping.json
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
