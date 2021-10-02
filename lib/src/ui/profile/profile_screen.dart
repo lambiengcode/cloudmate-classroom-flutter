@@ -7,6 +7,7 @@ import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/app_decorations.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/ui/classes/widgets/recommend_class_card.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
@@ -41,147 +42,153 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        systemOverlayStyle: ThemeService.systemBrightness,
-        backgroundColor: Colors.transparent,
-        elevation: .0,
-        centerTitle: true,
-        leading: IconButton(
-          splashColor: colorPrimary,
-          splashRadius: 5.0,
-          icon: Icon(
-            PhosphorIcons.slidersHorizontal,
-            size: 22.5.sp,
-          ),
-          onPressed: () => null,
-        ),
-        title: Text(
-          _showInfo ? '' : 'Đào Hồng Vinh',
-          style: TextStyle(
-            fontSize: 15.sp,
-            fontWeight: FontWeight.w400,
-            fontFamily: FontFamily.lato,
-            color: Theme.of(context).textTheme.bodyText1!.color,
-          ),
-        ),
-        actions: [
-          IconButton(
-            splashRadius: 10.0,
-            icon: Icon(
-              PhosphorIcons.signOutBold,
-              size: 20.sp,
-              color: colorHigh,
+    return BlocBuilder<AuthBloc, AuthState>(builder: (_, auth) {
+      if (auth is AuthenticationSuccess) {
+        print(auth.userModel.toString());
+        return Scaffold(
+          appBar: AppBar(
+            systemOverlayStyle: ThemeService.systemBrightness,
+            backgroundColor: Colors.transparent,
+            elevation: .0,
+            centerTitle: true,
+            leading: IconButton(
+              splashColor: colorPrimary,
+              splashRadius: 5.0,
+              icon: Icon(
+                PhosphorIcons.slidersHorizontal,
+                size: 22.5.sp,
+              ),
+              onPressed: () => null,
             ),
-            onPressed: () => AppBloc.authBloc.add(LogOutEvent()),
+            title: Text(
+              _showInfo ? '' : auth.userModel!.displayName!,
+              style: TextStyle(
+                fontSize: 15.sp,
+                fontWeight: FontWeight.w400,
+                fontFamily: FontFamily.lato,
+                color: Theme.of(context).textTheme.bodyText1!.color,
+              ),
+            ),
+            actions: [
+              IconButton(
+                splashRadius: 10.0,
+                icon: Icon(
+                  PhosphorIcons.signOutBold,
+                  size: 20.sp,
+                  color: colorHigh,
+                ),
+                onPressed: () => AppBloc.authBloc.add(LogOutEvent()),
+              ),
+            ],
           ),
-        ],
-      ),
-      body: Container(
-        height: 100.h,
-        width: 100.w,
-        child: Column(
-          children: [
-            GestureDetector(
-              onTap: () => null,
-              child: Container(
-                width: 100.w,
-                alignment: Alignment.center,
-                child: Container(
-                  height: 105.sp,
-                  width: 105.sp,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: colorPrimary,
-                      width: 3.sp,
-                    ),
-                  ),
-                  alignment: Alignment.center,
+          body: Container(
+            height: 100.h,
+            width: 100.w,
+            child: Column(
+              children: [
+                GestureDetector(
+                  onTap: () => null,
                   child: Container(
-                    height: 95.sp,
-                    width: 95.sp,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        image: NetworkImage(
-                          'https://avatars.githubusercontent.com/u/60530946?v=4',
+                    width: 100.w,
+                    alignment: Alignment.center,
+                    child: Container(
+                      height: 105.sp,
+                      width: 105.sp,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: colorPrimary,
+                          width: 3.sp,
                         ),
-                        fit: BoxFit.cover,
+                      ),
+                      alignment: Alignment.center,
+                      child: Container(
+                        height: 95.sp,
+                        width: 95.sp,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: NetworkImage(
+                              'https://avatars.githubusercontent.com/u/60530946?v=4',
+                            ),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ),
-            _showInfo
-                ? Column(
-                    children: [
-                      SizedBox(height: 10.sp),
-                      Text(
-                        'Đào Hồng Vinh',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          fontFamily: FontFamily.lato,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      SizedBox(height: 6.sp),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10.w),
-                        alignment: Alignment.center,
-                        child: Text(
-                          'Mobile App Developer (lambiengcode)',
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: 11.5.sp,
-                            fontFamily: FontFamily.lato,
-                            fontWeight: FontWeight.w500,
+                _showInfo
+                    ? Column(
+                        children: [
+                          SizedBox(height: 10.sp),
+                          Text(
+                            auth.userModel!.displayName!,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 15.sp,
+                              fontFamily: FontFamily.lato,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      SizedBox(height: 18.sp),
-                      _buildInfoBar(),
-                    ],
-                  )
-                : Container(),
-            SizedBox(height: 12.sp),
-            _buildTitle(
-              'Archive',
-              PhosphorIcons.starFill,
-              Colors.amberAccent.shade700,
-            ),
-            SizedBox(height: 4.sp),
-            Expanded(
-              child: NotificationListener<OverscrollIndicatorNotification>(
-                onNotification: (overscroll) {
-                  overscroll.disallowGlow();
-                  return true;
-                },
-                child: ListView.builder(
-                  controller: scrollController,
-                  padding: EdgeInsets.only(bottom: 12.sp),
-                  physics: ClampingScrollPhysics(),
-                  itemCount: posts.length,
-                  itemBuilder: (context, index) {
-                    return RecommendClassCard(
-                      imageClass: posts[index].imageGroup,
-                      className: posts[index].groupName,
-                      star: '4.5 / 5.0',
-                      teacher: posts[index].authorName,
-                    );
-                  },
+                          SizedBox(height: 8.sp),
+                          Container(
+                            padding: EdgeInsets.symmetric(horizontal: 10.w),
+                            alignment: Alignment.center,
+                            child: Text(
+                              auth.userModel!.intro ?? 'Chưa cập nhật',
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 11.75.sp,
+                                fontWeight: FontWeight.w400,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          SizedBox(height: 18.sp),
+                          _buildInfoBar(),
+                        ],
+                      )
+                    : Container(),
+                SizedBox(height: 12.sp),
+                _buildTitle(
+                  'Archive',
+                  PhosphorIcons.starFill,
+                  Colors.amberAccent.shade700,
                 ),
-              ),
+                SizedBox(height: 4.sp),
+                Expanded(
+                  child: NotificationListener<OverscrollIndicatorNotification>(
+                    onNotification: (overscroll) {
+                      overscroll.disallowGlow();
+                      return true;
+                    },
+                    child: ListView.builder(
+                      controller: scrollController,
+                      padding: EdgeInsets.only(bottom: 12.sp),
+                      physics: ClampingScrollPhysics(),
+                      itemCount: posts.length,
+                      itemBuilder: (context, index) {
+                        return RecommendClassCard(
+                          imageClass: posts[index].imageGroup,
+                          className: posts[index].groupName,
+                          star: '4.5 / 5.0',
+                          teacher: posts[index].authorName,
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-    );
+          ),
+        );
+      }
+
+      return Scaffold();
+    });
   }
 
   Widget _buildInfoBar() {

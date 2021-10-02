@@ -161,7 +161,7 @@ List<Post> posts = [
     groupName: 'Firebase',
     authorName: 'Hồng Vinh',
     imageGroup:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbZjMN-zPpVvCQuVbOFLpd65m58i6Ro__uJg&usqp=CAU',
+        'https://firebase.google.com/images/brand-guidelines/logo-logomark.png',
     imageAuthor: 'https://avatars.githubusercontent.com/u/60530946?v=4',
     content: 'Cho mình hỏi đoạn code này sao không chạy được ạ!',
     status: 3,

@@ -1,4 +1,8 @@
 import 'package:cloudmate/src/blocs/authentication/bloc.dart';
+import 'package:cloudmate/src/routes/app_pages.dart';
+import 'package:cloudmate/src/routes/app_routes.dart';
+import 'package:cloudmate/src/ui/classes/widgets/dialog_add_answer.dart';
+import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/blocs/theme/theme_event.dart';
@@ -17,6 +21,23 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  _handlePressedEnterPin() async {
+    await dialogAnimationWrapper(
+      context: context,
+      dismissible: true,
+      slideFrom: 'bottom',
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      child: DialogInput(
+        handleFinish: (input) {
+          AppNavigator.push(AppRoutes.DO_EXAM);
+        },
+        title: 'Nhập mã PIN',
+        buttonTitle: 'Vào phòng',
+        hideInputField: 'Nhập mã PIN để vào phòng kiểm tra ngay...',
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,9 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
         elevation: 0.0,
         centerTitle: true,
         leading: IconButton(
-          onPressed: () {
-            AppBloc.authBloc.add(LogOutEvent());
-          },
+          onPressed: () {},
           icon: Icon(
             PhosphorIcons.slidersHorizontal,
             size: 22.sp,
@@ -59,20 +78,22 @@ class _HomeScreenState extends State<HomeScreen> {
         )),
         actions: [
           IconButton(
-            onPressed: () => AppBloc.themeBloc.add(
-              OnChangeTheme(
-                themeMode: ThemeService.currentTheme == ThemeMode.dark
-                    ? ThemeMode.light
-                    : ThemeMode.dark,
-              ),
-            ),
+            onPressed: _handlePressedEnterPin,
             icon: Icon(
               PhosphorIcons.qrCode,
               size: 24.sp,
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              AppBloc.themeBloc.add(
+                OnChangeTheme(
+                  themeMode: ThemeService.currentTheme == ThemeMode.dark
+                      ? ThemeMode.light
+                      : ThemeMode.dark,
+                ),
+              );
+            },
             icon: Icon(
               PhosphorIcons.bellSimple,
               size: 22.sp,

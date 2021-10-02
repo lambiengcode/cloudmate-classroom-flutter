@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/blocs/authentication/bloc.dart';
 import 'package:cloudmate/src/lang/language_service.dart';
+import 'package:cloudmate/src/services/socket/socket.dart';
 import 'package:flutter/material.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/ui/calendar/calendar_screen.dart';
@@ -41,6 +42,7 @@ class _NavigationState extends State<Navigation> {
     });
 
     AppBloc.authBloc.add(GetInfoUser());
+    // connectAndListen();
   }
 
   @override
@@ -115,9 +117,6 @@ class _NavigationState extends State<Navigation> {
           setState(() {
             currentPage = index;
           });
-          if (index == 0) {
-            // showIncommingCallBottomSheet();
-          }
         },
         child: Container(
           color: Colors.transparent,

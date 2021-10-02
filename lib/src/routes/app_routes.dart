@@ -9,6 +9,9 @@ class AppRoutes {
   static const CREATE_EXAM = '/createExam';
   static const LIST_QUESTION = '/listQuestion';
   static const CREATE_QUESTION = '/createQuestion';
+
+  // Roadmap
   static const ROAD_MAP = '/roadMap';
+  static const CREATE_DEADLINE = '/createDeadline';
   static const DO_EXAM = '/doExam';
 }

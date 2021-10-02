@@ -1,4 +1,5 @@
 import 'package:cloudmate/src/ui/classes/screens/create_class_screen.dart';
+import 'package:cloudmate/src/ui/classes/screens/create_deadline_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/create_exam_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/create_question_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/do_exam_screen.dart';
@@ -74,6 +75,12 @@ class AppNavigator {
         return _buildRoute(
           settings,
           RoadMapScreen(),
+          _getSlideMode(arguments),
+        );
+      case AppRoutes.CREATE_DEADLINE:
+        return _buildRoute(
+          settings,
+          CreateDeadlineScreen(),
           _getSlideMode(arguments),
         );
       case AppRoutes.DO_EXAM:

@@ -3,15 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sizer/sizer.dart';
 
-class DialogAddAnswer extends StatefulWidget {
+class DialogInput extends StatefulWidget {
   final Function handleFinish;
-  DialogAddAnswer({required this.handleFinish});
+  final String title;
+  final String buttonTitle;
+  final String hideInputField;
+  DialogInput({
+    required this.handleFinish,
+    required this.title,
+    required this.buttonTitle,
+    this.hideInputField = 'Hãy nhập câu trả lời cho câu hỏi này...',
+  });
 
   @override
-  State<StatefulWidget> createState() => _DialogAddAnswerState();
+  State<StatefulWidget> createState() => _DialogInputState();
 }
 
-class _DialogAddAnswerState extends State<DialogAddAnswer> {
+class _DialogInputState extends State<DialogInput> {
   String _answer = '';
 
   @override
@@ -26,7 +34,7 @@ class _DialogAddAnswerState extends State<DialogAddAnswer> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 15.sp),
             child: Text(
-              'Nhập câu trả lời',
+              widget.title,
               style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15.sp),
             ),
           ),
@@ -66,7 +74,7 @@ class _DialogAddAnswerState extends State<DialogAddAnswer> {
                       maxLines: 4,
                       decoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: 'Hãy nhập câu trả lời cho câu hỏi này...',
+                        hintText: widget.hideInputField,
                         hintStyle: TextStyle(
                           color: Theme.of(context)
                               .textTheme
@@ -89,15 +97,15 @@ class _DialogAddAnswerState extends State<DialogAddAnswer> {
           ),
           GestureDetector(
             onTap: () {
-              widget.handleFinish(_answer);
               AppNavigator.pop();
+              widget.handleFinish(_answer);
             },
             child: Container(
               color: Colors.transparent,
               alignment: Alignment.center,
               padding: EdgeInsets.symmetric(vertical: 12.sp),
               child: Text(
-                'Thêm câu trả lời',
+                widget.buttonTitle,
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 12.sp,

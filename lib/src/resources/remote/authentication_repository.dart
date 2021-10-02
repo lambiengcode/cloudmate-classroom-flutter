@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloudmate/src/resources/api_gateway.dart';
 import 'package:cloudmate/src/resources/base_repository.dart';
 import 'package:cloudmate/src/resources/local/user_local.dart';
@@ -49,8 +51,8 @@ class AuthenticationRepository {
     return false;
   }
 
-  Future<bool> logOut() async {
-    UserLocal().saveAccessToken('');
+  FutureOr<bool> logOut() async {
+    UserLocal().clearAccessToken();
     return false;
   }
 }

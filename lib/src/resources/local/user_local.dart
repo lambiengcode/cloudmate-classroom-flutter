@@ -11,4 +11,8 @@ class UserLocal {
   void saveAccessToken(String token) async {
     _getStorage.write(storageKey, token);
   }
+
+  void clearAccessToken() async {
+    _getStorage.remove(storageKey);
+  }
 }
