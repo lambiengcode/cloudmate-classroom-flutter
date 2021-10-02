@@ -77,7 +77,7 @@ class BaseRepository {
       options: getOptions(),
     );
     printEndpoint('GET', gateway);
-    printResponse(response);
+    // printResponse(response);
     return response;
   }
 
