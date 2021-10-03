@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cloudmate/src/public/constants.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/ui/classes/widgets/drawer_option.dart';
 import 'package:flutter/material.dart';
@@ -73,9 +74,7 @@ class _ClassInformationScreenState extends State<ClassInformationScreen> {
                             bottom: Radius.circular(35.sp),
                           ),
                           image: DecorationImage(
-                            image: NetworkImage(
-                              'https://i.pinimg.com/originals/02/89/09/02890993e3735184e80ecdf9db079e05.png',
-                            ),
+                            image: Constants.defaultClassImage,
                             fit: BoxFit.cover,
                           ),
                         ),

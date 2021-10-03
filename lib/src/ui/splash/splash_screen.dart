@@ -1,7 +1,7 @@
+import 'package:cloudmate/src/public/constants.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:sizer/sizer.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -26,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   Container(
                     width: 100.w,
                     height: 100.w,
-                    child: Lottie.asset('assets/lottie/splash.json'),
+                    child: Constants().splashLottie,
                   ),
                   SizedBox(height: 16.sp),
                   RichText(

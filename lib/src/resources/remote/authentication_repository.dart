@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:cloudmate/src/resources/api_gateway.dart';
+import 'package:cloudmate/src/public/api_gateway.dart';
 import 'package:cloudmate/src/resources/base_repository.dart';
 import 'package:cloudmate/src/resources/local/user_local.dart';
 import 'package:dio/dio.dart';
