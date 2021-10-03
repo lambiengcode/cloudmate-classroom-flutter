@@ -12,6 +12,8 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 class CreateClassScreen extends StatefulWidget {
+  final ClassBloc classBloc;
+  CreateClassScreen({required this.classBloc});
   @override
   _CreateClassScreenState createState() => _CreateClassScreenState();
 }
@@ -29,7 +31,7 @@ class _CreateClassScreenState extends State<CreateClassScreen> {
   @override
   void initState() {
     super.initState();
-    _classBloc = BlocProvider.of<ClassBloc>(context);
+    _classBloc = widget.classBloc;
   }
 
   @override

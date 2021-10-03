@@ -1,3 +1,4 @@
+import 'package:cloudmate/src/models/class_model.dart';
 import 'package:flutter/material.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/app_decorations.dart';
@@ -7,21 +8,18 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 class ClassCard extends StatefulWidget {
-  final String? blurHash;
-  final String imageClass;
-  final String className;
-  final String teacher;
-  ClassCard({
-    required this.className,
-    required this.imageClass,
-    this.blurHash,
-    required this.teacher,
-  });
+  final ClassModel classModel;
+  ClassCard({required this.classModel});
   @override
   State<StatefulWidget> createState() => _ClassCardState();
 }
 
 class _ClassCardState extends State<ClassCard> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -49,8 +47,8 @@ class _ClassCardState extends State<ClassCard> {
                         top: Radius.circular(16.0),
                       ),
                       child: BlurHash(
-                        hash: widget.blurHash ?? '',
-                        image: widget.imageClass,
+                        hash: widget.classModel.blurHash,
+                        image: widget.classModel.image,
                         imageFit: BoxFit.cover,
                         color: colorPrimary,
                       ),
@@ -129,8 +127,8 @@ class _ClassCardState extends State<ClassCard> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(1000.0),
                             child: BlurHash(
-                              hash: widget.blurHash ?? '',
-                              image: widget.imageClass,
+                              hash: widget.classModel.blurHash,
+                              image: widget.classModel.image,
                               imageFit: BoxFit.cover,
                               color: colorPrimary,
                             ),
@@ -140,7 +138,7 @@ class _ClassCardState extends State<ClassCard> {
                     ),
                     SizedBox(height: 4.sp),
                     Text(
-                      widget.className,
+                      widget.classModel.name,
                       style: TextStyle(
                         fontSize: 9.5.sp,
                         fontFamily: FontFamily.lato,
@@ -155,7 +153,7 @@ class _ClassCardState extends State<ClassCard> {
                     ),
                     SizedBox(height: 2.5.sp),
                     _buildTileInfo(
-                      widget.teacher,
+                      widget.classModel.createdBy.displayName,
                       PhosphorIcons.graduationCapFill,
                       Colors.pinkAccent.shade100,
                     ),

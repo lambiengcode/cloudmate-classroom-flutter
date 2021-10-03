@@ -1,6 +1,8 @@
 import 'dart:ui';
 
+import 'package:cloudmate/src/public/constants.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
+import 'package:cloudmate/src/ui/classes/blocs/class/class_bloc.dart';
 import 'package:cloudmate/src/ui/classes/widgets/drawer_option.dart';
 import 'package:flutter/material.dart';
 import 'package:cloudmate/src/resources/hard/hard_chat.dart';
@@ -10,6 +12,7 @@ import 'package:cloudmate/src/themes/app_decorations.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/ui/home/widgets/post_card.dart';
 import 'package:cloudmate/src/utils/stack_avatar.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
@@ -20,12 +23,14 @@ class ClassInformationScreen extends StatefulWidget {
 
 class _ClassInformationScreenState extends State<ClassInformationScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  late ClassBloc _classBloc;
   ScrollController scrollController = ScrollController();
   double heightOfClassImage = 38.h;
 
   @override
   void initState() {
     super.initState();
+    _classBloc = BlocProvider.of<ClassBloc>(context);
     scrollController.addListener(() {
       if (scrollController.offset <= 0) {
         setState(() {
@@ -74,7 +79,7 @@ class _ClassInformationScreenState extends State<ClassInformationScreen> {
                           ),
                           image: DecorationImage(
                             image: NetworkImage(
-                              'https://i.pinimg.com/originals/02/89/09/02890993e3735184e80ecdf9db079e05.png',
+                              Constants.defaultClassImage,
                             ),
                             fit: BoxFit.cover,
                           ),

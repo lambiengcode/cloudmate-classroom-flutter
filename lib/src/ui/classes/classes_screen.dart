@@ -23,83 +23,103 @@ class ClassesScreen extends StatefulWidget {
 }
 
 class _ClassesScreenState extends State<ClassesScreen> {
+  late ClassBloc _classBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _classBloc = ClassBloc();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => ClassBloc()..add(GetClasses()),
-      child: BlocBuilder<ClassBloc, ClassState>(builder: (_, state) {
-        return Scaffold(
-          appBar: AppBar(
-            systemOverlayStyle: ThemeService.systemBrightness,
-            backgroundColor: Colors.transparent,
-            elevation: 0.0,
-            centerTitle: true,
-            leading: IconButton(
-              onPressed: () {
-                AppNavigator.push(AppRoutes.DO_EXAM);
-              },
-              icon: Icon(
-                PhosphorIcons.slidersHorizontal,
-                size: 22.sp,
-              ),
-            ),
-            title: Text(
-              classTitle.i18n,
-              style: TextStyle(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w600,
-                fontFamily: FontFamily.lato,
-                color: Theme.of(context).textTheme.bodyText1!.color,
-              ),
-            ),
-            actions: [
-              IconButton(
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => _classBloc..add(GetClasses()),
+        ),
+      ],
+      child: BlocBuilder<ClassBloc, ClassState>(
+        builder: (context, state) {
+          return Scaffold(
+            appBar: AppBar(
+              systemOverlayStyle: ThemeService.systemBrightness,
+              backgroundColor: Colors.transparent,
+              elevation: 0.0,
+              centerTitle: true,
+              leading: IconButton(
                 onPressed: () {
-                  LanguageService().switchLanguage(context);
+                  AppNavigator.push(AppRoutes.DO_EXAM);
                 },
                 icon: Icon(
-                  PhosphorIcons.magnifyingGlassBold,
-                  size: 20.sp,
+                  PhosphorIcons.slidersHorizontal,
+                  size: 22.sp,
                 ),
               ),
-              IconButton(
-                onPressed: () {
-                  AppNavigator.push(AppRoutes.CREATE_CLASS);
-                },
-                icon: Icon(
-                  Feather.plus_square,
-                  size: 20.sp,
-                  color: colorPrimary,
+              title: Text(
+                classTitle.i18n,
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: FontFamily.lato,
+                  color: Theme.of(context).textTheme.bodyText1!.color,
                 ),
               ),
-            ],
-          ),
-          body: Container(
-            height: 100.h,
-            width: 100.w,
-            child: SafeArea(
-              child: Column(
-                children: [
-                  SizedBox(height: 2.5.sp),
-                  Divider(
-                    height: .25,
-                    thickness: .25,
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    LanguageService().switchLanguage(context);
+                  },
+                  icon: Icon(
+                    PhosphorIcons.magnifyingGlassBold,
+                    size: 20.sp,
                   ),
-                  state is ClassInitial
-                      ? Expanded(
-                          child: LoadingScreen(),
-                        )
-                      : _buildClassesBody(context),
-                ],
+                ),
+                IconButton(
+                  onPressed: () {
+                    AppNavigator.push(
+                      AppRoutes.CREATE_CLASS,
+                      arguments: {
+                        'classBloc': _classBloc,
+                        'slide': SlideMode.bot,
+                      },
+                    );
+                  },
+                  icon: Icon(
+                    Feather.plus_square,
+                    size: 20.sp,
+                    color: colorPrimary,
+                  ),
+                ),
+              ],
+            ),
+            body: Container(
+              height: 100.h,
+              width: 100.w,
+              child: SafeArea(
+                child: Column(
+                  children: [
+                    SizedBox(height: 2.5.sp),
+                    Divider(
+                      height: .25,
+                      thickness: .25,
+                    ),
+                    state is ClassInitial
+                        ? Expanded(
+                            child: LoadingScreen(),
+                          )
+                        : _buildClassesBody(context, state),
+                  ],
+                ),
               ),
             ),
-          ),
-        );
-      }),
+          );
+        },
+      ),
     );
   }
 
-  Widget _buildClassesBody(context) {
+  Widget _buildClassesBody(context, state) {
     return Expanded(
       child: ListView.builder(
         physics: BouncingScrollPhysics(),
@@ -107,7 +127,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
         itemCount: posts.length + 1,
         itemBuilder: (context, index) {
           return index == 0
-              ? _buildCurrentClasses(context)
+              ? _buildCurrentClasses(context, state)
               : GestureDetector(
                   onTap: () {
                     AppNavigator.push(
@@ -129,7 +149,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
     );
   }
 
-  _buildCurrentClasses(context) {
+  _buildCurrentClasses(context, ClassState state) {
     return Container(
       padding: EdgeInsets.only(left: 10.sp),
       child: Column(
@@ -145,7 +165,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
             child: ListView.builder(
               physics: BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
-              itemCount: posts.length,
+              itemCount: state.props[0].length,
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {
@@ -157,9 +177,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
                     );
                   },
                   child: ClassCard(
-                    className: posts[index].groupName,
-                    imageClass: posts[index].imageGroup,
-                    teacher: posts[index].authorName,
+                    classModel: state.props[0][index],
                   ),
                 );
               },

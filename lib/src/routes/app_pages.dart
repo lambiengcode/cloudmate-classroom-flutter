@@ -21,7 +21,8 @@ class AppNavigator {
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey();
   SlideMode defautlSlide = SlideMode.right;
   Route<dynamic> getRoute(RouteSettings settings) {
-    Map<String, dynamic>? arguments = _getArguments(settings);
+    Map<String, dynamic> arguments = _getArguments(settings);
+    print(arguments);
     switch (settings.name) {
       case AppRoutes.ROOT:
         return _buildRoute(
@@ -38,7 +39,9 @@ class AppNavigator {
       case AppRoutes.CREATE_CLASS:
         return _buildRoute(
           settings,
-          CreateClassScreen(),
+          CreateClassScreen(
+            classBloc: arguments['classBloc'],
+          ),
           _getSlideMode(arguments),
         );
       case AppRoutes.LIST_REQUEST:
@@ -95,7 +98,10 @@ class AppNavigator {
   }
 
   _buildRoute(
-      RouteSettings routeSettings, Widget builder, SlideMode slideMode) {
+    RouteSettings routeSettings,
+    Widget builder,
+    SlideMode slideMode,
+  ) {
     switch (slideMode) {
       case SlideMode.bot:
         return SlideFromBottomRoute(page: builder, settings: routeSettings);
@@ -108,8 +114,8 @@ class AppNavigator {
     }
   }
 
-  _getArguments(RouteSettings? settings) {
-    return (settings!.arguments);
+  _getArguments(RouteSettings settings) {
+    return (settings.arguments ?? {});
   }
 
   _getSlideMode(Map<String, dynamic>? arguments) {
@@ -122,7 +128,7 @@ class AppNavigator {
 
   static Future push<T>(
     String route, {
-    Map<String, dynamic>? arguments,
+    Object? arguments,
   }) {
     return state.pushNamed(route, arguments: arguments);
   }

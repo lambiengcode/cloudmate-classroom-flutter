@@ -12,7 +12,11 @@ class ClassInitial extends ClassState {
 
 class GettingClasses extends ClassState {
   final List<ClassModel> listClasses;
-  GettingClasses({required this.listClasses});
+  final bool isOver;
+  GettingClasses({
+    required this.listClasses,
+    this.isOver = false,
+  });
 
   @override
   List get props => [listClasses];
@@ -20,7 +24,11 @@ class GettingClasses extends ClassState {
 
 class GetClassesDone extends ClassState {
   final List<ClassModel> listClasses;
-  GetClassesDone({required this.listClasses});
+  final bool isOver;
+  GetClassesDone({
+    required this.listClasses,
+    this.isOver = false,
+  });
 
   @override
   List get props => [listClasses];

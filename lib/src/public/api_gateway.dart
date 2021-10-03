@@ -5,4 +5,7 @@ class ApiGateway {
 
   // User
   static const GET_INFO = 'api/user/info';
+
+  // Class
+  static const CLASS = 'api/classes';
 }

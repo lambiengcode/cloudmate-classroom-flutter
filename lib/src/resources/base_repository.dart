@@ -41,7 +41,7 @@ class BaseRepository {
     return response;
   }
 
-  Future<diox.Response<dynamic>?> postRoute(
+  Future<diox.Response<dynamic>> postRoute(
     String gateway,
     Map<String, String> body,
   ) async {
@@ -71,10 +71,20 @@ class BaseRepository {
   Future<diox.Response<dynamic>> getRoute(
     String gateway, {
     String? params,
+    String? query,
   }) async {
+    Map<String, String> paramsObject = {};
+    if (params != null) {
+      params.split('&').forEach((element) {
+        paramsObject[element.split('=')[0].toString()] =
+            element.split('=')[1].toString();
+      });
+    }
+
     var response = await dio.get(
       gateway + (params ?? ''),
       options: getOptions(),
+      queryParameters: query == null ? null : paramsObject,
     );
     printEndpoint('GET', gateway);
     // printResponse(response);
