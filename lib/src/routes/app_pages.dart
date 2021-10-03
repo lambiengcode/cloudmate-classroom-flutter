@@ -22,7 +22,6 @@ class AppNavigator {
   SlideMode defautlSlide = SlideMode.right;
   Route<dynamic> getRoute(RouteSettings settings) {
     Map<String, dynamic> arguments = _getArguments(settings);
-    print(arguments);
     switch (settings.name) {
       case AppRoutes.ROOT:
         return _buildRoute(

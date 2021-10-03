@@ -70,7 +70,8 @@ class ClassModel {
       status: map['status'],
       blurHash: map['blurHash'],
       members: map['members'],
-      image: map['image'] == '' ? Constants.defaultClassImage : map['image'],
+      image:
+          map['image'] == '' ? Constants.defaultClassImageString : map['image'],
     );
   }
 
