@@ -1,3 +1,4 @@
+import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/lang/language_service.dart';
 import 'package:cloudmate/src/lang/localization.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
@@ -23,99 +24,89 @@ class ClassesScreen extends StatefulWidget {
 }
 
 class _ClassesScreenState extends State<ClassesScreen> {
-  late ClassBloc _classBloc;
-
   @override
   void initState() {
     super.initState();
-    _classBloc = ClassBloc();
+    AppBloc.classBloc.add(TransitionToClassScreen());
   }
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => _classBloc..add(GetClasses()),
-        ),
-      ],
-      child: BlocBuilder<ClassBloc, ClassState>(
-        builder: (context, state) {
-          return Scaffold(
-            appBar: AppBar(
-              systemOverlayStyle: ThemeService.systemBrightness,
-              backgroundColor: Colors.transparent,
-              elevation: 0.0,
-              centerTitle: true,
-              leading: IconButton(
+    return BlocBuilder<ClassBloc, ClassState>(
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(
+            systemOverlayStyle: ThemeService.systemBrightness,
+            backgroundColor: Colors.transparent,
+            elevation: 0.0,
+            centerTitle: true,
+            leading: IconButton(
+              onPressed: () {
+                AppNavigator.push(AppRoutes.DO_EXAM);
+              },
+              icon: Icon(
+                PhosphorIcons.slidersHorizontal,
+                size: 22.sp,
+              ),
+            ),
+            title: Text(
+              classTitle.i18n,
+              style: TextStyle(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w600,
+                fontFamily: FontFamily.lato,
+                color: Theme.of(context).textTheme.bodyText1!.color,
+              ),
+            ),
+            actions: [
+              IconButton(
                 onPressed: () {
-                  AppNavigator.push(AppRoutes.DO_EXAM);
+                  LanguageService().switchLanguage(context);
                 },
                 icon: Icon(
-                  PhosphorIcons.slidersHorizontal,
-                  size: 22.sp,
+                  PhosphorIcons.magnifyingGlassBold,
+                  size: 20.sp,
                 ),
               ),
-              title: Text(
-                classTitle.i18n,
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: FontFamily.lato,
-                  color: Theme.of(context).textTheme.bodyText1!.color,
+              IconButton(
+                onPressed: () {
+                  AppNavigator.push(
+                    AppRoutes.CREATE_CLASS,
+                    arguments: {
+                      'slide': SlideMode.bot,
+                    },
+                  );
+                },
+                icon: Icon(
+                  Feather.plus_square,
+                  size: 20.sp,
+                  color: colorPrimary,
                 ),
               ),
-              actions: [
-                IconButton(
-                  onPressed: () {
-                    LanguageService().switchLanguage(context);
-                  },
-                  icon: Icon(
-                    PhosphorIcons.magnifyingGlassBold,
-                    size: 20.sp,
+            ],
+          ),
+          body: Container(
+            height: 100.h,
+            width: 100.w,
+            child: SafeArea(
+              child: Column(
+                children: [
+                  SizedBox(height: 2.5.sp),
+                  Divider(
+                    height: .25,
+                    thickness: .25,
                   ),
-                ),
-                IconButton(
-                  onPressed: () {
-                    AppNavigator.push(
-                      AppRoutes.CREATE_CLASS,
-                      arguments: {
-                        'classBloc': _classBloc,
-                        'slide': SlideMode.bot,
-                      },
-                    );
-                  },
-                  icon: Icon(
-                    Feather.plus_square,
-                    size: 20.sp,
-                    color: colorPrimary,
-                  ),
-                ),
-              ],
-            ),
-            body: Container(
-              height: 100.h,
-              width: 100.w,
-              child: SafeArea(
-                child: Column(
-                  children: [
-                    SizedBox(height: 2.5.sp),
-                    Divider(
-                      height: .25,
-                      thickness: .25,
-                    ),
-                    state is ClassInitial
-                        ? Expanded(
-                            child: LoadingScreen(),
-                          )
-                        : _buildClassesBody(context, state),
-                  ],
-                ),
+                  state is ClassInitial
+                      ? Expanded(
+                          child: LoadingScreen(),
+                        )
+                      : _buildClassesBody(context, state),
+                ],
               ),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 

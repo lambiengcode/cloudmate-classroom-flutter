@@ -1,3 +1,4 @@
+import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/public/constants.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
@@ -12,15 +13,12 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 class CreateClassScreen extends StatefulWidget {
-  final ClassBloc classBloc;
-  CreateClassScreen({required this.classBloc});
   @override
   _CreateClassScreenState createState() => _CreateClassScreenState();
 }
 
 class _CreateClassScreenState extends State<CreateClassScreen> {
   final _formKey = GlobalKey<FormState>();
-  late ClassBloc _classBloc;
   TextEditingController _nameClassController = TextEditingController();
   TextEditingController _classTopicController = TextEditingController();
   TextEditingController _introClassController = TextEditingController();
@@ -31,7 +29,6 @@ class _CreateClassScreenState extends State<CreateClassScreen> {
   @override
   void initState() {
     super.initState();
-    _classBloc = widget.classBloc;
   }
 
   @override
@@ -117,7 +114,7 @@ class _CreateClassScreenState extends State<CreateClassScreen> {
                         onTap: () async {
                           if (_formKey.currentState!.validate()) {
                             showDialogLoading(context);
-                            _classBloc.add(
+                            AppBloc.classBloc.add(
                               CreateClass(
                                 context: context,
                                 name: _name,
