@@ -1,16 +1,4 @@
-# include: package:flutter_lints/flutter.yaml
-
-# linter:
-#   rules:
-#     avoid_print: false
-#     avoid_unnecessary_containers: false
-#     avoid_web_libraries_in_flutter: false
-#     no_logic_in_create_state: false
-#     prefer_const_constructors: false
-#     prefer_const_constructors_in_immutables: false
-#     prefer_const_declarations: false
-#     prefer_const_literals_to_create_immutables: false
-#     sized_box_for_whitespace: false
-#     use_full_hex_values_for_flutter_colors: false
-#     use_key_in_widget_constructors: false
-
+include: package:pedantic/analysis_options.1.9.0.yaml
+linter:
+  rules:
+    prefer_single_quotes: false
