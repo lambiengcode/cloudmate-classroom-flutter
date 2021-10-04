@@ -1,6 +1,8 @@
 import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/blocs/authentication/bloc.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
+import 'package:cloudmate/src/ui/common/screens/loading_screen.dart';
+import 'package:cloudmate/src/ui/common/widgets/animated_fade.dart';
 import 'package:flutter/material.dart';
 import 'package:cloudmate/src/resources/hard/hard_post.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
@@ -16,27 +18,19 @@ class ProfileScreen extends StatefulWidget {
   State<StatefulWidget> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateMixin {
+  late AnimationController _infoCardController;
   ScrollController scrollController = ScrollController();
-  bool _showInfo = true;
 
   @override
   void initState() {
     super.initState();
+    _infoCardController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 300),
+    );
     scrollController.addListener(() {
-      if (scrollController.offset < 8.0) {
-        if (!_showInfo) {
-          setState(() {
-            _showInfo = true;
-          });
-        }
-      } else {
-        if (_showInfo) {
-          setState(() {
-            _showInfo = false;
-          });
-        }
-      }
+      _infoCardController.value = (scrollController.offset / 5.h);
     });
   }
 
@@ -44,7 +38,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(builder: (_, auth) {
       if (auth is AuthenticationSuccess) {
-        print(auth.userModel.toString());
+        if (auth.userModel == null) {
+          return LoadingScreen();
+        }
         return Scaffold(
           appBar: AppBar(
             systemOverlayStyle: ThemeService.systemBrightness,
@@ -60,13 +56,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               onPressed: () => null,
             ),
-            title: Text(
-              _showInfo ? '' : auth.userModel!.displayName!,
-              style: TextStyle(
-                fontSize: 15.sp,
-                fontWeight: FontWeight.w400,
-                fontFamily: FontFamily.lato,
-                color: Theme.of(context).textTheme.bodyText1!.color,
+            title: AnimatedBuilder(
+              animation: _infoCardController,
+              builder: (context, child) => _infoCardController.value < .5 ? SizedBox() : child!,
+              child: Text(
+                auth.userModel!.displayName!,
+                style: TextStyle(
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w500,
+                  fontFamily: FontFamily.lato,
+                  color: Theme.of(context).textTheme.bodyText1!.color,
+                ),
               ),
             ),
             actions: [
@@ -118,40 +118,48 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                 ),
-                _showInfo
-                    ? Column(
-                        children: [
-                          SizedBox(height: 10.sp),
-                          Text(
-                            auth.userModel!.displayName!,
-                            maxLines: 1,
+                AnimatedBuilder(
+                  animation: _infoCardController,
+                  builder: (context, child) => _infoCardController.value > .5
+                      ? SizedBox(height: 16.h - 16.h * _infoCardController.value)
+                      : child!,
+                  child: AnimatedFade(
+                    animation: Tween(begin: 1.0, end: 0.0).animate(_infoCardController),
+                    child: Column(
+                      children: [
+                        SizedBox(height: 10.sp),
+                        Text(
+                          auth.userModel!.displayName!,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 15.sp,
+                            fontFamily: FontFamily.lato,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        SizedBox(height: 8.sp),
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 10.w),
+                          alignment: Alignment.center,
+                          child: Text(
+                            auth.userModel!.intro ?? '☃ Chưa cập nhật ☃',
+                            maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                              fontSize: 15.sp,
-                              fontFamily: FontFamily.lato,
-                              fontWeight: FontWeight.w600,
+                              fontSize: 11.75.sp,
+                              fontWeight: FontWeight.w400,
+                              color: auth.userModel!.intro == null ? colorPrimary : null,
                             ),
+                            textAlign: TextAlign.center,
                           ),
-                          SizedBox(height: 8.sp),
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 10.w),
-                            alignment: Alignment.center,
-                            child: Text(
-                              auth.userModel!.intro ?? '☃ Chưa cập nhật ☃',
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: 11.75.sp,
-                                fontWeight: FontWeight.w400,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          SizedBox(height: 18.sp),
-                          _buildInfoBar(),
-                        ],
-                      )
-                    : Container(),
+                        ),
+                        SizedBox(height: 18.sp),
+                        _buildInfoBar(),
+                      ],
+                    ),
+                  ),
+                ),
                 SizedBox(height: 12.sp),
                 _buildTitle(
                   'Archive',
@@ -223,11 +231,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   fontFamily: FontFamily.lato,
                   fontSize: 10.75.sp,
                   fontWeight: FontWeight.w400,
-                  color: Theme.of(context)
-                      .textTheme
-                      .bodyText1!
-                      .color!
-                      .withOpacity(.9),
+                  color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.9),
                 ),
               ),
               SizedBox(height: 6.5.sp),

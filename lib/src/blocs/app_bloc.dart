@@ -27,7 +27,6 @@ class AppBloc {
     ),
     BlocProvider<ClassBloc>(
       create: (context) => classBloc,
-      lazy: true,
     ),
   ];
 

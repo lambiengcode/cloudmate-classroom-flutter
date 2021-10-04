@@ -82,6 +82,41 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
         );
       }
     }
+
+    if (event is EditClass) {
+      yield GettingClasses(
+        listClasses: classes,
+        isOver: isOverClasses,
+      );
+      UserModel? myProfile = AppBloc.authBloc.userModel;
+      bool isSuccess = await _editClass(
+        event.id,
+        event.name,
+        event.topic,
+        event.intro,
+        myProfile!,
+      );
+      AppNavigator.pop();
+      yield GetClassesDone(
+        listClasses: classes,
+        isOver: isOverClasses,
+      );
+
+      if (isSuccess) {
+        AppNavigator.pop();
+        _showDialogResult(
+          event.context,
+          title: 'Thành công',
+          subTitle: 'Bạn đã chỉnh sửa lớp học thành công',
+        );
+      } else {
+        _showDialogResult(
+          event.context,
+          title: 'Thất bại',
+          subTitle: 'Chỉnh lớp học thất bại, hãy thử lại sau!',
+        );
+      }
+    }
   }
 
   Future<bool> _createClass(
@@ -99,6 +134,31 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
 
     if (newClass != null) {
       classes.insert(0, newClass);
+    }
+
+    return newClass != null;
+  }
+
+  Future<bool> _editClass(
+    String id,
+    String name,
+    String topic,
+    String intro,
+    UserModel myProfile,
+  ) async {
+    ClassModel? newClass = await ClassRepository().editClass(
+      id: id,
+      name: name,
+      topic: topic,
+      intro: intro,
+      myProfile: myProfile,
+    );
+
+    if (newClass != null) {
+      int index = classes.indexWhere((item) => item.id == id);
+      if (index != 1) {
+        classes[index] = newClass;
+      }
     }
 
     return newClass != null;
@@ -142,12 +202,10 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
               height: 8.sp,
             ),
             Padding(
-              padding:
-                  EdgeInsets.symmetric(horizontal: 15.sp, vertical: 7.5.sp),
+              padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: 7.5.sp),
               child: Text(
                 subTitle,
-                style:
-                    TextStyle(fontWeight: FontWeight.w400, fontSize: 11.5.sp),
+                style: TextStyle(fontWeight: FontWeight.w400, fontSize: 11.5.sp),
               ),
             ),
             SizedBox(height: 8.sp),
