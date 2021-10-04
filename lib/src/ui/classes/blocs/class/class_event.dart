@@ -3,6 +3,8 @@ part of 'class_bloc.dart';
 @immutable
 abstract class ClassEvent {}
 
+class TransitionToClassScreen extends ClassEvent {}
+
 class GetClasses extends ClassEvent {}
 
 class CreateClass extends ClassEvent {

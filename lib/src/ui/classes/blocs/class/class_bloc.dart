@@ -21,6 +21,22 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
 
   @override
   Stream<ClassState> mapEventToState(ClassEvent event) async* {
+    if (event is TransitionToClassScreen) {
+      if (classes.isEmpty) {
+        yield ClassInitial();
+        await _getClasses();
+      } else {
+        yield GettingClasses(
+          listClasses: classes,
+          isOver: isOverClasses,
+        );
+      }
+      yield GetClassesDone(
+        listClasses: classes,
+        isOver: isOverClasses,
+      );
+    }
+
     if (event is GetClasses) {
       if (classes.isEmpty) {
         yield ClassInitial();

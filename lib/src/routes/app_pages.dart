@@ -38,9 +38,7 @@ class AppNavigator {
       case AppRoutes.CREATE_CLASS:
         return _buildRoute(
           settings,
-          CreateClassScreen(
-            classBloc: arguments['classBloc'],
-          ),
+          CreateClassScreen(),
           _getSlideMode(arguments),
         );
       case AppRoutes.LIST_REQUEST:
