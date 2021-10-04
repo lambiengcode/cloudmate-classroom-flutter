@@ -12,8 +12,7 @@ class BaseRepository {
     receiveTimeout: 10000,
   )); // with default Options
 
-  Future<diox.Response<dynamic>> downloadFile(
-      String url, String path, Function onReceive) async {
+  Future<diox.Response<dynamic>> downloadFile(String url, String path, Function onReceive) async {
     var response = await dio.download(
       url,
       path,
@@ -45,12 +44,12 @@ class BaseRepository {
     String gateway,
     Map<String, String> body,
   ) async {
+    printEndpoint('POST', gateway);
     var response = await dio.post(
       gateway,
       data: convert.jsonEncode(body),
       options: getOptions(),
     );
-    printEndpoint('POST', gateway);
     printResponse(response);
     return response;
   }
@@ -59,12 +58,12 @@ class BaseRepository {
     String gateway,
     Map<String, String> body,
   ) async {
+    printEndpoint('PUT', gateway);
     var response = await dio.put(
       gateway,
       data: convert.jsonEncode(body),
       options: getOptions(),
     );
-    printEndpoint('PUT', gateway);
     return response;
   }
 
@@ -73,11 +72,11 @@ class BaseRepository {
     String? params,
     String? query,
   }) async {
+    printEndpoint('GET', gateway);
     Map<String, String> paramsObject = {};
     if (params != null) {
       params.split('&').forEach((element) {
-        paramsObject[element.split('=')[0].toString()] =
-            element.split('=')[1].toString();
+        paramsObject[element.split('=')[0].toString()] = element.split('=')[1].toString();
       });
     }
 
@@ -86,7 +85,6 @@ class BaseRepository {
       options: getOptions(),
       queryParameters: query == null ? null : paramsObject,
     );
-    printEndpoint('GET', gateway);
     // printResponse(response);
     return response;
   }
@@ -95,12 +93,12 @@ class BaseRepository {
     String gateway,
     Map<String, String> body,
   ) async {
+    printEndpoint('DELETE', gateway);
     var response = await dio.delete(
       gateway,
       data: convert.jsonEncode(body),
       options: getOptions(),
     );
-    printEndpoint('DELETE', gateway);
     return response;
   }
 

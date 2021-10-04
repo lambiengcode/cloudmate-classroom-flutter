@@ -61,6 +61,10 @@ class ClassModel {
   }
 
   factory ClassModel.fromMap(Map<String, dynamic> map) {
+    late final Map<String, String> defaultImageObject;
+    if (map['image'] == '') {
+      defaultImageObject = Constants.getOnlyDefaultClassImage();
+    }
     return ClassModel(
       id: map['_id'],
       name: map['name'],
@@ -68,10 +72,9 @@ class ClassModel {
       intro: map['intro'],
       createdBy: UserModel.fromMap(map['createdBy']),
       status: map['status'],
-      blurHash: map['blurHash'],
-      members: map['members'],
-      image:
-          map['image'] == '' ? Constants.defaultClassImageString : map['image'],
+      blurHash: map['blurHash'] == '' ? defaultImageObject['blurHash'] : map['blurHash'],
+      members: (map['member'] as List<dynamic>).map((item) => item.toString()).toList(),
+      image: map['image'] == '' ? defaultImageObject['image'] : map['image'],
     );
   }
 
@@ -87,15 +90,14 @@ class ClassModel {
       createdBy: createdBy,
       status: map['status'],
       blurHash: map['blurHash'],
-      members: map['members'],
-      image: map['image'] == '' ? Constants.defaultClassImage : map['image'],
+      members: [],
+      image: map['image'] == '' ? Constants.getOnlyDefaultClassImage() : map['image'],
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory ClassModel.fromJson(String source) =>
-      ClassModel.fromMap(json.decode(source));
+  factory ClassModel.fromJson(String source) => ClassModel.fromMap(json.decode(source));
 
   @override
   String toString() {

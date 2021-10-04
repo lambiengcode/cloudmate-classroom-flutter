@@ -1,8 +1,9 @@
 import 'dart:ui';
-
-import 'package:cloudmate/src/public/constants.dart';
+import 'package:cloudmate/src/models/class_model.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/ui/classes/widgets/drawer_option.dart';
+import 'package:cloudmate/src/ui/common/widgets/animated_fade.dart';
+import 'package:cloudmate/src/utils/blurhash.dart';
 import 'package:flutter/material.dart';
 import 'package:cloudmate/src/resources/hard/hard_chat.dart';
 import 'package:cloudmate/src/resources/hard/hard_post.dart';
@@ -15,28 +16,38 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 class ClassInformationScreen extends StatefulWidget {
+  final ClassModel classModel;
+  const ClassInformationScreen({required this.classModel});
   @override
   State<StatefulWidget> createState() => _ClassInformationScreenState();
 }
 
-class _ClassInformationScreenState extends State<ClassInformationScreen> {
+class _ClassInformationScreenState extends State<ClassInformationScreen>
+    with TickerProviderStateMixin {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  late AnimationController _imageController;
+  late AnimationController _heightController;
   ScrollController scrollController = ScrollController();
-  double heightOfClassImage = 38.h;
+  double heightOfClassImage = 34.h;
 
   @override
   void initState() {
     super.initState();
+    _imageController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 300),
+    );
+    _heightController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 300),
+    );
     scrollController.addListener(() {
       if (scrollController.offset <= 0) {
-        setState(() {
-          heightOfClassImage = 38.h;
-        });
+        _imageController.value = 0.0;
       } else {
-        setState(() {
-          heightOfClassImage = 38.h / (scrollController.offset * 20);
-        });
+        _imageController.value = scrollController.offset / (heightOfClassImage * 1.25);
       }
+      _heightController.value = scrollController.offset;
     });
   }
 
@@ -64,18 +75,16 @@ class _ClassInformationScreenState extends State<ClassInformationScreen> {
                 children: [
                   Stack(
                     children: [
-                      AnimatedContainer(
-                        duration: Duration(milliseconds: 180),
-                        curve: Curves.fastOutSlowIn,
-                        height: heightOfClassImage,
-                        width: 100.w,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.vertical(
-                            bottom: Radius.circular(35.sp),
-                          ),
-                          image: DecorationImage(
-                            image: Constants.defaultClassImage,
-                            fit: BoxFit.cover,
+                      AnimatedFade(
+                        animation: Tween(begin: 1.0, end: 0.0).animate(_imageController),
+                        child: Container(
+                          height: heightOfClassImage,
+                          width: 100.w,
+                          child: BlurHash(
+                            hash: widget.classModel.blurHash,
+                            image: widget.classModel.image,
+                            imageFit: BoxFit.cover,
+                            color: colorPrimary,
                           ),
                         ),
                       ),
@@ -140,7 +149,7 @@ class _ClassInformationScreenState extends State<ClassInformationScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                posts[1].groupName + ' - \nBeginner',
+                                widget.classModel.name,
                                 style: TextStyle(
                                   fontSize: 18.sp,
                                   fontFamily: FontFamily.lato,
@@ -152,24 +161,22 @@ class _ClassInformationScreenState extends State<ClassInformationScreen> {
                                 children: [
                                   StackAvatar(
                                     size: 22.sp,
-                                    images: chats
-                                        .sublist(3, 6)
-                                        .map((e) => e.image!)
-                                        .toList(),
+                                    images: chats.sublist(3, 6).map((e) => e.image!).toList(),
                                   ),
                                   SizedBox(width: 6.sp),
                                   Text(
-                                    '40 học viên',
+                                    widget.classModel.members.isEmpty
+                                        ? 'Chưa có học viên'
+                                        : '${widget.classModel.members.length} học viên',
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                       fontSize: 12.sp,
                                       fontFamily: FontFamily.lato,
                                       fontWeight: FontWeight.w400,
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1!
-                                          .color!,
+                                      color: widget.classModel.members.isEmpty
+                                          ? Theme.of(context).primaryColor
+                                          : Theme.of(context).textTheme.bodyText1!.color!,
                                     ),
                                   ),
                                 ],
@@ -205,17 +212,12 @@ class _ClassInformationScreenState extends State<ClassInformationScreen> {
                         ),
                         SizedBox(height: 10.sp),
                         Text(
-                          'This is a class for a beginner in Flutter. You will learn about the basic'
-                          ' of object structure and some mobile application. Join with us today.',
+                          widget.classModel.intro,
                           style: TextStyle(
                             fontSize: 12.sp,
                             fontFamily: FontFamily.lato,
                             fontWeight: FontWeight.w400,
-                            color: Theme.of(context)
-                                .textTheme
-                                .bodyText2!
-                                .color!
-                                .withOpacity(.8),
+                            color: Theme.of(context).textTheme.bodyText2!.color!.withOpacity(.8),
                           ),
                         ),
                       ],

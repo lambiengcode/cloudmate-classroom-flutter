@@ -164,6 +164,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
                       AppRoutes.DETAILS_CLASS,
                       arguments: {
                         'slide': SlideMode.bot,
+                        'classModel': state.props[0][index],
                       },
                     );
                   },
