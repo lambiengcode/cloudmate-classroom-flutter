@@ -1,3 +1,4 @@
+import 'package:cloudmate/src/models/class_model.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/routes/app_routes.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
@@ -7,6 +8,8 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 class DrawerOption extends StatefulWidget {
+  final ClassModel classModel;
+  const DrawerOption({required this.classModel});
   @override
   State<StatefulWidget> createState() => _DrawerOptionState();
 }
@@ -26,6 +29,17 @@ class _DrawerOptionState extends State<DrawerOption> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(height: 20.sp),
+                  _buildLine(
+                    context,
+                    'Chỉnh sửa lớp học',
+                    PhosphorIcons.pen,
+                    colorPrimary,
+                    AppRoutes.CREATE_CLASS,
+                    arguments: {
+                      'classModel': widget.classModel,
+                    },
+                  ),
+                  _buildDividerTransparant(context),
                   _buildLine(
                     context,
                     'Bộ đề kiểm tra',
@@ -91,12 +105,19 @@ class _DrawerOptionState extends State<DrawerOption> {
     );
   }
 
-  Widget _buildLine(context, title, icon, color, routeName) {
+  Widget _buildLine(
+    context,
+    title,
+    icon,
+    color,
+    routeName, {
+    Object? arguments,
+  }) {
     return GestureDetector(
       onTap: () {
         if (routeName != null) {
           AppNavigator.pop();
-          AppNavigator.push(routeName);
+          AppNavigator.push(routeName, arguments: arguments);
         }
       },
       child: Container(
@@ -118,12 +139,7 @@ class _DrawerOptionState extends State<DrawerOption> {
                 style: TextStyle(
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w600,
-                  color: color ??
-                      Theme.of(context)
-                          .textTheme
-                          .bodyText1!
-                          .color!
-                          .withOpacity(.75),
+                  color: color ?? Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.75),
                   fontFamily: FontFamily.lato,
                 ),
               ),

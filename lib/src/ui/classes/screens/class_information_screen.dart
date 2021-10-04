@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:cloudmate/src/models/class_model.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
+import 'package:cloudmate/src/ui/classes/blocs/class/class_bloc.dart';
 import 'package:cloudmate/src/ui/classes/widgets/drawer_option.dart';
 import 'package:cloudmate/src/ui/common/widgets/animated_fade.dart';
 import 'package:cloudmate/src/utils/blurhash.dart';
@@ -12,6 +13,7 @@ import 'package:cloudmate/src/themes/app_decorations.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/ui/home/widgets/post_card.dart';
 import 'package:cloudmate/src/utils/stack_avatar.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
@@ -27,12 +29,14 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   late AnimationController _imageController;
   late AnimationController _heightController;
+  late ClassModel _classModel;
   ScrollController scrollController = ScrollController();
   double heightOfClassImage = 34.h;
 
   @override
   void initState() {
     super.initState();
+    _classModel = widget.classModel;
     _imageController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 300),
@@ -53,213 +57,229 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      extendBodyBehindAppBar: true,
-      endDrawer: Container(
-        width: 60.w,
-        child: Drawer(
-          child: DrawerOption(),
+    return BlocListener<ClassBloc, ClassState>(
+      listener: (context, state) {
+        if (state is GetClassesDone) {
+          int index = (state.props[0] as List<ClassModel>).indexWhere(
+            (item) => item.id == widget.classModel.id,
+          );
+          if (index != -1) {
+            setState(() {
+              _classModel = state.props[0][index];
+            });
+          }
+        }
+      },
+      child: Scaffold(
+        key: _scaffoldKey,
+        extendBodyBehindAppBar: true,
+        endDrawer: Container(
+          width: 60.w,
+          child: Drawer(
+            child: DrawerOption(
+              classModel: widget.classModel,
+            ),
+          ),
         ),
-      ),
-      body: Stack(
-        children: [
-          Container(
-            height: 100.h,
-            width: 100.w,
-            child: SingleChildScrollView(
-              controller: scrollController,
-              physics: BouncingScrollPhysics(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Stack(
-                    children: [
-                      AnimatedFade(
-                        animation: Tween(begin: 1.0, end: 0.0).animate(_imageController),
-                        child: Container(
-                          height: heightOfClassImage,
-                          width: 100.w,
-                          child: BlurHash(
-                            hash: widget.classModel.blurHash,
-                            image: widget.classModel.image,
-                            imageFit: BoxFit.cover,
-                            color: colorPrimary,
+        body: Stack(
+          children: [
+            Container(
+              height: 100.h,
+              width: 100.w,
+              child: SingleChildScrollView(
+                controller: scrollController,
+                physics: BouncingScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Stack(
+                      children: [
+                        AnimatedFade(
+                          animation: Tween(begin: 1.0, end: 0.0).animate(_imageController),
+                          child: Container(
+                            height: heightOfClassImage,
+                            width: 100.w,
+                            child: BlurHash(
+                              hash: _classModel.blurHash,
+                              image: _classModel.image,
+                              imageFit: BoxFit.cover,
+                              color: colorPrimary,
+                            ),
                           ),
                         ),
-                      ),
-                      Positioned(
-                        top: 35.sp,
-                        left: 0,
-                        right: 0,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                AppNavigator.pop();
-                              },
-                              child: Container(
-                                padding: EdgeInsets.all(9.25.sp),
-                                margin: EdgeInsets.only(left: 10.sp),
-                                decoration: BoxDecoration(
-                                  color: Colors.black.withOpacity(.15),
-                                  borderRadius: BorderRadius.circular(8.sp),
-                                ),
-                                child: Icon(
-                                  PhosphorIcons.arrowLeftBold,
-                                  size: 18.sp,
-                                  color: mC,
-                                ),
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                _scaffoldKey.currentState!.openEndDrawer();
-                              },
-                              child: Container(
-                                padding: EdgeInsets.all(9.25.sp),
-                                margin: EdgeInsets.only(right: 10.sp),
-                                decoration: BoxDecoration(
-                                  color: Colors.black.withOpacity(.15),
-                                  borderRadius: BorderRadius.circular(8.sp),
-                                ),
-                                child: Icon(
-                                  PhosphorIcons.slidersHorizontal,
-                                  size: 18.sp,
-                                  color: mC,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 16.sp),
-                  Container(
-                    padding: EdgeInsets.only(left: 10.sp, right: 12.sp),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Column(
+                        Positioned(
+                          top: 35.sp,
+                          left: 0,
+                          right: 0,
+                          child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                widget.classModel.name,
-                                style: TextStyle(
-                                  fontSize: 18.sp,
-                                  fontFamily: FontFamily.lato,
-                                  fontWeight: FontWeight.w600,
+                              GestureDetector(
+                                onTap: () {
+                                  AppNavigator.pop();
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(9.25.sp),
+                                  margin: EdgeInsets.only(left: 10.sp),
+                                  decoration: BoxDecoration(
+                                    color: Colors.black.withOpacity(.15),
+                                    borderRadius: BorderRadius.circular(8.sp),
+                                  ),
+                                  child: Icon(
+                                    PhosphorIcons.arrowLeftBold,
+                                    size: 18.sp,
+                                    color: mC,
+                                  ),
                                 ),
                               ),
-                              SizedBox(height: 5.sp),
-                              Row(
-                                children: [
-                                  StackAvatar(
-                                    size: 22.sp,
-                                    images: chats.sublist(3, 6).map((e) => e.image!).toList(),
+                              GestureDetector(
+                                onTap: () {
+                                  _scaffoldKey.currentState!.openEndDrawer();
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(9.25.sp),
+                                  margin: EdgeInsets.only(right: 10.sp),
+                                  decoration: BoxDecoration(
+                                    color: Colors.black.withOpacity(.15),
+                                    borderRadius: BorderRadius.circular(8.sp),
                                   ),
-                                  SizedBox(width: 6.sp),
-                                  Text(
-                                    widget.classModel.members.isEmpty
-                                        ? 'Chưa có học viên'
-                                        : '${widget.classModel.members.length} học viên',
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      fontSize: 12.sp,
-                                      fontFamily: FontFamily.lato,
-                                      fontWeight: FontWeight.w400,
-                                      color: widget.classModel.members.isEmpty
-                                          ? Theme.of(context).primaryColor
-                                          : Theme.of(context).textTheme.bodyText1!.color!,
-                                    ),
+                                  child: Icon(
+                                    PhosphorIcons.slidersHorizontal,
+                                    size: 18.sp,
+                                    color: mC,
                                   ),
-                                ],
+                                ),
                               ),
                             ],
                           ),
                         ),
-                        Text(
-                          '\$ Free',
-                          style: TextStyle(
-                            fontSize: 15.sp,
-                            fontFamily: FontFamily.lato,
-                            fontWeight: FontWeight.w600,
-                            color: colorPrimary,
-                          ),
-                        ),
                       ],
                     ),
-                  ),
-                  SizedBox(height: 12.sp),
-                  Container(
-                    padding: EdgeInsets.only(left: 10.sp, right: 12.sp),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Intro',
-                          style: TextStyle(
-                            fontSize: 15.sp,
-                            fontFamily: FontFamily.lato,
-                            fontWeight: FontWeight.w600,
+                    SizedBox(height: 16.sp),
+                    Container(
+                      padding: EdgeInsets.only(left: 10.sp, right: 12.sp),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  _classModel.name,
+                                  style: TextStyle(
+                                    fontSize: 18.sp,
+                                    fontFamily: FontFamily.lato,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                SizedBox(height: 5.sp),
+                                Row(
+                                  children: [
+                                    StackAvatar(
+                                      size: 22.sp,
+                                      images: chats.sublist(3, 6).map((e) => e.image!).toList(),
+                                    ),
+                                    SizedBox(width: 6.sp),
+                                    Text(
+                                      _classModel.members.isEmpty
+                                          ? 'Chưa có học viên'
+                                          : '${_classModel.members.length} học viên',
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontSize: 12.sp,
+                                        fontFamily: FontFamily.lato,
+                                        fontWeight: FontWeight.w400,
+                                        color: _classModel.members.isEmpty
+                                            ? Theme.of(context).primaryColor
+                                            : Theme.of(context).textTheme.bodyText1!.color!,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 10.sp),
-                        Text(
-                          widget.classModel.intro,
-                          style: TextStyle(
-                            fontSize: 12.sp,
-                            fontFamily: FontFamily.lato,
-                            fontWeight: FontWeight.w400,
-                            color: Theme.of(context).textTheme.bodyText2!.color!.withOpacity(.8),
+                          Text(
+                            '\$ Free',
+                            style: TextStyle(
+                              fontSize: 15.sp,
+                              fontFamily: FontFamily.lato,
+                              fontWeight: FontWeight.w600,
+                              color: colorPrimary,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 16.sp),
-                  Container(
-                    padding: EdgeInsets.only(left: 10.sp, right: 12.sp),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Posts',
-                          style: TextStyle(
-                            fontSize: 15.sp,
-                            fontFamily: FontFamily.lato,
-                            fontWeight: FontWeight.w600,
+                    SizedBox(height: 12.sp),
+                    Container(
+                      padding: EdgeInsets.only(left: 10.sp, right: 12.sp),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Intro',
+                            style: TextStyle(
+                              fontSize: 15.sp,
+                              fontFamily: FontFamily.lato,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
-                        ),
-                      ],
+                          SizedBox(height: 10.sp),
+                          Text(
+                            widget.classModel.intro,
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              fontFamily: FontFamily.lato,
+                              fontWeight: FontWeight.w400,
+                              color: Theme.of(context).textTheme.bodyText2!.color!.withOpacity(.8),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    padding: EdgeInsets.only(
-                      bottom: 80.sp,
+                    SizedBox(height: 16.sp),
+                    Container(
+                      padding: EdgeInsets.only(left: 10.sp, right: 12.sp),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Posts',
+                            style: TextStyle(
+                              fontSize: 15.sp,
+                              fontFamily: FontFamily.lato,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: posts.length,
-                    itemBuilder: (context, index) {
-                      return PostCard(
-                        post: posts[index],
-                        isLast: index == posts.length - 1,
-                      );
-                    },
-                  ),
-                ],
+                    ListView.builder(
+                      shrinkWrap: true,
+                      padding: EdgeInsets.only(
+                        bottom: 80.sp,
+                      ),
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: posts.length,
+                      itemBuilder: (context, index) {
+                        return PostCard(
+                          post: posts[index],
+                          isLast: index == posts.length - 1,
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          _buildBottomBar(),
-        ],
+            _buildBottomBar(),
+          ],
+        ),
       ),
     );
   }

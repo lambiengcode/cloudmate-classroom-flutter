@@ -67,6 +67,28 @@ class BaseRepository {
     return response;
   }
 
+  Future<diox.Response<dynamic>> patchRoute(
+    String gateway, {
+    String? query,
+    Map<String, String>? body,
+  }) async {
+    printEndpoint('PATCH', gateway);
+    Map<String, String> paramsObject = {};
+    if (query != null) {
+      query.split('&').forEach((element) {
+        paramsObject[element.split('=')[0].toString()] = element.split('=')[1].toString();
+      });
+    }
+
+    var response = await dio.patch(
+      gateway,
+      data: convert.jsonEncode(body),
+      options: getOptions(),
+      queryParameters: query == null ? null : paramsObject,
+    );
+    return response;
+  }
+
   Future<diox.Response<dynamic>> getRoute(
     String gateway, {
     String? params,
@@ -74,8 +96,8 @@ class BaseRepository {
   }) async {
     printEndpoint('GET', gateway);
     Map<String, String> paramsObject = {};
-    if (params != null) {
-      params.split('&').forEach((element) {
+    if (query != null) {
+      query.split('&').forEach((element) {
         paramsObject[element.split('=')[0].toString()] = element.split('=')[1].toString();
       });
     }

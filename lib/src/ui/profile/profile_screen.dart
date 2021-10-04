@@ -121,7 +121,7 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                 AnimatedBuilder(
                   animation: _infoCardController,
                   builder: (context, child) => _infoCardController.value > .5
-                      ? SizedBox(height: 12.h - 12.h * _infoCardController.value)
+                      ? SizedBox(height: 16.h - 16.h * _infoCardController.value)
                       : child!,
                   child: AnimatedFade(
                     animation: Tween(begin: 1.0, end: 0.0).animate(_infoCardController),

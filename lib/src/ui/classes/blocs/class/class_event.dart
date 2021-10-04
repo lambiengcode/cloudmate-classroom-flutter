@@ -19,3 +19,18 @@ class CreateClass extends ClassEvent {
     required this.topic,
   });
 }
+
+class EditClass extends ClassEvent {
+  final BuildContext context;
+  final String id;
+  final String name;
+  final String topic;
+  final String intro;
+  EditClass({
+    required this.context,
+    required this.id,
+    required this.name,
+    required this.intro,
+    required this.topic,
+  });
+}

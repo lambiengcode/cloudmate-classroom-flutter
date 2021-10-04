@@ -1,4 +1,4 @@
-include: package:pedantic/analysis_options.1.9.0.yaml
-linter:
-  rules:
-    prefer_single_quotes: false
+# include: package:pedantic/analysis_options.1.9.0.yaml
+# linter:
+#   rules:
+#     prefer_single_quotes: false

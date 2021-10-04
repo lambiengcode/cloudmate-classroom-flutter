@@ -21,7 +21,7 @@ class AppNavigator {
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey();
   SlideMode defautlSlide = SlideMode.right;
   Route<dynamic> getRoute(RouteSettings settings) {
-    Map<String, dynamic> arguments = _getArguments(settings);
+    Map<String, dynamic>? arguments = _getArguments(settings);
     switch (settings.name) {
       case AppRoutes.ROOT:
         return _buildRoute(
@@ -33,14 +33,16 @@ class AppNavigator {
         return _buildRoute(
           settings,
           ClassInformationScreen(
-            classModel: arguments['classModel'],
+            classModel: arguments!['classModel'],
           ),
           _getSlideMode(arguments),
         );
       case AppRoutes.CREATE_CLASS:
         return _buildRoute(
           settings,
-          CreateClassScreen(),
+          CreateClassScreen(
+            classModel: arguments!['classModel'],
+          ),
           _getSlideMode(arguments),
         );
       case AppRoutes.LIST_REQUEST:
@@ -114,14 +116,14 @@ class AppNavigator {
   }
 
   _getArguments(RouteSettings settings) {
-    return (settings.arguments ?? {});
+    return settings.arguments;
   }
 
   _getSlideMode(Map<String, dynamic>? arguments) {
     if (arguments == null) {
       return SlideMode.right;
     } else {
-      return arguments['slide'];
+      return arguments['slide'] ?? SlideMode.right;
     }
   }
 

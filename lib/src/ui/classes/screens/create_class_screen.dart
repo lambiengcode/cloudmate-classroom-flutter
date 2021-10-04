@@ -1,4 +1,5 @@
 import 'package:cloudmate/src/blocs/app_bloc.dart';
+import 'package:cloudmate/src/models/class_model.dart';
 import 'package:cloudmate/src/public/constants.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
@@ -12,6 +13,8 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 class CreateClassScreen extends StatefulWidget {
+  final ClassModel? classModel;
+  const CreateClassScreen({this.classModel});
   @override
   _CreateClassScreenState createState() => _CreateClassScreenState();
 }
@@ -28,6 +31,14 @@ class _CreateClassScreenState extends State<CreateClassScreen> {
   @override
   void initState() {
     super.initState();
+    if (widget.classModel != null) {
+      _nameClassController.text = widget.classModel!.name;
+      _introClassController.text = widget.classModel!.intro;
+      _classTopicController.text = widget.classModel!.topic;
+      _name = widget.classModel!.name;
+      _topic = widget.classModel!.topic;
+      _intro = widget.classModel!.intro;
+    }
   }
 
   @override
@@ -46,7 +57,7 @@ class _CreateClassScreenState extends State<CreateClassScreen> {
           ),
         ),
         title: Text(
-          'Tạo lớp học mới',
+          widget.classModel != null ? 'Chỉnh sửa lớp học' : 'Tạo lớp học mới',
           style: TextStyle(
             fontSize: 15.sp,
             fontFamily: FontFamily.lato,
@@ -113,14 +124,26 @@ class _CreateClassScreenState extends State<CreateClassScreen> {
                         onTap: () async {
                           if (_formKey.currentState!.validate()) {
                             showDialogLoading(context);
-                            AppBloc.classBloc.add(
-                              CreateClass(
-                                context: context,
-                                name: _name,
-                                intro: _intro,
-                                topic: _topic,
-                              ),
-                            );
+                            if (widget.classModel != null) {
+                              AppBloc.classBloc.add(
+                                EditClass(
+                                  context: context,
+                                  id: widget.classModel!.id,
+                                  name: _name,
+                                  intro: _intro,
+                                  topic: _topic,
+                                ),
+                              );
+                            } else {
+                              AppBloc.classBloc.add(
+                                CreateClass(
+                                  context: context,
+                                  name: _name,
+                                  intro: _intro,
+                                  topic: _topic,
+                                ),
+                              );
+                            }
                           }
                         },
                         child: Container(
@@ -132,7 +155,7 @@ class _CreateClassScreenState extends State<CreateClassScreen> {
                           ),
                           child: Center(
                             child: Text(
-                              'Tạo lớp học',
+                              widget.classModel != null ? 'Lưu thông tin' : 'Tạo lớp học',
                               style: TextStyle(
                                 color: mC,
                                 fontSize: 11.5.sp,

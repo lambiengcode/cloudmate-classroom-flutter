@@ -82,6 +82,11 @@ class ClassModel {
     Map<String, dynamic> map,
     UserModel createdBy,
   ) {
+    late final Map<String, String> defaultImageObject;
+    if (map['image'] == '') {
+      defaultImageObject = Constants.getOnlyDefaultClassImage();
+    }
+
     return ClassModel(
       id: map['_id'],
       name: map['name'],
@@ -89,9 +94,9 @@ class ClassModel {
       intro: map['intro'],
       createdBy: createdBy,
       status: map['status'],
-      blurHash: map['blurHash'],
+      blurHash: map['blurHash'] == '' ? defaultImageObject['blurHash'] : map['blurHash'],
       members: [],
-      image: map['image'] == '' ? Constants.getOnlyDefaultClassImage() : map['image'],
+      image: map['image'] == '' ? defaultImageObject['image'] : map['image'],
     );
   }
 
