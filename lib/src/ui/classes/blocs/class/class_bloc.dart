@@ -202,10 +202,12 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
               height: 8.sp,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: 7.5.sp),
+              padding:
+                  EdgeInsets.symmetric(horizontal: 15.sp, vertical: 7.5.sp),
               child: Text(
                 subTitle,
-                style: TextStyle(fontWeight: FontWeight.w400, fontSize: 11.5.sp),
+                style:
+                    TextStyle(fontWeight: FontWeight.w400, fontSize: 11.5.sp),
               ),
             ),
             SizedBox(height: 8.sp),

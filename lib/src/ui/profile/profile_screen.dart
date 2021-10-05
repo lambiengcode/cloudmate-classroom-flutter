@@ -1,5 +1,8 @@
 import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/blocs/authentication/bloc.dart';
+import 'package:cloudmate/src/models/slide_mode.dart';
+import 'package:cloudmate/src/routes/app_pages.dart';
+import 'package:cloudmate/src/routes/app_routes.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
 import 'package:cloudmate/src/ui/common/screens/loading_screen.dart';
 import 'package:cloudmate/src/ui/common/widgets/animated_fade.dart';
@@ -54,7 +57,15 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                 PhosphorIcons.slidersHorizontal,
                 size: 22.5.sp,
               ),
-              onPressed: () => null,
+              onPressed: () {
+                print(AppNavigator.currentRoute(context));
+                AppNavigator.push(
+                  AppRoutes.EDIT_INFO_USER,
+                  arguments: {
+                    'slide': SlideMode.left,
+                  },
+                );
+              },
             ),
             title: AnimatedBuilder(
               animation: _infoCardController,

@@ -12,7 +12,8 @@ class BaseRepository {
     receiveTimeout: 10000,
   )); // with default Options
 
-  Future<diox.Response<dynamic>> downloadFile(String url, String path, Function onReceive) async {
+  Future<diox.Response<dynamic>> downloadFile(
+      String url, String path, Function onReceive) async {
     var response = await dio.download(
       url,
       path,
@@ -76,7 +77,8 @@ class BaseRepository {
     Map<String, String> paramsObject = {};
     if (query != null) {
       query.split('&').forEach((element) {
-        paramsObject[element.split('=')[0].toString()] = element.split('=')[1].toString();
+        paramsObject[element.split('=')[0].toString()] =
+            element.split('=')[1].toString();
       });
     }
 
@@ -98,7 +100,8 @@ class BaseRepository {
     Map<String, String> paramsObject = {};
     if (query != null) {
       query.split('&').forEach((element) {
-        paramsObject[element.split('=')[0].toString()] = element.split('=')[1].toString();
+        paramsObject[element.split('=')[0].toString()] =
+            element.split('=')[1].toString();
       });
     }
 

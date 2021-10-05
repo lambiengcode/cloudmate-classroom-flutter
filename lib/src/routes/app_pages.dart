@@ -7,6 +7,7 @@ import 'package:cloudmate/src/ui/classes/screens/list_exam_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/list_questions_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/list_request_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/road_map_screen.dart';
+import 'package:cloudmate/src/ui/profile/screens/edit_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cloudmate/src/app.dart';
 import 'package:cloudmate/src/models/slide_mode.dart';
@@ -93,6 +94,14 @@ class AppNavigator {
           DoExamScreen(),
           _getSlideMode(arguments),
         );
+
+      // User
+      case AppRoutes.EDIT_INFO_USER:
+        return _buildRoute(
+          settings,
+          EditInfoScreen(),
+          _getSlideMode(arguments),
+        );
       default:
         return _buildRoute(settings, App(), SlideMode.right);
     }
@@ -141,7 +150,7 @@ class AppNavigator {
     return state.pushReplacementNamed(route, arguments: arguments);
   }
 
-  static void popUntil<T>(String route) => state.popUntil((route) => false);
+  static void popUntil<T>(String route) => state.popUntil(ModalRoute.withName(route));
 
   static void pop() => state.pop();
 

@@ -4,6 +4,7 @@ class ApiGateway {
   static const REGISTER = 'api/authentication/register';
 
   // User
+  static const USER = 'api/user';
   static const GET_INFO = 'api/user/info';
 
   // Class
