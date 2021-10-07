@@ -187,10 +187,11 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
       child: Container(
         width: 300.sp,
         height: 155.sp,
-        padding: EdgeInsets.symmetric(vertical: 20.sp),
+        padding: EdgeInsets.symmetric(vertical: 16.sp),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            SizedBox(height: 6.sp),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 15.sp),
               child: Text(
@@ -198,16 +199,15 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13.sp),
               ),
             ),
-            SizedBox(
-              height: 8.sp,
-            ),
+            SizedBox(height: 10.sp),
             Padding(
               padding:
                   EdgeInsets.symmetric(horizontal: 15.sp, vertical: 7.5.sp),
               child: Text(
                 subTitle,
+                textAlign: TextAlign.center,
                 style:
-                    TextStyle(fontWeight: FontWeight.w400, fontSize: 11.5.sp),
+                    TextStyle(fontWeight: FontWeight.w400, fontSize: 10.5.sp),
               ),
             ),
             SizedBox(height: 8.sp),

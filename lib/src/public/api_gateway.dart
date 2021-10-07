@@ -9,4 +9,7 @@ class ApiGateway {
 
   // Class
   static const CLASS = 'api/classes';
+
+  // Exam
+  static const SET_OF_QUESTIONS = 'api/set-of-questions';
 }

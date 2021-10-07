@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:cloudmate/src/models/slide_mode.dart';
-import 'package:cloudmate/src/resources/hard/hard_post.dart';
 import 'package:cloudmate/src/routes/app_routes.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
@@ -110,14 +109,14 @@ class _ClassesScreenState extends State<ClassesScreen> {
     );
   }
 
-  Widget _buildClassesBody(context, state) {
+  Widget _buildClassesBody(context, ClassState state) {
     return Expanded(
       child: ListView.builder(
         physics: BouncingScrollPhysics(),
         padding: EdgeInsets.only(top: 8.sp, bottom: 16.sp),
-        itemCount: posts.length + 1,
+        itemCount: state.props[0].length + (state.props[0].length == 0 ? 0 : 1),
         itemBuilder: (context, index) {
-          return index == 0
+          return index == 0 && state.props[0].length > 0
               ? _buildCurrentClasses(context, state)
               : GestureDetector(
                   onTap: () {
@@ -125,14 +124,13 @@ class _ClassesScreenState extends State<ClassesScreen> {
                       AppRoutes.DETAILS_CLASS,
                       arguments: {
                         'slide': SlideMode.bot,
+                        'classModel': state.props[0][index - 1],
                       },
                     );
                   },
                   child: RecommendClassCard(
-                    imageClass: posts[index - 1].imageGroup,
-                    className: posts[index - 1].groupName,
-                    star: '4.5 / 5.0',
-                    teacher: posts[index - 1].authorName,
+                    classModel: state.props[0]
+                        [index - (state.props[0].length == 0 ? 0 : 1)],
                   ),
                 );
         },

@@ -46,6 +46,9 @@ class _DrawerOptionState extends State<DrawerOption> {
                     PhosphorIcons.clipboard,
                     colorPrimary,
                     AppRoutes.LIST_EXAM,
+                    arguments: {
+                      'classId': widget.classModel.id,
+                    },
                   ),
                   _buildDividerTransparant(context),
                   _buildLine(

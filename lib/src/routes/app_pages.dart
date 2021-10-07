@@ -55,13 +55,18 @@ class AppNavigator {
       case AppRoutes.LIST_EXAM:
         return _buildRoute(
           settings,
-          ListExamScreen(),
+          ListExamScreen(
+            classId: arguments!['classId'],
+          ),
           _getSlideMode(arguments),
         );
       case AppRoutes.CREATE_EXAM:
         return _buildRoute(
           settings,
-          CreateExamScreen(),
+          CreateExamScreen(
+            classId: arguments!['classId'],
+            examBloc: arguments['examBloc'],
+          ),
           _getSlideMode(arguments),
         );
       case AppRoutes.LIST_QUESTION:

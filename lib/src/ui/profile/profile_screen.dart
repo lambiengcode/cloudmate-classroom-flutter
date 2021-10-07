@@ -11,7 +11,6 @@ import 'package:cloudmate/src/resources/hard/hard_post.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/app_decorations.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
-import 'package:cloudmate/src/ui/classes/widgets/recommend_class_card.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
@@ -21,7 +20,8 @@ class ProfileScreen extends StatefulWidget {
   State<StatefulWidget> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateMixin {
+class _ProfileScreenState extends State<ProfileScreen>
+    with TickerProviderStateMixin {
   late AnimationController _infoCardController;
   ScrollController scrollController = ScrollController();
 
@@ -58,7 +58,6 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                 size: 22.5.sp,
               ),
               onPressed: () {
-                print(AppNavigator.currentRoute(context));
                 AppNavigator.push(
                   AppRoutes.EDIT_INFO_USER,
                   arguments: {
@@ -69,7 +68,8 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
             ),
             title: AnimatedBuilder(
               animation: _infoCardController,
-              builder: (context, child) => _infoCardController.value < .5 ? SizedBox() : child!,
+              builder: (context, child) =>
+                  _infoCardController.value < .5 ? SizedBox() : child!,
               child: Text(
                 auth.userModel!.displayName!,
                 style: TextStyle(
@@ -132,10 +132,12 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                 AnimatedBuilder(
                   animation: _infoCardController,
                   builder: (context, child) => _infoCardController.value > .5
-                      ? SizedBox(height: 16.h - 16.h * _infoCardController.value)
+                      ? SizedBox(
+                          height: 16.h - 16.h * _infoCardController.value)
                       : child!,
                   child: AnimatedFade(
-                    animation: Tween(begin: 1.0, end: 0.0).animate(_infoCardController),
+                    animation: Tween(begin: 1.0, end: 0.0)
+                        .animate(_infoCardController),
                     child: Column(
                       children: [
                         SizedBox(height: 10.sp),
@@ -144,7 +146,7 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                            fontSize: 15.sp,
+                            fontSize: 14.sp,
                             fontFamily: FontFamily.lato,
                             fontWeight: FontWeight.w600,
                           ),
@@ -158,9 +160,9 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                              fontSize: 11.75.sp,
+                              fontSize: 11.sp,
                               fontWeight: FontWeight.w400,
-                              color: auth.userModel!.intro == null ? colorPrimary : null,
+                              color: colorPrimary,
                             ),
                             textAlign: TextAlign.center,
                           ),
@@ -190,12 +192,7 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                       physics: ClampingScrollPhysics(),
                       itemCount: posts.length,
                       itemBuilder: (context, index) {
-                        return RecommendClassCard(
-                          imageClass: posts[index].imageGroup,
-                          className: posts[index].groupName,
-                          star: '4.5 / 5.0',
-                          teacher: posts[index].authorName,
-                        );
+                        return Container();
                       },
                     ),
                   ),
@@ -242,7 +239,11 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                   fontFamily: FontFamily.lato,
                   fontSize: 10.75.sp,
                   fontWeight: FontWeight.w400,
-                  color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.9),
+                  color: Theme.of(context)
+                      .textTheme
+                      .bodyText1!
+                      .color!
+                      .withOpacity(.9),
                 ),
               ),
               SizedBox(height: 6.5.sp),

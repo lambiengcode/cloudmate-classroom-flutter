@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/blocs/authentication/bloc.dart';
 import 'package:cloudmate/src/configs/application.dart';
 import 'package:cloudmate/src/models/user.dart';
@@ -114,7 +115,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _getUserInfo() async {
     UserModel? user = await UserRepository().getInfoUser();
-    userModel = user;
+    if (user == null) {
+      AppBloc.authBloc.add(LogOutEvent());
+    } else {
+      userModel = user;
+    }
   }
 
   Future<void> _updateUser({

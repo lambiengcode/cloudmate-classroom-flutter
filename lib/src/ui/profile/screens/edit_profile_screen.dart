@@ -121,7 +121,7 @@ class _EditInfoScreenState extends State<EditInfoScreen> {
                               _buildLineInfo(
                                 context,
                                 'Giới thiệu',
-                                '',
+                                'Hãy nhập lời giới thiệu về bạn',
                                 _introController,
                               ),
                               _buildDivider(context),
@@ -182,6 +182,7 @@ class _EditInfoScreenState extends State<EditInfoScreen> {
     return Container(
       padding: EdgeInsets.fromLTRB(12.sp, 16.sp, 16.sp, 2.5.sp),
       child: TextFormField(
+        maxLines: null,
         controller: controller,
         cursorColor: colorTitle,
         cursorRadius: Radius.circular(30.0),
@@ -198,7 +199,7 @@ class _EditInfoScreenState extends State<EditInfoScreen> {
           } else if (title == 'Số điện thoại') {
             return val!.trim().length < 9 ? valid : null;
           }
-          return null;
+          return val!.trim().length == 0 ? valid : null;
         },
         onChanged: (val) {
           setState(() {
@@ -229,7 +230,8 @@ class _EditInfoScreenState extends State<EditInfoScreen> {
           border: InputBorder.none,
           labelText: title,
           labelStyle: TextStyle(
-            color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
+            color:
+                Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
             fontSize: 11.sp,
             fontWeight: FontWeight.w600,
           ),
