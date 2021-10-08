@@ -26,17 +26,12 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
   @override
   Stream<ClassState> mapEventToState(ClassEvent event) async* {
     if (event is TransitionToClassScreen) {
+      yield ClassInitial();
+      _resetRecommendClass();
       if (classes.isEmpty) {
-        yield ClassInitial();
         await _getClasses();
-      } else {
-        yield GettingClasses(
-          listClasses: classes,
-          listRecommend: recommendClasses,
-          isOver: isOverClasses,
-        );
       }
-      // await _getRecommedClasses();
+      await _getRecommedClasses();
       yield GetClassesDone(
         listClasses: classes,
         listRecommend: recommendClasses,
@@ -148,6 +143,28 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
         );
       }
     }
+
+    if (event is JoinClass) {
+      bool isJoinSuccess = await _joinClass(classId: event.classId);
+      yield GetClassesDone(
+        listClasses: classes,
+        listRecommend: recommendClasses,
+        isOver: isOverClasses,
+      );
+      if (isJoinSuccess) {
+        _showDialogResult(
+          event.context,
+          title: 'Thành công',
+          subTitle: 'Chúc mừng, bạn đã là học viên của lớp!',
+        );
+      } else {
+        _showDialogResult(
+          event.context,
+          title: 'Thất bại',
+          subTitle: 'Tham gia thất bại, hãy thử lại sau!',
+        );
+      }
+    }
   }
 
   Future<bool> _createClass(
@@ -208,7 +225,8 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
   }
 
   Future<void> _getRecommedClasses() async {
-    List<ClassModel> listResult = await ClassRepository().getListRecommendClasses(
+    List<ClassModel> listResult =
+        await ClassRepository().getListRecommendClasses(
       skip: skipRecommend,
     );
     if (listResult.isNotEmpty) {
@@ -217,6 +235,19 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
     } else {
       isOverRecommend = true;
     }
+  }
+
+  Future<bool> _joinClass({required String classId}) async {
+    bool isJoinSuccess = await ClassRepository().joinClass(classId: classId);
+    AppNavigator.pop();
+    if (isJoinSuccess) {
+      int index = recommendClasses.indexWhere((item) => item.id == classId);
+      if (index != -1) {
+        classes.add(recommendClasses[index]);
+        recommendClasses.removeAt(index);
+      }
+    }
+    return isJoinSuccess;
   }
 
   Future<bool> _leaveClass({required String classId}) async {
@@ -229,6 +260,12 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
       }
     }
     return isLeaveSuccess;
+  }
+
+  void _resetRecommendClass() {
+    recommendClasses.clear();
+    skipRecommend = 0;
+    isOverRecommend = false;
   }
 
   void _showDialogResult(
@@ -256,11 +293,13 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
             ),
             SizedBox(height: 10.sp),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: 7.5.sp),
+              padding:
+                  EdgeInsets.symmetric(horizontal: 15.sp, vertical: 7.5.sp),
               child: Text(
                 subTitle,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontWeight: FontWeight.w400, fontSize: 10.5.sp),
+                style:
+                    TextStyle(fontWeight: FontWeight.w400, fontSize: 10.5.sp),
               ),
             ),
             SizedBox(height: 8.sp),

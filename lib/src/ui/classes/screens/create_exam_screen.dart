@@ -14,7 +14,8 @@ class CreateExamScreen extends StatefulWidget {
   final ExamModel? examModel;
   final String classId;
   final ExamBloc examBloc;
-  CreateExamScreen({required this.classId, required this.examBloc, this.examModel});
+  CreateExamScreen(
+      {required this.classId, required this.examBloc, this.examModel});
   @override
   _CreateExamScreenState createState() => _CreateExamScreenState();
 }
@@ -22,15 +23,21 @@ class CreateExamScreen extends StatefulWidget {
 class _CreateExamScreenState extends State<CreateExamScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  TextEditingController _phoneController = TextEditingController();
-  TextEditingController _fullNameController = TextEditingController();
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _descriptionController = TextEditingController();
   FocusNode textFieldFocus = FocusNode();
-  String name = '';
-  String description = '';
+  String _name = '';
+  String _description = '';
 
   @override
   void initState() {
     super.initState();
+    if (widget.examModel != null) {
+      _nameController.text = widget.examModel!.name;
+      _descriptionController.text = widget.examModel!.description;
+      _name = widget.examModel!.name;
+      _description = widget.examModel!.description;
+    }
   }
 
   @override
@@ -49,7 +56,7 @@ class _CreateExamScreenState extends State<CreateExamScreen> {
           ),
         ),
         title: Text(
-          'Tạo bài kiểm tra',
+          widget.examModel == null ? 'Tạo bài kiểm tra' : 'Chỉnh sửa bài',
           style: TextStyle(
             fontSize: 15.sp,
             fontFamily: FontFamily.lato,
@@ -90,14 +97,14 @@ class _CreateExamScreenState extends State<CreateExamScreen> {
                               context,
                               'Tên bộ đề',
                               'Hãy nhập tên bài kiểm tra',
-                              _phoneController,
+                              _nameController,
                             ),
                             _buildDivider(context),
                             _buildLineInfo(
                               context,
                               'Mô tả',
                               'Hãy nhập mô tả cho bài kiểm tra này',
-                              _fullNameController,
+                              _descriptionController,
                             ),
                             _buildDivider(context),
                             SizedBox(height: 8.0),
@@ -109,14 +116,25 @@ class _CreateExamScreenState extends State<CreateExamScreen> {
                         onTap: () async {
                           if (_formKey.currentState!.validate()) {
                             showDialogLoading(context);
-                            widget.examBloc.add(
-                              CreateExamEvent(
-                                context: context,
-                                classId: widget.classId,
-                                name: name,
-                                description: description,
-                              ),
-                            );
+                            if (widget.examModel == null) {
+                              widget.examBloc.add(
+                                CreateExamEvent(
+                                  context: context,
+                                  classId: widget.classId,
+                                  name: _name,
+                                  description: _description,
+                                ),
+                              );
+                            } else {
+                              widget.examBloc.add(
+                                EditExamEvent(
+                                  context: context,
+                                  examId: widget.examModel!.id,
+                                  name: _name,
+                                  description: _description,
+                                ),
+                              );
+                            }
                           }
                         },
                         child: Container(
@@ -128,7 +146,7 @@ class _CreateExamScreenState extends State<CreateExamScreen> {
                           ),
                           child: Center(
                             child: Text(
-                              'Tạo bài',
+                              widget.examModel == null ? 'Tạo bài' : 'Lưu lại',
                               style: TextStyle(
                                 color: mC,
                                 fontSize: 11.5.sp,
@@ -169,9 +187,9 @@ class _CreateExamScreenState extends State<CreateExamScreen> {
         onChanged: (val) {
           setState(() {
             if (title == 'Tên bộ đề') {
-              name = val.trim();
+              _name = val.trim();
             } else {
-              description = val.trim();
+              _description = val.trim();
             }
           });
         },
@@ -189,7 +207,8 @@ class _CreateExamScreenState extends State<CreateExamScreen> {
           border: InputBorder.none,
           labelText: title,
           labelStyle: TextStyle(
-            color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
+            color:
+                Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
             fontSize: _size.width / 26.0,
             fontWeight: FontWeight.w600,
           ),

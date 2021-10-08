@@ -15,7 +15,8 @@ class ExamRepository {
       "description": description,
       "classBy": classId,
     };
-    Response response = await BaseRepository().postRoute(ApiGateway.SET_OF_QUESTIONS, body);
+    Response response =
+        await BaseRepository().postRoute(ApiGateway.SET_OF_QUESTIONS, body);
     if ([200, 201].contains(response.statusCode)) {
       dynamic jsonResponse = response.data['data'];
       return ExamModel.fromMap(jsonResponse);
@@ -67,9 +68,9 @@ class ExamRepository {
   }) async {
     Response response = await BaseRepository().deleteRoute(
       ApiGateway.SET_OF_QUESTIONS,
-      query: 'id=$examId&status=0',
+      query: 'status=0&id=$examId',
     );
-
+    print(response.data);
     if (response.statusCode == 200) {
       return true;
     }

@@ -35,6 +35,7 @@ class AppNavigator {
           settings,
           ClassInformationScreen(
             classModel: arguments!['classModel'],
+            hasJoinedClass: arguments['hasJoinedClass'],
           ),
           _getSlideMode(arguments),
         );
@@ -156,7 +157,8 @@ class AppNavigator {
     return state.pushReplacementNamed(route, arguments: arguments);
   }
 
-  static void popUntil<T>(String route) => state.popUntil(ModalRoute.withName(route));
+  static void popUntil<T>(String route) =>
+      state.popUntil(ModalRoute.withName(route));
 
   static void pop() => state.pop();
 

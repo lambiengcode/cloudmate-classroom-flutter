@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:cloudmate/src/models/exam_model.dart';
 import 'package:cloudmate/src/resources/remote/exam_repository.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
+import 'package:cloudmate/src/routes/app_routes.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:flutter/material.dart';
@@ -129,13 +130,13 @@ class ExamBloc extends Bloc<ExamEvent, ExamState> {
     required String name,
     required String description,
   }) async {
-    ExamModel? examResponse =
-        await ExamRepository().updateExam(examId: examId, name: name, description: description);
+    ExamModel? examResponse = await ExamRepository()
+        .updateExam(examId: examId, name: name, description: description);
     AppNavigator.pop();
     if (examResponse == null) {
       return false;
     } else {
-      AppNavigator.pop();
+      AppNavigator.popUntil(AppRoutes.LIST_EXAM);
       int index = listExam.indexWhere((item) => item.id == examResponse.id);
       if (index != -1) {
         listExam[index] = examResponse;
@@ -181,11 +182,13 @@ class ExamBloc extends Bloc<ExamEvent, ExamState> {
             ),
             SizedBox(height: 10.sp),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: 7.5.sp),
+              padding:
+                  EdgeInsets.symmetric(horizontal: 15.sp, vertical: 7.5.sp),
               child: Text(
                 subTitle,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontWeight: FontWeight.w400, fontSize: 10.5.sp),
+                style:
+                    TextStyle(fontWeight: FontWeight.w400, fontSize: 10.5.sp),
               ),
             ),
             SizedBox(height: 8.sp),

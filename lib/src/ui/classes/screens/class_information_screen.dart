@@ -1,8 +1,11 @@
 import 'dart:ui';
+import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/models/class_model.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/ui/classes/blocs/class/class_bloc.dart';
 import 'package:cloudmate/src/ui/classes/widgets/drawer_option.dart';
+import 'package:cloudmate/src/ui/common/dialogs/dialog_confirm.dart';
+import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:cloudmate/src/ui/common/widgets/animated_fade.dart';
 import 'package:cloudmate/src/utils/blurhash.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +22,11 @@ import 'package:sizer/sizer.dart';
 
 class ClassInformationScreen extends StatefulWidget {
   final ClassModel classModel;
-  const ClassInformationScreen({required this.classModel});
+  final bool hasJoinedClass;
+  const ClassInformationScreen({
+    required this.classModel,
+    this.hasJoinedClass = false,
+  });
   @override
   State<StatefulWidget> createState() => _ClassInformationScreenState();
 }
@@ -30,13 +37,15 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
   late AnimationController _imageController;
   late AnimationController _heightController;
   late ClassModel _classModel;
-  ScrollController scrollController = ScrollController();
-  double heightOfClassImage = 34.h;
+  ScrollController _scrollController = ScrollController();
+  double _heightOfClassImage = 34.h;
+  bool _hasJoinedClass = false;
 
   @override
   void initState() {
     super.initState();
     _classModel = widget.classModel;
+    _hasJoinedClass = widget.hasJoinedClass;
     _imageController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 300),
@@ -45,13 +54,14 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
       vsync: this,
       duration: Duration(milliseconds: 300),
     );
-    scrollController.addListener(() {
-      if (scrollController.offset <= 0) {
+    _scrollController.addListener(() {
+      if (_scrollController.offset <= 0) {
         _imageController.value = 0.0;
       } else {
-        _imageController.value = scrollController.offset / (heightOfClassImage * 1.15);
+        _imageController.value =
+            _scrollController.offset / (_heightOfClassImage * 1.15);
       }
-      _heightController.value = scrollController.offset;
+      _heightController.value = _scrollController.offset;
     });
   }
 
@@ -65,6 +75,7 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
           );
           if (index != -1) {
             setState(() {
+              _hasJoinedClass = true;
               _classModel = state.props[0][index];
             });
           }
@@ -87,7 +98,7 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
               height: 100.h,
               width: 100.w,
               child: SingleChildScrollView(
-                controller: scrollController,
+                controller: _scrollController,
                 physics: BouncingScrollPhysics(),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,9 +106,10 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                     Stack(
                       children: [
                         AnimatedFade(
-                          animation: Tween(begin: 1.0, end: 0.0).animate(_imageController),
+                          animation: Tween(begin: 1.0, end: 0.0)
+                              .animate(_imageController),
                           child: Container(
-                            height: heightOfClassImage,
+                            height: _heightOfClassImage,
                             width: 100.w,
                             child: BlurHash(
                               hash: _classModel.blurHash,
@@ -180,7 +192,10 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                                   children: [
                                     StackAvatar(
                                       size: 22.sp,
-                                      images: chats.sublist(3, 6).map((e) => e.image!).toList(),
+                                      images: chats
+                                          .sublist(3, 6)
+                                          .map((e) => e.image!)
+                                          .toList(),
                                     ),
                                     SizedBox(width: 6.sp),
                                     Text(
@@ -195,7 +210,10 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                                         fontWeight: FontWeight.w400,
                                         color: _classModel.members.isEmpty
                                             ? Theme.of(context).primaryColor
-                                            : Theme.of(context).textTheme.bodyText1!.color!,
+                                            : Theme.of(context)
+                                                .textTheme
+                                                .bodyText1!
+                                                .color!,
                                       ),
                                     ),
                                   ],
@@ -236,7 +254,11 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                               fontSize: 12.sp,
                               fontFamily: FontFamily.lato,
                               fontWeight: FontWeight.w400,
-                              color: Theme.of(context).textTheme.bodyText2!.color!.withOpacity(.8),
+                              color: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2!
+                                  .color!
+                                  .withOpacity(.8),
                             ),
                           ),
                         ],
@@ -277,14 +299,14 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                 ),
               ),
             ),
-            _buildBottomBar(),
+            _hasJoinedClass ? Container() : _buildBottomBar(context),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildBottomBar() {
+  Widget _buildBottomBar(context) {
     return Positioned(
       bottom: 0,
       left: 0,
@@ -296,21 +318,41 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(width: 18.sp),
-            Container(
-              width: 70.w,
-              height: 42.sp,
-              decoration: BoxDecoration(
-                color: colorPrimary,
-                borderRadius: BorderRadius.circular(8.sp),
-              ),
-              alignment: Alignment.center,
-              child: Text(
-                'Enroll Class',
-                style: TextStyle(
-                  color: mC,
-                  fontFamily: FontFamily.lato,
-                  fontSize: 12.75.sp,
-                  fontWeight: FontWeight.w600,
+            GestureDetector(
+              onTap: () {
+                dialogAnimationWrapper(
+                  context: context,
+                  slideFrom: 'top',
+                  child: DialogConfirm(
+                    handleConfirm: () {
+                      showDialogLoading(context);
+                      AppBloc.classBloc.add(
+                        JoinClass(
+                            classId: widget.classModel.id, context: context),
+                      );
+                    },
+                    subTitle:
+                        'Sau khi tham gia, bạn sẽ trở thành học viên của lớp học này.',
+                    title: 'Tham gia lớp học',
+                  ),
+                );
+              },
+              child: Container(
+                width: 70.w,
+                height: 42.sp,
+                decoration: BoxDecoration(
+                  color: colorPrimary,
+                  borderRadius: BorderRadius.circular(8.sp),
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  'Enroll Class',
+                  style: TextStyle(
+                    color: mC,
+                    fontFamily: FontFamily.lato,
+                    fontSize: 12.75.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ),
