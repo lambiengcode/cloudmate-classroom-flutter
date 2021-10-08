@@ -1,15 +1,21 @@
+import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/models/class_model.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/routes/app_routes.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
+import 'package:cloudmate/src/ui/classes/blocs/class/class_bloc.dart';
+import 'package:cloudmate/src/ui/common/dialogs/dialog_confirm.dart';
+import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 class DrawerOption extends StatefulWidget {
   final ClassModel classModel;
-  const DrawerOption({required this.classModel});
+  const DrawerOption({
+    required this.classModel,
+  });
   @override
   State<StatefulWidget> createState() => _DrawerOptionState();
 }
@@ -97,6 +103,22 @@ class _DrawerOptionState extends State<DrawerOption> {
                     PhosphorIcons.signOut,
                     colorHigh,
                     null,
+                    handlePressed: () {
+                      dialogAnimationWrapper(
+                        context: context,
+                        slideFrom: 'bottom',
+                        child: DialogConfirm(
+                          handleConfirm: () {
+                            showDialogLoading(context);
+                            AppBloc.classBloc.add(
+                              LeaveClass(classId: widget.classModel.id, context: context),
+                            );
+                          },
+                          subTitle: 'Sau khi rời khỏi lớp học bạn sẽ không thể hoàn tác lại!',
+                          title: 'Rời lớp học',
+                        ),
+                      );
+                    },
                   ),
                   SizedBox(height: 10.h),
                 ],
@@ -115,12 +137,17 @@ class _DrawerOptionState extends State<DrawerOption> {
     color,
     routeName, {
     Object? arguments,
+    Function? handlePressed,
   }) {
     return GestureDetector(
       onTap: () {
         if (routeName != null) {
           AppNavigator.pop();
           AppNavigator.push(routeName, arguments: arguments);
+        } else {
+          if (handlePressed != null) {
+            handlePressed();
+          }
         }
       },
       child: Container(
@@ -142,12 +169,7 @@ class _DrawerOptionState extends State<DrawerOption> {
                 style: TextStyle(
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w600,
-                  color: color ??
-                      Theme.of(context)
-                          .textTheme
-                          .bodyText1!
-                          .color!
-                          .withOpacity(.75),
+                  color: color ?? Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.75),
                   fontFamily: FontFamily.lato,
                 ),
               ),

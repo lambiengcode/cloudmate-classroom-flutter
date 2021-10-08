@@ -15,8 +15,7 @@ class ExamRepository {
       "description": description,
       "classBy": classId,
     };
-    Response response =
-        await BaseRepository().postRoute(ApiGateway.SET_OF_QUESTIONS, body);
+    Response response = await BaseRepository().postRoute(ApiGateway.SET_OF_QUESTIONS, body);
     if ([200, 201].contains(response.statusCode)) {
       dynamic jsonResponse = response.data['data'];
       return ExamModel.fromMap(jsonResponse);

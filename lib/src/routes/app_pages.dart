@@ -66,6 +66,7 @@ class AppNavigator {
           CreateExamScreen(
             classId: arguments!['classId'],
             examBloc: arguments['examBloc'],
+            examModel: arguments['examModel'],
           ),
           _getSlideMode(arguments),
         );

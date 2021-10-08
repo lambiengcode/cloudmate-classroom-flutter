@@ -105,7 +105,7 @@ class _ListExamScreenState extends State<ListExamScreen> {
             );
           },
           child: ExamCard(
-            exam: exams[index],
+            exam: state.props[0][index],
             isLast: index == exams.length - 1,
           ),
         );

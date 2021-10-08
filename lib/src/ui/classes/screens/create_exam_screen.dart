@@ -1,3 +1,4 @@
+import 'package:cloudmate/src/models/exam_model.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
@@ -10,9 +11,10 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 class CreateExamScreen extends StatefulWidget {
+  final ExamModel? examModel;
   final String classId;
   final ExamBloc examBloc;
-  CreateExamScreen({required this.classId, required this.examBloc});
+  CreateExamScreen({required this.classId, required this.examBloc, this.examModel});
   @override
   _CreateExamScreenState createState() => _CreateExamScreenState();
 }

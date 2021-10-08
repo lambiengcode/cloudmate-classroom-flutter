@@ -49,8 +49,7 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
       if (scrollController.offset <= 0) {
         _imageController.value = 0.0;
       } else {
-        _imageController.value =
-            scrollController.offset / (heightOfClassImage * 1.25);
+        _imageController.value = scrollController.offset / (heightOfClassImage * 1.15);
       }
       _heightController.value = scrollController.offset;
     });
@@ -96,8 +95,7 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                     Stack(
                       children: [
                         AnimatedFade(
-                          animation: Tween(begin: 1.0, end: 0.0)
-                              .animate(_imageController),
+                          animation: Tween(begin: 1.0, end: 0.0).animate(_imageController),
                           child: Container(
                             height: heightOfClassImage,
                             width: 100.w,
@@ -182,10 +180,7 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                                   children: [
                                     StackAvatar(
                                       size: 22.sp,
-                                      images: chats
-                                          .sublist(3, 6)
-                                          .map((e) => e.image!)
-                                          .toList(),
+                                      images: chats.sublist(3, 6).map((e) => e.image!).toList(),
                                     ),
                                     SizedBox(width: 6.sp),
                                     Text(
@@ -200,10 +195,7 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                                         fontWeight: FontWeight.w400,
                                         color: _classModel.members.isEmpty
                                             ? Theme.of(context).primaryColor
-                                            : Theme.of(context)
-                                                .textTheme
-                                                .bodyText1!
-                                                .color!,
+                                            : Theme.of(context).textTheme.bodyText1!.color!,
                                       ),
                                     ),
                                   ],
@@ -244,11 +236,7 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                               fontSize: 12.sp,
                               fontFamily: FontFamily.lato,
                               fontWeight: FontWeight.w400,
-                              color: Theme.of(context)
-                                  .textTheme
-                                  .bodyText2!
-                                  .color!
-                                  .withOpacity(.8),
+                              color: Theme.of(context).textTheme.bodyText2!.color!.withOpacity(.8),
                             ),
                           ),
                         ],

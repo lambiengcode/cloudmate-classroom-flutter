@@ -114,7 +114,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
       child: ListView.builder(
         physics: BouncingScrollPhysics(),
         padding: EdgeInsets.only(top: 8.sp, bottom: 16.sp),
-        itemCount: state.props[0].length + (state.props[0].length == 0 ? 0 : 1),
+        itemCount: state.props[1].length + (state.props[0].length == 0 ? 0 : 1),
         itemBuilder: (context, index) {
           return index == 0 && state.props[0].length > 0
               ? _buildCurrentClasses(context, state)
@@ -129,8 +129,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
                     );
                   },
                   child: RecommendClassCard(
-                    classModel: state.props[0]
-                        [index - (state.props[0].length == 0 ? 0 : 1)],
+                    classModel: state.props[0][index - (state.props[0].length == 0 ? 0 : 1)],
                   ),
                 );
         },

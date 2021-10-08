@@ -4,6 +4,7 @@ import 'package:cloudmate/src/models/class_model.dart';
 import 'package:cloudmate/src/models/user.dart';
 import 'package:cloudmate/src/resources/remote/class_repository.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
+import 'package:cloudmate/src/routes/app_routes.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +17,11 @@ part 'class_state.dart';
 class ClassBloc extends Bloc<ClassEvent, ClassState> {
   ClassBloc() : super(ClassInitial());
   List<ClassModel> classes = [];
+  List<ClassModel> recommendClasses = [];
   int skip = 0;
+  int skipRecommend = 0;
   bool isOverClasses = false;
+  bool isOverRecommend = false;
 
   @override
   Stream<ClassState> mapEventToState(ClassEvent event) async* {
@@ -28,11 +32,14 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
       } else {
         yield GettingClasses(
           listClasses: classes,
+          listRecommend: recommendClasses,
           isOver: isOverClasses,
         );
       }
+      // await _getRecommedClasses();
       yield GetClassesDone(
         listClasses: classes,
+        listRecommend: recommendClasses,
         isOver: isOverClasses,
       );
     }
@@ -43,12 +50,14 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
       } else {
         yield GettingClasses(
           listClasses: classes,
+          listRecommend: recommendClasses,
           isOver: isOverClasses,
         );
       }
       await _getClasses();
       yield GetClassesDone(
         listClasses: classes,
+        listRecommend: recommendClasses,
         isOver: isOverClasses,
       );
     }
@@ -56,6 +65,7 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
     if (event is CreateClass) {
       yield GettingClasses(
         listClasses: classes,
+        listRecommend: recommendClasses,
         isOver: isOverClasses,
       );
       UserModel? myProfile = AppBloc.authBloc.userModel;
@@ -68,6 +78,7 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
       AppNavigator.pop();
       yield GetClassesDone(
         listClasses: classes,
+        listRecommend: recommendClasses,
         isOver: isOverClasses,
       );
 
@@ -86,6 +97,7 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
     if (event is EditClass) {
       yield GettingClasses(
         listClasses: classes,
+        listRecommend: recommendClasses,
         isOver: isOverClasses,
       );
       UserModel? myProfile = AppBloc.authBloc.userModel;
@@ -99,6 +111,7 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
       AppNavigator.pop();
       yield GetClassesDone(
         listClasses: classes,
+        listRecommend: recommendClasses,
         isOver: isOverClasses,
       );
 
@@ -114,6 +127,24 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
           event.context,
           title: 'Thất bại',
           subTitle: 'Chỉnh lớp học thất bại, hãy thử lại sau!',
+        );
+      }
+    }
+
+    if (event is LeaveClass) {
+      bool isLeaveSuccess = await _leaveClass(classId: event.classId);
+      yield GetClassesDone(
+        listClasses: classes,
+        listRecommend: recommendClasses,
+        isOver: isOverClasses,
+      );
+      if (isLeaveSuccess) {
+        AppNavigator.popUntil(AppRoutes.ROOT);
+      } else {
+        _showDialogResult(
+          event.context,
+          title: 'Thất bại',
+          subTitle: 'Rời khỏi lớp thất bại, hãy thử lại sau!',
         );
       }
     }
@@ -176,6 +207,30 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
     }
   }
 
+  Future<void> _getRecommedClasses() async {
+    List<ClassModel> listResult = await ClassRepository().getListRecommendClasses(
+      skip: skipRecommend,
+    );
+    if (listResult.isNotEmpty) {
+      recommendClasses.addAll(listResult);
+      skipRecommend += listResult.length;
+    } else {
+      isOverRecommend = true;
+    }
+  }
+
+  Future<bool> _leaveClass({required String classId}) async {
+    bool isLeaveSuccess = await ClassRepository().leaveClass(classId: classId);
+    AppNavigator.pop();
+    if (isLeaveSuccess) {
+      int index = classes.indexWhere((item) => item.id == classId);
+      if (index != -1) {
+        classes.removeAt(index);
+      }
+    }
+    return isLeaveSuccess;
+  }
+
   void _showDialogResult(
     context, {
     String title = 'Thành công',
@@ -201,13 +256,11 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
             ),
             SizedBox(height: 10.sp),
             Padding(
-              padding:
-                  EdgeInsets.symmetric(horizontal: 15.sp, vertical: 7.5.sp),
+              padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: 7.5.sp),
               child: Text(
                 subTitle,
                 textAlign: TextAlign.center,
-                style:
-                    TextStyle(fontWeight: FontWeight.w400, fontSize: 10.5.sp),
+                style: TextStyle(fontWeight: FontWeight.w400, fontSize: 10.5.sp),
               ),
             ),
             SizedBox(height: 8.sp),

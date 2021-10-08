@@ -1,4 +1,4 @@
-import 'package:cloudmate/src/models/exam.dart';
+import 'package:cloudmate/src/models/exam_model.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +6,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 class ExamCard extends StatefulWidget {
-  final Exam exam;
+  final ExamModel exam;
   final bool isLast;
   ExamCard({required this.exam, this.isLast = false});
   @override
@@ -48,24 +48,22 @@ class _ExamCardState extends State<ExamCard> {
                             widget.exam.description,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
-                            style:
-                                Theme.of(context).textTheme.bodyText1!.copyWith(
-                                      fontSize: 10.5.sp,
-                                      fontWeight: FontWeight.w400,
-                                      fontFamily: FontFamily.lato,
-                                    ),
+                            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                  fontSize: 10.5.sp,
+                                  fontWeight: FontWeight.w400,
+                                  fontFamily: FontFamily.lato,
+                                ),
                           ),
                           SizedBox(height: 2.sp),
                           Text(
                             'Đã sử dụng ${widget.exam.usedTimes} lần',
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
-                            style:
-                                Theme.of(context).textTheme.bodyText1!.copyWith(
-                                      fontSize: 10.5.sp,
-                                      fontWeight: FontWeight.w400,
-                                      fontFamily: FontFamily.lato,
-                                    ),
+                            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                  fontSize: 10.5.sp,
+                                  fontWeight: FontWeight.w400,
+                                  fontFamily: FontFamily.lato,
+                                ),
                           ),
                         ],
                       ),
