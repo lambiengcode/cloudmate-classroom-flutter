@@ -1,3 +1,4 @@
+import 'package:cloudmate/src/models/class_model.dart';
 import 'package:flutter/material.dart';
 import 'package:cloudmate/src/resources/hard/hard_chat.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
@@ -8,15 +9,9 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 class RecommendClassCard extends StatefulWidget {
-  final String? imageClass;
-  final String? className;
-  final String? star;
-  final String? teacher;
+  final ClassModel classModel;
   RecommendClassCard({
-    this.imageClass,
-    this.className,
-    this.star,
-    this.teacher,
+    required this.classModel,
   });
   @override
   State<StatefulWidget> createState() => _RecommendClassCardState();
@@ -42,7 +37,7 @@ class _RecommendClassCardState extends State<RecommendClassCard> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12.sp),
                       image: DecorationImage(
-                        image: NetworkImage(widget.imageClass!),
+                        image: NetworkImage(widget.classModel.image),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -54,7 +49,7 @@ class _RecommendClassCardState extends State<RecommendClassCard> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          widget.className!,
+                          widget.classModel.name,
                           style: TextStyle(
                             fontSize: 12.sp,
                             fontFamily: FontFamily.lato,
@@ -69,7 +64,7 @@ class _RecommendClassCardState extends State<RecommendClassCard> {
                         ),
                         SizedBox(height: 4.sp),
                         _buildTileInfo(
-                          widget.teacher,
+                          widget.classModel.createdBy.displayName,
                           PhosphorIcons.graduationCapFill,
                           Colors.pinkAccent.shade100,
                         ),

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/blocs/authentication/bloc.dart';
 import 'package:cloudmate/src/configs/application.dart';
 import 'package:cloudmate/src/models/user.dart';
@@ -7,6 +8,7 @@ import 'package:cloudmate/src/resources/local/user_local.dart';
 import 'package:cloudmate/src/resources/remote/authentication_repository.dart';
 import 'package:cloudmate/src/resources/remote/user_repository.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
+import 'package:cloudmate/src/routes/app_routes.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc() : super(InitialAuthenticationState());
@@ -63,7 +65,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
 
     if (event is GetInfoUser) {
-      await _handleGetUserInfo();
+      await _getUserInfo();
+      yield AuthenticationSuccess(
+        userModel: userModel,
+      );
+    }
+
+    if (event is UpdateInfoUser) {
+      await _updateUser(
+        firstName: event.firstName,
+        lastName: event.lastName,
+        intro: event.intro,
+        phone: event.phone,
+      );
       yield AuthenticationSuccess(
         userModel: userModel,
       );
@@ -99,8 +113,29 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     return true;
   }
 
-  Future<void> _handleGetUserInfo() async {
+  Future<void> _getUserInfo() async {
     UserModel? user = await UserRepository().getInfoUser();
+    if (user == null) {
+      AppBloc.authBloc.add(LogOutEvent());
+    } else {
+      userModel = user;
+    }
+  }
+
+  Future<void> _updateUser({
+    required String firstName,
+    required String lastName,
+    required String intro,
+    required String phone,
+  }) async {
+    UserModel? user = await UserRepository().updateUser(
+      firstName: firstName,
+      lastName: lastName,
+      phone: phone,
+      intro: intro,
+    );
     userModel = user;
+
+    AppNavigator.popUntil(AppRoutes.ROOT);
   }
 }

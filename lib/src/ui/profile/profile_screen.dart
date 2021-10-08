@@ -1,5 +1,8 @@
 import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/blocs/authentication/bloc.dart';
+import 'package:cloudmate/src/models/slide_mode.dart';
+import 'package:cloudmate/src/routes/app_pages.dart';
+import 'package:cloudmate/src/routes/app_routes.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
 import 'package:cloudmate/src/ui/common/screens/loading_screen.dart';
 import 'package:cloudmate/src/ui/common/widgets/animated_fade.dart';
@@ -8,7 +11,6 @@ import 'package:cloudmate/src/resources/hard/hard_post.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/app_decorations.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
-import 'package:cloudmate/src/ui/classes/widgets/recommend_class_card.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
@@ -54,7 +56,14 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                 PhosphorIcons.slidersHorizontal,
                 size: 22.5.sp,
               ),
-              onPressed: () => null,
+              onPressed: () {
+                AppNavigator.push(
+                  AppRoutes.EDIT_INFO_USER,
+                  arguments: {
+                    'slide': SlideMode.left,
+                  },
+                );
+              },
             ),
             title: AnimatedBuilder(
               animation: _infoCardController,
@@ -133,7 +142,7 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                            fontSize: 15.sp,
+                            fontSize: 14.sp,
                             fontFamily: FontFamily.lato,
                             fontWeight: FontWeight.w600,
                           ),
@@ -143,13 +152,15 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                           padding: EdgeInsets.symmetric(horizontal: 10.w),
                           alignment: Alignment.center,
                           child: Text(
-                            auth.userModel!.intro ?? '☃ Chưa cập nhật ☃',
+                            auth.userModel!.intro == ''
+                                ? '☃ Chưa cập nhật ☃'
+                                : auth.userModel!.intro!,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                              fontSize: 11.75.sp,
+                              fontSize: 11.sp,
                               fontWeight: FontWeight.w400,
-                              color: auth.userModel!.intro == null ? colorPrimary : null,
+                              color: colorPrimary,
                             ),
                             textAlign: TextAlign.center,
                           ),
@@ -179,12 +190,7 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                       physics: ClampingScrollPhysics(),
                       itemCount: posts.length,
                       itemBuilder: (context, index) {
-                        return RecommendClassCard(
-                          imageClass: posts[index].imageGroup,
-                          className: posts[index].groupName,
-                          star: '4.5 / 5.0',
-                          teacher: posts[index].authorName,
-                        );
+                        return Container();
                       },
                     ),
                   ),

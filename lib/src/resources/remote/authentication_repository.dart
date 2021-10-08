@@ -30,7 +30,7 @@ class AuthenticationRepository {
     required String password,
   }) async {
     var body = {
-      'fistName': fistName,
+      'firstName': fistName,
       'lastName': lastName,
       'username': username,
       'password': password,

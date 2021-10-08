@@ -7,6 +7,8 @@ class TransitionToClassScreen extends ClassEvent {}
 
 class GetClasses extends ClassEvent {}
 
+class GetRecommendClasses extends ClassEvent {}
+
 class CreateClass extends ClassEvent {
   final BuildContext context;
   final String name;
@@ -33,4 +35,16 @@ class EditClass extends ClassEvent {
     required this.intro,
     required this.topic,
   });
+}
+
+class JoinClass extends ClassEvent {
+  final BuildContext context;
+  final String classId;
+  JoinClass({required this.classId, required this.context});
+}
+
+class LeaveClass extends ClassEvent {
+  final BuildContext context;
+  final String classId;
+  LeaveClass({required this.classId, required this.context});
 }

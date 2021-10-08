@@ -7,6 +7,7 @@ import 'package:cloudmate/src/ui/classes/screens/list_exam_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/list_questions_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/list_request_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/road_map_screen.dart';
+import 'package:cloudmate/src/ui/profile/screens/edit_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cloudmate/src/app.dart';
 import 'package:cloudmate/src/models/slide_mode.dart';
@@ -54,13 +55,19 @@ class AppNavigator {
       case AppRoutes.LIST_EXAM:
         return _buildRoute(
           settings,
-          ListExamScreen(),
+          ListExamScreen(
+            classId: arguments!['classId'],
+          ),
           _getSlideMode(arguments),
         );
       case AppRoutes.CREATE_EXAM:
         return _buildRoute(
           settings,
-          CreateExamScreen(),
+          CreateExamScreen(
+            classId: arguments!['classId'],
+            examBloc: arguments['examBloc'],
+            examModel: arguments['examModel'],
+          ),
           _getSlideMode(arguments),
         );
       case AppRoutes.LIST_QUESTION:
@@ -91,6 +98,14 @@ class AppNavigator {
         return _buildRoute(
           settings,
           DoExamScreen(),
+          _getSlideMode(arguments),
+        );
+
+      // User
+      case AppRoutes.EDIT_INFO_USER:
+        return _buildRoute(
+          settings,
+          EditInfoScreen(),
           _getSlideMode(arguments),
         );
       default:
@@ -141,7 +156,7 @@ class AppNavigator {
     return state.pushReplacementNamed(route, arguments: arguments);
   }
 
-  static void popUntil<T>(String route) => state.popUntil((route) => false);
+  static void popUntil<T>(String route) => state.popUntil(ModalRoute.withName(route));
 
   static void pop() => state.pop();
 

@@ -1,5 +1,5 @@
 class AppRoutes {
-  static const ROOT = '/root';
+  static const ROOT = '/';
 
   // Classes
   static const DETAILS_CLASS = '/detailsCLass';
@@ -14,4 +14,7 @@ class AppRoutes {
   static const ROAD_MAP = '/roadMap';
   static const CREATE_DEADLINE = '/createDeadline';
   static const DO_EXAM = '/doExam';
+
+  // User
+  static const EDIT_INFO_USER = '/editInfoUser';
 }

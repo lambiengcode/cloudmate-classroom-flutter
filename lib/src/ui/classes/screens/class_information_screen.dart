@@ -49,7 +49,7 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
       if (scrollController.offset <= 0) {
         _imageController.value = 0.0;
       } else {
-        _imageController.value = scrollController.offset / (heightOfClassImage * 1.25);
+        _imageController.value = scrollController.offset / (heightOfClassImage * 1.15);
       }
       _heightController.value = scrollController.offset;
     });

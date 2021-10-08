@@ -1,29 +1,37 @@
+import 'package:cloudmate/src/models/exam_model.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
+import 'package:cloudmate/src/ui/classes/blocs/exam/exam_bloc.dart';
 import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 class CreateExamScreen extends StatefulWidget {
+  final ExamModel? examModel;
+  final String classId;
+  final ExamBloc examBloc;
+  CreateExamScreen({required this.classId, required this.examBloc, this.examModel});
   @override
   _CreateExamScreenState createState() => _CreateExamScreenState();
 }
 
 class _CreateExamScreenState extends State<CreateExamScreen> {
   final _formKey = GlobalKey<FormState>();
+
   TextEditingController _phoneController = TextEditingController();
   TextEditingController _fullNameController = TextEditingController();
   FocusNode textFieldFocus = FocusNode();
   String name = '';
   String description = '';
-  bool hidePassword = true;
 
-  hideKeyboard() => textFieldFocus.unfocus();
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,6 +109,14 @@ class _CreateExamScreenState extends State<CreateExamScreen> {
                         onTap: () async {
                           if (_formKey.currentState!.validate()) {
                             showDialogLoading(context);
+                            widget.examBloc.add(
+                              CreateExamEvent(
+                                context: context,
+                                classId: widget.classId,
+                                name: name,
+                                description: description,
+                              ),
+                            );
                           }
                         },
                         child: Container(
@@ -148,17 +164,16 @@ class _CreateExamScreenState extends State<CreateExamScreen> {
           fontWeight: FontWeight.w500,
         ),
         validator: (val) {
-          if (title == 'Số điện thoại') {
-            return GetUtils.isPhoneNumber(val!.trim()) ? null : valid;
-          } else if (title == 'Tên của bạn') {
-            return val!.trim().length == 0 ? valid : null;
-          } else if (title == 'Mật khẩu') {
-            return val!.trim().length < 6 ? valid : null;
-          }
-          return null;
+          return val!.trim().length == 0 ? valid : null;
         },
         onChanged: (val) {
-          setState(() {});
+          setState(() {
+            if (title == 'Tên bộ đề') {
+              name = val.trim();
+            } else {
+              description = val.trim();
+            }
+          });
         },
         inputFormatters: [
           title == 'Số điện thoại'
@@ -174,8 +189,7 @@ class _CreateExamScreenState extends State<CreateExamScreen> {
           border: InputBorder.none,
           labelText: title,
           labelStyle: TextStyle(
-            color:
-                Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
+            color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
             fontSize: _size.width / 26.0,
             fontWeight: FontWeight.w600,
           ),

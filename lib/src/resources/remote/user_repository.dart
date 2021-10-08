@@ -11,4 +11,24 @@ class UserRepository {
     }
     return null;
   }
+
+  Future<UserModel?> updateUser({
+    required String firstName,
+    required String lastName,
+    required String phone,
+    required String intro,
+  }) async {
+    var body = {
+      "firstName": firstName,
+      "lastName": lastName,
+      "intro": intro,
+      "phone": phone,
+    };
+    Response response =
+        await BaseRepository().patchRoute(ApiGateway.USER, body: body);
+    if ([200, 201].contains(response.statusCode)) {
+      return UserModel.fromMap(response.data['data'] as Map<String, dynamic>);
+    }
+    return null;
+  }
 }

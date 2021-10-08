@@ -64,14 +64,14 @@ class UserModel {
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
       id: map['_id'],
-      image: map['image'],
-      blurHash: map['blurHash'],
-      phone: map['phone'],
-      displayName: map['displayName'],
-      firstName: map['firstName'],
-      lastName: map['lastName'],
-      status: map['status'],
-      intro: map['intro'] == '' ? null : map['intro'],
+      image: map['image'] ?? '',
+      blurHash: map['blurHash'] ?? '',
+      phone: map['phone'] ?? '',
+      displayName: map['displayName'] ?? '',
+      firstName: map['firstName'] ?? '',
+      lastName: map['lastName'] ?? '',
+      status: map['status'] ?? 0,
+      intro: map['intro'],
     );
   }
 

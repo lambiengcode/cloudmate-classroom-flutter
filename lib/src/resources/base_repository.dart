@@ -112,14 +112,23 @@ class BaseRepository {
   }
 
   Future<diox.Response<dynamic>> deleteRoute(
-    String gateway,
-    Map<String, String> body,
-  ) async {
+    String gateway, {
+    String? params,
+    String? query,
+    Map<String, String>? body,
+  }) async {
     printEndpoint('DELETE', gateway);
+    Map<String, String> paramsObject = {};
+    if (query != null) {
+      query.split('&').forEach((element) {
+        paramsObject[element.split('=')[0].toString()] = element.split('=')[1].toString();
+      });
+    }
     var response = await dio.delete(
-      gateway,
-      data: convert.jsonEncode(body),
+      gateway + (params ?? ''),
       options: getOptions(),
+      queryParameters: query == null ? null : paramsObject,
+      data: convert.jsonEncode(body),
     );
     return response;
   }

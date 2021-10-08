@@ -32,3 +32,16 @@ class LoginEvent extends AuthEvent {
 class LogOutEvent extends AuthEvent {}
 
 class GetInfoUser extends AuthEvent {}
+
+class UpdateInfoUser extends AuthEvent {
+  final String firstName;
+  final String lastName;
+  final String intro;
+  final String phone;
+  UpdateInfoUser({
+    required this.firstName,
+    required this.lastName,
+    required this.intro,
+    required this.phone,
+  });
+}
