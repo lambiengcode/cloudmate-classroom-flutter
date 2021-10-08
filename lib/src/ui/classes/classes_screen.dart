@@ -162,6 +162,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
                       arguments: {
                         'slide': SlideMode.bot,
                         'classModel': state.props[0][index],
+                        'hasJoinedClass': true,
                       },
                     );
                   },

@@ -35,6 +35,7 @@ class AppNavigator {
           settings,
           ClassInformationScreen(
             classModel: arguments!['classModel'],
+            hasJoinedClass: arguments['hasJoinedClass'],
           ),
           _getSlideMode(arguments),
         );

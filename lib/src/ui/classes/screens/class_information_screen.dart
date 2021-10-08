@@ -19,7 +19,11 @@ import 'package:sizer/sizer.dart';
 
 class ClassInformationScreen extends StatefulWidget {
   final ClassModel classModel;
-  const ClassInformationScreen({required this.classModel});
+  final bool hasJoinedClass;
+  const ClassInformationScreen({
+    required this.classModel,
+    this.hasJoinedClass = false,
+  });
   @override
   State<StatefulWidget> createState() => _ClassInformationScreenState();
 }
@@ -30,13 +34,15 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
   late AnimationController _imageController;
   late AnimationController _heightController;
   late ClassModel _classModel;
-  ScrollController scrollController = ScrollController();
-  double heightOfClassImage = 34.h;
+  ScrollController _scrollController = ScrollController();
+  double _heightOfClassImage = 34.h;
+  bool _hasJoinedClass = false;
 
   @override
   void initState() {
     super.initState();
     _classModel = widget.classModel;
+    _hasJoinedClass = widget.hasJoinedClass;
     _imageController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 300),
@@ -45,13 +51,13 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
       vsync: this,
       duration: Duration(milliseconds: 300),
     );
-    scrollController.addListener(() {
-      if (scrollController.offset <= 0) {
+    _scrollController.addListener(() {
+      if (_scrollController.offset <= 0) {
         _imageController.value = 0.0;
       } else {
-        _imageController.value = scrollController.offset / (heightOfClassImage * 1.15);
+        _imageController.value = _scrollController.offset / (_heightOfClassImage * 1.15);
       }
-      _heightController.value = scrollController.offset;
+      _heightController.value = _scrollController.offset;
     });
   }
 
@@ -87,7 +93,7 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
               height: 100.h,
               width: 100.w,
               child: SingleChildScrollView(
-                controller: scrollController,
+                controller: _scrollController,
                 physics: BouncingScrollPhysics(),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -97,7 +103,7 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                         AnimatedFade(
                           animation: Tween(begin: 1.0, end: 0.0).animate(_imageController),
                           child: Container(
-                            height: heightOfClassImage,
+                            height: _heightOfClassImage,
                             width: 100.w,
                             child: BlurHash(
                               hash: _classModel.blurHash,
@@ -277,7 +283,7 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                 ),
               ),
             ),
-            _buildBottomBar(),
+            _hasJoinedClass ? Container() : _buildBottomBar(),
           ],
         ),
       ),
