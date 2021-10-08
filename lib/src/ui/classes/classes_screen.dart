@@ -1,6 +1,7 @@
 import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/lang/language_service.dart';
 import 'package:cloudmate/src/lang/localization.dart';
+import 'package:cloudmate/src/models/class_model.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/ui/classes/blocs/class/class_bloc.dart';
 import 'package:cloudmate/src/ui/common/screens/loading_screen.dart';
@@ -116,6 +117,10 @@ class _ClassesScreenState extends State<ClassesScreen> {
         padding: EdgeInsets.only(top: 8.sp, bottom: 16.sp),
         itemCount: state.props[1].length + (state.props[0].length == 0 ? 0 : 1),
         itemBuilder: (context, index) {
+          ClassModel? _classModel;
+          if (!(index == 0 && state.props[0].length > 0)) {
+            _classModel = state.props[1][index - (state.props[1].length == 0 ? 0 : 1)];
+          }
           return index == 0 && state.props[0].length > 0
               ? _buildCurrentClasses(context, state)
               : GestureDetector(
@@ -124,12 +129,13 @@ class _ClassesScreenState extends State<ClassesScreen> {
                       AppRoutes.DETAILS_CLASS,
                       arguments: {
                         'slide': SlideMode.bot,
-                        'classModel': state.props[0][index - 1],
+                        'classModel': _classModel,
+                        'hasJoinedClass': false,
                       },
                     );
                   },
                   child: RecommendClassCard(
-                    classModel: state.props[0][index - (state.props[0].length == 0 ? 0 : 1)],
+                    classModel: _classModel!,
                   ),
                 );
         },

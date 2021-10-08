@@ -1,8 +1,11 @@
 import 'dart:ui';
+import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/models/class_model.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/ui/classes/blocs/class/class_bloc.dart';
 import 'package:cloudmate/src/ui/classes/widgets/drawer_option.dart';
+import 'package:cloudmate/src/ui/common/dialogs/dialog_confirm.dart';
+import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:cloudmate/src/ui/common/widgets/animated_fade.dart';
 import 'package:cloudmate/src/utils/blurhash.dart';
 import 'package:flutter/material.dart';
@@ -71,6 +74,7 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
           );
           if (index != -1) {
             setState(() {
+              _hasJoinedClass = true;
               _classModel = state.props[0][index];
             });
           }
@@ -283,14 +287,14 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                 ),
               ),
             ),
-            _hasJoinedClass ? Container() : _buildBottomBar(),
+            _hasJoinedClass ? Container() : _buildBottomBar(context),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildBottomBar() {
+  Widget _buildBottomBar(context) {
     return Positioned(
       bottom: 0,
       left: 0,
@@ -302,21 +306,39 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(width: 18.sp),
-            Container(
-              width: 70.w,
-              height: 42.sp,
-              decoration: BoxDecoration(
-                color: colorPrimary,
-                borderRadius: BorderRadius.circular(8.sp),
-              ),
-              alignment: Alignment.center,
-              child: Text(
-                'Enroll Class',
-                style: TextStyle(
-                  color: mC,
-                  fontFamily: FontFamily.lato,
-                  fontSize: 12.75.sp,
-                  fontWeight: FontWeight.w600,
+            GestureDetector(
+              onTap: () {
+                dialogAnimationWrapper(
+                  context: context,
+                  slideFrom: 'top',
+                  child: DialogConfirm(
+                    handleConfirm: () {
+                      showDialogLoading(context);
+                      AppBloc.classBloc.add(
+                        JoinClass(classId: widget.classModel.id, context: context),
+                      );
+                    },
+                    subTitle: 'Sau khi tham gia, bạn sẽ trở thành học viên của lớp học này.',
+                    title: 'Tham gia lớp học',
+                  ),
+                );
+              },
+              child: Container(
+                width: 70.w,
+                height: 42.sp,
+                decoration: BoxDecoration(
+                  color: colorPrimary,
+                  borderRadius: BorderRadius.circular(8.sp),
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  'Enroll Class',
+                  style: TextStyle(
+                    color: mC,
+                    fontFamily: FontFamily.lato,
+                    fontSize: 12.75.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ),

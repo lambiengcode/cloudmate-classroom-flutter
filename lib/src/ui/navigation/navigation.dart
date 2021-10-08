@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/blocs/authentication/bloc.dart';
 import 'package:cloudmate/src/lang/language_service.dart';
+import 'package:cloudmate/src/services/socket/socket.dart';
 import 'package:flutter/material.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/ui/calendar/calendar_screen.dart';
@@ -41,7 +42,7 @@ class _NavigationState extends State<Navigation> {
     });
 
     AppBloc.authBloc.add(GetInfoUser());
-    // connectAndListen();
+    connectAndListen();
   }
 
   @override
@@ -172,9 +173,7 @@ class _NavigationState extends State<Navigation> {
                   Container(
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: currentPage == index
-                            ? colorPrimary
-                            : Colors.transparent,
+                        color: currentPage == index ? colorPrimary : Colors.transparent,
                         width: 1.8.sp,
                       ),
                       shape: BoxShape.circle,
@@ -186,8 +185,7 @@ class _NavigationState extends State<Navigation> {
                         width: 20.sp,
                         fit: BoxFit.cover,
                         placeholder: (context, url) => PlaceHolderImage(),
-                        errorWidget: (context, url, error) =>
-                            ErrorLoadingImage(),
+                        errorWidget: (context, url, error) => ErrorLoadingImage(),
                         imageUrl: urlToImage,
                       ),
                     ),

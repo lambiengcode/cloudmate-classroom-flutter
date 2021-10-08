@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:cloudmate/src/models/exam_model.dart';
 import 'package:cloudmate/src/resources/remote/exam_repository.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
+import 'package:cloudmate/src/routes/app_routes.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:flutter/material.dart';
@@ -135,7 +136,7 @@ class ExamBloc extends Bloc<ExamEvent, ExamState> {
     if (examResponse == null) {
       return false;
     } else {
-      AppNavigator.pop();
+      AppNavigator.popUntil(AppRoutes.LIST_EXAM);
       int index = listExam.indexWhere((item) => item.id == examResponse.id);
       if (index != -1) {
         listExam[index] = examResponse;
