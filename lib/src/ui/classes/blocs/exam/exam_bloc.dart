@@ -130,8 +130,8 @@ class ExamBloc extends Bloc<ExamEvent, ExamState> {
     required String name,
     required String description,
   }) async {
-    ExamModel? examResponse =
-        await ExamRepository().updateExam(examId: examId, name: name, description: description);
+    ExamModel? examResponse = await ExamRepository()
+        .updateExam(examId: examId, name: name, description: description);
     AppNavigator.pop();
     if (examResponse == null) {
       return false;
@@ -182,11 +182,13 @@ class ExamBloc extends Bloc<ExamEvent, ExamState> {
             ),
             SizedBox(height: 10.sp),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: 7.5.sp),
+              padding:
+                  EdgeInsets.symmetric(horizontal: 15.sp, vertical: 7.5.sp),
               child: Text(
                 subTitle,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontWeight: FontWeight.w400, fontSize: 10.5.sp),
+                style:
+                    TextStyle(fontWeight: FontWeight.w400, fontSize: 10.5.sp),
               ),
             ),
             SizedBox(height: 8.sp),

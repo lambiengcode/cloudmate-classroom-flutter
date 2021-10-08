@@ -8,7 +8,10 @@ class DialogConfirm extends StatefulWidget {
   final String subTitle;
   final Function handleConfirm;
 
-  const DialogConfirm({required this.handleConfirm, required this.subTitle, required this.title});
+  const DialogConfirm(
+      {required this.handleConfirm,
+      required this.subTitle,
+      required this.title});
 
   @override
   State<StatefulWidget> createState() => _DialogConfirmState();

@@ -14,7 +14,8 @@ class CreateExamScreen extends StatefulWidget {
   final ExamModel? examModel;
   final String classId;
   final ExamBloc examBloc;
-  CreateExamScreen({required this.classId, required this.examBloc, this.examModel});
+  CreateExamScreen(
+      {required this.classId, required this.examBloc, this.examModel});
   @override
   _CreateExamScreenState createState() => _CreateExamScreenState();
 }
@@ -206,7 +207,8 @@ class _CreateExamScreenState extends State<CreateExamScreen> {
           border: InputBorder.none,
           labelText: title,
           labelStyle: TextStyle(
-            color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
+            color:
+                Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
             fontSize: _size.width / 26.0,
             fontWeight: FontWeight.w600,
           ),

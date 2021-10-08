@@ -15,4 +15,7 @@ class ApiGateway {
 
   // Exam
   static const SET_OF_QUESTIONS = 'api/set-of-questions';
+
+  // Question
+  static const QUESTION = 'api/question';
 }

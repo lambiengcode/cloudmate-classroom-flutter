@@ -119,7 +119,8 @@ class _ClassesScreenState extends State<ClassesScreen> {
         itemBuilder: (context, index) {
           ClassModel? _classModel;
           if (!(index == 0 && state.props[0].length > 0)) {
-            _classModel = state.props[1][index - (state.props[1].length == 0 ? 0 : 1)];
+            _classModel =
+                state.props[1][index - (state.props[1].length == 0 ? 0 : 1)];
           }
           return index == 0 && state.props[0].length > 0
               ? _buildCurrentClasses(context, state)

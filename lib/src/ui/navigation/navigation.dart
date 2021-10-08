@@ -173,7 +173,9 @@ class _NavigationState extends State<Navigation> {
                   Container(
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: currentPage == index ? colorPrimary : Colors.transparent,
+                        color: currentPage == index
+                            ? colorPrimary
+                            : Colors.transparent,
                         width: 1.8.sp,
                       ),
                       shape: BoxShape.circle,
@@ -185,7 +187,8 @@ class _NavigationState extends State<Navigation> {
                         width: 20.sp,
                         fit: BoxFit.cover,
                         placeholder: (context, url) => PlaceHolderImage(),
-                        errorWidget: (context, url, error) => ErrorLoadingImage(),
+                        errorWidget: (context, url, error) =>
+                            ErrorLoadingImage(),
                         imageUrl: urlToImage,
                       ),
                     ),
