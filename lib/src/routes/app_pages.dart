@@ -74,13 +74,18 @@ class AppNavigator {
       case AppRoutes.LIST_QUESTION:
         return _buildRoute(
           settings,
-          ListQuestionScreen(),
+          ListQuestionScreen(
+            examModel: arguments!['examModel'],
+          ),
           _getSlideMode(arguments),
         );
       case AppRoutes.CREATE_QUESTION:
         return _buildRoute(
           settings,
-          CreateQuestionScreen(),
+          CreateQuestionScreen(
+            examId: arguments!['examId'],
+            questionBloc: arguments['questionBloc'],
+          ),
           _getSlideMode(arguments),
         );
       case AppRoutes.ROAD_MAP:
@@ -157,8 +162,7 @@ class AppNavigator {
     return state.pushReplacementNamed(route, arguments: arguments);
   }
 
-  static void popUntil<T>(String route) =>
-      state.popUntil(ModalRoute.withName(route));
+  static void popUntil<T>(String route) => state.popUntil(ModalRoute.withName(route));
 
   static void pop() => state.pop();
 

@@ -115,14 +115,13 @@ class _ClassesScreenState extends State<ClassesScreen> {
       child: ListView.builder(
         physics: BouncingScrollPhysics(),
         padding: EdgeInsets.only(top: 8.sp, bottom: 16.sp),
-        itemCount: state.props[1].length + (state.props[0].length == 0 ? 0 : 1),
+        itemCount: state.props[1].length + 1,
         itemBuilder: (context, index) {
           ClassModel? _classModel;
-          if (!(index == 0 && state.props[0].length > 0)) {
-            _classModel =
-                state.props[1][index - (state.props[1].length == 0 ? 0 : 1)];
+          if (index > 0) {
+            _classModel = state.props[1][index - 1];
           }
-          return index == 0 && state.props[0].length > 0
+          return index == 0
               ? _buildCurrentClasses(context, state)
               : GestureDetector(
                   onTap: () {
@@ -149,37 +148,45 @@ class _ClassesScreenState extends State<ClassesScreen> {
       padding: EdgeInsets.only(left: 10.sp),
       child: Column(
         children: [
-          _buildTitle(
-            yourClass.i18n,
-            PhosphorIcons.chalkboardSimpleBold,
-            themeService.isSavedDarkMode() ? colorAttendance : colorActive,
-          ),
-          Container(
-            height: 164.sp,
-            width: 100.w,
-            child: ListView.builder(
-              physics: BouncingScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              itemCount: state.props[0].length,
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () {
-                    AppNavigator.push(
-                      AppRoutes.DETAILS_CLASS,
-                      arguments: {
-                        'slide': SlideMode.bot,
-                        'classModel': state.props[0][index],
-                        'hasJoinedClass': true,
-                      },
-                    );
-                  },
-                  child: ClassCard(
-                    classModel: state.props[0][index],
-                  ),
-                );
-              },
-            ),
-          ),
+          state.props[0].length == 0
+              ? Container()
+              : Column(
+                  children: [
+                    _buildTitle(
+                      yourClass.i18n,
+                      PhosphorIcons.chalkboardSimpleBold,
+                      themeService.isSavedDarkMode()
+                          ? colorAttendance
+                          : colorActive,
+                    ),
+                    Container(
+                      height: 164.sp,
+                      width: 100.w,
+                      child: ListView.builder(
+                        physics: BouncingScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        itemCount: state.props[0].length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              AppNavigator.push(
+                                AppRoutes.DETAILS_CLASS,
+                                arguments: {
+                                  'slide': SlideMode.bot,
+                                  'classModel': state.props[0][index],
+                                  'hasJoinedClass': true,
+                                },
+                              );
+                            },
+                            child: ClassCard(
+                              classModel: state.props[0][index],
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
           _buildTitle(
             recommendClass.i18n,
             PhosphorIcons.presentationChartBold,

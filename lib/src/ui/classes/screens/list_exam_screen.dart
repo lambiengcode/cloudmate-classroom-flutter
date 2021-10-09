@@ -82,9 +82,7 @@ class _ListExamScreenState extends State<ListExamScreen> {
                 ),
                 SizedBox(height: 6.sp),
                 Expanded(
-                  child: state is ExamInitial
-                      ? LoadingScreen()
-                      : _buildListExam(context, state),
+                  child: state is ExamInitial ? LoadingScreen() : _buildListExam(context, state),
                 ),
               ],
             ),
@@ -104,6 +102,9 @@ class _ListExamScreenState extends State<ListExamScreen> {
           onTap: () {
             AppNavigator.push(
               AppRoutes.LIST_QUESTION,
+              arguments: {
+                'examModel': state.props[0][index],
+              },
             );
           },
           child: ExamCard(

@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloudmate/src/models/question_mode.dart';
 import 'package:cloudmate/src/resources/remote/question_repository.dart';
+import 'package:cloudmate/src/routes/app_pages.dart';
+import 'package:cloudmate/src/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
@@ -33,7 +35,7 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
     }
 
     if (event is CreateQuestionEvent) {
-      await _createQuestion(
+      bool isCreateSuccess = await _createQuestion(
         question: event.question,
         examId: event.examId,
         answers: event.answers,
@@ -44,6 +46,10 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
         listQuestion: listQuestion,
         isOver: isOverQuestion,
       );
+
+      if (isCreateSuccess) {
+        AppNavigator.popUntil(AppRoutes.LIST_QUESTION);
+      }
     }
 
     if (event is UpdateQuestionEvent) {
