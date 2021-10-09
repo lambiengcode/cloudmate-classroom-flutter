@@ -328,7 +328,9 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                       showDialogLoading(context);
                       AppBloc.classBloc.add(
                         JoinClass(
-                            classId: widget.classModel.id, context: context),
+                          classId: widget.classModel.id,
+                          context: context,
+                        ),
                       );
                     },
                     subTitle:

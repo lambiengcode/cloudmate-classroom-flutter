@@ -2,6 +2,7 @@ import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
+import 'package:cloudmate/src/ui/classes/blocs/bloc/question_bloc.dart';
 import 'package:cloudmate/src/ui/classes/widgets/character_counter.dart';
 import 'package:cloudmate/src/ui/classes/widgets/dialog_add_answer.dart';
 import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
@@ -11,6 +12,12 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 class CreateQuestionScreen extends StatefulWidget {
+  final QuestionBloc questionBloc;
+  final String examId;
+  const CreateQuestionScreen({
+    required this.questionBloc,
+    required this.examId,
+  });
   @override
   _CreateQuestionScreenState createState() => _CreateQuestionScreenState();
 }
@@ -89,8 +96,24 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              print(_duration);
-              AppNavigator.pop();
+              showDialogLoading(context);
+              List<int> _formatListCorrect = [];
+              _corrects.forEach((item) {
+                int index = _answers.indexOf(item);
+                if (index != -1) {
+                  _formatListCorrect.add(index);
+                }
+              });
+              widget.questionBloc.add(
+                CreateQuestionEvent(
+                  answers: _answers,
+                  context: context,
+                  corrects: _formatListCorrect,
+                  duration: int.parse(_duration),
+                  examId: widget.examId,
+                  question: _question,
+                ),
+              );
             },
             icon: Icon(
               PhosphorIcons.checkBold,
@@ -235,14 +258,12 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
           border: InputBorder.none,
           labelText: title,
           labelStyle: TextStyle(
-            color:
-                Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
+            color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
             fontSize: _size.width / 26.0,
             fontWeight: FontWeight.w600,
           ),
-          suffixIcon: title == 'Nhập câu hỏi'
-              ? CharacterCounter(min: 60, value: _question.length)
-              : null,
+          suffixIcon:
+              title == 'Nhập câu hỏi' ? CharacterCounter(min: 60, value: _question.length) : null,
         ),
       ),
     );
@@ -269,11 +290,7 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
               fontSize: 12.sp,
               fontWeight: FontWeight.w600,
               fontFamily: FontFamily.lato,
-              color: Theme.of(context)
-                  .textTheme
-                  .bodyText1!
-                  .color!
-                  .withOpacity(.72),
+              color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.72),
             ),
           ),
           IconButton(

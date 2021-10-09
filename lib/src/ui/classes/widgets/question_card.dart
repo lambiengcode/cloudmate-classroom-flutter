@@ -1,5 +1,5 @@
 import 'package:cloudmate/src/helpers/string.dart';
-import 'package:cloudmate/src/models/question.dart';
+import 'package:cloudmate/src/models/question_mode.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:flutter/material.dart';
@@ -7,11 +7,10 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 class QuestionCard extends StatefulWidget {
-  final Question question;
+  final QuestionModel question;
   final bool isLast;
   final int index;
-  QuestionCard(
-      {required this.question, this.isLast = false, required this.index});
+  QuestionCard({required this.question, this.isLast = false, required this.index});
   @override
   State<StatefulWidget> createState() => _QuestionCardState();
 }
@@ -56,7 +55,7 @@ class _QuestionCardState extends State<QuestionCard> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              widget.question.question!,
+                              widget.question.question,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 2,
                               style: TextStyle(
@@ -71,14 +70,12 @@ class _QuestionCardState extends State<QuestionCard> {
                               'Thời gian trả lời :' +
                                   StringHelper().printDuration(
                                     Duration(
-                                        seconds: widget.question.duration!),
+                                      seconds: widget.question.duration,
+                                    ),
                                   ),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .copyWith(
+                              style: Theme.of(context).textTheme.bodyText1!.copyWith(
                                     fontSize: 10.5.sp,
                                     fontWeight: FontWeight.w400,
                                     fontFamily: FontFamily.lato,
