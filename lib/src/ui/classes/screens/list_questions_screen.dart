@@ -1,5 +1,4 @@
 import 'package:cloudmate/src/models/exam_model.dart';
-import 'package:cloudmate/src/models/question.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/routes/app_routes.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
@@ -92,8 +91,8 @@ class _ListQuestionScreenState extends State<ListQuestionScreen> {
                             itemCount: state.props[0].length,
                             itemBuilder: (context, index) {
                               return QuestionCard(
-                                question: questions[index],
-                                isLast: index == questions.length - 1,
+                                question: state.props[0][index],
+                                isLast: index == state.props[0].length - 1,
                                 index: index + 1,
                               );
                             },
