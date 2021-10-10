@@ -10,7 +10,8 @@ class QuestionCard extends StatefulWidget {
   final QuestionModel question;
   final bool isLast;
   final int index;
-  QuestionCard({required this.question, this.isLast = false, required this.index});
+  QuestionCard(
+      {required this.question, this.isLast = false, required this.index});
   @override
   State<StatefulWidget> createState() => _QuestionCardState();
 }
@@ -75,7 +76,10 @@ class _QuestionCardState extends State<QuestionCard> {
                                   ),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
-                              style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .copyWith(
                                     fontSize: 10.5.sp,
                                     fontWeight: FontWeight.w400,
                                     fontFamily: FontFamily.lato,

@@ -76,7 +76,8 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
   }
 
   Future<void> _getListQuestion() async {
-    List<QuestionModel> questions = await QuestionRepository().getListQuestion(skip: skip);
+    List<QuestionModel> questions =
+        await QuestionRepository().getListQuestion(skip: skip);
 
     if (questions.isEmpty) {
       isOverQuestion = true;
@@ -133,7 +134,8 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
   Future<bool> _deleteQuestion({
     required String questionId,
   }) async {
-    bool isDeleteSuccess = await QuestionRepository().deleteQuestion(questionId: questionId);
+    bool isDeleteSuccess =
+        await QuestionRepository().deleteQuestion(questionId: questionId);
 
     if (isDeleteSuccess) {
       int index = listQuestion.indexWhere((item) => item.id == questionId);
