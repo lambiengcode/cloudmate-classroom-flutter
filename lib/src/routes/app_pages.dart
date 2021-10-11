@@ -8,6 +8,7 @@ import 'package:cloudmate/src/ui/classes/screens/list_questions_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/list_request_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/lobby_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/road_map_screen.dart';
+import 'package:cloudmate/src/ui/notification/notification_screen.dart';
 import 'package:cloudmate/src/ui/profile/screens/edit_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cloudmate/src/app.dart';
@@ -29,6 +30,12 @@ class AppNavigator {
         return _buildRoute(
           settings,
           App(),
+          _getSlideMode(arguments),
+        );
+      case AppRoutes.NOTIFICATION:
+        return _buildRoute(
+          settings,
+          NotificationScreen(),
           _getSlideMode(arguments),
         );
       case AppRoutes.DETAILS_CLASS:
@@ -169,7 +176,8 @@ class AppNavigator {
     return state.pushReplacementNamed(route, arguments: arguments);
   }
 
-  static void popUntil<T>(String route) => state.popUntil(ModalRoute.withName(route));
+  static void popUntil<T>(String route) =>
+      state.popUntil(ModalRoute.withName(route));
 
   static void pop() {
     if (state.canPop()) {

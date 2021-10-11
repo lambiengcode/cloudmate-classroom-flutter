@@ -5,6 +5,7 @@ import 'package:cloudmate/src/routes/app_routes.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/ui/classes/blocs/class/class_bloc.dart';
+import 'package:cloudmate/src/ui/classes/widgets/dialog_add_answer.dart';
 import 'package:cloudmate/src/ui/common/dialogs/dialog_confirm.dart';
 import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:flutter/material.dart';
@@ -95,6 +96,22 @@ class _DrawerOptionState extends State<DrawerOption> {
                     PhosphorIcons.info,
                     null,
                     null,
+                    handlePressed: () async {
+                      await dialogAnimationWrapper(
+                        context: context,
+                        dismissible: true,
+                        slideFrom: 'bottom',
+                        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                        child: DialogInput(
+                          handleFinish: (input) {
+                            AppNavigator.popUntil(AppRoutes.DETAILS_CLASS);
+                          },
+                          title: 'Báo xấu lớp học',
+                          buttonTitle: 'Đồng ý',
+                          hideInputField: 'Nhập lí do...',
+                        ),
+                      );
+                    },
                   ),
                   _buildDivider(context),
                   _buildLine(
@@ -111,13 +128,10 @@ class _DrawerOptionState extends State<DrawerOption> {
                           handleConfirm: () {
                             showDialogLoading(context);
                             AppBloc.classBloc.add(
-                              LeaveClass(
-                                  classId: widget.classModel.id,
-                                  context: context),
+                              LeaveClass(classId: widget.classModel.id, context: context),
                             );
                           },
-                          subTitle:
-                              'Sau khi rời khỏi lớp học bạn sẽ không thể hoàn tác lại!',
+                          subTitle: 'Sau khi rời khỏi lớp học bạn sẽ không thể hoàn tác lại!',
                           title: 'Rời lớp học',
                         ),
                       );
@@ -172,12 +186,7 @@ class _DrawerOptionState extends State<DrawerOption> {
                 style: TextStyle(
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w600,
-                  color: color ??
-                      Theme.of(context)
-                          .textTheme
-                          .bodyText1!
-                          .color!
-                          .withOpacity(.75),
+                  color: color ?? Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.75),
                   fontFamily: FontFamily.lato,
                 ),
               ),

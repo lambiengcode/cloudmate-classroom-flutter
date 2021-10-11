@@ -155,7 +155,9 @@ class _ClassesScreenState extends State<ClassesScreen> {
                     _buildTitle(
                       yourClass.i18n,
                       PhosphorIcons.chalkboardSimpleBold,
-                      themeService.isSavedDarkMode() ? colorAttendance : colorActive,
+                      themeService.isSavedDarkMode()
+                          ? colorGreenLight
+                          : colorActive,
                     ),
                     Container(
                       height: 164.sp,

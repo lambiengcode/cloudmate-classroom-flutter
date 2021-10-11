@@ -1,6 +1,9 @@
 class AppRoutes {
   static const ROOT = '/';
 
+  // Home
+  static const NOTIFICATION = '/notification';
+
   // Classes
   static const DETAILS_CLASS = '/detailsCLass';
   static const CREATE_CLASS = '/createClass';

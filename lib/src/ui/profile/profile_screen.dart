@@ -4,6 +4,8 @@ import 'package:cloudmate/src/models/slide_mode.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/routes/app_routes.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
+import 'package:cloudmate/src/ui/classes/blocs/class/class_bloc.dart';
+import 'package:cloudmate/src/ui/classes/widgets/recommend_class_card.dart';
 import 'package:cloudmate/src/ui/common/screens/loading_screen.dart';
 import 'package:cloudmate/src/ui/common/widgets/animated_fade.dart';
 import 'package:flutter/material.dart';
@@ -182,22 +184,33 @@ class _ProfileScreenState extends State<ProfileScreen>
                   Colors.amberAccent.shade700,
                 ),
                 SizedBox(height: 4.sp),
-                Expanded(
-                  child: NotificationListener<OverscrollIndicatorNotification>(
-                    onNotification: (overscroll) {
-                      overscroll.disallowGlow();
-                      return true;
-                    },
-                    child: ListView.builder(
-                      controller: scrollController,
-                      padding: EdgeInsets.only(bottom: 12.sp),
-                      physics: ClampingScrollPhysics(),
-                      itemCount: posts.length,
-                      itemBuilder: (context, index) {
-                        return Container();
-                      },
-                    ),
-                  ),
+                BlocBuilder<ClassBloc, ClassState>(
+                  builder: (context, state) {
+                    return Expanded(
+                      child:
+                          NotificationListener<OverscrollIndicatorNotification>(
+                        onNotification: (overscroll) {
+                          overscroll.disallowGlow();
+                          return true;
+                        },
+                        child: state.props[0].isEmpty
+                            ? LoadingScreen(
+                                isShowText: false,
+                              )
+                            : ListView.builder(
+                                controller: scrollController,
+                                padding: EdgeInsets.only(bottom: 12.sp),
+                                physics: ClampingScrollPhysics(),
+                                itemCount: state.props[0].length,
+                                itemBuilder: (context, index) {
+                                  return RecommendClassCard(
+                                    classModel: state.props[0][index],
+                                  );
+                                },
+                              ),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),

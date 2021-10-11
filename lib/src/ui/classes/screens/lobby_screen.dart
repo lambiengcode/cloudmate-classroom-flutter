@@ -39,6 +39,16 @@ class _LobbyScreenState extends State<LobbyScreen> {
             color: Theme.of(context).textTheme.bodyText1!.color,
           ),
         ),
+        actions: [
+          IconButton(
+            onPressed: () => null,
+            icon: Icon(
+              PhosphorIcons.circleWavyWarningFill,
+              size: 20.sp,
+              color: Theme.of(context).primaryColor,
+            ),
+          ),
+        ],
       ),
       body: Container(
         height: 100.h,
@@ -82,7 +92,8 @@ class _LobbyScreenState extends State<LobbyScreen> {
                   id: 'lambiengcode',
                   displayName: 'Dao Hong Vinh',
                   lastName: 'Hong Vinh',
-                  image: 'https://avatars.githubusercontent.com/u/50282063?s=200&v=4',
+                  image:
+                      'https://avatars.githubusercontent.com/u/50282063?s=200&v=4',
                 ),
               );
             },
@@ -92,7 +103,8 @@ class _LobbyScreenState extends State<LobbyScreen> {
         Text(
           'Start in',
           style: TextStyle(
-            color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.75),
+            color:
+                Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.75),
             fontFamily: FontFamily.lato,
             fontSize: 15.sp,
             fontWeight: FontWeight.w600,
@@ -100,7 +112,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
         ),
         SizedBox(height: 12.sp),
         Text(
-          '52',
+          '60',
           style: TextStyle(
             color: Theme.of(context).primaryColor,
             fontFamily: FontFamily.lato,
