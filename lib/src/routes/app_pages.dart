@@ -2,6 +2,7 @@ import 'package:cloudmate/src/ui/classes/screens/create_class_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/create_deadline_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/create_exam_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/create_question_screen.dart';
+import 'package:cloudmate/src/ui/classes/screens/create_roadmap_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/do_exam_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/list_exam_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/list_questions_screen.dart';
@@ -102,6 +103,12 @@ class AppNavigator {
           RoadMapScreen(),
           _getSlideMode(arguments),
         );
+      case AppRoutes.CREATE_ROAD_MAP:
+        return _buildRoute(
+          settings,
+          CreateRoadmapScreen(),
+          _getSlideMode(arguments),
+        );
       case AppRoutes.CREATE_DEADLINE:
         return _buildRoute(
           settings,
@@ -176,8 +183,7 @@ class AppNavigator {
     return state.pushReplacementNamed(route, arguments: arguments);
   }
 
-  static void popUntil<T>(String route) =>
-      state.popUntil(ModalRoute.withName(route));
+  static void popUntil<T>(String route) => state.popUntil(ModalRoute.withName(route));
 
   static void pop() {
     if (state.canPop()) {

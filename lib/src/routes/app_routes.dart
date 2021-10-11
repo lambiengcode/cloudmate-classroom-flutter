@@ -18,6 +18,7 @@ class AppRoutes {
 
   // Roadmap
   static const ROAD_MAP = '/roadMap';
+  static const CREATE_ROAD_MAP = '/createRoadMap';
   static const CREATE_DEADLINE = '/createDeadline';
   static const DO_EXAM = '/doExam';
 
