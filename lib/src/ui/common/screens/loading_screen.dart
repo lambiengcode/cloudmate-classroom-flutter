@@ -4,12 +4,9 @@ import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-class LoadingScreen extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => _LoadingScreenState();
-}
-
-class _LoadingScreenState extends State<LoadingScreen> {
+class LoadingScreen extends StatelessWidget {
+  final bool isShowText;
+  const LoadingScreen({this.isShowText = true});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,34 +18,36 @@ class _LoadingScreenState extends State<LoadingScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              width: 70.w,
-              height: 70.w,
+              width: isShowText ? 70.w : 50.w,
+              height: isShowText ? 70.w : 50.w,
               child: Constants().loadingLottie,
             ),
-            RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: 'Load',
-                    style: TextStyle(
-                      fontSize: 26.sp,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: FontFamily.dancing,
-                      color: colorPrimary,
+            isShowText
+                ? RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: 'Load',
+                          style: TextStyle(
+                            fontSize: 26.sp,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: FontFamily.dancing,
+                            color: colorPrimary,
+                          ),
+                        ),
+                        TextSpan(
+                          text: 'ing',
+                          style: TextStyle(
+                            fontSize: 26.sp,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: FontFamily.dancing,
+                            color: Theme.of(context).textTheme.bodyText1!.color,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  TextSpan(
-                    text: 'ing',
-                    style: TextStyle(
-                      fontSize: 26.sp,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: FontFamily.dancing,
-                      color: Theme.of(context).textTheme.bodyText1!.color,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                  )
+                : Container(),
           ],
         ),
       ),

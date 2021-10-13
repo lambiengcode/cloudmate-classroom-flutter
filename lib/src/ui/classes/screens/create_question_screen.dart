@@ -1,3 +1,4 @@
+import 'package:cloudmate/src/models/question_mode.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
@@ -13,10 +14,12 @@ import 'package:sizer/sizer.dart';
 
 class CreateQuestionScreen extends StatefulWidget {
   final QuestionBloc questionBloc;
+  final QuestionModel? questionModel;
   final String examId;
   const CreateQuestionScreen({
     required this.questionBloc,
     required this.examId,
+    this.questionModel,
   });
   @override
   _CreateQuestionScreenState createState() => _CreateQuestionScreenState();
@@ -32,7 +35,23 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
   String _question = '';
   String _duration = '';
 
-  hideKeyboard() => textFieldFocus.unfocus();
+  @override
+  void initState() {
+    super.initState();
+    if (widget.questionModel != null) {
+      QuestionModel _questionModel = widget.questionModel!;
+      _questionController.text = _questionModel.question;
+      _durationController.text = _questionModel.duration.toString();
+      _question = _questionModel.question;
+      _duration = _questionModel.duration.toString();
+      _answers = _questionModel.answers;
+      _questionModel.corrects.forEach((index) {
+        if (index <= _answers.length) {
+          _corrects.add(_answers[index]);
+        }
+      });
+    }
+  }
 
   bool _checkIsCorrect(String answer) {
     return _corrects.contains(answer);
@@ -85,7 +104,7 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
           ),
         ),
         title: Text(
-          'Tạo câu hỏi',
+          widget.questionModel == null ? 'Tạo câu hỏi' : 'Sửa câu hỏi',
           style: TextStyle(
             fontSize: 15.sp,
             fontFamily: FontFamily.lato,
@@ -104,16 +123,29 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
                   _formatListCorrect.add(index);
                 }
               });
-              widget.questionBloc.add(
-                CreateQuestionEvent(
-                  answers: _answers,
-                  context: context,
-                  corrects: _formatListCorrect,
-                  duration: int.parse(_duration),
-                  examId: widget.examId,
-                  question: _question,
-                ),
-              );
+              if (widget.questionModel == null) {
+                widget.questionBloc.add(
+                  CreateQuestionEvent(
+                    answers: _answers,
+                    context: context,
+                    corrects: _formatListCorrect,
+                    duration: int.parse(_duration),
+                    examId: widget.examId,
+                    question: _question,
+                  ),
+                );
+              } else {
+                widget.questionBloc.add(
+                  UpdateQuestionEvent(
+                    answers: _answers,
+                    context: context,
+                    corrects: _formatListCorrect,
+                    duration: int.parse(_duration),
+                    questionId: widget.questionModel!.id,
+                    question: _question,
+                  ),
+                );
+              }
             },
             icon: Icon(
               PhosphorIcons.checkBold,

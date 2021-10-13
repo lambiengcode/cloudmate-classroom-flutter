@@ -3,7 +3,10 @@ part of 'question_bloc.dart';
 @immutable
 abstract class QuestionEvent {}
 
-class GetListQuestionEvent extends QuestionEvent {}
+class GetListQuestionEvent extends QuestionEvent {
+  final String examId;
+  GetListQuestionEvent({required this.examId});
+}
 
 class CreateQuestionEvent extends QuestionEvent {
   final BuildContext context;

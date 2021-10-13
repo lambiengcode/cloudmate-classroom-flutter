@@ -82,7 +82,9 @@ class _ListExamScreenState extends State<ListExamScreen> {
                 ),
                 SizedBox(height: 6.sp),
                 Expanded(
-                  child: state is ExamInitial ? LoadingScreen() : _buildListExam(context, state),
+                  child: state is ExamInitial
+                      ? LoadingScreen()
+                      : _buildListExam(context, state),
                 ),
               ],
             ),

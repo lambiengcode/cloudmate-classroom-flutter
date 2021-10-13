@@ -32,7 +32,10 @@ class _ListQuestionScreenState extends State<ListQuestionScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<QuestionBloc>(
-      create: (context) => _questionBloc..add(GetListQuestionEvent()),
+      create: (context) => _questionBloc
+        ..add(GetListQuestionEvent(
+          examId: widget.examModel.id,
+        )),
       child: BlocBuilder<QuestionBloc, QuestionState>(
         builder: (context, state) {
           return Scaffold(
@@ -92,6 +95,7 @@ class _ListQuestionScreenState extends State<ListQuestionScreen> {
                             itemBuilder: (context, index) {
                               return QuestionCard(
                                 question: state.props[0][index],
+                                questionBloc: _questionBloc,
                                 isLast: index == state.props[0].length - 1,
                                 index: index + 1,
                               );

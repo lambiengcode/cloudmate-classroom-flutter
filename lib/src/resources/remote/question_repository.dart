@@ -31,12 +31,12 @@ class QuestionRepository {
 
   Future<List<QuestionModel>> getListQuestion({
     required int skip,
+    required String id,
   }) async {
     Response response = await BaseRepository().getRoute(
       ApiGateway.QUESTION,
-      query: 'skip=$skip',
+      query: 'skip=$skip&idSetOfQuestions=$id',
     );
-    print(response.data);
     if (response.statusCode == 200) {
       List<dynamic> jsonResponse = response.data['data'];
       return jsonResponse.map((item) => QuestionModel.fromMap(item)).toList();

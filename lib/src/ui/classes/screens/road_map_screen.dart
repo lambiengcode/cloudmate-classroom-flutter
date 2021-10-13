@@ -50,7 +50,7 @@ class _RoadMapScreenState extends State<RoadMapScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: () => AppNavigator.push(AppRoutes.CREATE_DEADLINE),
+            onPressed: () => AppNavigator.push(AppRoutes.CREATE_ROAD_MAP),
             icon: Icon(
               PhosphorIcons.circlesThreePlus,
               size: 22.sp,

@@ -3,8 +3,11 @@ import 'package:cloudmate/src/models/question_mode.dart';
 import 'package:cloudmate/src/resources/remote/question_repository.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/routes/app_routes.dart';
+import 'package:cloudmate/src/themes/app_colors.dart';
+import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
+import 'package:sizer/sizer.dart';
 
 part 'question_event.dart';
 part 'question_state.dart';
@@ -27,7 +30,9 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
           isOver: isOverQuestion,
         );
       }
-      await _getListQuestion();
+      await _getListQuestion(
+        id: event.examId,
+      );
       yield GetDoneQuestion(
         listQuestion: listQuestion,
         isOver: isOverQuestion,
@@ -53,7 +58,7 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
     }
 
     if (event is UpdateQuestionEvent) {
-      await _editQuestion(
+      bool isUpdateSuccess = await _editQuestion(
         question: event.question,
         questionId: event.questionId,
         answers: event.answers,
@@ -64,19 +69,52 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
         listQuestion: listQuestion,
         isOver: isOverQuestion,
       );
+      if (isUpdateSuccess) {
+        AppNavigator.pop();
+        _showDialogResult(
+          event.context,
+          title: 'Thành công',
+          subTitle: 'Bạn đã chỉnh sửa thành công',
+        );
+      } else {
+        _showDialogResult(
+          event.context,
+          title: 'Thất bại',
+          subTitle: 'Chỉnh sửa thất bại, vui lòng thử lại sau',
+        );
+      }
     }
 
     if (event is DeleteQuestionEvent) {
-      await _deleteQuestion(questionId: event.questionId);
+      bool isDeleteSuccess = await _deleteQuestion(questionId: event.questionId);
       yield GetDoneQuestion(
         listQuestion: listQuestion,
         isOver: isOverQuestion,
       );
+      if (isDeleteSuccess) {
+        AppNavigator.popUntil(AppRoutes.LIST_QUESTION);
+        _showDialogResult(
+          event.context,
+          title: 'Thành công',
+          subTitle: 'Bạn đã xoá câu hỏi thành công',
+        );
+      } else {
+        _showDialogResult(
+          event.context,
+          title: 'Thất bại',
+          subTitle: 'Xoá thất bại, hãy thử lại sau!',
+        );
+      }
     }
   }
 
-  Future<void> _getListQuestion() async {
-    List<QuestionModel> questions = await QuestionRepository().getListQuestion(skip: skip);
+  Future<void> _getListQuestion({
+    required String id,
+  }) async {
+    List<QuestionModel> questions = await QuestionRepository().getListQuestion(
+      skip: skip,
+      id: id,
+    );
 
     if (questions.isEmpty) {
       isOverQuestion = true;
@@ -122,9 +160,12 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
       questionId: questionId,
       correct: corrects,
     );
-
+    AppNavigator.pop();
     if (questionModel != null) {
-      listQuestion.add(questionModel);
+      int index = listQuestion.indexWhere((item) => item.id == questionModel.id);
+      if (index != -1) {
+        listQuestion[index] = questionModel;
+      }
     }
 
     return questionModel != null;
@@ -143,5 +184,65 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
     }
 
     return isDeleteSuccess;
+  }
+
+  void _showDialogResult(
+    context, {
+    String title = 'Thành công',
+    String subTitle = 'Chúc mừng bạn đã tạo câu hỏi thành công',
+  }) {
+    dialogAnimationWrapper(
+      dismissible: false,
+      context: context,
+      child: Container(
+        width: 300.sp,
+        height: 155.sp,
+        padding: EdgeInsets.symmetric(vertical: 16.sp),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(height: 6.sp),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15.sp),
+              child: Text(
+                title,
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13.sp),
+              ),
+            ),
+            SizedBox(height: 10.sp),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: 7.5.sp),
+              child: Text(
+                subTitle,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.w400, fontSize: 10.5.sp),
+              ),
+            ),
+            SizedBox(height: 8.sp),
+            Divider(),
+            GestureDetector(
+              onTap: () {
+                AppNavigator.pop();
+              },
+              child: Container(
+                color: Colors.transparent,
+                width: 300.sp,
+                alignment: Alignment.center,
+                padding: EdgeInsets.symmetric(vertical: 5.sp),
+                child: Text(
+                  'OK',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 12.sp,
+                    color: colorPrimary,
+                  ),
+                ),
+              ),
+            ),
+            Divider(color: Colors.grey),
+          ],
+        ),
+      ),
+    );
   }
 }

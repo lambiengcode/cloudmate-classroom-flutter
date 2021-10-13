@@ -42,7 +42,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
             centerTitle: true,
             leading: IconButton(
               onPressed: () {
-                AppNavigator.push(AppRoutes.DO_EXAM);
+                AppNavigator.push(AppRoutes.LOBBY_EXAM);
               },
               icon: Icon(
                 PhosphorIcons.slidersHorizontal,
@@ -156,7 +156,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
                       yourClass.i18n,
                       PhosphorIcons.chalkboardSimpleBold,
                       themeService.isSavedDarkMode()
-                          ? colorAttendance
+                          ? colorGreenLight
                           : colorActive,
                     ),
                     Container(

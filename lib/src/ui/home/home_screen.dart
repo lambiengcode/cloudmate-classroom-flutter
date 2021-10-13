@@ -46,7 +46,15 @@ class _HomeScreenState extends State<HomeScreen> {
         elevation: 0.0,
         centerTitle: true,
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            AppBloc.themeBloc.add(
+              OnChangeTheme(
+                themeMode: ThemeService.currentTheme == ThemeMode.dark
+                    ? ThemeMode.light
+                    : ThemeMode.dark,
+              ),
+            );
+          },
           icon: Icon(
             PhosphorIcons.slidersHorizontal,
             size: 22.sp,
@@ -85,13 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           IconButton(
             onPressed: () {
-              AppBloc.themeBloc.add(
-                OnChangeTheme(
-                  themeMode: ThemeService.currentTheme == ThemeMode.dark
-                      ? ThemeMode.light
-                      : ThemeMode.dark,
-                ),
-              );
+              AppNavigator.push(AppRoutes.NOTIFICATION);
             },
             icon: Icon(
               PhosphorIcons.bellSimple,

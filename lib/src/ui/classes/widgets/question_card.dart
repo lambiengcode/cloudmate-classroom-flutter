@@ -2,15 +2,23 @@ import 'package:cloudmate/src/helpers/string.dart';
 import 'package:cloudmate/src/models/question_mode.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
+import 'package:cloudmate/src/ui/classes/blocs/bloc/question_bloc.dart';
+import 'package:cloudmate/src/ui/classes/widgets/bottom_option_question.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 class QuestionCard extends StatefulWidget {
   final QuestionModel question;
+  final QuestionBloc questionBloc;
   final bool isLast;
   final int index;
-  QuestionCard({required this.question, this.isLast = false, required this.index});
+  QuestionCard({
+    required this.question,
+    this.isLast = false,
+    required this.index,
+    required this.questionBloc,
+  });
   @override
   State<StatefulWidget> createState() => _QuestionCardState();
 }
@@ -92,7 +100,7 @@ class _QuestionCardState extends State<QuestionCard> {
                     PhosphorIcons.dotsThreeVerticalBold,
                     size: 20.sp,
                   ),
-                  onPressed: () => null,
+                  onPressed: () => _showBottomSheetSettings(context),
                 ),
               ],
             ),
@@ -107,6 +115,22 @@ class _QuestionCardState extends State<QuestionCard> {
                 ),
         ],
       ),
+    );
+  }
+
+  void _showBottomSheetSettings(context) {
+    showModalBottomSheet(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(16.sp)),
+      ),
+      isScrollControlled: true,
+      context: context,
+      builder: (context) {
+        return BottomOptionQuestion(
+          questionBloc: widget.questionBloc,
+          questionModel: widget.question,
+        );
+      },
     );
   }
 }
