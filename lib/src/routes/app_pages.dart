@@ -94,6 +94,7 @@ class AppNavigator {
           CreateQuestionScreen(
             examId: arguments!['examId'],
             questionBloc: arguments['questionBloc'],
+            questionModel: arguments['questionModel'],
           ),
           _getSlideMode(arguments),
         );

@@ -266,7 +266,8 @@ class _TimelineStepsChild extends StatelessWidget {
               right: 6.sp,
             ),
       child: Column(
-        crossAxisAlignment: isLeftAlign ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+        crossAxisAlignment:
+            isLeftAlign ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Text(
@@ -284,7 +285,8 @@ class _TimelineStepsChild extends StatelessWidget {
             textAlign: isLeftAlign ? TextAlign.right : TextAlign.left,
             style: TextStyle(
               fontSize: 12.sp,
-              color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
+              color:
+                  Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
             ),
           ),
         ],
