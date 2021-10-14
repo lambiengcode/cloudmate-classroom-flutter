@@ -1,3 +1,5 @@
+import 'dart:io';
+
 abstract class AuthEvent {}
 
 class OnAuthCheck extends AuthEvent {}
@@ -44,4 +46,9 @@ class UpdateInfoUser extends AuthEvent {
     required this.intro,
     required this.phone,
   });
+}
+
+class UpdateAvatarUser extends AuthEvent {
+  final File avatar;
+  UpdateAvatarUser({required this.avatar});
 }

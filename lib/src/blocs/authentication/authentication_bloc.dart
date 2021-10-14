@@ -1,11 +1,14 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/blocs/authentication/bloc.dart';
 import 'package:cloudmate/src/configs/application.dart';
+import 'package:cloudmate/src/models/upload_response_model.dart';
 import 'package:cloudmate/src/models/user.dart';
 import 'package:cloudmate/src/resources/local/user_local.dart';
 import 'package:cloudmate/src/resources/remote/authentication_repository.dart';
+import 'package:cloudmate/src/resources/remote/upload_repository.dart';
 import 'package:cloudmate/src/resources/remote/user_repository.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/routes/app_routes.dart';
@@ -82,6 +85,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         userModel: userModel,
       );
     }
+
+    if (event is UpdateAvatarUser) {
+      await _updateAvatar(avatar: event.avatar);
+      yield AuthenticationSuccess(
+        userModel: userModel,
+      );
+    }
   }
 
   Future<bool> _onAuthCheck() async {
@@ -136,6 +146,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
     userModel = user;
 
+    AppNavigator.popUntil(AppRoutes.ROOT);
+  }
+
+  Future<void> _updateAvatar({
+    required File avatar,
+  }) async {
+    UploadResponseModel? response = await UploadRepository().uploadSingleFile(file: avatar);
+
+    if (response != null) {
+      UserModel? user = await UserRepository().updateAvatar(
+        avatar: response.image,
+        blurHash: response.blurHash,
+      );
+      if (user != null) {
+        userModel = user;
+      }
+    }
     AppNavigator.popUntil(AppRoutes.ROOT);
   }
 }

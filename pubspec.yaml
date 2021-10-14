@@ -46,6 +46,7 @@ dependencies:
   # Image
   blurhash: ^0.2.1
   cached_network_image: ^3.1.0
+  image_picker: ^0.8.4
 
   # Icon
   like_button: ^2.0.3

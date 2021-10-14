@@ -6,6 +6,12 @@ class ApiGateway {
   // User
   static const USER = 'api/user';
   static const GET_INFO = 'api/user/info';
+  static const UPDATE_AVATAR = 'api/user/avatar';
+
+  // Upload File
+  static const UPLOAD_SINGLE_FILE = 'api/up-load-file/upload';
+  static const UPLOAD_MULTIPLE_FILE = 'api/up-load-file/uploads';
+  static const GET_FILE_INFO = 'api/up-load-file';
 
   // Class
   static const CLASS = 'api/classes';

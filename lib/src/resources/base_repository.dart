@@ -12,8 +12,7 @@ class BaseRepository {
     receiveTimeout: 10000,
   )); // with default Options
 
-  Future<diox.Response<dynamic>> downloadFile(
-      String url, String path, Function onReceive) async {
+  Future<diox.Response<dynamic>> downloadFile(String url, String path, Function onReceive) async {
     var response = await dio.download(
       url,
       path,
@@ -27,15 +26,17 @@ class BaseRepository {
 
   Future<diox.Response<dynamic>> sendFormData(
     String gateway,
-    diox.FormData formData,
-    Function onSend,
-  ) async {
+    diox.FormData formData, {
+    Function? callBack,
+  }) async {
     var response = await dio.post(
       gateway,
       data: formData,
       options: getOptions(),
       onSendProgress: (send, total) {
-        onSend(send, total);
+        if (callBack != null) {
+          callBack(send, total);
+        }
       },
     );
     return response;
@@ -77,8 +78,7 @@ class BaseRepository {
     Map<String, String> paramsObject = {};
     if (query != null) {
       query.split('&').forEach((element) {
-        paramsObject[element.split('=')[0].toString()] =
-            element.split('=')[1].toString();
+        paramsObject[element.split('=')[0].toString()] = element.split('=')[1].toString();
       });
     }
 
@@ -100,8 +100,7 @@ class BaseRepository {
     Map<String, String> paramsObject = {};
     if (query != null) {
       query.split('&').forEach((element) {
-        paramsObject[element.split('=')[0].toString()] =
-            element.split('=')[1].toString();
+        paramsObject[element.split('=')[0].toString()] = element.split('=')[1].toString();
       });
     }
 
@@ -124,8 +123,7 @@ class BaseRepository {
     Map<String, String> paramsObject = {};
     if (query != null) {
       query.split('&').forEach((element) {
-        paramsObject[element.split('=')[0].toString()] =
-            element.split('=')[1].toString();
+        paramsObject[element.split('=')[0].toString()] = element.split('=')[1].toString();
       });
     }
 
@@ -141,14 +139,18 @@ class BaseRepository {
   diox.Options getOptions() {
     return diox.Options(
       validateStatus: (status) => true,
-      headers: {
+      headers: getHeaders(),
+    );
+  }
+
+  getHeaders() {
+    return {
         'Authorization': 'Bearer ' + UserLocal().getAccessToken(),
         'Content-Type': 'application/json; charset=UTF-8',
         'Connection': 'keep-alive',
         'Accept': '*/*',
         'Accept-Encoding': 'gzip, deflate, br',
-      },
-    );
+      };
   }
 
   printEndpoint(String method, String endpoint) {
