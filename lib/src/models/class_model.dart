@@ -10,7 +10,7 @@ class ClassModel {
   final String intro;
   final UserModel createdBy;
   final int status;
-  final String blurHash;
+  final String blurHash; 
   final String image;
   final List<String> members;
 
@@ -65,6 +65,7 @@ class ClassModel {
     if (map['image'] == '') {
       defaultImageObject = Constants.getOnlyDefaultClassImage();
     }
+
     return ClassModel(
       id: map['_id'],
       name: map['name'],
@@ -72,12 +73,8 @@ class ClassModel {
       intro: map['intro'],
       createdBy: UserModel.fromMap(map['createdBy']),
       status: map['status'],
-      blurHash: map['blurHash'] == ''
-          ? defaultImageObject['blurHash']
-          : map['blurHash'],
-      members: (map['member'] as List<dynamic>)
-          .map((item) => item.toString())
-          .toList(),
+      blurHash: map['blurHash'] == '' ? defaultImageObject['blurHash'] : map['blurHash'],
+      members: (map['member'] as List<dynamic>).map((item) => item.toString()).toList(),
       image: map['image'] == '' ? defaultImageObject['image'] : map['image'],
     );
   }
@@ -98,9 +95,7 @@ class ClassModel {
       intro: map['intro'],
       createdBy: createdBy,
       status: map['status'],
-      blurHash: map['blurHash'] == ''
-          ? defaultImageObject['blurHash']
-          : map['blurHash'],
+      blurHash: map['blurHash'] == '' ? defaultImageObject['blurHash'] : map['blurHash'],
       members: [],
       image: map['image'] == '' ? defaultImageObject['image'] : map['image'],
     );
@@ -108,8 +103,7 @@ class ClassModel {
 
   String toJson() => json.encode(toMap());
 
-  factory ClassModel.fromJson(String source) =>
-      ClassModel.fromMap(json.decode(source));
+  factory ClassModel.fromJson(String source) => ClassModel.fromMap(json.decode(source));
 
   @override
   String toString() {
