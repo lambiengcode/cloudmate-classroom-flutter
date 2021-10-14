@@ -10,7 +10,7 @@ class ClassModel {
   final String intro;
   final UserModel createdBy;
   final int status;
-  final String blurHash; 
+  final String blurHash;
   final String image;
   final List<String> members;
 
@@ -74,7 +74,7 @@ class ClassModel {
       createdBy: UserModel.fromMap(map['createdBy']),
       status: map['status'],
       blurHash: map['blurHash'] == '' ? defaultImageObject['blurHash'] : map['blurHash'],
-      members: (map['member'] as List<dynamic>).map((item) => item.toString()).toList(),
+      members: ((map['member'] ?? []) as List<dynamic>).map((item) => item.toString()).toList(),
       image: map['image'] == '' ? defaultImageObject['image'] : map['image'],
     );
   }
