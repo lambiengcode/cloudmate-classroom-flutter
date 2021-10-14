@@ -19,7 +19,8 @@ class QuestionRepository {
       "idSetOfQuestions": examId,
     };
 
-    Response response = await BaseRepository().postRoute(ApiGateway.QUESTION, body);
+    Response response =
+        await BaseRepository().postRoute(ApiGateway.QUESTION, body);
 
     if ([200, 201].contains(response.statusCode)) {
       var jsonResponse = response.data['data'];

@@ -83,7 +83,10 @@ class _QuestionCardState extends State<QuestionCard> {
                                   ),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
-                              style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .copyWith(
                                     fontSize: 10.5.sp,
                                     fontWeight: FontWeight.w400,
                                     fontFamily: FontFamily.lato,

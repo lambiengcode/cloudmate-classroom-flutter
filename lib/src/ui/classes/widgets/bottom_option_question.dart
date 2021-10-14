@@ -12,7 +12,8 @@ import 'package:sizer/sizer.dart';
 class BottomOptionQuestion extends StatefulWidget {
   final QuestionModel questionModel;
   final QuestionBloc questionBloc;
-  BottomOptionQuestion({required this.questionBloc, required this.questionModel});
+  BottomOptionQuestion(
+      {required this.questionBloc, required this.questionModel});
   @override
   State<StatefulWidget> createState() => _BottomOptionQuestionState();
 }
@@ -35,7 +36,8 @@ class _BottomOptionQuestionState extends State<BottomOptionQuestion> {
             Container(
               height: 4.0,
               margin: EdgeInsets.symmetric(horizontal: 35.w),
-              decoration: AppDecoration.buttonActionBorder(context, 30.sp).decoration,
+              decoration:
+                  AppDecoration.buttonActionBorder(context, 30.sp).decoration,
             ),
             SizedBox(height: 8.0),
             _buildAction(context, 'Chỉnh sửa câu hỏi', PhosphorIcons.pencil),
@@ -74,10 +76,12 @@ class _BottomOptionQuestionState extends State<BottomOptionQuestion> {
                 handleConfirm: () {
                   showDialogLoading(context);
                   widget.questionBloc.add(
-                    DeleteQuestionEvent(questionId: widget.questionModel.id, context: context),
+                    DeleteQuestionEvent(
+                        questionId: widget.questionModel.id, context: context),
                   );
                 },
-                subTitle: 'Sau khi xoá câu hỏi bạn sẽ không thể khôi phục lại dữ liệu này',
+                subTitle:
+                    'Sau khi xoá câu hỏi bạn sẽ không thể khôi phục lại dữ liệu này',
                 title: 'Xoá câu hỏi',
               ),
             );

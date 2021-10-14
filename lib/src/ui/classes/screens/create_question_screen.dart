@@ -290,12 +290,14 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
           border: InputBorder.none,
           labelText: title,
           labelStyle: TextStyle(
-            color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
+            color:
+                Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
             fontSize: _size.width / 26.0,
             fontWeight: FontWeight.w600,
           ),
-          suffixIcon:
-              title == 'Nhập câu hỏi' ? CharacterCounter(min: 60, value: _question.length) : null,
+          suffixIcon: title == 'Nhập câu hỏi'
+              ? CharacterCounter(min: 60, value: _question.length)
+              : null,
         ),
       ),
     );
@@ -322,7 +324,11 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
               fontSize: 12.sp,
               fontWeight: FontWeight.w600,
               fontFamily: FontFamily.lato,
-              color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.72),
+              color: Theme.of(context)
+                  .textTheme
+                  .bodyText1!
+                  .color!
+                  .withOpacity(.72),
             ),
           ),
           IconButton(
