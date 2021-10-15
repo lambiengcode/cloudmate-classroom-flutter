@@ -4,6 +4,8 @@ import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/blocs/authentication/bloc.dart';
 import 'package:cloudmate/src/lang/language_service.dart';
 import 'package:cloudmate/src/services/socket/socket.dart';
+import 'package:cloudmate/src/ui/common/screens/loading_screen.dart';
+import 'package:cloudmate/src/utils/blurhash.dart';
 import 'package:flutter/material.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/ui/calendar/calendar_screen.dart';
@@ -12,6 +14,7 @@ import 'package:cloudmate/src/ui/classes/classes_screen.dart';
 import 'package:cloudmate/src/ui/common/network_cached.dart';
 import 'package:cloudmate/src/ui/home/home_screen.dart';
 import 'package:cloudmate/src/ui/profile/profile_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
@@ -47,67 +50,72 @@ class _NavigationState extends State<Navigation> {
 
   @override
   Widget build(BuildContext context) {
-    return _loading
-        ? Scaffold(
-            body: Container(
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
-            ),
-          )
-        : Scaffold(
-            bottomNavigationBar: BottomAppBar(
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              color: Theme.of(context).scaffoldBackgroundColor,
-              elevation: .0,
-              child: Container(
-                height: 48.sp,
-                padding: EdgeInsets.symmetric(horizontal: 6.5.sp),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  border: Border(
-                    top: BorderSide(
-                      color: Theme.of(context).dividerColor,
-                      width: .2,
-                    ),
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        if (state is! AuthenticationSuccess) {
+          return LoadingScreen();
+        }
+
+        if (state.userModel == null) {
+          return LoadingScreen();
+        }
+
+        return Scaffold(
+          bottomNavigationBar: BottomAppBar(
+            clipBehavior: Clip.antiAliasWithSaveLayer,
+            color: Theme.of(context).scaffoldBackgroundColor,
+            elevation: .0,
+            child: Container(
+              height: 48.sp,
+              padding: EdgeInsets.symmetric(horizontal: 6.5.sp),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                border: Border(
+                  top: BorderSide(
+                    color: Theme.of(context).dividerColor,
+                    width: .2,
                   ),
                 ),
-                child: Row(
-                  children: [
-                    _buildItemBottomBar(
-                      PhosphorIcons.house,
-                      PhosphorIcons.houseFill,
-                      0,
-                      'Home',
-                    ),
-                    _buildItemBottomBar(
-                      PhosphorIcons.graduationCap,
-                      PhosphorIcons.graduationCapFill,
-                      1,
-                      'Classes',
-                    ),
-                    _buildItemBottomBar(
-                      PhosphorIcons.chatsTeardrop,
-                      PhosphorIcons.chatsTeardropFill,
-                      2,
-                      'Message',
-                    ),
-                    _buildItemBottomBar(
-                      PhosphorIcons.clock,
-                      PhosphorIcons.alarmBold,
-                      3,
-                      'Calendar',
-                    ),
-                    _buildItemBottomAccount(
-                      'https://avatars.githubusercontent.com/u/60530946?v=4',
-                      4,
-                    ),
-                  ],
-                ),
+              ),
+              child: Row(
+                children: [
+                  _buildItemBottomBar(
+                    PhosphorIcons.house,
+                    PhosphorIcons.houseFill,
+                    0,
+                    'Home',
+                  ),
+                  _buildItemBottomBar(
+                    PhosphorIcons.graduationCap,
+                    PhosphorIcons.graduationCapFill,
+                    1,
+                    'Classes',
+                  ),
+                  _buildItemBottomBar(
+                    PhosphorIcons.chatsTeardrop,
+                    PhosphorIcons.chatsTeardropFill,
+                    2,
+                    'Message',
+                  ),
+                  _buildItemBottomBar(
+                    PhosphorIcons.clock,
+                    PhosphorIcons.alarmBold,
+                    3,
+                    'Calendar',
+                  ),
+                  _buildItemBottomAccount(
+                    state.userModel!.image!,
+                    state.userModel!.blurHash!,
+                    4,
+                  ),
+                ],
               ),
             ),
-            body: _pages[currentPage],
-          );
+          ),
+          body: _pages[currentPage],
+        );
+      },
+    );
   }
 
   Widget _buildItemBottomBar(inActiveIcon, activeIcon, index, title) {
@@ -152,6 +160,7 @@ class _NavigationState extends State<Navigation> {
 
   Widget _buildItemBottomAccount(
     urlToImage,
+    blurHash,
     index,
   ) {
     return Expanded(
@@ -171,25 +180,22 @@ class _NavigationState extends State<Navigation> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
+                    height: 24.sp,
+                    width: 24.sp,
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: currentPage == index
-                            ? colorPrimary
-                            : Colors.transparent,
+                        color: currentPage == index ? colorPrimary : Colors.transparent,
                         width: 1.8.sp,
                       ),
                       shape: BoxShape.circle,
                     ),
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(12.0),
-                      child: CachedNetworkImage(
-                        height: 20.sp,
-                        width: 20.sp,
-                        fit: BoxFit.cover,
-                        placeholder: (context, url) => PlaceHolderImage(),
-                        errorWidget: (context, url, error) =>
-                            ErrorLoadingImage(),
-                        imageUrl: urlToImage,
+                      borderRadius: BorderRadius.circular(12.sp),
+                      child: BlurHash(
+                        hash: blurHash,
+                        image: urlToImage,
+                        imageFit: BoxFit.cover,
+                        color: colorPrimary,
                       ),
                     ),
                   ),

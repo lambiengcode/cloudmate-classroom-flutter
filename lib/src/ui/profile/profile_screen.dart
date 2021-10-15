@@ -1,15 +1,19 @@
+import 'dart:io';
+
 import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/blocs/authentication/bloc.dart';
+import 'package:cloudmate/src/helpers/picker/custom_image_picker.dart';
 import 'package:cloudmate/src/models/slide_mode.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/routes/app_routes.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
 import 'package:cloudmate/src/ui/classes/blocs/class/class_bloc.dart';
 import 'package:cloudmate/src/ui/classes/widgets/recommend_class_card.dart';
+import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:cloudmate/src/ui/common/screens/loading_screen.dart';
 import 'package:cloudmate/src/ui/common/widgets/animated_fade.dart';
+import 'package:cloudmate/src/utils/blurhash.dart';
 import 'package:flutter/material.dart';
-import 'package:cloudmate/src/resources/hard/hard_post.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/app_decorations.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
@@ -22,8 +26,7 @@ class ProfileScreen extends StatefulWidget {
   State<StatefulWidget> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen>
-    with TickerProviderStateMixin {
+class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateMixin {
   late AnimationController _infoCardController;
   ScrollController scrollController = ScrollController();
 
@@ -70,8 +73,7 @@ class _ProfileScreenState extends State<ProfileScreen>
             ),
             title: AnimatedBuilder(
               animation: _infoCardController,
-              builder: (context, child) =>
-                  _infoCardController.value < .5 ? SizedBox() : child!,
+              builder: (context, child) => _infoCardController.value < .5 ? SizedBox() : child!,
               child: Text(
                 auth.userModel!.displayName!,
                 style: TextStyle(
@@ -100,7 +102,17 @@ class _ProfileScreenState extends State<ProfileScreen>
             child: Column(
               children: [
                 GestureDetector(
-                  onTap: () => null,
+                  onTap: () {
+                    CustomImagePicker().openImagePicker(
+                      context: context,
+                      handleFinish: (File image) async {
+                        showDialogLoading(context);
+                        AppBloc.authBloc.add(
+                          UpdateAvatarUser(avatar: image),
+                        );
+                      },
+                    );
+                  },
                   child: Container(
                     width: 100.w,
                     alignment: Alignment.center,
@@ -120,11 +132,14 @@ class _ProfileScreenState extends State<ProfileScreen>
                         width: 95.sp,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          image: DecorationImage(
-                            image: NetworkImage(
-                              'https://avatars.githubusercontent.com/u/60530946?v=4',
-                            ),
-                            fit: BoxFit.cover,
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(1000.sp),
+                          child: BlurHash(
+                            hash: auth.userModel!.blurHash!,
+                            image: auth.userModel!.image!,
+                            imageFit: BoxFit.cover,
+                            color: colorPrimary,
                           ),
                         ),
                       ),
@@ -133,13 +148,9 @@ class _ProfileScreenState extends State<ProfileScreen>
                 ),
                 AnimatedBuilder(
                   animation: _infoCardController,
-                  builder: (context, child) => _infoCardController.value > .5
-                      ? SizedBox(
-                          height: 16.h - 16.h * _infoCardController.value)
-                      : child!,
+                  builder: (context, child) => child!,
                   child: AnimatedFade(
-                    animation: Tween(begin: 1.0, end: 0.0)
-                        .animate(_infoCardController),
+                    animation: Tween(begin: 1.0, end: 0.0).animate(_infoCardController),
                     child: Column(
                       children: [
                         SizedBox(height: 10.sp),
@@ -187,8 +198,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                 BlocBuilder<ClassBloc, ClassState>(
                   builder: (context, state) {
                     return Expanded(
-                      child:
-                          NotificationListener<OverscrollIndicatorNotification>(
+                      child: NotificationListener<OverscrollIndicatorNotification>(
                         onNotification: (overscroll) {
                           overscroll.disallowGlow();
                           return true;
@@ -254,11 +264,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                   fontFamily: FontFamily.lato,
                   fontSize: 10.75.sp,
                   fontWeight: FontWeight.w400,
-                  color: Theme.of(context)
-                      .textTheme
-                      .bodyText1!
-                      .color!
-                      .withOpacity(.9),
+                  color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.9),
                 ),
               ),
               SizedBox(height: 6.5.sp),

@@ -1,5 +1,8 @@
+import 'package:cloudmate/src/blocs/authentication/bloc.dart';
+import 'package:cloudmate/src/utils/blurhash.dart';
 import 'package:ezanimation/ezanimation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
@@ -65,89 +68,103 @@ class _NewPostState extends State<NewPost> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(bottom: 15.sp),
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: Theme.of(context).dividerColor,
-            width: .25,
-          ),
-        ),
-      ),
-      child: Column(
-        children: [
-          Container(
-            padding: EdgeInsets.only(left: 13.25.sp, right: 10.sp),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(width: 4.sp),
-                Container(
-                  height: 25.sp,
-                  width: 25.sp,
-                  margin: EdgeInsets.only(top: 3.25.sp),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      image: NetworkImage(
-                        'https://avatars.githubusercontent.com/u/60530946?v=4',
-                      ),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                SizedBox(width: 12.sp),
-                Flexible(
-                  child: TextFormField(
-                    style: TextStyle(
-                      color: Theme.of(context).textTheme.bodyText1!.color,
-                      fontSize: 12.sp,
-                    ),
-                    focusNode: _tweetFieldFocusNode,
-                    controller: _tweetTextController,
-                    maxLines: null,
-                    decoration: InputDecoration(
-                      fillColor: Theme.of(context).scaffoldBackgroundColor,
-                      contentPadding: EdgeInsets.symmetric(
-                        horizontal: 5.sp,
-                      ),
-                      labelText: 'Whats going on?',
-                      floatingLabelBehavior: FloatingLabelBehavior.never,
-                      labelStyle: TextStyle(
-                        color: ThemeService.currentTheme == ThemeMode.dark
-                            ? Colors.white.withOpacity(.75)
-                            : colorDarkGrey,
-                      ),
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(right: 10.sp, top: 4.sp),
-                  child: Icon(
-                    PhosphorIcons.telegramLogo,
-                    size: 20.sp,
-                  ),
-                ),
-              ],
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        if (state is! AuthenticationSuccess) {
+          return Container();
+        }
+
+        if (state.userModel == null) {
+          return Container();
+        }
+
+        return Container(
+          padding: EdgeInsets.only(bottom: 15.sp),
+          decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                color: Theme.of(context).dividerColor,
+                width: .25,
+              ),
             ),
           ),
-          SizedBox(height: 10.sp),
-          Row(
+          child: Column(
             children: [
-              _buildAction(Feather.video, color: colorPrimary),
-              _buildAction(Feather.image),
-              _buildAction(Feather.bar_chart_2),
-              _buildAction(Feather.star),
-              _buildAction(Feather.calendar),
+              Container(
+                padding: EdgeInsets.only(left: 13.25.sp, right: 10.sp),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(width: 4.sp),
+                    Container(
+                      height: 25.sp,
+                      width: 25.sp,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(12.5.sp),
+                        child: BlurHash(
+                          hash: state.userModel!.blurHash!,
+                          image: state.userModel!.image,
+                          imageFit: BoxFit.cover,
+                          color: colorPrimary,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 12.sp),
+                    Flexible(
+                      child: TextFormField(
+                        style: TextStyle(
+                          color: Theme.of(context).textTheme.bodyText1!.color,
+                          fontSize: 12.sp,
+                        ),
+                        focusNode: _tweetFieldFocusNode,
+                        controller: _tweetTextController,
+                        maxLines: null,
+                        decoration: InputDecoration(
+                          fillColor: Theme.of(context).scaffoldBackgroundColor,
+                          contentPadding: EdgeInsets.symmetric(
+                            horizontal: 5.sp,
+                          ),
+                          labelText: 'Whats going on?',
+                          floatingLabelBehavior: FloatingLabelBehavior.never,
+                          labelStyle: TextStyle(
+                            color: ThemeService.currentTheme == ThemeMode.dark
+                                ? Colors.white.withOpacity(.75)
+                                : colorDarkGrey,
+                          ),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(right: 10.sp, top: 4.sp),
+                      child: Icon(
+                        PhosphorIcons.telegramLogo,
+                        size: 20.sp,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 10.sp),
+              Row(
+                children: [
+                  _buildAction(Feather.video, color: colorPrimary),
+                  _buildAction(Feather.image),
+                  _buildAction(Feather.bar_chart_2),
+                  _buildAction(Feather.star),
+                  _buildAction(Feather.calendar),
+                ],
+              ),
             ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 
@@ -155,8 +172,7 @@ class _NewPostState extends State<NewPost> {
     return Expanded(
       child: Icon(
         icon,
-        color: color ??
-            Theme.of(context).textTheme.bodyText2!.color!.withOpacity(.7),
+        color: color ?? Theme.of(context).textTheme.bodyText2!.color!.withOpacity(.7),
         size: 18.sp,
       ),
     );
