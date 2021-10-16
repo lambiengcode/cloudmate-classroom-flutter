@@ -67,7 +67,9 @@ class UserModel {
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
       id: map['_id'],
-      image: map['image'] == '' ? Constants.urlImageDefault : 'https://' + map['image'],
+      image: map['image'] == ''
+          ? Constants.urlImageDefault
+          : 'https://' + map['image'],
       blurHash: map['blurHash'] ?? '',
       phone: map['phone'] ?? '',
       displayName: map['displayName'] ?? '',
@@ -80,7 +82,8 @@ class UserModel {
 
   String toJson() => json.encode(toMap());
 
-  factory UserModel.fromJson(String source) => UserModel.fromMap(json.decode(source));
+  factory UserModel.fromJson(String source) =>
+      UserModel.fromMap(json.decode(source));
 
   @override
   String toString() {

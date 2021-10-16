@@ -155,7 +155,9 @@ class _CreateClassScreenState extends State<CreateClassScreen> {
                           ),
                           child: Center(
                             child: Text(
-                              widget.classModel != null ? 'Lưu thông tin' : 'Tạo lớp học',
+                              widget.classModel != null
+                                  ? 'Lưu thông tin'
+                                  : 'Tạo lớp học',
                               style: TextStyle(
                                 color: mC,
                                 fontSize: 11.5.sp,
@@ -218,7 +220,8 @@ class _CreateClassScreenState extends State<CreateClassScreen> {
           border: InputBorder.none,
           labelText: title,
           labelStyle: TextStyle(
-            color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
+            color:
+                Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
             fontSize: _size.width / 26.0,
             fontWeight: FontWeight.w600,
           ),

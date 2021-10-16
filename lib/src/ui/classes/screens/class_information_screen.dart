@@ -1,5 +1,7 @@
+import 'dart:io';
 import 'dart:ui';
 import 'package:cloudmate/src/blocs/app_bloc.dart';
+import 'package:cloudmate/src/helpers/picker/custom_image_picker.dart';
 import 'package:cloudmate/src/models/class_model.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/ui/classes/blocs/class/class_bloc.dart';
@@ -58,8 +60,7 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
       if (_scrollController.offset <= 0) {
         _imageController.value = 0.0;
       } else {
-        _imageController.value =
-            _scrollController.offset / (_heightOfClassImage * 1.15);
+        _imageController.value = _scrollController.offset / (_heightOfClassImage * 1.15);
       }
       _heightController.value = _scrollController.offset;
     });
@@ -106,8 +107,7 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                     Stack(
                       children: [
                         AnimatedFade(
-                          animation: Tween(begin: 1.0, end: 0.0)
-                              .animate(_imageController),
+                          animation: Tween(begin: 1.0, end: 0.0).animate(_imageController),
                           child: Container(
                             height: _heightOfClassImage,
                             width: 100.w,
@@ -175,6 +175,40 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
+                          GestureDetector(
+                            onTap: () {
+                              CustomImagePicker().openImagePicker(
+                                context: context,
+                                text: "Chọn ảnh cho lớp học",
+                                handleFinish: (File image) async {
+                                  showDialogLoading(context);
+                                  AppBloc.classBloc.add(
+                                    UpdateImageClass(
+                                      image: image,
+                                      id: widget.classModel.id,
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                            child: Container(
+                              height: 45.sp,
+                              width: 45.sp,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(1000.sp),
+                                child: BlurHash(
+                                  hash: _classModel.blurHash,
+                                  image: _classModel.image,
+                                  imageFit: BoxFit.cover,
+                                  color: colorPrimary,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 6.sp),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -187,15 +221,12 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
-                                SizedBox(height: 5.sp),
+                                SizedBox(height: 3.sp),
                                 Row(
                                   children: [
                                     StackAvatar(
                                       size: 22.sp,
-                                      images: chats
-                                          .sublist(3, 6)
-                                          .map((e) => e.image!)
-                                          .toList(),
+                                      images: chats.sublist(3, 6).map((e) => e.image!).toList(),
                                     ),
                                     SizedBox(width: 6.sp),
                                     Text(
@@ -210,10 +241,7 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                                         fontWeight: FontWeight.w400,
                                         color: _classModel.members.isEmpty
                                             ? Theme.of(context).primaryColor
-                                            : Theme.of(context)
-                                                .textTheme
-                                                .bodyText1!
-                                                .color!,
+                                            : Theme.of(context).textTheme.bodyText1!.color!,
                                       ),
                                     ),
                                   ],
@@ -254,11 +282,7 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                               fontSize: 12.sp,
                               fontFamily: FontFamily.lato,
                               fontWeight: FontWeight.w400,
-                              color: Theme.of(context)
-                                  .textTheme
-                                  .bodyText2!
-                                  .color!
-                                  .withOpacity(.8),
+                              color: Theme.of(context).textTheme.bodyText2!.color!.withOpacity(.8),
                             ),
                           ),
                         ],
@@ -333,8 +357,7 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                         ),
                       );
                     },
-                    subTitle:
-                        'Sau khi tham gia, bạn sẽ trở thành học viên của lớp học này.',
+                    subTitle: 'Sau khi tham gia, bạn sẽ trở thành học viên của lớp học này.',
                     title: 'Tham gia lớp học',
                   ),
                 );

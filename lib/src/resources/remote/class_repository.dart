@@ -17,8 +17,7 @@ class ClassRepository {
       'intro': intro,
     };
 
-    Response? response =
-        await BaseRepository().postRoute(ApiGateway.CLASS, body);
+    Response? response = await BaseRepository().postRoute(ApiGateway.CLASS, body);
 
     if ([200, 201].contains(response.statusCode)) {
       return ClassModel.fromCreatedClass(response.data['data'], myProfile);
@@ -38,6 +37,30 @@ class ClassRepository {
       'name': name,
       'topic': topic,
       'intro': intro,
+    };
+
+    Response? response = await BaseRepository().patchRoute(
+      ApiGateway.CLASS,
+      query: 'id=$id',
+      body: body,
+    );
+
+    if ([200, 201].contains(response.statusCode)) {
+      return ClassModel.fromCreatedClass(response.data['data'], myProfile);
+    }
+
+    return null;
+  }
+
+  Future<ClassModel?> editImageClass({
+    required String id,
+    required String image,
+    required String blurHash,
+    required UserModel myProfile,
+  }) async {
+    var body = {
+      'image': image,
+      'blurHash': blurHash,
     };
 
     Response? response = await BaseRepository().patchRoute(
@@ -89,8 +112,7 @@ class ClassRepository {
     var body = {
       'idClass': classId,
     };
-    Response response =
-        await BaseRepository().postRoute(ApiGateway.JOIN_CLASS, body);
+    Response response = await BaseRepository().postRoute(ApiGateway.JOIN_CLASS, body);
     if ([200, 201].contains(response.statusCode)) {
       return true;
     }
@@ -101,8 +123,7 @@ class ClassRepository {
     var body = {
       'idClass': classId,
     };
-    Response response =
-        await BaseRepository().deleteRoute(ApiGateway.LEAVE_CLASS, body: body);
+    Response response = await BaseRepository().deleteRoute(ApiGateway.LEAVE_CLASS, body: body);
     if (response.statusCode == 200) {
       return true;
     }

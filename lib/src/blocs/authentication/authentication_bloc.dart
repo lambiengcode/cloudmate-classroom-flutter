@@ -152,7 +152,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _updateAvatar({
     required File avatar,
   }) async {
-    UploadResponseModel? response = await UploadRepository().uploadSingleFile(file: avatar);
+    UploadResponseModel? response =
+        await UploadRepository().uploadSingleFile(file: avatar);
 
     if (response != null) {
       UserModel? user = await UserRepository().updateAvatar(

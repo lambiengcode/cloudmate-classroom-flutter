@@ -184,7 +184,9 @@ class _NavigationState extends State<Navigation> {
                     width: 24.sp,
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: currentPage == index ? colorPrimary : Colors.transparent,
+                        color: currentPage == index
+                            ? colorPrimary
+                            : Colors.transparent,
                         width: 1.8.sp,
                       ),
                       shape: BoxShape.circle,

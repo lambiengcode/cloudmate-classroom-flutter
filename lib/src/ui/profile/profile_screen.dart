@@ -26,7 +26,8 @@ class ProfileScreen extends StatefulWidget {
   State<StatefulWidget> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateMixin {
+class _ProfileScreenState extends State<ProfileScreen>
+    with TickerProviderStateMixin {
   late AnimationController _infoCardController;
   ScrollController scrollController = ScrollController();
 
@@ -73,7 +74,8 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
             ),
             title: AnimatedBuilder(
               animation: _infoCardController,
-              builder: (context, child) => _infoCardController.value < .5 ? SizedBox() : child!,
+              builder: (context, child) =>
+                  _infoCardController.value < .5 ? SizedBox() : child!,
               child: Text(
                 auth.userModel!.displayName!,
                 style: TextStyle(
@@ -150,7 +152,8 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                   animation: _infoCardController,
                   builder: (context, child) => child!,
                   child: AnimatedFade(
-                    animation: Tween(begin: 1.0, end: 0.0).animate(_infoCardController),
+                    animation: Tween(begin: 1.0, end: 0.0)
+                        .animate(_infoCardController),
                     child: Column(
                       children: [
                         SizedBox(height: 10.sp),
@@ -198,7 +201,8 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                 BlocBuilder<ClassBloc, ClassState>(
                   builder: (context, state) {
                     return Expanded(
-                      child: NotificationListener<OverscrollIndicatorNotification>(
+                      child:
+                          NotificationListener<OverscrollIndicatorNotification>(
                         onNotification: (overscroll) {
                           overscroll.disallowGlow();
                           return true;
@@ -264,7 +268,11 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                   fontFamily: FontFamily.lato,
                   fontSize: 10.75.sp,
                   fontWeight: FontWeight.w400,
-                  color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.9),
+                  color: Theme.of(context)
+                      .textTheme
+                      .bodyText1!
+                      .color!
+                      .withOpacity(.9),
                 ),
               ),
               SizedBox(height: 6.5.sp),
