@@ -2,7 +2,7 @@ import 'package:cloudmate/src/helpers/string.dart';
 import 'package:cloudmate/src/models/question_mode.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
-import 'package:cloudmate/src/ui/classes/blocs/bloc/question_bloc.dart';
+import 'package:cloudmate/src/ui/classes/blocs/question/question_bloc.dart';
 import 'package:cloudmate/src/ui/classes/widgets/bottom_option_question.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';

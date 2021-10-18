@@ -89,6 +89,8 @@ class ExamBloc extends Bloc<ExamEvent, ExamState> {
     }
   }
 
+  // MARK: - Event handler function
+
   Future<void> _getListExam({required String classId}) async {
     List<ExamModel> listExamResponse = await ExamRepository().getListExam(
       classId: classId,
