@@ -2,7 +2,7 @@ import 'package:cloudmate/src/models/question_mode.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/routes/app_routes.dart';
 import 'package:cloudmate/src/themes/app_decorations.dart';
-import 'package:cloudmate/src/ui/classes/blocs/bloc/question_bloc.dart';
+import 'package:cloudmate/src/ui/classes/blocs/question/question_bloc.dart';
 import 'package:cloudmate/src/ui/common/dialogs/dialog_confirm.dart';
 import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:flutter/material.dart';

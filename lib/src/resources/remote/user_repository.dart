@@ -25,7 +25,8 @@ class UserRepository {
       "intro": intro,
       "phone": phone,
     };
-    Response response = await BaseRepository().patchRoute(ApiGateway.USER, body: body);
+    Response response =
+        await BaseRepository().patchRoute(ApiGateway.USER, body: body);
     if ([200, 201].contains(response.statusCode)) {
       return UserModel.fromMap(response.data['data'] as Map<String, dynamic>);
     }
@@ -40,7 +41,8 @@ class UserRepository {
       "blurHash": blurHash,
       "image": avatar,
     };
-    Response response = await BaseRepository().patchRoute(ApiGateway.UPDATE_AVATAR, body: body);
+    Response response =
+        await BaseRepository().patchRoute(ApiGateway.UPDATE_AVATAR, body: body);
     print(response.statusCode);
     print(response.data.toString());
     if ([200, 201].contains(response.statusCode)) {

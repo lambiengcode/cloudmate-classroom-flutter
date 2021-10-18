@@ -48,3 +48,9 @@ class LeaveClass extends ClassEvent {
   final String classId;
   LeaveClass({required this.classId, required this.context});
 }
+
+class UpdateImageClass extends ClassEvent {
+  final File image;
+  final String id;
+  UpdateImageClass({required this.image, required this.id});
+}

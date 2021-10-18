@@ -24,4 +24,7 @@ class ApiGateway {
 
   // Question
   static const QUESTION = 'api/question';
+
+  // Road Map
+  static const ROAD_MAP = 'api/road-map';
 }

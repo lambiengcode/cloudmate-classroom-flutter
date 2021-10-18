@@ -79,7 +79,9 @@ class ClassModel {
       members: ((map['member'] ?? []) as List<dynamic>)
           .map((item) => item.toString())
           .toList(),
-      image: map['image'] == '' ? defaultImageObject['image'] : map['image'],
+      image: map['image'] == ''
+          ? defaultImageObject['image']!
+          : ('https://' + map['image']),
     );
   }
 

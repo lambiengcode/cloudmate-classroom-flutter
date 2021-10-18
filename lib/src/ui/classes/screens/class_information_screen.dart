@@ -1,5 +1,7 @@
+import 'dart:io';
 import 'dart:ui';
 import 'package:cloudmate/src/blocs/app_bloc.dart';
+import 'package:cloudmate/src/helpers/picker/custom_image_picker.dart';
 import 'package:cloudmate/src/models/class_model.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/ui/classes/blocs/class/class_bloc.dart';
@@ -175,6 +177,40 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
+                          GestureDetector(
+                            onTap: () {
+                              CustomImagePicker().openImagePicker(
+                                context: context,
+                                text: "Chọn ảnh cho lớp học",
+                                handleFinish: (File image) async {
+                                  showDialogLoading(context);
+                                  AppBloc.classBloc.add(
+                                    UpdateImageClass(
+                                      image: image,
+                                      id: widget.classModel.id,
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                            child: Container(
+                              height: 45.sp,
+                              width: 45.sp,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(1000.sp),
+                                child: BlurHash(
+                                  hash: _classModel.blurHash,
+                                  image: _classModel.image,
+                                  imageFit: BoxFit.cover,
+                                  color: colorPrimary,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 6.sp),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -187,7 +223,7 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
-                                SizedBox(height: 5.sp),
+                                SizedBox(height: 3.sp),
                                 Row(
                                   children: [
                                     StackAvatar(

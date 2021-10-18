@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/models/class_model.dart';
+import 'package:cloudmate/src/models/upload_response_model.dart';
 import 'package:cloudmate/src/models/user.dart';
 import 'package:cloudmate/src/resources/remote/class_repository.dart';
+import 'package:cloudmate/src/resources/remote/upload_repository.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/routes/app_routes.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
@@ -165,7 +169,24 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
         );
       }
     }
+
+    if (event is UpdateImageClass) {
+      UserModel? myProfile = AppBloc.authBloc.userModel;
+      await _updateImageClass(
+        id: event.id,
+        image: event.image,
+        myProfile: myProfile!,
+      );
+
+      yield GetClassesDone(
+        listClasses: classes,
+        listRecommend: recommendClasses,
+        isOver: isOverClasses,
+      );
+    }
   }
+
+  // MARK: - Event handler function
 
   Future<bool> _createClass(
     String name,
@@ -210,6 +231,32 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
     }
 
     return newClass != null;
+  }
+
+  Future<void> _updateImageClass({
+    required String id,
+    required File image,
+    required UserModel myProfile,
+  }) async {
+    UploadResponseModel? response =
+        await UploadRepository().uploadSingleFile(file: image);
+
+    if (response != null) {
+      ClassModel? newClass = await ClassRepository().editImageClass(
+        id: id,
+        myProfile: myProfile,
+        image: response.image,
+        blurHash: response.blurHash,
+      );
+
+      if (newClass != null) {
+        int index = classes.indexWhere((item) => item.id == id);
+        if (index != 1) {
+          classes[index] = newClass;
+        }
+      }
+    }
+    AppNavigator.popUntil(AppRoutes.DETAILS_CLASS);
   }
 
   Future<void> _getClasses() async {

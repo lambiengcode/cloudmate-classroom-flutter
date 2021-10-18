@@ -64,7 +64,8 @@ class BlurHash extends StatefulWidget {
 }
 
 class BlurHashState extends State<BlurHash> {
-  StreamController<String> readyController = StreamController<String>.broadcast();
+  StreamController<String> readyController =
+      StreamController<String>.broadcast();
   Future<ui.Image>? _image;
   bool? loaded;
   bool? loading;
@@ -113,7 +114,9 @@ class BlurHashState extends State<BlurHash> {
                       return buildBlurHashBackground();
                     }
 
-                    return snapshot.data == "false" ? buildBlurHashBackground() : Container();
+                    return snapshot.data == "false"
+                        ? buildBlurHashBackground()
+                        : Container();
                   },
                 )
               : buildBlurHashBackground(),
@@ -121,9 +124,10 @@ class BlurHashState extends State<BlurHash> {
         ],
       );
 
-  Widget prepareDisplayedImage() =>
-      Image.network(widget.image!, headers: BaseRepository().getHeaders(), fit: widget.imageFit,
-          loadingBuilder: (BuildContext? context, Widget? img, ImageChunkEvent? loadingProgress) {
+  Widget prepareDisplayedImage() => Image.network(widget.image!,
+          headers: BaseRepository().getHeaders(),
+          fit: widget.imageFit, loadingBuilder: (BuildContext? context,
+              Widget? img, ImageChunkEvent? loadingProgress) {
         // Download started
         if (loading == false) {
           loading = true;
@@ -170,7 +174,8 @@ class _DisplayImage extends StatefulWidget {
   _DisplayImageState createState() => _DisplayImageState();
 }
 
-class _DisplayImageState extends State<_DisplayImage> with SingleTickerProviderStateMixin {
+class _DisplayImageState extends State<_DisplayImage>
+    with SingleTickerProviderStateMixin {
   Animation<double>? opacity;
   AnimationController? controller;
 
@@ -203,7 +208,8 @@ class UiImage extends ImageProvider<UiImage> {
   const UiImage(this.image, {this.scale = 1.0});
 
   @override
-  Future<UiImage> obtainKey(ImageConfiguration configuration) => SynchronousFuture<UiImage>(this);
+  Future<UiImage> obtainKey(ImageConfiguration configuration) =>
+      SynchronousFuture<UiImage>(this);
 
   @override
   ImageStreamCompleter load(UiImage key, DecoderCallback decode) =>
@@ -225,5 +231,6 @@ class UiImage extends ImageProvider<UiImage> {
   int get hashCode => hashValues(image.hashCode, scale);
 
   @override
-  String toString() => '$runtimeType(${describeIdentity(image)}, scale: $scale)';
+  String toString() =>
+      '$runtimeType(${describeIdentity(image)}, scale: $scale)';
 }

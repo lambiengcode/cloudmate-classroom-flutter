@@ -108,6 +108,8 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
     }
   }
 
+  // MARK: - Event handler function
+
   Future<void> _getListQuestion({
     required String id,
   }) async {

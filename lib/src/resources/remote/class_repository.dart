@@ -53,6 +53,30 @@ class ClassRepository {
     return null;
   }
 
+  Future<ClassModel?> editImageClass({
+    required String id,
+    required String image,
+    required String blurHash,
+    required UserModel myProfile,
+  }) async {
+    var body = {
+      'image': image,
+      'blurHash': blurHash,
+    };
+
+    Response? response = await BaseRepository().patchRoute(
+      ApiGateway.CLASS,
+      query: 'id=$id',
+      body: body,
+    );
+
+    if ([200, 201].contains(response.statusCode)) {
+      return ClassModel.fromCreatedClass(response.data['data'], myProfile);
+    }
+
+    return null;
+  }
+
   Future<List<ClassModel>> getListClasses({
     required int skip,
     int limit = 15,
