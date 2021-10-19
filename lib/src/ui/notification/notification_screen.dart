@@ -1,6 +1,7 @@
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
+import 'package:cloudmate/src/ui/navigation/widgets/notification_card.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
@@ -45,6 +46,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
             Divider(
               height: .25,
               thickness: .25,
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: 4,
+                itemBuilder: (context, index) {
+                  return NotificationCard();
+                },
+              ),
             ),
           ],
         ),

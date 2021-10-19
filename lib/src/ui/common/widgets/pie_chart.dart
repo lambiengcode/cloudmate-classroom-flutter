@@ -87,10 +87,10 @@ class PieChart2State extends State<PieChartRevenue> {
                         child: Indicator(
                           color: colors[index],
                           text: widget.data.length == 7
-                              ? DateFormat('dd/MM')
-                                  .format(DateTime.now().subtract(Duration(days: index)))
-                              : DateFormat('MMM')
-                                  .format(DateTime.now().subtract(Duration(days: 30 * index))),
+                              ? DateFormat('dd/MM').format(DateTime.now()
+                                  .subtract(Duration(days: index)))
+                              : DateFormat('MMM').format(DateTime.now()
+                                  .subtract(Duration(days: 30 * index))),
                           isSquare: false,
                         ),
                       );
@@ -122,7 +122,9 @@ class PieChart2State extends State<PieChartRevenue> {
         title: '${widget.data[i] * 100}%',
         radius: radius,
         titleStyle: TextStyle(
-            fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
+            fontSize: fontSize,
+            fontWeight: FontWeight.bold,
+            color: const Color(0xffffffff)),
       );
     });
   }
