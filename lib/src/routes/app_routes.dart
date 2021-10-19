@@ -15,6 +15,7 @@ class AppRoutes {
   static const LIST_QUESTION = '/listQuestion';
   static const CREATE_QUESTION = '/createQuestion';
   static const LOBBY_EXAM = '/lobbyExam';
+  static const STATISTIC_QUESTION = '/statisticQuestion';
 
   // Roadmap
   static const ROAD_MAP = '/roadMap';

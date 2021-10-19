@@ -42,7 +42,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
             centerTitle: true,
             leading: IconButton(
               onPressed: () {
-                AppNavigator.push(AppRoutes.LOBBY_EXAM);
+                AppNavigator.push(AppRoutes.STATISTIC_QUESTION);
               },
               icon: Icon(
                 PhosphorIcons.slidersHorizontal,

@@ -9,6 +9,7 @@ import 'package:cloudmate/src/ui/classes/screens/list_questions_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/list_request_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/lobby_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/road_map_screen.dart';
+import 'package:cloudmate/src/ui/classes/screens/statistic_in_exam_screen.dart';
 import 'package:cloudmate/src/ui/notification/notification_screen.dart';
 import 'package:cloudmate/src/ui/profile/screens/edit_profile_screen.dart';
 import 'package:flutter/material.dart';
@@ -120,6 +121,12 @@ class AppNavigator {
         return _buildRoute(
           settings,
           LobbyScreen(),
+          _getSlideMode(arguments),
+        );
+      case AppRoutes.STATISTIC_QUESTION:
+        return _buildRoute(
+          settings,
+          StatisticInExamScreen(),
           _getSlideMode(arguments),
         );
       case AppRoutes.DO_EXAM:
