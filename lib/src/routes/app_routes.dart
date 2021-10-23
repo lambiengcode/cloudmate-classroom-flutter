@@ -8,6 +8,7 @@ class AppRoutes {
   static const DETAILS_CLASS = '/detailsCLass';
   static const CREATE_CLASS = '/createClass';
   static const LIST_REQUEST = '/listRequest';
+  static const LIST_MEMBERS = '/listMembers';
 
   // Exam
   static const LIST_EXAM = '/listExam';
