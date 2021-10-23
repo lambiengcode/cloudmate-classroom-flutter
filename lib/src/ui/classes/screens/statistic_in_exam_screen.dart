@@ -62,14 +62,14 @@ class _StatisticInExamScreenState extends State<StatisticInExamScreen> {
               SizedBox(height: 20.sp),
               Expanded(
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 30.sp),
+                  width: 100.w,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      _buildLineStatistic(context, '26% luc chon dap an A'),
-                      _buildLineStatistic(context, '26% luc chon dap an B'),
-                      _buildLineStatistic(context, '26% luc chon dap an C'),
-                      _buildLineStatistic(context, '26% luc chon dap an D'),
+                      _buildLineStatistic(context, 26, 'A'),
+                      _buildLineStatistic(context, 24, 'B'),
+                      _buildLineStatistic(context, 38, 'C'),
+                      _buildLineStatistic(context, 12, 'D'),
                     ],
                   ),
                 ),
@@ -83,7 +83,11 @@ class _StatisticInExamScreenState extends State<StatisticInExamScreen> {
                     Text(
                       'Start in',
                       style: TextStyle(
-                        color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.75),
+                        color: Theme.of(context)
+                            .textTheme
+                            .bodyText1!
+                            .color!
+                            .withOpacity(.75),
                         fontFamily: FontFamily.lato,
                         fontSize: 15.sp,
                         fontWeight: FontWeight.w600,
@@ -120,11 +124,11 @@ class _StatisticInExamScreenState extends State<StatisticInExamScreen> {
     );
   }
 
-  Widget _buildLineStatistic(context, String text) {
+  Widget _buildLineStatistic(context, int percent, String answer) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 4.sp),
       child: Text(
-        '•  $text',
+        '• $percent% lựa chọn đáp án $answer',
         style: TextStyle(
           fontSize: 13.75.sp,
           fontFamily: FontFamily.lato,

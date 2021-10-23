@@ -66,11 +66,7 @@ class _UserRequestCardState extends State<UserRequestCard> {
                               fontSize: 12.sp,
                               fontWeight: FontWeight.w600,
                               fontFamily: FontFamily.lato,
-                              color: Theme.of(context)
-                                  .textTheme
-                                  .bodyText2!
-                                  .color!
-                                  .withOpacity(.88),
+                              color: Theme.of(context).textTheme.bodyText2!.color!.withOpacity(.88),
                             ),
                           ),
                           SizedBox(height: 2.sp),
@@ -78,42 +74,33 @@ class _UserRequestCardState extends State<UserRequestCard> {
                             widget.requestMessage!,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
-                            style:
-                                Theme.of(context).textTheme.bodyText1!.copyWith(
-                                      fontSize: 10.5.sp,
-                                      fontWeight: FontWeight.w400,
-                                      fontFamily: FontFamily.lato,
-                                    ),
+                            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                  fontSize: 10.5.sp,
+                                  fontWeight: FontWeight.w400,
+                                  fontFamily: FontFamily.lato,
+                                ),
                           ),
                           SizedBox(height: 2.sp),
                           Text(
-                            DateFormat('HH:mm - dd/MM/yyyy')
-                                .format(widget.requestTime!),
+                            DateFormat('HH:mm - dd/MM/yyyy').format(widget.requestTime!),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
-                            style:
-                                Theme.of(context).textTheme.bodyText1!.copyWith(
-                                      fontSize: 10.5.sp,
-                                      fontWeight: FontWeight.w400,
-                                      fontFamily: FontFamily.lato,
-                                    ),
+                            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                  fontSize: 10.5.sp,
+                                  fontWeight: FontWeight.w400,
+                                  fontFamily: FontFamily.lato,
+                                ),
                           ),
                         ],
                       ),
                     ],
                   ),
                 ),
-                Container(
-                  height: 34.sp,
-                  width: 34.sp,
-                  margin: EdgeInsets.only(right: 2.sp),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.sp),
-                    color: colorPrimary,
-                  ),
-                  child: Icon(
-                    PhosphorIcons.checkBold,
-                    size: 15.sp,
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    PhosphorIcons.dotsThreeBold,
+                    size: 18.sp,
                     color: mC,
                   ),
                 ),

@@ -79,7 +79,7 @@ class _DrawerOptionState extends State<DrawerOption> {
                     'Thành viên',
                     PhosphorIcons.usersFour,
                     null,
-                    null,
+                    AppRoutes.LIST_MEMBERS,
                   ),
                   _buildDividerTransparant(context),
                   _buildLine(
