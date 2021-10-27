@@ -54,7 +54,8 @@ class _MembersScreenState extends State<MembersScreen> {
                 itemBuilder: (context, index) {
                   return UserRequestCard(
                     fullName: 'lambiengcode',
-                    urlToImage: 'https://avatars.githubusercontent.com/u/60530946?v=4',
+                    urlToImage:
+                        'https://avatars.githubusercontent.com/u/60530946?v=4',
                     blurHash: '',
                     isLast: index == 3,
                     requestTime: DateTime.now(),
