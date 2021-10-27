@@ -238,7 +238,8 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
     required File image,
     required UserModel myProfile,
   }) async {
-    UploadResponseModel? response = await UploadRepository().uploadSingleFile(file: image);
+    UploadResponseModel? response =
+        await UploadRepository().uploadSingleFile(file: image);
 
     if (response != null) {
       ClassModel? newClass = await ClassRepository().editImageClass(
@@ -271,7 +272,8 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
   }
 
   Future<void> _getRecommedClasses() async {
-    List<ClassModel> listResult = await ClassRepository().getListRecommendClasses(
+    List<ClassModel> listResult =
+        await ClassRepository().getListRecommendClasses(
       skip: skipRecommend,
     );
     if (listResult.isNotEmpty) {
@@ -338,11 +340,13 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
             ),
             SizedBox(height: 10.sp),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: 7.5.sp),
+              padding:
+                  EdgeInsets.symmetric(horizontal: 15.sp, vertical: 7.5.sp),
               child: Text(
                 subTitle,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontWeight: FontWeight.w400, fontSize: 10.5.sp),
+                style:
+                    TextStyle(fontWeight: FontWeight.w400, fontSize: 10.5.sp),
               ),
             ),
             SizedBox(height: 8.sp),
