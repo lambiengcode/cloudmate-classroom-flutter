@@ -1,4 +1,5 @@
 import 'package:cloudmate/src/configs/application.dart';
+import 'package:cloudmate/src/resources/local/user_local.dart';
 import 'package:flutter/material.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
@@ -9,7 +10,9 @@ void connectAndListen() async {
   String socketUrl = Application.baseUrl!;
   socket = IO.io(
     socketUrl,
-    IO.OptionBuilder().enableForceNew().setTransports(['websocket']).build(),
+    IO.OptionBuilder().enableForceNew().setTransports(['websocket']).setExtraHeaders({
+      'Authorization': 'Bearer ' + UserLocal().getAccessToken(),
+    }).build(),
   );
   socket!.connect();
   socket!.onConnect((_) {

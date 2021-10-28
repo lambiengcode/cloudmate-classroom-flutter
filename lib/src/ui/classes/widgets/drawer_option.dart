@@ -38,6 +38,18 @@ class _DrawerOptionState extends State<DrawerOption> {
                   SizedBox(height: 20.sp),
                   _buildLine(
                     context,
+                    'Tạo kiểm tra ngay',
+                    PhosphorIcons.clockAfternoon,
+                    colorPrimary,
+                    AppRoutes.LIST_EXAM,
+                    arguments: {
+                      'classId': widget.classModel.id,
+                      'isPickedMode': true,
+                    },
+                  ),
+                  _buildDividerTransparant(context),
+                  _buildLine(
+                    context,
                     'Chỉnh sửa lớp học',
                     PhosphorIcons.pen,
                     colorPrimary,

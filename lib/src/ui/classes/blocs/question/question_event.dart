@@ -15,6 +15,7 @@ class CreateQuestionEvent extends QuestionEvent {
   final List<int> corrects;
   final List<String> answers;
   final String question;
+  final int score;
 
   CreateQuestionEvent({
     required this.answers,
@@ -23,6 +24,7 @@ class CreateQuestionEvent extends QuestionEvent {
     required this.duration,
     required this.examId,
     required this.question,
+    required this.score,
   });
 }
 
@@ -33,6 +35,7 @@ class UpdateQuestionEvent extends QuestionEvent {
   final List<String> answers;
   final String question;
   final String questionId;
+  final int score;
 
   UpdateQuestionEvent({
     required this.answers,
@@ -41,6 +44,7 @@ class UpdateQuestionEvent extends QuestionEvent {
     required this.duration,
     required this.question,
     required this.questionId,
+    required this.score,
   });
 }
 

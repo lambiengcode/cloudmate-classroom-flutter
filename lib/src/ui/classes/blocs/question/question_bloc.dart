@@ -46,6 +46,7 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
         answers: event.answers,
         corrects: event.corrects,
         duration: event.duration,
+        score: event.score,
       );
       yield GetDoneQuestion(
         listQuestion: listQuestion,
@@ -64,6 +65,7 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
         answers: event.answers,
         corrects: event.corrects,
         duration: event.duration,
+        score: event.score,
       );
       yield GetDoneQuestion(
         listQuestion: listQuestion,
@@ -132,6 +134,7 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
     required List<String> answers,
     required List<int> corrects,
     required int duration,
+    required int score,
   }) async {
     QuestionModel? questionModel = await QuestionRepository().createQuestion(
       question: question,
@@ -139,6 +142,7 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
       answers: answers,
       corrects: corrects,
       duration: duration,
+      score: score,
     );
 
     if (questionModel != null) {
@@ -154,6 +158,7 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
     required List<String> answers,
     required List<int> corrects,
     required int duration,
+    required int score,
   }) async {
     QuestionModel? questionModel = await QuestionRepository().editQuestion(
       question: question,
@@ -161,6 +166,7 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
       duration: duration,
       questionId: questionId,
       correct: corrects,
+      score: score,
     );
     AppNavigator.pop();
     if (questionModel != null) {

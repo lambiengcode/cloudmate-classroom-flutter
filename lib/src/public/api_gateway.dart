@@ -27,4 +27,7 @@ class ApiGateway {
 
   // Road Map
   static const ROAD_MAP = 'api/road-map';
+
+  // Road Map Content
+  static const ROAD_MAP_CONTENT = 'api/road-map-content';
 }

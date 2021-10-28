@@ -75,6 +75,7 @@ class AppNavigator {
           settings,
           ListExamScreen(
             classId: arguments!['classId'],
+            isPickedMode: arguments['isPickedMode'] ?? false,
           ),
           _getSlideMode(arguments),
         );

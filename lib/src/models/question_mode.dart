@@ -9,6 +9,7 @@ class QuestionModel {
   final List<int> corrects;
   final int duration;
   final String examId;
+  final int score;
   QuestionModel({
     required this.id,
     required this.question,
@@ -16,6 +17,7 @@ class QuestionModel {
     required this.corrects,
     required this.duration,
     required this.examId,
+    required this.score,
   });
 
   QuestionModel copyWith({
@@ -25,6 +27,7 @@ class QuestionModel {
     List<int>? corrects,
     int? duration,
     String? examId,
+    int? score,
   }) {
     return QuestionModel(
       id: id ?? this.id,
@@ -33,6 +36,7 @@ class QuestionModel {
       corrects: corrects ?? this.corrects,
       duration: duration ?? this.duration,
       examId: examId ?? this.examId,
+      score: score ?? this.score,
     );
   }
 
@@ -44,6 +48,7 @@ class QuestionModel {
       'corrects': corrects,
       'duration': duration,
       'examId': examId,
+      'score': score,
     };
   }
 
@@ -55,13 +60,13 @@ class QuestionModel {
       corrects: List<int>.from(map['correct']),
       duration: map['duration'],
       examId: map['examId'],
+      score: map['score'],
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory QuestionModel.fromJson(String source) =>
-      QuestionModel.fromMap(json.decode(source));
+  factory QuestionModel.fromJson(String source) => QuestionModel.fromMap(json.decode(source));
 
   @override
   String toString() {

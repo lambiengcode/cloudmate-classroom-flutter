@@ -15,7 +15,8 @@ import 'package:sizer/sizer.dart';
 
 class ListExamScreen extends StatefulWidget {
   final String classId;
-  ListExamScreen({required this.classId});
+  final bool isPickedMode;
+  ListExamScreen({required this.classId, this.isPickedMode = false});
   @override
   State<StatefulWidget> createState() => _ListExamScreenState();
 }
@@ -57,19 +58,21 @@ class _ListExamScreenState extends State<ListExamScreen> {
               ),
             ),
             actions: [
-              IconButton(
-                onPressed: () {
-                  AppNavigator.push(AppRoutes.CREATE_EXAM, arguments: {
-                    'classId': widget.classId,
-                    'examBloc': _examBloc,
-                  });
-                },
-                icon: Icon(
-                  Feather.plus_square,
-                  size: 20.sp,
-                  color: colorPrimary,
-                ),
-              ),
+              widget.isPickedMode
+                  ? SizedBox()
+                  : IconButton(
+                      onPressed: () {
+                        AppNavigator.push(AppRoutes.CREATE_EXAM, arguments: {
+                          'classId': widget.classId,
+                          'examBloc': _examBloc,
+                        });
+                      },
+                      icon: Icon(
+                        Feather.plus_square,
+                        size: 20.sp,
+                        color: colorPrimary,
+                      ),
+                    ),
             ],
           ),
           body: Container(
@@ -82,9 +85,7 @@ class _ListExamScreenState extends State<ListExamScreen> {
                 ),
                 SizedBox(height: 6.sp),
                 Expanded(
-                  child: state is ExamInitial
-                      ? LoadingScreen()
-                      : _buildListExam(context, state),
+                  child: state is ExamInitial ? LoadingScreen() : _buildListExam(context, state),
                 ),
               ],
             ),
@@ -102,16 +103,22 @@ class _ListExamScreenState extends State<ListExamScreen> {
       itemBuilder: (context, index) {
         return GestureDetector(
           onTap: () {
-            AppNavigator.push(
-              AppRoutes.LIST_QUESTION,
-              arguments: {
-                'examModel': state.props[0][index],
-              },
-            );
+            if (widget.isPickedMode) {
+              // Create Room
+              print('Create Room');
+            } else {
+              AppNavigator.push(
+                AppRoutes.LIST_QUESTION,
+                arguments: {
+                  'examModel': state.props[0][index],
+                },
+              );
+            }
           },
           child: ExamCard(
             exam: state.props[0][index],
             isLast: index == exams.length - 1,
+            isPickedMode: widget.isPickedMode,
           ),
         );
       },
