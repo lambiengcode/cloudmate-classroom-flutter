@@ -75,6 +75,7 @@ class AppNavigator {
           settings,
           ListExamScreen(
             classId: arguments!['classId'],
+            isPickedMode: arguments['isPickedMode'] ?? false,
           ),
           _getSlideMode(arguments),
         );
@@ -127,7 +128,9 @@ class AppNavigator {
       case AppRoutes.LOBBY_EXAM:
         return _buildRoute(
           settings,
-          LobbyScreen(),
+          LobbyScreen(
+            roomId: arguments!['roomId'],
+          ),
           _getSlideMode(arguments),
         );
       case AppRoutes.STATISTIC_QUESTION:

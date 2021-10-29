@@ -29,11 +29,13 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController _questionController = TextEditingController();
   TextEditingController _durationController = TextEditingController();
+  TextEditingController _scoreController = TextEditingController();
   FocusNode textFieldFocus = FocusNode();
   List<String> _answers = ['A đúng', 'B đúng', 'C đúng', 'Tất cả đều đúng'];
   List<String> _corrects = [];
   String _question = '';
   String _duration = '';
+  String _score = '';
 
   @override
   void initState() {
@@ -42,6 +44,7 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
       QuestionModel _questionModel = widget.questionModel!;
       _questionController.text = _questionModel.question;
       _durationController.text = _questionModel.duration.toString();
+      _scoreController.text = _questionModel.score.toString();
       _question = _questionModel.question;
       _duration = _questionModel.duration.toString();
       _answers = _questionModel.answers;
@@ -132,6 +135,7 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
                     duration: int.parse(_duration),
                     examId: widget.examId,
                     question: _question,
+                    score: int.parse(_score),
                   ),
                 );
               } else {
@@ -143,6 +147,7 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
                     duration: int.parse(_duration),
                     questionId: widget.questionModel!.id,
                     question: _question,
+                    score: int.parse(_score),
                   ),
                 );
               }
@@ -195,6 +200,13 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
                               'Đặt thời gian trả lời (giây)',
                               'Hãy đặt thời gian trả lời cho câu hỏi',
                               _durationController,
+                            ),
+                            _buildDivider(context),
+                            _buildLineInfo(
+                              context,
+                              'Điểm cho câu trả lời đúng',
+                              'Hãy đặt điểm cho câu trả lời đúng',
+                              _scoreController,
                             ),
                             _buildDivider(context),
                             SizedBox(height: 8.sp),
@@ -271,8 +283,10 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
           setState(() {
             if (title == 'Nhập câu hỏi') {
               _question = val.trim();
-            } else {
+            } else if (title == 'Đặt thời gian trả lời (giây)') {
               _duration = val.trim();
+            } else {
+              _score = val.trim();
             }
           });
         },
@@ -281,7 +295,6 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
               ? FilteringTextInputFormatter.digitsOnly
               : FilteringTextInputFormatter.singleLineFormatter,
         ],
-        obscureText: title == 'Mật khẩu' ? true : false,
         decoration: InputDecoration(
           floatingLabelBehavior: FloatingLabelBehavior.always,
           contentPadding: EdgeInsets.only(
@@ -290,14 +303,12 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
           border: InputBorder.none,
           labelText: title,
           labelStyle: TextStyle(
-            color:
-                Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
+            color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
             fontSize: _size.width / 26.0,
             fontWeight: FontWeight.w600,
           ),
-          suffixIcon: title == 'Nhập câu hỏi'
-              ? CharacterCounter(min: 60, value: _question.length)
-              : null,
+          suffixIcon:
+              title == 'Nhập câu hỏi' ? CharacterCounter(min: 60, value: _question.length) : null,
         ),
       ),
     );
@@ -324,11 +335,7 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
               fontSize: 12.sp,
               fontWeight: FontWeight.w600,
               fontFamily: FontFamily.lato,
-              color: Theme.of(context)
-                  .textTheme
-                  .bodyText1!
-                  .color!
-                  .withOpacity(.72),
+              color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.72),
             ),
           ),
           IconButton(

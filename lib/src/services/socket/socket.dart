@@ -1,4 +1,9 @@
+import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/configs/application.dart';
+import 'package:cloudmate/src/public/sockets.dart';
+import 'package:cloudmate/src/resources/local/user_local.dart';
+import 'package:cloudmate/src/ui/classes/blocs/do_exam/do_exam_bloc.dart';
+import 'package:cloudmate/src/utils/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
@@ -9,11 +14,38 @@ void connectAndListen() async {
   String socketUrl = Application.baseUrl!;
   socket = IO.io(
     socketUrl,
-    IO.OptionBuilder().enableForceNew().setTransports(['websocket']).build(),
+    IO.OptionBuilder().enableForceNew().setTransports(['websocket']).setExtraHeaders({
+      'authorization': UserLocal().getAccessToken(),
+    }).build(),
   );
   socket!.connect();
   socket!.onConnect((_) {
     debugPrint('connected');
+
+    socket!.on(SocketEvent.CREATE_QUIZ_SSC, (data) {
+      AppBloc.doExamBloc.add(CreateQuizSuccessEvent(roomId: data['idRoom']));
+    });
+
+    socket!.on(SocketEvent.JOIN_ROOM_SSC, (data) {
+      UtilLogger.log('JOIN_ROOM_SSC', data);
+    });
+
+    socket!.on(SocketEvent.LEAVE_ROOM_SSC, (data) {
+      UtilLogger.log('LEAVE_ROOM_SSC', data);
+    });
+
+    socket!.on(SocketEvent.STATISTICAL_ROOM_SSC, (data) {
+      UtilLogger.log('STATISTICAL_ROOM_SSC', data);
+    });
+
+    socket!.on(SocketEvent.START_QUIZ_SSC, (data) {
+      UtilLogger.log('START_QUIZ_SSC', data);
+    });
+
+    socket!.on(SocketEvent.TAKE_THE_QUESTION_SSC, (data) {
+      UtilLogger.log('TAKE_THE_QUESTION_SSC', data);
+    });
+
     socket!.onDisconnect((_) => debugPrint('disconnect'));
   });
 }

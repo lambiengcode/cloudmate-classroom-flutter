@@ -10,6 +10,7 @@ class QuestionRepository {
     required List<String> answers,
     required List<int> corrects,
     required int duration,
+    required int score,
   }) async {
     var body = {
       "question": question,
@@ -17,10 +18,10 @@ class QuestionRepository {
       "correct": corrects,
       "duration": duration,
       "idSetOfQuestions": examId,
+      "score": score,
     };
 
-    Response response =
-        await BaseRepository().postRoute(ApiGateway.QUESTION, body);
+    Response response = await BaseRepository().postRoute(ApiGateway.QUESTION, body);
 
     if ([200, 201].contains(response.statusCode)) {
       var jsonResponse = response.data['data'];
@@ -52,12 +53,14 @@ class QuestionRepository {
     required List<String> answers,
     required List<int> correct,
     required int duration,
+    required int score,
   }) async {
     var body = {
       "question": question,
       "answers": answers,
       "correct": correct,
       "duration": duration,
+      "score": score,
     };
 
     Response response = await BaseRepository().patchRoute(

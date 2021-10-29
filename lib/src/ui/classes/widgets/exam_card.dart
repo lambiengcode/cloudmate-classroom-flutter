@@ -11,7 +11,8 @@ import 'package:sizer/sizer.dart';
 class ExamCard extends StatefulWidget {
   final ExamModel exam;
   final bool isLast;
-  ExamCard({required this.exam, this.isLast = false});
+  final bool isPickedMode;
+  ExamCard({required this.exam, this.isLast = false, this.isPickedMode = false});
   @override
   State<StatefulWidget> createState() => _ExamCardState();
 }
@@ -59,37 +60,37 @@ class _ExamCardState extends State<ExamCard> {
                             widget.exam.description,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
-                            style:
-                                Theme.of(context).textTheme.bodyText1!.copyWith(
-                                      fontSize: 10.5.sp,
-                                      fontWeight: FontWeight.w400,
-                                      fontFamily: FontFamily.lato,
-                                    ),
+                            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                  fontSize: 10.5.sp,
+                                  fontWeight: FontWeight.w400,
+                                  fontFamily: FontFamily.lato,
+                                ),
                           ),
                           SizedBox(height: 2.sp),
                           Text(
                             'Đã sử dụng ${widget.exam.usedTimes} lần',
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
-                            style:
-                                Theme.of(context).textTheme.bodyText1!.copyWith(
-                                      fontSize: 10.5.sp,
-                                      fontWeight: FontWeight.w400,
-                                      fontFamily: FontFamily.lato,
-                                    ),
+                            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                  fontSize: 10.5.sp,
+                                  fontWeight: FontWeight.w400,
+                                  fontFamily: FontFamily.lato,
+                                ),
                           ),
                         ],
                       ),
                     ],
                   ),
                 ),
-                IconButton(
-                  icon: Icon(
-                    PhosphorIcons.dotsThreeVerticalBold,
-                    size: 20.sp,
-                  ),
-                  onPressed: () => _showBottomSheetSettings(context),
-                ),
+                widget.isPickedMode
+                    ? SizedBox()
+                    : IconButton(
+                        icon: Icon(
+                          PhosphorIcons.dotsThreeVerticalBold,
+                          size: 20.sp,
+                        ),
+                        onPressed: () => _showBottomSheetSettings(context),
+                      ),
               ],
             ),
           ),
