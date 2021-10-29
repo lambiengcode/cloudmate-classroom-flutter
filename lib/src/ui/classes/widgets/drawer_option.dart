@@ -40,7 +40,7 @@ class _DrawerOptionState extends State<DrawerOption> {
                     context,
                     'Tạo kiểm tra ngay',
                     PhosphorIcons.clockAfternoon,
-                    colorPrimary,
+                    colorActive,
                     AppRoutes.LIST_EXAM,
                     arguments: {
                       'classId': widget.classModel.id,

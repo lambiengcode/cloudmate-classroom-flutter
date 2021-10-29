@@ -10,6 +10,8 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 class LobbyScreen extends StatefulWidget {
+  final String roomId;
+  const LobbyScreen({required this.roomId});
   @override
   State<StatefulWidget> createState() => _LobbyScreenState();
 }
@@ -31,7 +33,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
           ),
         ),
         title: Text(
-          'ID: 883212',
+          'ID: ${widget.roomId}',
           style: TextStyle(
             fontSize: 15.sp,
             fontFamily: FontFamily.lato,

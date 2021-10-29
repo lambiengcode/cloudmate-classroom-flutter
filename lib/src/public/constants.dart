@@ -1,9 +1,6 @@
 import 'package:lottie/lottie.dart';
 
 class Constants {
-  // Socket
-  static const MESSAGE_SSC = '';
-
   // Assets
   LottieBuilder splashLottie = Lottie.asset('assets/lottie/splash.json');
   LottieBuilder loadingLottie = Lottie.asset('assets/lottie/cat_sleeping.json');
