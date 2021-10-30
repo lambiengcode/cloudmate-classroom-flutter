@@ -1,7 +1,11 @@
+import 'dart:async';
+import 'package:cloudmate/src/blocs/app_bloc.dart';
+import 'package:cloudmate/src/models/question_mode.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
+import 'package:cloudmate/src/ui/classes/blocs/do_exam/do_exam_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -9,12 +13,13 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 class DoExamScreen extends StatefulWidget {
+  final QuestionModel questionModel;
+  DoExamScreen({required this.questionModel});
   @override
   State<StatefulWidget> createState() => _DoExamScreenState();
 }
 
 class _DoExamScreenState extends State<DoExamScreen> {
-  List<String> _answers = ['A đúng', 'B đúng', 'C đúng', 'Tất cả đều đúng'];
   List<Color> _colors = [
     colorPrimary,
     colorHigh,
@@ -22,11 +27,40 @@ class _DoExamScreenState extends State<DoExamScreen> {
     Colors.deepPurpleAccent.shade200,
     Colors.pinkAccent.shade100,
   ];
+  Timer? _timmerInstance;
+  int time = 0;
 
   @override
   void initState() {
     super.initState();
+    startTimmer();
     _colors.shuffle();
+  }
+
+  @override
+  void dispose() {
+    if (_timmerInstance != null) {
+      if (_timmerInstance!.isActive) {
+        _timmerInstance!.cancel();
+      }
+    }
+    super.dispose();
+  }
+
+  void startTimmer() {
+    var oneSec = Duration(seconds: 1);
+    _timmerInstance = Timer.periodic(
+      oneSec,
+      (Timer timer) => setState(
+        () {
+          if (time >= widget.questionModel.duration) {
+            _timmerInstance!.cancel();
+          } else {
+            time++;
+          }
+        },
+      ),
+    );
   }
 
   @override
@@ -55,10 +89,9 @@ class _DoExamScreenState extends State<DoExamScreen> {
                 padding: EdgeInsets.symmetric(horizontal: 12.sp),
                 width: 100.w,
                 lineHeight: 6.sp,
-                percent: 0.65,
-                backgroundColor: ThemeService().isSavedDarkMode()
-                    ? Colors.grey.shade800
-                    : Colors.grey.shade300,
+                percent: time / widget.questionModel.duration,
+                backgroundColor:
+                    ThemeService().isSavedDarkMode() ? Colors.grey.shade800 : Colors.grey.shade300,
                 progressColor: colorPrimary,
               ),
               SizedBox(height: 5.sp),
@@ -67,15 +100,11 @@ class _DoExamScreenState extends State<DoExamScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    _buildTimeText(context, '25', color: colorPrimary),
+                    _buildTimeText(context, time.toString(), color: colorPrimary),
                     _buildTimeText(
                       context,
-                      '40',
-                      color: Theme.of(context)
-                          .textTheme
-                          .bodyText1!
-                          .color!
-                          .withOpacity(.75),
+                      widget.questionModel.duration.toString(),
+                      color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.75),
                     ),
                   ],
                 ),
@@ -85,17 +114,13 @@ class _DoExamScreenState extends State<DoExamScreen> {
                 width: 100.w,
                 padding: EdgeInsets.symmetric(horizontal: 20.sp),
                 child: Text(
-                  'Ưu điểm của Flutter là gì? Ưu điểm của Flutter là gì?',
+                  widget.questionModel.question,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 15.sp,
                     fontWeight: FontWeight.w600,
                     fontFamily: FontFamily.lato,
-                    color: Theme.of(context)
-                        .textTheme
-                        .bodyText1!
-                        .color!
-                        .withOpacity(.85),
+                    color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.85),
                   ),
                 ),
               ),
@@ -145,8 +170,7 @@ class _DoExamScreenState extends State<DoExamScreen> {
     );
   }
 
-  Widget _buildOptionHeader(context, title, icon, color,
-      {Function? handlePressed}) {
+  Widget _buildOptionHeader(context, title, icon, color, {Function? handlePressed}) {
     return GestureDetector(
       onTap: () {
         if (handlePressed != null) {
@@ -185,12 +209,12 @@ class _DoExamScreenState extends State<DoExamScreen> {
     );
   }
 
-  Widget _buildTimeText(context, title, {color}) {
+  Widget _buildTimeText(context, String title, {Color? color}) {
     return Text(
       title,
       style: TextStyle(
         color: color,
-        fontSize: 13.25.sp,
+        fontSize: color == colorPrimary ? 20.sp : 13.25.sp,
         fontWeight: FontWeight.w600,
         fontFamily: FontFamily.lato,
       ),
@@ -201,26 +225,35 @@ class _DoExamScreenState extends State<DoExamScreen> {
     return Expanded(
       child: ListView.builder(
         physics: BouncingScrollPhysics(),
-        itemCount: _answers.length,
+        itemCount: widget.questionModel.answers.length,
         itemBuilder: (context, index) {
-          return Container(
-            margin: EdgeInsets.symmetric(
-              horizontal: 13.75.sp,
-              vertical: 6.sp,
-            ),
-            padding: EdgeInsets.symmetric(vertical: 15.25.sp),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5.sp),
-              color: _colors[index % (_colors.length)],
-            ),
-            alignment: Alignment.center,
-            child: Text(
-              _answers[index],
-              style: TextStyle(
-                fontSize: 11.sp,
-                fontWeight: FontWeight.w600,
-                fontFamily: FontFamily.lato,
-                color: mC,
+          return GestureDetector(
+            onTap: () {
+              AppBloc.doExamBloc.add(
+                AnswerQuestionEvent(
+                  answer: widget.questionModel.answers[index],
+                ),
+              );
+            },
+            child: Container(
+              margin: EdgeInsets.symmetric(
+                horizontal: 13.75.sp,
+                vertical: 6.sp,
+              ),
+              padding: EdgeInsets.symmetric(vertical: 15.25.sp),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5.sp),
+                color: _colors[index % (_colors.length)],
+              ),
+              alignment: Alignment.center,
+              child: Text(
+                widget.questionModel.answers[index],
+                style: TextStyle(
+                  fontSize: 11.sp,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: FontFamily.lato,
+                  color: mC,
+                ),
               ),
             ),
           );

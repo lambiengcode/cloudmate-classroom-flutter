@@ -1,11 +1,14 @@
+import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/models/user.dart';
 import 'package:cloudmate/src/resources/hard/hard_post.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
+import 'package:cloudmate/src/ui/classes/blocs/do_exam/do_exam_bloc.dart';
 import 'package:cloudmate/src/ui/classes/widgets/lobby_user_card.dart';
 import 'package:cloudmate/src/ui/common/screens/loading_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
@@ -43,7 +46,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: () => null,
+            onPressed: () => AppBloc.doExamBloc.add(StartQuizEvent()),
             icon: Icon(
               PhosphorIcons.circleWavyWarningFill,
               size: 20.sp,
@@ -52,24 +55,32 @@ class _LobbyScreenState extends State<LobbyScreen> {
           ),
         ],
       ),
-      body: Container(
-        height: 100.h,
-        width: 100.w,
-        child: SafeArea(
-          child: Column(
-            children: [
-              SizedBox(height: 2.5.sp),
-              Divider(
-                height: .25,
-                thickness: .25,
+      body: BlocBuilder<DoExamBloc, DoExamState>(
+        builder: (context, state) {
+          if (state is InLobby) {
+            return Container(
+              height: 100.h,
+              width: 100.w,
+              child: SafeArea(
+                child: Column(
+                  children: [
+                    SizedBox(height: 2.5.sp),
+                    Divider(
+                      height: .25,
+                      thickness: .25,
+                    ),
+                    SizedBox(height: 6.sp),
+                    Expanded(
+                      child: _buildBodyLobby(context),
+                    ),
+                  ],
+                ),
               ),
-              SizedBox(height: 6.sp),
-              Expanded(
-                child: _buildBodyLobby(context),
-              ),
-            ],
-          ),
-        ),
+            );
+          }
+
+          return LoadingScreen();
+        },
       ),
     );
   }
@@ -94,8 +105,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
                   id: 'lambiengcode',
                   displayName: 'Dao Hong Vinh',
                   lastName: 'Hong Vinh',
-                  image:
-                      'https://avatars.githubusercontent.com/u/50282063?s=200&v=4',
+                  image: 'https://avatars.githubusercontent.com/u/50282063?s=200&v=4',
                 ),
               );
             },
@@ -105,8 +115,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
         Text(
           'Start in',
           style: TextStyle(
-            color:
-                Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.75),
+            color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.75),
             fontFamily: FontFamily.lato,
             fontSize: 15.sp,
             fontWeight: FontWeight.w600,

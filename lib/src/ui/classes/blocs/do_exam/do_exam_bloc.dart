@@ -16,50 +16,61 @@ class DoExamBloc extends Bloc<DoExamEvent, DoExamState> {
   List<UserModel> users = [];
   QuestionModel? currentQuestion;
   StatisticModel? lastStatistic;
+  String? roomId;
 
   @override
   Stream<DoExamState> mapEventToState(DoExamEvent event) async* {
     if (event is CreateQuizEvent) {
       _resetUsers();
       _createQuiz(examId: event.examId);
-      yield InLobby();
     }
 
     if (event is CreateQuizSuccessEvent) {
       _createQuizSuccess(roomId: event.roomId);
-      yield InLobby();
+      _setCurrentRoomId(roomId: event.roomId);
+      yield InLobby(users: users);
     }
 
     if (event is StartQuizEvent) {
-      _startQuiz(roomId: event.roomId);
+      _startQuiz();
     }
 
     if (event is JoinQuizEvent) {
+      _setCurrentRoomId(roomId: event.roomId);
+      _joinQuiz(roomId: event.roomId);
+    }
+
+    if (event is JoinQuizSuccessEvent) {
       _setUsers(users: event.users);
-      yield InLobby();
     }
 
     if (event is NewUserJoined) {
+      yield InLobby(users: users);
       _newUser(user: event.user);
-      yield InLobby();
+      yield InLobby(users: users);
     }
 
     if (event is AnswerQuestionEvent) {
-      yield DoingQuestion(question: currentQuestion!);
+      _answerQuestion(answer: event.answer);
     }
 
     if (event is TakeQuestionEvent) {
+      _setCurrentQuestion(question: event.question);
       yield DoingQuestion(question: currentQuestion!);
     }
 
     if (event is UpdateStatisticEvent) {
+      _setLastStatistic(statistic: event.statistic);
       yield DoingQuestion(question: currentQuestion!);
     }
 
     if (event is LeaveUserJoined) {
-      yield InLobby();
       _removeUser(userId: event.userId);
-      yield InLobby();
+      _leaveQuiz();
+    }
+
+    if (event is FinishQuizEvent) {
+      _leaveQuiz();
     }
   }
 
@@ -74,7 +85,15 @@ class DoExamBloc extends Bloc<DoExamEvent, DoExamState> {
     });
   }
 
-  void _startQuiz({required roomId}) {
+  void _setCurrentRoomId({required String roomId}) {
+    this.roomId = roomId;
+  }
+
+  void _joinQuiz({required String roomId}) {
+    SocketEmit().joinQuiz(roomId: roomId);
+  }
+
+  void _startQuiz() {
     SocketEmit().startQuiz(roomId: roomId);
   }
 
@@ -99,9 +118,27 @@ class DoExamBloc extends Bloc<DoExamEvent, DoExamState> {
 
   void _setCurrentQuestion({required QuestionModel question}) async {
     currentQuestion = question;
+    AppNavigator.replaceWith(AppRoutes.DO_EXAM, arguments: {
+      'questionModel': question,
+    });
   }
 
   void _setLastStatistic({required StatisticModel statistic}) async {
     lastStatistic = statistic;
+    AppNavigator.replaceWith(AppRoutes.STATISTIC_QUESTION, arguments: {
+      'statisticModel': statistic,
+    });
+  }
+
+  void _answerQuestion({required String answer}) async {
+    SocketEmit().answerQuestion(
+      roomId: roomId!,
+      questionId: currentQuestion!.id,
+      answer: answer,
+    );
+  }
+
+  void _leaveQuiz() {
+    AppNavigator.pop();
   }
 }

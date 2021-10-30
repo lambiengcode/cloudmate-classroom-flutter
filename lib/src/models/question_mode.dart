@@ -57,7 +57,7 @@ class QuestionModel {
       id: map['_id'],
       question: map['question'],
       answers: List<String>.from(map['answers']),
-      corrects: List<int>.from(map['correct']),
+      corrects: map['correct'] == null ? [] : List<int>.from(map['correct']),
       duration: map['duration'],
       examId: map['examId'],
       score: map['score'],
