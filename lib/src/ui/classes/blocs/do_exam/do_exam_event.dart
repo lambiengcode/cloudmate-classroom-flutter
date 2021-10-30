@@ -13,15 +13,18 @@ class CreateQuizSuccessEvent extends DoExamEvent {
   CreateQuizSuccessEvent({required this.roomId});
 }
 
-class StartQuizEvent extends DoExamEvent {
-  final String roomId;
-  StartQuizEvent({required this.roomId});
-}
+class StartQuizEvent extends DoExamEvent {}
 
 class JoinQuizEvent extends DoExamEvent {
+  final String roomId;
+
+  JoinQuizEvent({required this.roomId});
+}
+
+class JoinQuizSuccessEvent extends DoExamEvent {
   final List<UserModel> users;
 
-  JoinQuizEvent({required this.users});
+  JoinQuizSuccessEvent({required this.users});
 }
 
 class NewUserJoined extends DoExamEvent {
@@ -39,9 +42,14 @@ class UpdateStatisticEvent extends DoExamEvent {
   UpdateStatisticEvent({required this.statistic});
 }
 
-class AnswerQuestionEvent extends DoExamEvent {}
+class AnswerQuestionEvent extends DoExamEvent {
+  final String answer;
+  AnswerQuestionEvent({required this.answer});
+}
 
 class TakeQuestionEvent extends DoExamEvent {
   final QuestionModel question;
   TakeQuestionEvent({required this.question});
 }
+
+class FinishQuizEvent extends DoExamEvent {}

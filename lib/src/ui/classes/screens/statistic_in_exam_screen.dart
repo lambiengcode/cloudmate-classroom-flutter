@@ -1,3 +1,4 @@
+import 'package:cloudmate/src/models/statistic_model.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
@@ -7,6 +8,8 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 class StatisticInExamScreen extends StatefulWidget {
+  final StatisticModel statisticModel;
+  StatisticInExamScreen({required this.statisticModel});
   @override
   State<StatefulWidget> createState() => _StatisticInExamScreenState();
 }
@@ -66,10 +69,14 @@ class _StatisticInExamScreenState extends State<StatisticInExamScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      _buildLineStatistic(context, 26, 'A'),
-                      _buildLineStatistic(context, 24, 'B'),
-                      _buildLineStatistic(context, 38, 'C'),
-                      _buildLineStatistic(context, 12, 'D'),
+                      ...List.generate(
+                        widget.statisticModel.answers.length,
+                        (index) => _buildLineStatistic(
+                          context,
+                          widget.statisticModel.chooses[index],
+                          widget.statisticModel.answers[index],
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -83,11 +90,7 @@ class _StatisticInExamScreenState extends State<StatisticInExamScreen> {
                     Text(
                       'Start in',
                       style: TextStyle(
-                        color: Theme.of(context)
-                            .textTheme
-                            .bodyText1!
-                            .color!
-                            .withOpacity(.75),
+                        color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.75),
                         fontFamily: FontFamily.lato,
                         fontSize: 15.sp,
                         fontWeight: FontWeight.w600,
@@ -124,11 +127,11 @@ class _StatisticInExamScreenState extends State<StatisticInExamScreen> {
     );
   }
 
-  Widget _buildLineStatistic(context, int percent, String answer) {
+  Widget _buildLineStatistic(context, int quantityPicked, String answer) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 4.sp),
       child: Text(
-        '• $percent% lựa chọn đáp án $answer',
+        '• $quantityPicked nguời lựa chọn đáp án $answer',
         style: TextStyle(
           fontSize: 13.75.sp,
           fontFamily: FontFamily.lato,

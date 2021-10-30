@@ -5,7 +5,10 @@ abstract class DoExamState {}
 
 class DoExamInitial extends DoExamState {}
 
-class InLobby extends DoExamState {}
+class InLobby extends DoExamState {
+  final List<UserModel> users;
+  InLobby({required this.users});
+}
 
 class DoExamLoading extends DoExamState {}
 

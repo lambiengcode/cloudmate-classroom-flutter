@@ -136,13 +136,17 @@ class AppNavigator {
       case AppRoutes.STATISTIC_QUESTION:
         return _buildRoute(
           settings,
-          StatisticInExamScreen(),
+          StatisticInExamScreen(
+            statisticModel: arguments!['statisticModel'],
+          ),
           _getSlideMode(arguments),
         );
       case AppRoutes.DO_EXAM:
         return _buildRoute(
           settings,
-          DoExamScreen(),
+          DoExamScreen(
+            questionModel: arguments!['questionModel'],
+          ),
           _getSlideMode(arguments),
         );
 

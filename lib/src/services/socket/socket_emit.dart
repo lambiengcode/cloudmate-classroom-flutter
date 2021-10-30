@@ -10,7 +10,7 @@ class SocketEmit {
 
   joinQuiz({required roomId}) {
     socket!.emit(SocketEvent.JOIN_ROOM_CSS, {
-      'roomId': roomId,
+      'idRoom': roomId,
     });
   }
 
@@ -22,12 +22,14 @@ class SocketEmit {
 
   startQuiz({required roomId}) {
     socket!.emit(SocketEvent.START_QUIZ_CSS, {
-      'roomId': roomId,
+      'idRoom': roomId,
     });
   }
 
-  answerQuestion({required String answer}) {
+  answerQuestion({required String answer, required String roomId, required String questionId}) {
     socket!.emit(SocketEvent.ANSWER_THE_QUESTION_SSC, {
+      'idRoom': roomId,
+      'idQuestion': questionId,
       'answer': answer,
     });
   }
