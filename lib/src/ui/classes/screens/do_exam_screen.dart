@@ -29,6 +29,7 @@ class _DoExamScreenState extends State<DoExamScreen> {
   ];
   Timer? _timmerInstance;
   int time = 0;
+  String answer = "";
 
   @override
   void initState() {
@@ -112,12 +113,17 @@ class _DoExamScreenState extends State<DoExamScreen> {
               SizedBox(height: 20.sp),
               Container(
                 width: 100.w,
-                padding: EdgeInsets.symmetric(horizontal: 20.sp),
+                padding: EdgeInsets.symmetric(vertical: 16.sp, horizontal: 12.sp),
+                margin: EdgeInsets.symmetric(horizontal: 13.75.sp),
+                decoration: BoxDecoration(
+                  border: Border.all(color: colorPrimary, width: 1.5.sp),
+                  borderRadius: BorderRadius.circular(6.sp),
+                ),
                 child: Text(
                   widget.questionModel.question,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 15.sp,
+                    fontSize: 12.75.sp,
                     fontWeight: FontWeight.w600,
                     fontFamily: FontFamily.lato,
                     color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.85),
@@ -229,11 +235,17 @@ class _DoExamScreenState extends State<DoExamScreen> {
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {
-              AppBloc.doExamBloc.add(
-                AnswerQuestionEvent(
-                  answer: widget.questionModel.answers[index],
-                ),
-              );
+              if (answer == '') {
+                AppBloc.doExamBloc.add(
+                  AnswerQuestionEvent(
+                    answer: widget.questionModel.answers[index],
+                  ),
+                );
+
+                setState(() {
+                  answer = widget.questionModel.answers[index];
+                });
+              }
             },
             child: Container(
               margin: EdgeInsets.symmetric(
@@ -243,7 +255,9 @@ class _DoExamScreenState extends State<DoExamScreen> {
               padding: EdgeInsets.symmetric(vertical: 15.25.sp),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5.sp),
-                color: _colors[index % (_colors.length)],
+                color: answer == "" || answer == widget.questionModel.answers[index]
+                    ? _colors[index % (_colors.length)]
+                    : Colors.grey,
               ),
               alignment: Alignment.center,
               child: Text(

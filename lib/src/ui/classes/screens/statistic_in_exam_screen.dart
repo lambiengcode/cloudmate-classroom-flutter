@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloudmate/src/models/statistic_model.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
@@ -15,6 +17,53 @@ class StatisticInExamScreen extends StatefulWidget {
 }
 
 class _StatisticInExamScreenState extends State<StatisticInExamScreen> {
+  Timer? _timmerInstance;
+  int time = 3;
+  String answer = "";
+  List<double> percents = [];
+
+  @override
+  void initState() {
+    super.initState();
+    startTimmer();
+    int total = widget.statisticModel.chooses.reduce((value, element) => value + element);
+    double totalPercent = 0.0;
+    widget.statisticModel.chooses.asMap().forEach((index, item) {
+      if (index == widget.statisticModel.chooses.length - 1) {
+        percents.add(1.0 - totalPercent);
+      } else {
+        percents.add(item / total);
+        totalPercent += item / total;
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    if (_timmerInstance != null) {
+      if (_timmerInstance!.isActive) {
+        _timmerInstance!.cancel();
+      }
+    }
+    super.dispose();
+  }
+
+  void startTimmer() {
+    var oneSec = Duration(seconds: 1);
+    _timmerInstance = Timer.periodic(
+      oneSec,
+      (Timer timer) => setState(
+        () {
+          if (time <= 0) {
+            _timmerInstance!.cancel();
+          } else {
+            time--;
+          }
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,10 +101,11 @@ class _StatisticInExamScreenState extends State<StatisticInExamScreen> {
               ),
               SizedBox(height: 6.sp),
               Container(
-                height: 40.h,
+                height: 38.h,
                 width: 100.w,
                 child: PieChartRevenue(
-                  data: [0.35, 0.3, 0.2, 0.15],
+                  data: percents,
+                  labels: widget.statisticModel.answers,
                 ),
               ),
               Divider(
@@ -88,7 +138,7 @@ class _StatisticInExamScreenState extends State<StatisticInExamScreen> {
                   children: [
                     SizedBox(height: 20.sp),
                     Text(
-                      'Start in',
+                      'Tiếp tục trong',
                       style: TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.75),
                         fontFamily: FontFamily.lato,
@@ -98,7 +148,7 @@ class _StatisticInExamScreenState extends State<StatisticInExamScreen> {
                     ),
                     SizedBox(height: 12.sp),
                     Text(
-                      '3',
+                      '$time',
                       style: TextStyle(
                         color: Theme.of(context).primaryColor,
                         fontFamily: FontFamily.lato,
@@ -108,7 +158,7 @@ class _StatisticInExamScreenState extends State<StatisticInExamScreen> {
                     ),
                     SizedBox(height: 4.sp),
                     Text(
-                      'seconds',
+                      'giây nữa',
                       style: TextStyle(
                         color: Theme.of(context).primaryColor,
                         fontFamily: FontFamily.lato,
@@ -128,10 +178,14 @@ class _StatisticInExamScreenState extends State<StatisticInExamScreen> {
   }
 
   Widget _buildLineStatistic(context, int quantityPicked, String answer) {
+    String title = '• $quantityPicked người lựa chọn đáp án $answer';
+    if (answer == 'null') {
+      title = '• $quantityPicked người không chọn đáp án';
+    }
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 4.sp),
       child: Text(
-        '• $quantityPicked nguời lựa chọn đáp án $answer',
+        title,
         style: TextStyle(
           fontSize: 13.75.sp,
           fontFamily: FontFamily.lato,

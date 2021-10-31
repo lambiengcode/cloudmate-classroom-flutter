@@ -1,17 +1,13 @@
-class StringHelper {
-  String printDuration(Duration duration) {
-    String twoDigits(int n) => n.toString().padLeft(2, "0");
-    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
-    return "${twoDigits(duration.inHours)}:$twoDigitMinutes";
-  }
-
-  String limitString(String input, int length) {
+extension StringHelper on String {
+  String limitLength(int length) {
+    String input = this;
     return input.toString().length <= length
         ? input
         : input.toString().substring(0, length - 2) + '..';
   }
 
-  String formatName(String name, int length) {
+  String formatName(int length) {
+    String name = this;
     List<String> names = name.split(' ');
     switch (names.length) {
       case 1:

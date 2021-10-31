@@ -36,48 +36,52 @@ class _DrawerOptionState extends State<DrawerOption> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(height: 20.sp),
-                  _buildLine(
-                    context,
-                    'Tạo kiểm tra ngay',
-                    PhosphorIcons.clockAfternoon,
-                    colorActive,
-                    AppRoutes.LIST_EXAM,
-                    arguments: {
-                      'classId': widget.classModel.id,
-                      'isPickedMode': true,
-                    },
-                  ),
-                  _buildDividerTransparant(context),
-                  _buildLine(
-                    context,
-                    'Chỉnh sửa lớp học',
-                    PhosphorIcons.pen,
-                    colorPrimary,
-                    AppRoutes.CREATE_CLASS,
-                    arguments: {
-                      'classModel': widget.classModel,
-                    },
-                  ),
-                  _buildDividerTransparant(context),
-                  _buildLine(
-                    context,
-                    'Bộ đề kiểm tra',
-                    PhosphorIcons.clipboard,
-                    colorPrimary,
-                    AppRoutes.LIST_EXAM,
-                    arguments: {
-                      'classId': widget.classModel.id,
-                    },
-                  ),
-                  _buildDividerTransparant(context),
-                  _buildLine(
-                    context,
-                    'Điểm danh',
-                    PhosphorIcons.handGrabbing,
-                    colorPrimary,
-                    null,
-                  ),
-                  _buildDividerTransparant(context),
+                  ...widget.classModel.createdBy.id != AppBloc.authBloc.userModel!.id
+                      ? []
+                      : [
+                          _buildLine(
+                            context,
+                            'Tạo kiểm tra ngay',
+                            PhosphorIcons.clockAfternoon,
+                            colorActive,
+                            AppRoutes.LIST_EXAM,
+                            arguments: {
+                              'classId': widget.classModel.id,
+                              'isPickedMode': true,
+                            },
+                          ),
+                          _buildDividerTransparant(context),
+                          _buildLine(
+                            context,
+                            'Chỉnh sửa lớp học',
+                            PhosphorIcons.pen,
+                            colorPrimary,
+                            AppRoutes.CREATE_CLASS,
+                            arguments: {
+                              'classModel': widget.classModel,
+                            },
+                          ),
+                          _buildDividerTransparant(context),
+                          _buildLine(
+                            context,
+                            'Bộ đề kiểm tra',
+                            PhosphorIcons.clipboard,
+                            colorPrimary,
+                            AppRoutes.LIST_EXAM,
+                            arguments: {
+                              'classId': widget.classModel.id,
+                            },
+                          ),
+                          _buildDividerTransparant(context),
+                          _buildLine(
+                            context,
+                            'Điểm danh',
+                            PhosphorIcons.handGrabbing,
+                            colorPrimary,
+                            null,
+                          ),
+                          _buildDividerTransparant(context),
+                        ],
                   _buildLine(
                     context,
                     'Lộ trình',
@@ -113,8 +117,7 @@ class _DrawerOptionState extends State<DrawerOption> {
                         context: context,
                         dismissible: true,
                         slideFrom: 'bottom',
-                        backgroundColor:
-                            Theme.of(context).scaffoldBackgroundColor,
+                        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                         child: DialogInput(
                           handleFinish: (input) {
                             AppNavigator.popUntil(AppRoutes.DETAILS_CLASS);
@@ -141,13 +144,10 @@ class _DrawerOptionState extends State<DrawerOption> {
                           handleConfirm: () {
                             showDialogLoading(context);
                             AppBloc.classBloc.add(
-                              LeaveClass(
-                                  classId: widget.classModel.id,
-                                  context: context),
+                              LeaveClass(classId: widget.classModel.id, context: context),
                             );
                           },
-                          subTitle:
-                              'Sau khi rời khỏi lớp học bạn sẽ không thể hoàn tác lại!',
+                          subTitle: 'Sau khi rời khỏi lớp học bạn sẽ không thể hoàn tác lại!',
                           title: 'Rời lớp học',
                         ),
                       );
@@ -202,12 +202,7 @@ class _DrawerOptionState extends State<DrawerOption> {
                 style: TextStyle(
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w600,
-                  color: color ??
-                      Theme.of(context)
-                          .textTheme
-                          .bodyText1!
-                          .color!
-                          .withOpacity(.75),
+                  color: color ?? Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.75),
                   fontFamily: FontFamily.lato,
                 ),
               ),

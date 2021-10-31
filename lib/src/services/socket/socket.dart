@@ -26,20 +26,21 @@ void connectAndListen() async {
     debugPrint('connected');
 
     socket!.on(SocketEvent.CREATE_QUIZ_SSC, (data) {
+      UtilLogger.log('CREATE_QUIZ_SSC', data);
       AppBloc.doExamBloc.add(CreateQuizSuccessEvent(roomId: data['idRoom']));
     });
 
     socket!.on(SocketEvent.JOIN_ROOM_SSC, (data) {
       UtilLogger.log('JOIN_ROOM_SSC', data);
-      List<dynamic> listResponse = data['users'];
-      List<UserModel> users = listResponse.map((e) => UserModel.fromJson(e)).toList();
-      AppBloc.doExamBloc.add(JoinQuizSuccessEvent(users: users));
+      UserModel user = UserModel.fromMap(data['user']);
+      AppBloc.doExamBloc.add(NewUserJoined(user: user));
     });
 
     socket!.on(SocketEvent.JOIN_ROOM_NEW_SSC, (data) {
       UtilLogger.log('JOIN_ROOM_NEW_SSC', data);
-      UserModel user = UserModel.fromJson(data['user']);
-      AppBloc.doExamBloc.add(NewUserJoined(user: user));
+      List<dynamic> listResponse = data['users'];
+      List<UserModel> users = listResponse.map((e) => UserModel.fromMap(e)).toList();
+      AppBloc.doExamBloc.add(JoinQuizSuccessEvent(users: users));
     });
 
     socket!.on(SocketEvent.LEAVE_ROOM_SSC, (data) {

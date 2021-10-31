@@ -1,5 +1,6 @@
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/routes/app_routes.dart';
+import 'package:cloudmate/src/ui/classes/blocs/do_exam/do_exam_bloc.dart';
 import 'package:cloudmate/src/ui/classes/widgets/dialog_add_answer.dart';
 import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       child: DialogInput(
         handleFinish: (input) {
-          AppNavigator.push(AppRoutes.DO_EXAM);
+          AppBloc.doExamBloc.add(JoinQuizEvent(roomId: input.toString().trim()));
         },
         title: 'Nhập mã PIN',
         buttonTitle: 'Vào phòng',

@@ -36,7 +36,7 @@ class LobbyUserCard extends StatelessWidget {
         ),
         SizedBox(height: 6.sp),
         Text(
-          StringHelper().formatName(userModel.lastName!, 12),
+          userModel.lastName!.formatName(12),
           style: TextStyle(
             fontFamily: FontFamily.lato,
             fontSize: 9.sp,

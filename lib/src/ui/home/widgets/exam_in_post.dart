@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:cloudmate/src/helpers/string.dart';
+import 'package:cloudmate/src/helpers/int.dart';
 import 'package:cloudmate/src/resources/hard/hard_exam_post.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/app_decorations.dart';
@@ -70,9 +70,7 @@ class _ExamInPostCard extends State<ExamInPost> {
                     ),
                     SizedBox(width: 6.sp),
                     Text(
-                      StringHelper().printDuration(
-                        Duration(seconds: widget.exam.duration),
-                      ),
+                      widget.exam.duration.formatTwoDigits(),
                       style: TextStyle(
                         fontSize: 11.sp,
                         fontFamily: FontFamily.lato,

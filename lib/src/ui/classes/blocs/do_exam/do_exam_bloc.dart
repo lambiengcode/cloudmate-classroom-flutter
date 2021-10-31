@@ -26,8 +26,8 @@ class DoExamBloc extends Bloc<DoExamEvent, DoExamState> {
     }
 
     if (event is CreateQuizSuccessEvent) {
-      _createQuizSuccess(roomId: event.roomId);
       _setCurrentRoomId(roomId: event.roomId);
+      _createQuizSuccess();
       yield InLobby(users: users);
     }
 
@@ -42,6 +42,8 @@ class DoExamBloc extends Bloc<DoExamEvent, DoExamState> {
 
     if (event is JoinQuizSuccessEvent) {
       _setUsers(users: event.users);
+      _createQuizSuccess();
+      yield InLobby(users: users);
     }
 
     if (event is NewUserJoined) {
@@ -76,10 +78,11 @@ class DoExamBloc extends Bloc<DoExamEvent, DoExamState> {
 
   // MARK: - Event handle function
   void _createQuiz({required String examId}) {
+    AppNavigator.pop();
     SocketEmit().createQuiz(examId: examId);
   }
 
-  void _createQuizSuccess({required String roomId}) {
+  void _createQuizSuccess() {
     AppNavigator.push(AppRoutes.LOBBY_EXAM, arguments: {
       'roomId': roomId,
     });
