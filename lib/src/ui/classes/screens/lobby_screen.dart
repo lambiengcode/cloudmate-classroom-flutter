@@ -1,6 +1,4 @@
 import 'package:cloudmate/src/blocs/app_bloc.dart';
-import 'package:cloudmate/src/models/user.dart';
-import 'package:cloudmate/src/resources/hard/hard_post.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
@@ -71,7 +69,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
                     ),
                     SizedBox(height: 6.sp),
                     Expanded(
-                      child: _buildBodyLobby(context),
+                      child: _buildBodyLobby(context, state),
                     ),
                   ],
                 ),
@@ -85,7 +83,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
     );
   }
 
-  Widget _buildBodyLobby(context) {
+  Widget _buildBodyLobby(context, InLobby state) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -98,15 +96,10 @@ class _LobbyScreenState extends State<LobbyScreen> {
               crossAxisCount: 5,
               mainAxisSpacing: 16.sp,
             ),
-            itemCount: posts.length,
+            itemCount: state.users.length,
             itemBuilder: (context, index) {
               return LobbyUserCard(
-                userModel: UserModel(
-                  id: 'lambiengcode',
-                  displayName: 'Dao Hong Vinh',
-                  lastName: 'Hong Vinh',
-                  image: 'https://avatars.githubusercontent.com/u/50282063?s=200&v=4',
-                ),
+                userModel: state.users[index],
               );
             },
           ),

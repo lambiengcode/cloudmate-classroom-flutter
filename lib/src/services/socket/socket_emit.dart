@@ -1,5 +1,6 @@
 import 'package:cloudmate/src/public/sockets.dart';
 import 'package:cloudmate/src/services/socket/socket.dart';
+import 'package:cloudmate/src/utils/logger.dart';
 
 class SocketEmit {
   createQuiz({required examId}) {
@@ -9,6 +10,7 @@ class SocketEmit {
   }
 
   joinQuiz({required roomId}) {
+    UtilLogger.log('SocketEmit', 'joinQuiz - ' + 'roomId: $roomId');
     socket!.emit(SocketEvent.JOIN_ROOM_CSS, {
       'idRoom': roomId,
     });
@@ -27,7 +29,12 @@ class SocketEmit {
   }
 
   answerQuestion({required String answer, required String roomId, required String questionId}) {
-    socket!.emit(SocketEvent.ANSWER_THE_QUESTION_SSC, {
+    print('answerQuestion :' + {
+      'idRoom': roomId,
+      'idQuestion': questionId,
+      'answer': answer,
+    }.toString());
+    socket!.emit(SocketEvent.ANSWER_THE_QUESTION_CSS, {
       'idRoom': roomId,
       'idQuestion': questionId,
       'answer': answer,

@@ -4,7 +4,7 @@ class SocketEvent {
 
   static const JOIN_ROOM_CSS = 'JOIN_ROOM_CSS';
   static const JOIN_ROOM_SSC = 'JOIN_ROOM_SSC';
-  static const JOIN_ROOM_NEW_SSC = 'JOIN_ROOM_SSC';
+  static const JOIN_ROOM_NEW_SSC = 'JOIN_ROOM_NEW_SSC';
 
   static const LEAVE_ROOM_CSS = 'LEAVE_ROOM_CSS';
   static const LEAVE_ROOM_SSC = 'LEAVE_ROOM_SSC';

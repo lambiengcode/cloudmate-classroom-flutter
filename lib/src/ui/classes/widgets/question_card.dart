@@ -1,4 +1,4 @@
-import 'package:cloudmate/src/helpers/string.dart';
+import 'package:cloudmate/src/helpers/int.dart';
 import 'package:cloudmate/src/models/question_mode.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
@@ -76,11 +76,7 @@ class _QuestionCardState extends State<QuestionCard> {
                             SizedBox(height: 3.5.sp),
                             Text(
                               'Thời gian trả lời :' +
-                                  StringHelper().printDuration(
-                                    Duration(
-                                      seconds: widget.question.duration,
-                                    ),
-                                  ),
+                                  widget.question.duration.formatTwoDigits(),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                               style: Theme.of(context)

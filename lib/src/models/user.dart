@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:cloudmate/src/configs/application.dart';
 import 'package:cloudmate/src/public/constants.dart';
 
 class UserModel {

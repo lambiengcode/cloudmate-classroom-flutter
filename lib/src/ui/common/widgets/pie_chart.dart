@@ -2,12 +2,12 @@ import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/ui/common/widgets/indicator.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/gestures.dart';
-import 'package:intl/intl.dart';
+import 'package:cloudmate/src/helpers/string.dart';
 
 class PieChartRevenue extends StatefulWidget {
   final List<double> data;
-  PieChartRevenue({required this.data});
+  final List<String> labels;
+  PieChartRevenue({required this.data, required this.labels});
   @override
   State<StatefulWidget> createState() => PieChart2State();
 }
@@ -38,7 +38,7 @@ class PieChart2State extends State<PieChartRevenue> {
         child: Row(
           children: <Widget>[
             Expanded(
-              flex: 4,
+              flex: 5,
               child: AspectRatio(
                 aspectRatio: 1.23,
                 child: PieChart(
@@ -69,7 +69,7 @@ class PieChart2State extends State<PieChartRevenue> {
               ),
             ),
             Expanded(
-              flex: 1,
+              flex: 3,
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -86,11 +86,7 @@ class PieChart2State extends State<PieChartRevenue> {
                         margin: EdgeInsets.only(bottom: 10.0),
                         child: Indicator(
                           color: colors[index],
-                          text: widget.data.length == 7
-                              ? DateFormat('dd/MM').format(DateTime.now()
-                                  .subtract(Duration(days: index)))
-                              : DateFormat('MMM').format(DateTime.now()
-                                  .subtract(Duration(days: 30 * index))),
+                          text: widget.labels[index].limitLength(10),
                           isSquare: false,
                         ),
                       );
@@ -122,9 +118,7 @@ class PieChart2State extends State<PieChartRevenue> {
         title: '${widget.data[i] * 100}%',
         radius: radius,
         titleStyle: TextStyle(
-            fontSize: fontSize,
-            fontWeight: FontWeight.bold,
-            color: const Color(0xffffffff)),
+            fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),
       );
     });
   }

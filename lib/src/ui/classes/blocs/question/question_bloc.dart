@@ -55,6 +55,12 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
 
       if (isCreateSuccess) {
         AppNavigator.popUntil(AppRoutes.LIST_QUESTION);
+      }else {
+        _showDialogResult(
+          event.context,
+          title: 'Thất bại',
+          subTitle: 'Tạo câu hỏi thất bại, vui lòng thử lại sau',
+        );
       }
     }
 
@@ -88,8 +94,7 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
     }
 
     if (event is DeleteQuestionEvent) {
-      bool isDeleteSuccess =
-          await _deleteQuestion(questionId: event.questionId);
+      bool isDeleteSuccess = await _deleteQuestion(questionId: event.questionId);
       yield GetDoneQuestion(
         listQuestion: listQuestion,
         isOver: isOverQuestion,
@@ -144,7 +149,7 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
       duration: duration,
       score: score,
     );
-
+    AppNavigator.pop();
     if (questionModel != null) {
       listQuestion.add(questionModel);
     }
@@ -170,8 +175,7 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
     );
     AppNavigator.pop();
     if (questionModel != null) {
-      int index =
-          listQuestion.indexWhere((item) => item.id == questionModel.id);
+      int index = listQuestion.indexWhere((item) => item.id == questionModel.id);
       if (index != -1) {
         listQuestion[index] = questionModel;
       }
@@ -183,8 +187,7 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
   Future<bool> _deleteQuestion({
     required String questionId,
   }) async {
-    bool isDeleteSuccess =
-        await QuestionRepository().deleteQuestion(questionId: questionId);
+    bool isDeleteSuccess = await QuestionRepository().deleteQuestion(questionId: questionId);
     AppNavigator.popUntil(AppRoutes.LIST_QUESTION);
     if (isDeleteSuccess) {
       int index = listQuestion.indexWhere((item) => item.id == questionId);
@@ -221,13 +224,11 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
             ),
             SizedBox(height: 10.sp),
             Padding(
-              padding:
-                  EdgeInsets.symmetric(horizontal: 15.sp, vertical: 7.5.sp),
+              padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: 7.5.sp),
               child: Text(
                 subTitle,
                 textAlign: TextAlign.center,
-                style:
-                    TextStyle(fontWeight: FontWeight.w400, fontSize: 10.5.sp),
+                style: TextStyle(fontWeight: FontWeight.w400, fontSize: 10.5.sp),
               ),
             ),
             SizedBox(height: 8.sp),
