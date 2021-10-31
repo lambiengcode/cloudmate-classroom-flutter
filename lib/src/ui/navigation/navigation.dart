@@ -1,5 +1,4 @@
 import 'dart:ui';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/blocs/authentication/bloc.dart';
 import 'package:cloudmate/src/lang/language_service.dart';
@@ -11,7 +10,6 @@ import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/ui/calendar/calendar_screen.dart';
 import 'package:cloudmate/src/ui/chats/chat_screen.dart';
 import 'package:cloudmate/src/ui/classes/classes_screen.dart';
-import 'package:cloudmate/src/ui/common/network_cached.dart';
 import 'package:cloudmate/src/ui/home/home_screen.dart';
 import 'package:cloudmate/src/ui/profile/profile_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,7 +25,6 @@ class Navigation extends StatefulWidget {
 
 class _NavigationState extends State<Navigation> {
   int currentPage = 0;
-  bool _loading = false;
   var _pages = [
     HomeScreen(),
     ClassesScreen(),

@@ -116,6 +116,7 @@ class _StatisticInExamScreenState extends State<StatisticInExamScreen> {
               Expanded(
                 child: Container(
                   width: 100.w,
+                  padding: EdgeInsets.symmetric(horizontal: 10.sp),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [

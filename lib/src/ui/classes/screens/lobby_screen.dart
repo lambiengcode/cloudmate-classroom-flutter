@@ -106,7 +106,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
         ),
         SizedBox(height: 20.sp),
         Text(
-          'Start in',
+          'Tiếp tục trong',
           style: TextStyle(
             color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.75),
             fontFamily: FontFamily.lato,
@@ -126,7 +126,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
         ),
         SizedBox(height: 4.sp),
         Text(
-          'seconds',
+          'giây nữa',
           style: TextStyle(
             color: Theme.of(context).primaryColor,
             fontFamily: FontFamily.lato,

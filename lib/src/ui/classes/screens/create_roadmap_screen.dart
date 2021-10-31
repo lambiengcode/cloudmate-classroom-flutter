@@ -104,6 +104,8 @@ class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
                         onTap: () async {
                           if (_formKey.currentState!.validate()) {
                             showDialogLoading(context);
+                            print(_name);
+                            print(_description);
                           }
                         },
                         child: Container(
@@ -176,8 +178,7 @@ class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
           border: InputBorder.none,
           labelText: title,
           labelStyle: TextStyle(
-            color:
-                Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
+            color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
             fontSize: _size.width / 26.0,
             fontWeight: FontWeight.w600,
           ),
