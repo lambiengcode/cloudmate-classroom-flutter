@@ -17,6 +17,8 @@ class DoExamBloc extends Bloc<DoExamEvent, DoExamState> {
   QuestionModel? currentQuestion;
   StatisticModel? lastStatistic;
   String? roomId;
+  DateTime startTime = DateTime.now();
+  DateTime endTime = DateTime.now();
 
   @override
   Stream<DoExamState> mapEventToState(DoExamEvent event) async* {
@@ -73,6 +75,14 @@ class DoExamBloc extends Bloc<DoExamEvent, DoExamState> {
 
     if (event is FinishQuizEvent) {
       _leaveQuiz();
+    }
+
+    if (event is StartPingEvent) {
+      _startPing();
+    }
+
+    if (event is EndPingEvent) {
+      _endPing();
     }
   }
 
@@ -139,6 +149,20 @@ class DoExamBloc extends Bloc<DoExamEvent, DoExamState> {
       questionId: currentQuestion!.id,
       answer: answer,
     );
+  }
+
+  void _startPing() {
+    startTime = DateTime.now();
+    SocketEmit().pingToServer();
+  }
+
+  void _endPing() {
+    endTime = DateTime.now();
+    int ms = endTime.difference(startTime).inMicroseconds;
+    print('ping: $ms ms');
+    Future.delayed(Duration(seconds: 5), () {
+      _startPing();
+    });
   }
 
   void _leaveQuiz() {

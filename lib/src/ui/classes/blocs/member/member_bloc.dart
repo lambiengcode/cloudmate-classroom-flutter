@@ -16,6 +16,6 @@ class MemberBloc extends Bloc<MemberEvent, MemberState> {
 
 // Mark: - Event handle function
 
-Future<void> _getMembers(String classId) async {}
+// Future<void> _getMembers(String classId) async {}
 
-Future<void> _removeMember(String classId, String memberId) async {}
+// Future<void> _removeMember(String classId, String memberId) async {}

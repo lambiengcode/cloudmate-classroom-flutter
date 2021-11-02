@@ -6,6 +6,7 @@ class Application {
   /// [Production - Dev]
   static String version = '1.0.0';
   static String? baseUrl = '';
+  static String? imageUrl = '';
   static String? socketUrl = '';
   static String? mode = '';
 
@@ -14,6 +15,7 @@ class Application {
       await GetStorage.init();
       await dotenv.load(fileName: ".env");
       baseUrl = dotenv.env['BASE_URL'];
+      imageUrl = baseUrl! + 'api/up-load-file?id=';
       socketUrl = dotenv.env['SOCKET_URL'];
       mode = dotenv.env['MODE'];
     } catch (error) {

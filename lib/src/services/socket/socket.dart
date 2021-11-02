@@ -22,8 +22,13 @@ void connectAndListen() async {
     }).build(),
   );
   socket!.connect();
-  socket!.onConnect((_) {
+  socket!.onConnect((_) async {
     debugPrint('connected');
+    AppBloc.doExamBloc.add(StartPingEvent());
+
+    socket!.onPing((data) {
+      AppBloc.doExamBloc.add(EndPingEvent());
+    });
 
     socket!.on(SocketEvent.CREATE_QUIZ_SSC, (data) {
       UtilLogger.log('CREATE_QUIZ_SSC', data);

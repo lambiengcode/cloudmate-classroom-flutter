@@ -3,6 +3,7 @@ import 'package:cloudmate/src/ui/common/widgets/indicator.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:cloudmate/src/helpers/string.dart';
+import 'package:sizer/sizer.dart';
 
 class PieChartRevenue extends StatefulWidget {
   final List<double> data;
@@ -38,7 +39,7 @@ class PieChart2State extends State<PieChartRevenue> {
         child: Row(
           children: <Widget>[
             Expanded(
-              flex: 5,
+              flex: 9,
               child: AspectRatio(
                 aspectRatio: 1.23,
                 child: PieChart(
@@ -62,14 +63,15 @@ class PieChart2State extends State<PieChartRevenue> {
                       show: false,
                     ),
                     sectionsSpace: 0,
-                    centerSpaceRadius: 50,
+                    centerSpaceRadius: 46,
                     sections: showingSections(),
                   ),
                 ),
               ),
             ),
+            SizedBox(width: 4.sp),
             Expanded(
-              flex: 3,
+              flex: 4,
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -85,6 +87,7 @@ class PieChart2State extends State<PieChartRevenue> {
                       return Container(
                         margin: EdgeInsets.only(bottom: 10.0),
                         child: Indicator(
+                          size: 10.sp,
                           color: colors[index],
                           text: widget.labels[index].limitLength(10),
                           isSquare: false,
@@ -115,7 +118,7 @@ class PieChart2State extends State<PieChartRevenue> {
       return PieChartSectionData(
         color: colors[i],
         value: widget.data[i] * 100,
-        title: '${widget.data[i] * 100}%',
+        title: '${(widget.data[i] * 100).round()}%',
         radius: radius,
         titleStyle: TextStyle(
             fontSize: fontSize, fontWeight: FontWeight.bold, color: const Color(0xffffffff)),

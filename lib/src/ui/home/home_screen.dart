@@ -50,9 +50,8 @@ class _HomeScreenState extends State<HomeScreen> {
           onPressed: () {
             AppBloc.themeBloc.add(
               OnChangeTheme(
-                themeMode: ThemeService.currentTheme == ThemeMode.dark
-                    ? ThemeMode.light
-                    : ThemeMode.dark,
+                themeMode:
+                    ThemeService.currentTheme == ThemeMode.dark ? ThemeMode.light : ThemeMode.dark,
               ),
             );
           },

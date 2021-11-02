@@ -53,3 +53,7 @@ class TakeQuestionEvent extends DoExamEvent {
 }
 
 class FinishQuizEvent extends DoExamEvent {}
+
+class StartPingEvent extends DoExamEvent {}
+
+class EndPingEvent extends DoExamEvent {}

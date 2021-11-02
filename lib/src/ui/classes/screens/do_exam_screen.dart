@@ -67,16 +67,6 @@ class _DoExamScreenState extends State<DoExamScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => null,
-        child: Icon(
-          PhosphorIcons.lockFill,
-          size: 20.sp,
-          color: mC,
-        ),
-        backgroundColor: colorPrimary,
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       body: SafeArea(
         child: Container(
           height: 100.h,

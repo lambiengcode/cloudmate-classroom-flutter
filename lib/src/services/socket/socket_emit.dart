@@ -29,15 +29,20 @@ class SocketEmit {
   }
 
   answerQuestion({required String answer, required String roomId, required String questionId}) {
-    print('answerQuestion :' + {
-      'idRoom': roomId,
-      'idQuestion': questionId,
-      'answer': answer,
-    }.toString());
+    print('answerQuestion :' +
+        {
+          'idRoom': roomId,
+          'idQuestion': questionId,
+          'answer': answer,
+        }.toString());
     socket!.emit(SocketEvent.ANSWER_THE_QUESTION_CSS, {
       'idRoom': roomId,
       'idQuestion': questionId,
       'answer': answer,
     });
+  }
+
+  pingToServer() {
+    socket!.emit(SocketEvent.PING);
   }
 }
