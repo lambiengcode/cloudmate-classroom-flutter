@@ -11,7 +11,6 @@ import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:cloudmate/src/ui/common/widgets/animated_fade.dart';
 import 'package:cloudmate/src/utils/blurhash.dart';
 import 'package:flutter/material.dart';
-import 'package:cloudmate/src/resources/hard/hard_chat.dart';
 import 'package:cloudmate/src/resources/hard/hard_post.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/app_decorations.dart';
@@ -60,8 +59,7 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
       if (_scrollController.offset <= 0) {
         _imageController.value = 0.0;
       } else {
-        _imageController.value =
-            _scrollController.offset / (_heightOfClassImage * 1.15);
+        _imageController.value = _scrollController.offset / (_heightOfClassImage * 1.15);
       }
       _heightController.value = _scrollController.offset;
     });
@@ -108,8 +106,7 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                     Stack(
                       children: [
                         AnimatedFade(
-                          animation: Tween(begin: 1.0, end: 0.0)
-                              .animate(_imageController),
+                          animation: Tween(begin: 1.0, end: 0.0).animate(_imageController),
                           child: Container(
                             height: _heightOfClassImage,
                             width: 100.w,
@@ -179,19 +176,22 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                         children: [
                           GestureDetector(
                             onTap: () {
-                              CustomImagePicker().openImagePicker(
-                                context: context,
-                                text: "Chọn ảnh cho lớp học",
-                                handleFinish: (File image) async {
-                                  showDialogLoading(context);
-                                  AppBloc.classBloc.add(
-                                    UpdateImageClass(
-                                      image: image,
-                                      id: widget.classModel.id,
-                                    ),
-                                  );
-                                },
-                              );
+                              if (widget.classModel.createdBy.id ==
+                                  AppBloc.authBloc.userModel!.id) {
+                                CustomImagePicker().openImagePicker(
+                                  context: context,
+                                  text: "Chọn ảnh cho lớp học",
+                                  handleFinish: (File image) async {
+                                    showDialogLoading(context);
+                                    AppBloc.classBloc.add(
+                                      UpdateImageClass(
+                                        image: image,
+                                        id: widget.classModel.id,
+                                      ),
+                                    );
+                                  },
+                                );
+                              }
                             },
                             child: Container(
                               height: 45.sp,
@@ -226,13 +226,17 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                                 SizedBox(height: 3.sp),
                                 Row(
                                   children: [
-                                    StackAvatar(
-                                      size: 22.sp,
-                                      images: chats
-                                          .sublist(3, 6)
-                                          .map((e) => e.image!)
-                                          .toList(),
-                                    ),
+                                    widget.classModel.members.isEmpty
+                                        ? Container()
+                                        : StackAvatar(
+                                            size: 22.sp,
+                                            images: widget.classModel.members
+                                                .map((item) => item.image!)
+                                                .toList(),
+                                            blueHash: widget.classModel.members
+                                                .map((item) => item.blurHash!)
+                                                .toList(),
+                                          ),
                                     SizedBox(width: 6.sp),
                                     Text(
                                       _classModel.members.isEmpty
@@ -246,10 +250,7 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                                         fontWeight: FontWeight.w400,
                                         color: _classModel.members.isEmpty
                                             ? Theme.of(context).primaryColor
-                                            : Theme.of(context)
-                                                .textTheme
-                                                .bodyText1!
-                                                .color!,
+                                            : Theme.of(context).textTheme.bodyText1!.color!,
                                       ),
                                     ),
                                   ],
@@ -290,11 +291,7 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                               fontSize: 12.sp,
                               fontFamily: FontFamily.lato,
                               fontWeight: FontWeight.w400,
-                              color: Theme.of(context)
-                                  .textTheme
-                                  .bodyText2!
-                                  .color!
-                                  .withOpacity(.8),
+                              color: Theme.of(context).textTheme.bodyText2!.color!.withOpacity(.8),
                             ),
                           ),
                         ],
@@ -369,8 +366,7 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                         ),
                       );
                     },
-                    subTitle:
-                        'Sau khi tham gia, bạn sẽ trở thành học viên của lớp học này.',
+                    subTitle: 'Sau khi tham gia, bạn sẽ trở thành học viên của lớp học này.',
                     title: 'Tham gia lớp học',
                   ),
                 );

@@ -1,4 +1,7 @@
 class SocketEvent {
+  static const PING = 'ping';
+  static const PONG = 'pong';
+
   static const CREATE_QUIZ_CSS = 'CREATE_QUIZ_CSS';
   static const CREATE_QUIZ_SSC = 'CREATE_QUIZ_SSC';
 

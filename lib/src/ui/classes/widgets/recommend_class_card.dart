@@ -73,10 +73,8 @@ class _RecommendClassCardState extends State<RecommendClassCard> {
                           children: [
                             StackAvatar(
                               size: 18.25.sp,
-                              images: chats
-                                  .sublist(3, 6)
-                                  .map((e) => e.image!)
-                                  .toList(),
+                              images: chats.sublist(3, 6).map((e) => e.image!).toList(),
+                              blueHash: chats.sublist(3, 6).map((e) => e.blurHash!).toList(),
                             ),
                             SizedBox(width: 6.sp),
                             Text(
@@ -87,11 +85,8 @@ class _RecommendClassCardState extends State<RecommendClassCard> {
                                 fontSize: 10.sp,
                                 fontFamily: FontFamily.lato,
                                 fontWeight: FontWeight.w600,
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1!
-                                    .color!
-                                    .withOpacity(.6),
+                                color:
+                                    Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6),
                               ),
                             ),
                           ],
@@ -180,11 +175,7 @@ class _RecommendClassCardState extends State<RecommendClassCard> {
               fontSize: 10.sp,
               fontFamily: FontFamily.lato,
               fontWeight: FontWeight.w600,
-              color: Theme.of(context)
-                  .textTheme
-                  .bodyText1!
-                  .color!
-                  .withOpacity(.75),
+              color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.75),
             ),
           ),
         ],

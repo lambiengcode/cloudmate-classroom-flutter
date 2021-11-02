@@ -1,23 +1,32 @@
+import 'package:cloudmate/src/themes/app_colors.dart';
+import 'package:cloudmate/src/utils/blurhash.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 class StackAvatar extends StatefulWidget {
-  final List<String>? images;
+  final List<String> images;
+  final List<String> blueHash;
   final double size;
-  StackAvatar({this.images, this.size = 25});
+  StackAvatar({required this.images, required this.blueHash, this.size = 25});
   @override
   State<StatefulWidget> createState() => _StackAvatarState();
 }
 
 class _StackAvatarState extends State<StackAvatar> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       child: Stack(
+        alignment: Alignment.centerLeft,
         children: [
           _buildAvatar(context, 0),
-          _buildAvatar(context, 1),
-          _buildAvatar(context, 2),
+          widget.images.length >= 2 ? _buildAvatar(context, 1) : Container(),
+          widget.images.length >= 3 ? _buildAvatar(context, 2) : Container(),
         ],
       ),
     );
@@ -27,16 +36,21 @@ class _StackAvatarState extends State<StackAvatar> {
     return Container(
       height: widget.size,
       width: widget.size,
-      margin: EdgeInsets.only(left: (2 - index) * 12.sp),
+      margin: EdgeInsets.only(left: index * 12.sp),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         border: Border.all(
           color: Theme.of(context).scaffoldBackgroundColor,
-          width: 2.sp,
+          width: 1.15.sp,
         ),
-        image: DecorationImage(
-          image: NetworkImage(widget.images![index]),
-          fit: BoxFit.cover,
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(1000.sp),
+        child: BlurHash(
+          hash: widget.blueHash[index],
+          image: widget.images[index],
+          imageFit: BoxFit.cover,
+          color: colorPrimary,
         ),
       ),
     );

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cloudmate/src/configs/application.dart';
 import 'package:cloudmate/src/public/constants.dart';
 
 class UserModel {
@@ -11,6 +12,7 @@ class UserModel {
   final String? lastName;
   final int? status;
   final String? intro;
+  final int? role;
 
   UserModel({
     required this.id,
@@ -22,6 +24,7 @@ class UserModel {
     this.lastName,
     this.status,
     this.intro,
+    this.role,
   });
 
   UserModel copyWith({
@@ -62,12 +65,12 @@ class UserModel {
     };
   }
 
-  factory UserModel.fromMap(Map<String, dynamic> map) {
+  factory UserModel.fromMap(Map<String, dynamic> map, {int? role}) {
     return UserModel(
       id: map['_id'],
       image: map['image'] == ''
           ? Constants.urlImageDefault
-          : 'https://' + map['image'],
+          : (Application.imageUrl! + map['image']),
       blurHash: map['blurHash'] ?? '',
       phone: map['phone'] ?? '',
       displayName: map['displayName'] ?? '',
@@ -75,13 +78,13 @@ class UserModel {
       lastName: map['lastName'] ?? '',
       status: map['status'] ?? 0,
       intro: map['intro'],
+      role: role ?? 0,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory UserModel.fromJson(String source) =>
-      UserModel.fromMap(json.decode(source));
+  factory UserModel.fromJson(String source) => UserModel.fromMap(json.decode(source));
 
   @override
   String toString() {
