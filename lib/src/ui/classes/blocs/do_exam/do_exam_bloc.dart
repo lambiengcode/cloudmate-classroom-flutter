@@ -19,6 +19,7 @@ class DoExamBloc extends Bloc<DoExamEvent, DoExamState> {
   String? roomId;
   DateTime startTime = DateTime.now();
   DateTime endTime = DateTime.now();
+  int ping = 0;
 
   @override
   Stream<DoExamState> mapEventToState(DoExamEvent event) async* {
@@ -60,12 +61,11 @@ class DoExamBloc extends Bloc<DoExamEvent, DoExamState> {
 
     if (event is TakeQuestionEvent) {
       _setCurrentQuestion(question: event.question);
-      yield DoingQuestion(question: currentQuestion!);
+      yield DoingQuestion(question: currentQuestion!, ping: ping);
     }
 
     if (event is UpdateStatisticEvent) {
       _setLastStatistic(statistic: event.statistic);
-      yield DoingQuestion(question: currentQuestion!);
     }
 
     if (event is LeaveUserJoined) {
@@ -83,6 +83,9 @@ class DoExamBloc extends Bloc<DoExamEvent, DoExamState> {
 
     if (event is EndPingEvent) {
       _endPing();
+      if (state is! InLobby) {
+        yield DoingQuestion(question: currentQuestion, ping: ping);
+      }
     }
   }
 
@@ -158,9 +161,8 @@ class DoExamBloc extends Bloc<DoExamEvent, DoExamState> {
 
   void _endPing() {
     endTime = DateTime.now();
-    int ms = endTime.difference(startTime).inMicroseconds;
-    print('ping: $ms ms');
-    Future.delayed(Duration(seconds: 5), () {
+    ping = endTime.difference(startTime).inMicroseconds;
+    Future.delayed(Duration(seconds: 3), () {
       _startPing();
     });
   }

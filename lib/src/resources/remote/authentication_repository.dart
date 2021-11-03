@@ -8,7 +8,7 @@ import 'package:dio/dio.dart';
 class AuthenticationRepository {
   Future<bool> login(String username, String password) async {
     var body = {
-      'username': username,
+      'username': username.toLowerCase(),
       'password': password,
     };
     Response response = await BaseRepository().postRoute(
@@ -32,7 +32,7 @@ class AuthenticationRepository {
     var body = {
       'firstName': fistName,
       'lastName': lastName,
-      'username': username,
+      'username': username.toLowerCase(),
       'password': password,
     };
     Response response = await BaseRepository().postRoute(

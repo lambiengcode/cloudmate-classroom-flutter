@@ -18,6 +18,7 @@ class ApiGateway {
   static const RECOMMEND_CLASSES = 'api/classes/recommendClasses';
   static const JOIN_CLASS = 'api/classes/joinMember';
   static const LEAVE_CLASS = 'api/classes/leaveClass';
+  static const MEMBERS = 'api/classes/members';
 
   // Exam
   static const SET_OF_QUESTIONS = 'api/set-of-questions';

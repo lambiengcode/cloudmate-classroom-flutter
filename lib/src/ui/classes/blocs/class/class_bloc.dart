@@ -130,6 +130,15 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
       }
     }
 
+    if (event is GetMemberClass) {
+      await _getMembers(classId: event.classId);
+      yield GetClassesDone(
+        listClasses: classes,
+        listRecommend: recommendClasses,
+        isOver: isOverClasses,
+      );
+    }
+
     if (event is LeaveClass) {
       bool isLeaveSuccess = await _leaveClass(classId: event.classId);
       yield GetClassesDone(
@@ -267,6 +276,14 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
       skip += listResult.length;
     } else {
       isOverClasses = true;
+    }
+  }
+
+  Future<void> _getMembers({required String classId}) async {
+    List<UserModel> listResult = await ClassRepository().getListMembers(classId: classId);
+    if (listResult.isNotEmpty) {
+      int index = classes.indexWhere((item) => item.id == classId);
+      classes[index].members = listResult;
     }
   }
 

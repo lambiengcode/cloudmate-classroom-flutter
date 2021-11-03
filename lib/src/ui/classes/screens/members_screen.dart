@@ -1,17 +1,29 @@
+import 'package:cloudmate/src/blocs/app_bloc.dart';
+import 'package:cloudmate/src/models/class_model.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
+import 'package:cloudmate/src/ui/classes/blocs/class/class_bloc.dart';
 import 'package:cloudmate/src/ui/classes/widgets/user_request_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 class MembersScreen extends StatefulWidget {
+  final ClassModel classModel;
+  MembersScreen({required this.classModel});
   @override
   State<StatefulWidget> createState() => _MembersScreenState();
 }
 
 class _MembersScreenState extends State<MembersScreen> {
+  @override
+  void initState() {
+    super.initState();
+    AppBloc.classBloc.add(GetMemberClass(classId: widget.classModel.id));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,35 +49,38 @@ class _MembersScreenState extends State<MembersScreen> {
           ),
         ),
       ),
-      body: Container(
-        child: Column(
-          children: [
-            SizedBox(height: 2.5.sp),
-            Divider(
-              height: .25,
-              thickness: .25,
+      body: BlocBuilder<ClassBloc, ClassState>(
+        builder: (context, state) {
+          return Container(
+            child: Column(
+              children: [
+                SizedBox(height: 2.5.sp),
+                Divider(
+                  height: .25,
+                  thickness: .25,
+                ),
+                SizedBox(height: 6.sp),
+                Expanded(
+                  child: ListView.builder(
+                    padding: EdgeInsets.only(bottom: 16.sp),
+                    physics: BouncingScrollPhysics(),
+                    itemCount: 4,
+                    itemBuilder: (context, index) {
+                      return UserRequestCard(
+                        fullName: 'lambiengcode',
+                        urlToImage: 'https://avatars.githubusercontent.com/u/60530946?v=4',
+                        blurHash: '',
+                        isLast: index == 3,
+                        requestTime: DateTime.now(),
+                        requestMessage: 'Tham gia lớp học',
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
-            SizedBox(height: 6.sp),
-            Expanded(
-              child: ListView.builder(
-                padding: EdgeInsets.only(bottom: 16.sp),
-                physics: BouncingScrollPhysics(),
-                itemCount: 4,
-                itemBuilder: (context, index) {
-                  return UserRequestCard(
-                    fullName: 'lambiengcode',
-                    urlToImage:
-                        'https://avatars.githubusercontent.com/u/60530946?v=4',
-                    blurHash: '',
-                    isLast: index == 3,
-                    requestTime: DateTime.now(),
-                    requestMessage: 'Tham gia lớp học',
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

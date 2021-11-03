@@ -67,7 +67,9 @@ class AppNavigator {
       case AppRoutes.LIST_MEMBERS:
         return _buildRoute(
           settings,
-          MembersScreen(),
+          MembersScreen(
+            classModel: arguments!['classModel'],
+          ),
           _getSlideMode(arguments),
         );
       case AppRoutes.LIST_EXAM:

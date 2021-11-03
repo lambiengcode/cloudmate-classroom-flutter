@@ -1,8 +1,21 @@
+import 'package:cloudmate/src/themes/app_colors.dart';
+import 'package:flutter/material.dart';
+
 extension IntHelper on int {
   String formatTwoDigits() {
     Duration duration = Duration(seconds: this);
     String twoDigits(int n) => n.toString().padLeft(2, "0");
     String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
     return "${twoDigits(duration.inHours)}:$twoDigitMinutes";
+  }
+
+  Color getColorByPing() {
+    if (this < 200) {
+      return colorActive;
+    } else if (this < 400) {
+      return colorMedium;
+    } else {
+      return colorHigh;
+    }
   }
 }
