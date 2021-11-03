@@ -5,10 +5,10 @@
 exchange about lesson. Support submit homework and take the test online... :panda_face:
 
 <div>
-<img src="https://github.com/hongvinhmobile/flutter_mobile_cloudmate/blob/master/screenshots/home.png?raw=true" width="200px"/>
-<img src="https://github.com/hongvinhmobile/flutter_mobile_cloudmate/blob/master/screenshots/class.png?raw=true" width="200px"/>
-<img src="https://github.com/hongvinhmobile/flutter_mobile_cloudmate/blob/master/screenshots/details_class.png?raw=true" width="200px"/>
-<img src="https://github.com/hongvinhmobile/flutter_mobile_cloudmate/blob/master/screenshots/profile.png?raw=true" width="200px"/>
+<img src="https://github.com/hongvinhmobile/flutter_mobile_cloudmate/blob/master/screenshots/home.png?raw=true" width="195px"/>
+<img src="https://github.com/hongvinhmobile/flutter_mobile_cloudmate/blob/master/screenshots/class.png?raw=true" width="195px"/>
+<img src="https://github.com/hongvinhmobile/flutter_mobile_cloudmate/blob/master/screenshots/details_class.png?raw=true" width="195px"/>
+<img src="https://github.com/hongvinhmobile/flutter_mobile_cloudmate/blob/master/screenshots/profile.png?raw=true" width="195px"/>
 </div>
 
 ### How I can run it? 

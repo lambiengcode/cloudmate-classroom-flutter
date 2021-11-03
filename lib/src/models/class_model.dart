@@ -13,7 +13,7 @@ class ClassModel {
   final int status;
   final String blurHash;
   final String image;
-  final List<UserModel> members;
+  List<UserModel> members;
 
   ClassModel({
     required this.id,

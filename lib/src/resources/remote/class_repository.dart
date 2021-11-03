@@ -93,6 +93,22 @@ class ClassRepository {
     return [];
   }
 
+  Future<List<UserModel>> getListMembers({
+    required String classId,
+  }) async {
+    Response response = await BaseRepository().getRoute(
+      ApiGateway.MEMBERS,
+      query: 'idClass=$classId',
+    );
+    print(response.data);
+    if ([200, 201].contains(response.statusCode)) {
+      List<dynamic> listResult = response.data['data'];
+      return listResult.map((item) => UserModel.fromMap(item)).toList();
+    }
+
+    return [];
+  }
+
   Future<List<ClassModel>> getListRecommendClasses({
     required int skip,
     int limit = 15,

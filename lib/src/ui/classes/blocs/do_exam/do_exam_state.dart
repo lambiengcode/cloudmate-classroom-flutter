@@ -13,8 +13,9 @@ class InLobby extends DoExamState {
 class DoExamLoading extends DoExamState {}
 
 class DoingQuestion extends DoExamState {
-  final QuestionModel question;
-  DoingQuestion({required this.question});
+  final QuestionModel? question;
+  final int ping;
+  DoingQuestion({this.question, required this.ping});
 }
 
 class ShowStatistic extends DoExamState {

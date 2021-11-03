@@ -37,6 +37,11 @@ class EditClass extends ClassEvent {
   });
 }
 
+class GetMemberClass extends ClassEvent {
+  final String classId;
+  GetMemberClass({required this.classId});
+}
+
 class JoinClass extends ClassEvent {
   final BuildContext context;
   final String classId;

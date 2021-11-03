@@ -96,14 +96,9 @@ class _DrawerOptionState extends State<DrawerOption> {
                     PhosphorIcons.usersFour,
                     null,
                     AppRoutes.LIST_MEMBERS,
-                  ),
-                  _buildDividerTransparant(context),
-                  _buildLine(
-                    context,
-                    'Thông báo',
-                    PhosphorIcons.bellSimple,
-                    null,
-                    null,
+                    arguments: {
+                      'classModel': widget.classModel,
+                    },
                   ),
                   _buildDividerTransparant(context),
                   _buildLine(

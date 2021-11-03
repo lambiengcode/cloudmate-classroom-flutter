@@ -20,43 +20,49 @@ class LobbyScreen extends StatefulWidget {
 class _LobbyScreenState extends State<LobbyScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        systemOverlayStyle: ThemeService.systemBrightness,
-        centerTitle: true,
-        elevation: .0,
-        leading: IconButton(
-          onPressed: () => AppNavigator.pop(),
-          icon: Icon(
-            PhosphorIcons.caretLeft,
-            size: 20.sp,
-          ),
-        ),
-        title: Text(
-          'ID: ${widget.roomId}',
-          style: TextStyle(
-            fontSize: 15.sp,
-            fontFamily: FontFamily.lato,
-            fontWeight: FontWeight.bold,
-            color: Theme.of(context).textTheme.bodyText1!.color,
-          ),
-        ),
-        actions: [
-          IconButton(
-            onPressed: () => AppBloc.doExamBloc.add(StartQuizEvent()),
-            icon: Icon(
-              PhosphorIcons.circleWavyWarningFill,
-              size: 20.sp,
-              color: Theme.of(context).primaryColor,
+    return BlocBuilder<DoExamBloc, DoExamState>(
+      builder: (context, state) {
+        if (state is InLobby) {
+          return Scaffold(
+            resizeToAvoidBottomInset: false,
+            appBar: AppBar(
+              systemOverlayStyle: ThemeService.systemBrightness,
+              centerTitle: true,
+              elevation: .0,
+              leading: IconButton(
+                onPressed: () => AppNavigator.pop(),
+                icon: Icon(
+                  PhosphorIcons.caretLeft,
+                  size: 20.sp,
+                ),
+              ),
+              title: Text(
+                'ID: ${widget.roomId}',
+                style: TextStyle(
+                  fontSize: 15.sp,
+                  fontFamily: FontFamily.lato,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).textTheme.bodyText1!.color,
+                ),
+              ),
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    if (state.users.isEmpty) {
+                      print('Users: 0');
+                    } else {
+                      AppBloc.doExamBloc.add(StartQuizEvent());
+                    }
+                  },
+                  icon: Icon(
+                    PhosphorIcons.circleWavyWarningFill,
+                    size: 20.sp,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
-      body: BlocBuilder<DoExamBloc, DoExamState>(
-        builder: (context, state) {
-          if (state is InLobby) {
-            return Container(
+            body: Container(
               height: 100.h,
               width: 100.w,
               child: SafeArea(
@@ -74,12 +80,12 @@ class _LobbyScreenState extends State<LobbyScreen> {
                   ],
                 ),
               ),
-            );
-          }
+            ),
+          );
+        }
 
-          return LoadingScreen();
-        },
-      ),
+        return LoadingScreen();
+      },
     );
   }
 
