@@ -112,13 +112,18 @@ class AppNavigator {
       case AppRoutes.ROAD_MAP:
         return _buildRoute(
           settings,
-          RoadMapScreen(),
+          RoadMapScreen(
+            classModel: arguments!['classModel'],
+          ),
           _getSlideMode(arguments),
         );
       case AppRoutes.CREATE_ROAD_MAP:
         return _buildRoute(
           settings,
-          CreateRoadmapScreen(),
+          CreateRoadmapScreen(
+            classModel: arguments!['classModel'],
+            roadMapBloc: arguments['roadMapBloc'],
+          ),
           _getSlideMode(arguments),
         );
       case AppRoutes.CREATE_DEADLINE:

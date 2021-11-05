@@ -17,6 +17,7 @@ class RoadMapRepository {
     Response response = await BaseRepository().postRoute(
       ApiGateway.ROAD_MAP,
       body,
+      query: 'idClass=$classId',
     );
 
     if ([200, 201].contains(response.statusCode)) {

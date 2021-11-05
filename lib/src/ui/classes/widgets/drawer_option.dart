@@ -88,6 +88,9 @@ class _DrawerOptionState extends State<DrawerOption> {
                     PhosphorIcons.graduationCap,
                     null,
                     AppRoutes.ROAD_MAP,
+                    arguments: {
+                      'classModel': widget.classModel,
+                    },
                   ),
                   _buildDividerTransparant(context),
                   _buildLine(

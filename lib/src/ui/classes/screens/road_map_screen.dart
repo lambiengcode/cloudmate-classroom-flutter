@@ -1,80 +1,94 @@
 import 'dart:math';
 
+import 'package:cloudmate/src/blocs/app_bloc.dart';
+import 'package:cloudmate/src/models/class_model.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/routes/app_routes.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
+import 'package:cloudmate/src/ui/classes/blocs/road_map/road_map_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 import 'package:sizer/sizer.dart';
 
 class RoadMapScreen extends StatefulWidget {
+  final ClassModel classModel;
+  const RoadMapScreen({required this.classModel});
   @override
   _RoadMapScreenState createState() => _RoadMapScreenState();
 }
 
 class _RoadMapScreenState extends State<RoadMapScreen> {
   List<Step>? _steps;
+  late RoadMapBloc _roadMapBloc;
 
   @override
   void initState() {
     _steps = _generateData();
     super.initState();
+    _roadMapBloc = RoadMapBloc();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        systemOverlayStyle: ThemeService.systemBrightness,
-        centerTitle: true,
-        elevation: .0,
-        leading: IconButton(
-          onPressed: () => AppNavigator.pop(),
-          icon: Icon(
-            PhosphorIcons.caretLeft,
-            size: 20.sp,
-          ),
-        ),
-        title: Text(
-          'Flutter Beginner',
-          style: TextStyle(
-            fontSize: 15.sp,
-            fontFamily: FontFamily.lato,
-            fontWeight: FontWeight.bold,
-            color: Theme.of(context).textTheme.bodyText1!.color,
-          ),
-        ),
-        actions: [
-          IconButton(
-            onPressed: () => AppNavigator.push(AppRoutes.CREATE_ROAD_MAP),
+    return BlocProvider(
+      create: (context) => _roadMapBloc,
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          systemOverlayStyle: ThemeService.systemBrightness,
+          centerTitle: true,
+          elevation: .0,
+          leading: IconButton(
+            onPressed: () => AppNavigator.pop(),
             icon: Icon(
-              PhosphorIcons.circlesThreePlus,
-              size: 22.sp,
-              color: colorPrimary,
+              PhosphorIcons.caretLeft,
+              size: 20.sp,
             ),
           ),
-        ],
-      ),
-      body: Container(
-        padding: EdgeInsets.only(bottom: 12.sp),
-        child: Column(
-          children: <Widget>[
-            SizedBox(height: 2.5.sp),
-            Divider(
-              height: .25,
-              thickness: .25,
+          title: Text(
+            widget.classModel.name,
+            style: TextStyle(
+              fontSize: 15.sp,
+              fontFamily: FontFamily.lato,
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).textTheme.bodyText1!.color,
             ),
-            Expanded(
-              child: CustomScrollView(
-                physics: BouncingScrollPhysics(),
-                slivers: <Widget>[_TimelineSteps(steps: _steps!)],
+          ),
+          actions: [
+            widget.classModel.createdBy.id == AppBloc.authBloc.userModel!.id ? IconButton(
+              onPressed: () => AppNavigator.push(AppRoutes.CREATE_ROAD_MAP, arguments: {
+                'classModel': widget.classModel,
+                'roadMapBloc': _roadMapBloc,
+              }),
+              icon: Icon(
+                PhosphorIcons.circlesThreePlus,
+                size: 22.sp,
+                color: colorPrimary,
               ),
-            ),
+            ) : SizedBox(),
           ],
+        ),
+        body: Container(
+          padding: EdgeInsets.only(bottom: 12.sp),
+          child: Column(
+            children: <Widget>[
+              SizedBox(height: 2.5.sp),
+              Divider(
+                height: .25,
+                thickness: .25,
+              ),
+              Expanded(
+                child: CustomScrollView(
+                  physics: BouncingScrollPhysics(),
+                  slivers: <Widget>[_TimelineSteps(steps: _steps!)],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -266,8 +280,7 @@ class _TimelineStepsChild extends StatelessWidget {
               right: 6.sp,
             ),
       child: Column(
-        crossAxisAlignment:
-            isLeftAlign ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+        crossAxisAlignment: isLeftAlign ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Text(
@@ -285,8 +298,7 @@ class _TimelineStepsChild extends StatelessWidget {
             textAlign: isLeftAlign ? TextAlign.right : TextAlign.left,
             style: TextStyle(
               fontSize: 12.sp,
-              color:
-                  Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
+              color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
             ),
           ),
         ],
