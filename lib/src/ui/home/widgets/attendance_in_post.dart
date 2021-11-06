@@ -22,8 +22,7 @@ class _ExamInPostCard extends State<AttendanceInPost> {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 8.sp, vertical: 4.sp),
       padding: EdgeInsets.all(12.5.sp),
-      decoration:
-          AppDecoration.buttonActionBorderActive(context, 10.sp).decoration,
+      decoration: AppDecoration.buttonActionBorderActive(context, 10.sp).decoration,
       child: Row(
         children: [
           Expanded(
@@ -31,17 +30,13 @@ class _ExamInPostCard extends State<AttendanceInPost> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Điểm danh: ' +
-                      DateFormat('dd/MM/yyyy')
-                          .format(widget.attendance.startTime),
+                  'Điểm danh: ' + DateFormat('dd/MM/yyyy').format(widget.attendance.startTime),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 12.5.sp,
                     fontWeight: FontWeight.w600,
-                    color: themeService.isSavedDarkMode()
-                        ? colorAttendance
-                        : colorActive,
+                    color: colorAttendance,
                     fontFamily: FontFamily.lato,
                   ),
                 ),
@@ -90,9 +85,7 @@ class _ExamInPostCard extends State<AttendanceInPost> {
             height: 32.sp,
             width: 32.sp,
             decoration: BoxDecoration(
-              color: themeService.isSavedDarkMode()
-                  ? colorAttendance
-                  : colorActive,
+              color: colorAttendance,
               borderRadius: BorderRadius.circular(8.sp),
             ),
             alignment: Alignment.center,

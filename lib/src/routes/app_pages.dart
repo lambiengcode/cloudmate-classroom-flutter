@@ -2,6 +2,7 @@ import 'package:cloudmate/src/ui/classes/screens/create_class_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/create_deadline_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/create_exam_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/create_question_screen.dart';
+import 'package:cloudmate/src/ui/classes/screens/create_road_map_content_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/create_roadmap_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/do_exam_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/list_exam_screen.dart';
@@ -165,6 +166,17 @@ class AppNavigator {
           RoadMapContentScreen(
             roadMapModel: arguments!['roadMapModel'],
             roadMapBloc: arguments['roadMapBloc'],
+            classId: arguments['classId'],
+          ),
+          _getSlideMode(arguments),
+        );
+      case AppRoutes.CREATE_ROAD_MAP_CONTENT:
+        return _buildRoute(
+          settings,
+          CreateRoadmapContentScreen(
+            roadMapContentBloc: arguments!['roadMapContentBloc'],
+            classId: arguments['classId'],
+            roadMapId: arguments['roadMapId'],
           ),
           _getSlideMode(arguments),
         );
