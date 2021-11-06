@@ -1,7 +1,9 @@
+import 'package:cloudmate/src/models/class_model.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
+import 'package:cloudmate/src/ui/classes/blocs/road_map/road_map_bloc.dart';
 import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,7 +11,9 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 class CreateRoadmapScreen extends StatefulWidget {
-  const CreateRoadmapScreen();
+  final RoadMapBloc roadMapBloc;
+  final ClassModel classModel;
+  const CreateRoadmapScreen({required this.roadMapBloc, required this.classModel});
   @override
   _CreateRoadmapScreenState createState() => _CreateRoadmapScreenState();
 }
@@ -104,8 +108,14 @@ class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
                         onTap: () async {
                           if (_formKey.currentState!.validate()) {
                             showDialogLoading(context);
-                            print(_name);
-                            print(_description);
+                            widget.roadMapBloc.add(
+                              CreateRoadMapEvent(
+                                classId: widget.classModel.id,
+                                name: _name,
+                                description: _description,
+                                context: context,
+                              ),
+                            );
                           }
                         },
                         child: Container(
@@ -144,6 +154,7 @@ class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
     return Container(
       padding: EdgeInsets.fromLTRB(14.0, 18.0, 18.0, 4.0),
       child: TextFormField(
+        maxLines: null,
         controller: controller,
         cursorColor: Theme.of(context).textTheme.bodyText1!.color,
         cursorRadius: Radius.circular(30.0),
@@ -157,7 +168,7 @@ class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
         },
         onChanged: (val) {
           setState(() {
-            if (title == 'Tên bộ đề') {
+            if (title == 'Tên lộ trình') {
               _name = val.trim();
             } else {
               _description = val.trim();

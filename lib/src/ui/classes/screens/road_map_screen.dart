@@ -1,155 +1,141 @@
 import 'dart:math';
 
+import 'package:cloudmate/src/blocs/app_bloc.dart';
+import 'package:cloudmate/src/models/class_model.dart';
+import 'package:cloudmate/src/models/road_map_model.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/routes/app_routes.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
+import 'package:cloudmate/src/ui/classes/blocs/road_map/road_map_bloc.dart';
+import 'package:cloudmate/src/ui/common/screens/loading_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 import 'package:sizer/sizer.dart';
 
 class RoadMapScreen extends StatefulWidget {
+  final ClassModel classModel;
+  const RoadMapScreen({required this.classModel});
   @override
   _RoadMapScreenState createState() => _RoadMapScreenState();
 }
 
 class _RoadMapScreenState extends State<RoadMapScreen> {
-  List<Step>? _steps;
+  late RoadMapBloc _roadMapBloc;
 
   @override
   void initState() {
-    _steps = _generateData();
     super.initState();
+    _roadMapBloc = RoadMapBloc();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        systemOverlayStyle: ThemeService.systemBrightness,
-        centerTitle: true,
-        elevation: .0,
-        leading: IconButton(
-          onPressed: () => AppNavigator.pop(),
-          icon: Icon(
-            PhosphorIcons.caretLeft,
-            size: 20.sp,
-          ),
+    return BlocProvider(
+      create: (context) => _roadMapBloc
+        ..add(
+          GetRoadMapEvent(classId: widget.classModel.id),
         ),
-        title: Text(
-          'Flutter Beginner',
-          style: TextStyle(
-            fontSize: 15.sp,
-            fontFamily: FontFamily.lato,
-            fontWeight: FontWeight.bold,
-            color: Theme.of(context).textTheme.bodyText1!.color,
-          ),
-        ),
-        actions: [
-          IconButton(
-            onPressed: () => AppNavigator.push(AppRoutes.CREATE_ROAD_MAP),
-            icon: Icon(
-              PhosphorIcons.circlesThreePlus,
-              size: 22.sp,
-              color: colorPrimary,
+      child: BlocBuilder<RoadMapBloc, RoadMapState>(
+        builder: (context, state) {
+          if (state is RoadMapInitial) {
+            return LoadingScreen();
+          }
+
+          List<Step> _steps = (state.props[0] as List<RoadMapModel>).asMap().entries.map((e) {
+            return Step(
+              title: e.value.name,
+              message: e.value.description,
+              step: e.key + 1,
+            );
+          }).toList();
+
+          return Scaffold(
+            resizeToAvoidBottomInset: false,
+            appBar: AppBar(
+              systemOverlayStyle: ThemeService.systemBrightness,
+              centerTitle: true,
+              elevation: .0,
+              leading: IconButton(
+                onPressed: () => AppNavigator.pop(),
+                icon: Icon(
+                  PhosphorIcons.caretLeft,
+                  size: 20.sp,
+                ),
+              ),
+              title: Text(
+                widget.classModel.name,
+                style: TextStyle(
+                  fontSize: 15.sp,
+                  fontFamily: FontFamily.lato,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).textTheme.bodyText1!.color,
+                ),
+              ),
+              actions: [
+                widget.classModel.createdBy.id == AppBloc.authBloc.userModel!.id
+                    ? IconButton(
+                        onPressed: () => AppNavigator.push(AppRoutes.CREATE_ROAD_MAP, arguments: {
+                          'classModel': widget.classModel,
+                          'roadMapBloc': _roadMapBloc,
+                        }),
+                        icon: Icon(
+                          PhosphorIcons.circlesThreePlus,
+                          size: 22.sp,
+                          color: colorPrimary,
+                        ),
+                      )
+                    : SizedBox(),
+              ],
             ),
-          ),
-        ],
-      ),
-      body: Container(
-        padding: EdgeInsets.only(bottom: 12.sp),
-        child: Column(
-          children: <Widget>[
-            SizedBox(height: 2.5.sp),
-            Divider(
-              height: .25,
-              thickness: .25,
-            ),
-            Expanded(
-              child: CustomScrollView(
-                physics: BouncingScrollPhysics(),
-                slivers: <Widget>[_TimelineSteps(steps: _steps!)],
+            body: Container(
+              padding: EdgeInsets.only(bottom: 12.sp),
+              child: Column(
+                children: <Widget>[
+                  SizedBox(height: 2.5.sp),
+                  Divider(
+                    height: .25,
+                    thickness: .25,
+                  ),
+                  SizedBox(height: 4.0.sp),
+                  Expanded(
+                    child: CustomScrollView(
+                      physics: BouncingScrollPhysics(),
+                      slivers: <Widget>[
+                        _TimelineSteps(
+                          steps: _steps,
+                          roadMaps: state.props[0] as List<RoadMapModel>,
+                          roadMapBloc: _roadMapBloc,
+                          classId: widget.classModel.id,
+                        )
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
-  }
-
-  List<Step> _generateData() {
-    return <Step>[
-      const Step(
-        step: 1,
-        title: 'Decide What You Want',
-        message:
-            'Step number one, decide exactly what it is you want in each part of your life. Become a "meaningful specific" rather than a "wandering generality."',
-      ),
-      const Step(
-        step: 2,
-        title: 'Write it Down',
-        message:
-            'Second, write it down, clearly and in detail. Always think on paper. A goal that is not in writing is not a goal at all. It is merely a wish and it has no energy behind it.',
-      ),
-      const Step(
-        step: 3,
-        title: 'Set a Deadline',
-        message:
-            'Third, set a deadline for your goal. A deadline acts as a "forcing system” in your subconscious mind. It motivates you to do the things necessary to make your goal come true. If it is a big enough goal, set sub-deadlines as well. Don’t leave this to chance.',
-      ),
-      const Step(
-        step: 4,
-        title: 'Make a List',
-        message:
-            'Fourth, make a list of everything that you can think of that you are going to have to do to achieve your goal. When you think of new tasks and activities, write them on your list until your list is complete.',
-      ),
-      const Step(
-        step: 5,
-        title: 'Organize Your List',
-        message:
-            'Fifth, organize your list into a plan. Decide what you will have to do first and what you will have to do second. Decide what is more important and what is less important. And then write out your plan on paper, the same way you would develop a blueprint to build your dream house.',
-      ),
-      const Step(
-        step: 6,
-        title: 'Take Action',
-        message:
-            'The sixth step is for you to take action on your plan. Do something. Do anything. But get busy. Get going.',
-      ),
-      const Step(
-        step: 7,
-        title: 'Do Something Every Day',
-        message:
-            'Do something every single day that moves you in the direction of your most important goal at the moment. Develop the discipline of doing something 365 days each year that is moving you forward. You will be absolutely astonished at how much you accomplish when you utilize this formula in your life every single day.',
-      ),
-      const Step(
-        step: 7,
-        title: 'Do Something Every Day',
-        message:
-            'Do something every single day that moves you in the direction of your most important goal at the moment. Develop the discipline of doing something 365 days each year that is moving you forward. You will be absolutely astonished at how much you accomplish when you utilize this formula in your life every single day.',
-      ),
-      const Step(
-        step: 7,
-        title: 'Do Something Every Day',
-        message:
-            'Do something every single day that moves you in the direction of your most important goal at the moment. Develop the discipline of doing something 365 days each year that is moving you forward. You will be absolutely astonished at how much you accomplish when you utilize this formula in your life every single day.',
-      ),
-      const Step(
-        step: 7,
-        title: 'Do Something Every Day',
-        message:
-            'Do something every single day that moves you in the direction of your most important goal at the moment. Develop the discipline of doing something 365 days each year that is moving you forward. You will be absolutely astonished at how much you accomplish when you utilize this formula in your life every single day.',
-      ),
-    ];
   }
 }
 
 class _TimelineSteps extends StatelessWidget {
-  const _TimelineSteps({required this.steps});
+  const _TimelineSteps({
+    required this.steps,
+    required this.roadMaps,
+    required this.roadMapBloc,
+    required this.classId,
+  });
 
   final List<Step> steps;
+  final List<RoadMapModel> roadMaps;
+  final RoadMapBloc roadMapBloc;
+  final String classId;
 
   @override
   Widget build(BuildContext context) {
@@ -186,22 +172,34 @@ class _TimelineSteps extends StatelessWidget {
             indicatorY = 0.5;
           }
 
-          return TimelineTile(
-            alignment: TimelineAlign.manual,
-            endChild: isLeftAlign ? child : null,
-            startChild: isLeftAlign ? null : child,
-            lineXY: isLeftAlign ? 0.1 : 0.9,
-            isFirst: isFirst,
-            isLast: isLast,
-            indicatorStyle: IndicatorStyle(
-              width: 40,
-              height: 40,
-              indicatorXY: indicatorY,
-              indicator: _TimelineStepIndicator(step: '${step.step}'),
-            ),
-            beforeLineStyle: LineStyle(
-              color: colorPrimary,
-              thickness: 5,
+          return GestureDetector(
+            onTap: () {
+              AppNavigator.push(AppRoutes.ROAD_MAP_CONTENT, arguments: {
+                'roadMapModel': roadMaps[itemIndex],
+                'roadMapBloc': roadMapBloc,
+                'classId': classId,
+              });
+            },
+            child: Container(
+              color: Colors.transparent,
+              child: TimelineTile(
+                alignment: TimelineAlign.manual,
+                endChild: isLeftAlign ? child : null,
+                startChild: isLeftAlign ? null : child,
+                lineXY: isLeftAlign ? 0.1 : 0.9,
+                isFirst: isFirst,
+                isLast: isLast,
+                indicatorStyle: IndicatorStyle(
+                  width: 40,
+                  height: 40,
+                  indicatorXY: indicatorY,
+                  indicator: _TimelineStepIndicator(step: '${step.step}'),
+                ),
+                beforeLineStyle: LineStyle(
+                  color: colorPrimary,
+                  thickness: 5,
+                ),
+              ),
             ),
           );
         },
@@ -254,28 +252,26 @@ class _TimelineStepsChild extends StatelessWidget {
     return Padding(
       padding: isLeftAlign
           ? EdgeInsets.only(
-              right: 26.sp,
+              right: 30.sp,
               top: 12.sp,
               bottom: 12.sp,
               left: 6.sp,
             )
           : EdgeInsets.only(
-              left: 26.sp,
+              left: 30.sp,
               top: 12.sp,
               bottom: 12.sp,
               right: 6.sp,
             ),
       child: Column(
-        crossAxisAlignment:
-            isLeftAlign ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+        crossAxisAlignment: isLeftAlign ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Text(
             title,
             textAlign: isLeftAlign ? TextAlign.right : TextAlign.left,
             style: TextStyle(
-              fontSize: 14.sp,
-              fontFamily: FontFamily.lato,
+              fontSize: 12.75.sp,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -284,9 +280,8 @@ class _TimelineStepsChild extends StatelessWidget {
             subtitle,
             textAlign: isLeftAlign ? TextAlign.right : TextAlign.left,
             style: TextStyle(
-              fontSize: 12.sp,
-              color:
-                  Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
+              fontSize: 11.25.sp,
+              color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
             ),
           ),
         ],
@@ -300,9 +295,20 @@ class Step {
     this.step,
     this.title,
     this.message,
+    this.id,
   });
 
+  final String? id;
   final int? step;
   final String? title;
   final String? message;
+
+  factory Step.fromRoadMap(RoadMapModel roadMapModel, int step) {
+    return Step(
+      step: step,
+      title: roadMapModel.name,
+      message: roadMapModel.description,
+      id: roadMapModel.id,
+    );
+  }
 }

@@ -71,14 +71,22 @@ class _RecommendClassCardState extends State<RecommendClassCard> {
                         SizedBox(height: 4.sp),
                         Row(
                           children: [
-                            StackAvatar(
-                              size: 18.25.sp,
-                              images: chats.sublist(3, 6).map((e) => e.image!).toList(),
-                              blueHash: chats.sublist(3, 6).map((e) => e.blurHash!).toList(),
-                            ),
+                            widget.classModel.members.isEmpty
+                                ? Container()
+                                : StackAvatar(
+                                    size: 18.25.sp,
+                                    images: widget.classModel.members
+                                        .map((item) => item.image!)
+                                        .toList(),
+                                    blueHash: widget.classModel.members
+                                        .map((item) => item.blurHash!)
+                                        .toList(),
+                                  ),
                             SizedBox(width: 6.sp),
                             Text(
-                              '35 học viên',
+                              widget.classModel.members.isEmpty
+                                  ? 'Chưa có học viên'
+                                  : '${widget.classModel.members.length} học viên',
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(

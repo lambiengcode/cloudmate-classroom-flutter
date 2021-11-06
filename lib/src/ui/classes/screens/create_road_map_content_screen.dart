@@ -1,43 +1,40 @@
-import 'package:cloudmate/src/models/exam_model.dart';
+import 'package:cloudmate/src/models/road_map_content_type.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
-import 'package:cloudmate/src/ui/classes/blocs/exam/exam_bloc.dart';
+import 'package:cloudmate/src/ui/classes/blocs/road_map_content/road_map_content_bloc.dart';
 import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
-class CreateExamScreen extends StatefulWidget {
-  final ExamModel? examModel;
+class CreateRoadmapContentScreen extends StatefulWidget {
+  final RoadMapContentBloc roadMapContentBloc;
   final String classId;
-  final ExamBloc examBloc;
-  CreateExamScreen(
-      {required this.classId, required this.examBloc, this.examModel});
+  final String roadMapId;
+  const CreateRoadmapContentScreen({
+    required this.roadMapContentBloc,
+    required this.classId,
+    required this.roadMapId,
+  });
   @override
-  _CreateExamScreenState createState() => _CreateExamScreenState();
+  _CreateRoadmapContentScreenState createState() => _CreateRoadmapContentScreenState();
 }
 
-class _CreateExamScreenState extends State<CreateExamScreen> {
+class _CreateRoadmapContentScreenState extends State<CreateRoadmapContentScreen> {
   final _formKey = GlobalKey<FormState>();
-
   TextEditingController _nameController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
   FocusNode textFieldFocus = FocusNode();
   String _name = '';
   String _description = '';
+  RoadMapContentType _roadMapContentType = RoadMapContentType.assignment;
 
   @override
   void initState() {
     super.initState();
-    if (widget.examModel != null) {
-      _nameController.text = widget.examModel!.name;
-      _descriptionController.text = widget.examModel!.description;
-      _name = widget.examModel!.name;
-      _description = widget.examModel!.description;
-    }
   }
 
   @override
@@ -56,7 +53,7 @@ class _CreateExamScreenState extends State<CreateExamScreen> {
           ),
         ),
         title: Text(
-          widget.examModel == null ? 'Tạo bài kiểm tra' : 'Chỉnh sửa bài',
+          'Tạo ${_roadMapContentType.value.toLowerCase()}',
           style: TextStyle(
             fontSize: 15.sp,
             fontFamily: FontFamily.lato,
@@ -86,6 +83,52 @@ class _CreateExamScreenState extends State<CreateExamScreen> {
                     height: .25,
                     thickness: .25,
                   ),
+                  Container(
+                    padding: EdgeInsets.only(left: 20.sp, right: 6.0),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                      border: Border(
+                        bottom: BorderSide(
+                          color: Theme.of(context).dividerColor,
+                          width: .25,
+                        ),
+                      ),
+                    ),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButtonFormField(
+                        icon: Icon(
+                          _roadMapContentType.icon,
+                          size: 18.sp,
+                          color: colorTitle,
+                        ),
+                        iconEnabledColor: Colors.grey.shade800,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                        ),
+                        value: _roadMapContentType,
+                        items: _roadMapContentType.getListRoadMap.map((state) {
+                          return DropdownMenuItem(
+                            value: state,
+                            child: Text(
+                              state.value,
+                              style: TextStyle(
+                                fontSize: 12.sp,
+                                color: colorTitle,
+                                fontWeight: FontWeight.w500,
+                                fontFamily: FontFamily.lato,
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (RoadMapContentType? val) {
+                          setState(() {
+                            _roadMapContentType = val!;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 6.0),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -95,15 +138,29 @@ class _CreateExamScreenState extends State<CreateExamScreen> {
                             SizedBox(height: 12.0),
                             _buildLineInfo(
                               context,
-                              'Tên bộ đề',
-                              'Hãy nhập tên bài kiểm tra',
+                              'Tiêu đề cho ${_roadMapContentType.value}',
+                              'Hãy nhập tiêu đề cho ${_roadMapContentType.value}',
                               _nameController,
                             ),
                             _buildDivider(context),
                             _buildLineInfo(
                               context,
                               'Mô tả',
-                              'Hãy nhập mô tả cho bài kiểm tra này',
+                              'Hãy nhập mô tả ${_roadMapContentType.value}',
+                              _descriptionController,
+                            ),
+                            _buildDivider(context),
+                            _buildLineInfo(
+                              context,
+                              'Thời gian bắt đầu',
+                              'Đặt thời gian bắt đầu cho ${_roadMapContentType.value}',
+                              _descriptionController,
+                            ),
+                            _buildDivider(context),
+                            _buildLineInfo(
+                              context,
+                              'Thời gian kết thúc',
+                              'Đặt thời gian kết thúc cho ${_roadMapContentType.value}',
                               _descriptionController,
                             ),
                             _buildDivider(context),
@@ -116,25 +173,6 @@ class _CreateExamScreenState extends State<CreateExamScreen> {
                         onTap: () async {
                           if (_formKey.currentState!.validate()) {
                             showDialogLoading(context);
-                            if (widget.examModel == null) {
-                              widget.examBloc.add(
-                                CreateExamEvent(
-                                  context: context,
-                                  classId: widget.classId,
-                                  name: _name,
-                                  description: _description,
-                                ),
-                              );
-                            } else {
-                              widget.examBloc.add(
-                                EditExamEvent(
-                                  context: context,
-                                  examId: widget.examModel!.id,
-                                  name: _name,
-                                  description: _description,
-                                ),
-                              );
-                            }
                           }
                         },
                         child: Container(
@@ -146,7 +184,7 @@ class _CreateExamScreenState extends State<CreateExamScreen> {
                           ),
                           child: Center(
                             child: Text(
-                              widget.examModel == null ? 'Tạo bài' : 'Lưu lại',
+                              'Lưu lại',
                               style: TextStyle(
                                 color: mC,
                                 fontSize: 11.5.sp,
@@ -187,7 +225,7 @@ class _CreateExamScreenState extends State<CreateExamScreen> {
         },
         onChanged: (val) {
           setState(() {
-            if (title == 'Tên bộ đề') {
+            if (title == 'Tên lộ trình') {
               _name = val.trim();
             } else {
               _description = val.trim();
@@ -208,8 +246,7 @@ class _CreateExamScreenState extends State<CreateExamScreen> {
           border: InputBorder.none,
           labelText: title,
           labelStyle: TextStyle(
-            color:
-                Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
+            color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
             fontSize: _size.width / 26.0,
             fontWeight: FontWeight.w600,
           ),

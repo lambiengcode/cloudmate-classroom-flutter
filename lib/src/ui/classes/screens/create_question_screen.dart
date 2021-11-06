@@ -31,7 +31,7 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
   TextEditingController _durationController = TextEditingController();
   TextEditingController _scoreController = TextEditingController();
   FocusNode textFieldFocus = FocusNode();
-  List<String> _answers = ['A đúng', 'B đúng', 'C đúng', 'Tất cả đều đúng'];
+  List<String> _answers = [];
   List<String> _corrects = [];
   String _question = '';
   String _duration = '';
@@ -63,6 +63,19 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
   _handleAddAnswer(String answer) {
     setState(() {
       _answers.add(answer);
+    });
+  }
+
+  _handleRemoveAnswer(String answer) {
+    setState(() {
+      int index = _answers.indexOf(answer);
+      if (index != -1) {
+        int indexOfCorrect = _corrects.indexOf(answer);
+        if (indexOfCorrect != -1) {
+          _corrects.removeAt(indexOfCorrect);
+        }
+        _answers.removeAt(index);
+      }
     });
   }
 
@@ -118,38 +131,45 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              showDialogLoading(context);
-              List<int> _formatListCorrect = [];
-              _corrects.forEach((item) {
-                int index = _answers.indexOf(item);
-                if (index != -1) {
-                  _formatListCorrect.add(index);
+              if (_corrects.length == 0) {
+                showDialog(context: context, builder: (context) => AlertDialog());
+                return;
+              }
+
+              if (_formKey.currentState!.validate()) {
+                showDialogLoading(context);
+                List<int> _formatListCorrect = [];
+                _corrects.forEach((item) {
+                  int index = _answers.indexOf(item);
+                  if (index != -1) {
+                    _formatListCorrect.add(index);
+                  }
+                });
+                if (widget.questionModel == null) {
+                  widget.questionBloc.add(
+                    CreateQuestionEvent(
+                      answers: _answers,
+                      context: context,
+                      corrects: _formatListCorrect,
+                      duration: int.parse(_duration),
+                      examId: widget.examId,
+                      question: _question,
+                      score: int.parse(_score),
+                    ),
+                  );
+                } else {
+                  widget.questionBloc.add(
+                    UpdateQuestionEvent(
+                      answers: _answers,
+                      context: context,
+                      corrects: _formatListCorrect,
+                      duration: int.parse(_duration),
+                      questionId: widget.questionModel!.id,
+                      question: _question,
+                      score: int.parse(_score),
+                    ),
+                  );
                 }
-              });
-              if (widget.questionModel == null) {
-                widget.questionBloc.add(
-                  CreateQuestionEvent(
-                    answers: _answers,
-                    context: context,
-                    corrects: _formatListCorrect,
-                    duration: int.parse(_duration),
-                    examId: widget.examId,
-                    question: _question,
-                    score: int.parse(_score),
-                  ),
-                );
-              } else {
-                widget.questionBloc.add(
-                  UpdateQuestionEvent(
-                    answers: _answers,
-                    context: context,
-                    corrects: _formatListCorrect,
-                    duration: int.parse(_duration),
-                    questionId: widget.questionModel!.id,
-                    question: _question,
-                    score: int.parse(_score),
-                  ),
-                );
               }
             },
             icon: Icon(
@@ -225,8 +245,7 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
                                     },
                                     child: Container(
                                       padding: EdgeInsets.symmetric(
-                                        vertical: 6.5.sp,
-                                        horizontal: 20.sp,
+                                        vertical: 6.sp,
                                       ),
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(
@@ -236,11 +255,29 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
                                             ? Theme.of(context).primaryColor
                                             : Colors.grey,
                                       ),
-                                      child: Text(
-                                        answer,
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                        ),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          SizedBox(width: 6.sp),
+                                          GestureDetector(
+                                            onTap: () {
+                                              _handleRemoveAnswer(answer);
+                                            },
+                                            child: Icon(
+                                              PhosphorIcons.xCircleFill,
+                                              size: 20.sp,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          SizedBox(width: 10.sp),
+                                          Text(
+                                            answer,
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          SizedBox(width: 18.sp),
+                                        ],
                                       ),
                                     ),
                                   );

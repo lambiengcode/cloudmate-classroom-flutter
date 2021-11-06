@@ -12,8 +12,7 @@ class BaseRepository {
     receiveTimeout: 10000,
   )); // with default Options
 
-  Future<diox.Response<dynamic>> downloadFile(
-      String url, String path, Function onReceive) async {
+  Future<diox.Response<dynamic>> downloadFile(String url, String path, Function onReceive) async {
     var response = await dio.download(
       url,
       path,
@@ -46,12 +45,21 @@ class BaseRepository {
   Future<diox.Response<dynamic>> postRoute(
     String gateway,
     Map<String, dynamic> body,
+    {String? query}
   ) async {
     printEndpoint('POST', gateway);
+
+    Map<String, String> paramsObject = {};
+    if (query != null) {
+      query.split('&').forEach((element) {
+        paramsObject[element.split('=')[0].toString()] = element.split('=')[1].toString();
+      });
+    }
     var response = await dio.post(
       gateway,
       data: convert.jsonEncode(body),
       options: getOptions(),
+      queryParameters: query == null ? null : paramsObject,
     );
     printResponse(response);
     return response;
@@ -79,8 +87,7 @@ class BaseRepository {
     Map<String, String> paramsObject = {};
     if (query != null) {
       query.split('&').forEach((element) {
-        paramsObject[element.split('=')[0].toString()] =
-            element.split('=')[1].toString();
+        paramsObject[element.split('=')[0].toString()] = element.split('=')[1].toString();
       });
     }
 
@@ -102,8 +109,7 @@ class BaseRepository {
     Map<String, String> paramsObject = {};
     if (query != null) {
       query.split('&').forEach((element) {
-        paramsObject[element.split('=')[0].toString()] =
-            element.split('=')[1].toString();
+        paramsObject[element.split('=')[0].toString()] = element.split('=')[1].toString();
       });
     }
 
@@ -126,8 +132,7 @@ class BaseRepository {
     Map<String, String> paramsObject = {};
     if (query != null) {
       query.split('&').forEach((element) {
-        paramsObject[element.split('=')[0].toString()] =
-            element.split('=')[1].toString();
+        paramsObject[element.split('=')[0].toString()] = element.split('=')[1].toString();
       });
     }
 

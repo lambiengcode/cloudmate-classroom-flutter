@@ -42,7 +42,6 @@ class _ClassesScreenState extends State<ClassesScreen> {
             centerTitle: true,
             leading: IconButton(
               onPressed: () {
-                AppNavigator.push(AppRoutes.STATISTIC_QUESTION);
               },
               icon: Icon(
                 PhosphorIcons.slidersHorizontal,
