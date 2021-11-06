@@ -28,10 +28,24 @@ class RoadMapRepository {
     return null;
   }
 
+  Future<List<RoadMapModel>> getRoadMaps({required String classId}) async {
+    Response response = await BaseRepository().getRoute(
+      ApiGateway.ROAD_MAP,
+      query: 'idClass=$classId',
+    );
+
+    if ([200, 201].contains(response.statusCode)) {
+      var jsonResult = response.data['data'];
+      return jsonResult.map<RoadMapModel>((json) => RoadMapModel.fromMap(json)).toList();
+    }
+
+    return [];
+  }
+
   Future<bool> deleteRoadMap({required String roadMapId}) async {
     Response response = await BaseRepository().deleteRoute(
       ApiGateway.ROAD_MAP,
-      query: 'id=$roadMapId&status=1',
+      query: 'id=$roadMapId&status=0',
     );
 
     return [200, 201].contains(response.statusCode);

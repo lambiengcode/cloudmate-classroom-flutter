@@ -9,6 +9,7 @@ import 'package:cloudmate/src/ui/classes/screens/list_questions_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/list_request_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/lobby_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/members_screen.dart';
+import 'package:cloudmate/src/ui/classes/screens/road_map_content_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/road_map_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/statistic_in_exam_screen.dart';
 import 'package:cloudmate/src/ui/notification/notification_screen.dart';
@@ -153,6 +154,17 @@ class AppNavigator {
           settings,
           DoExamScreen(
             questionModel: arguments!['questionModel'],
+          ),
+          _getSlideMode(arguments),
+        );
+
+      // Road Map Content
+      case AppRoutes.ROAD_MAP_CONTENT:
+        return _buildRoute(
+          settings,
+          RoadMapContentScreen(
+            roadMapModel: arguments!['roadMapModel'],
+            roadMapBloc: arguments['roadMapBloc'],
           ),
           _getSlideMode(arguments),
         );

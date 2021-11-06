@@ -18,11 +18,15 @@ class AppRoutes {
   static const LOBBY_EXAM = '/lobbyExam';
   static const STATISTIC_QUESTION = '/statisticQuestion';
 
-  // Roadmap
+  // Road Map
   static const ROAD_MAP = '/roadMap';
   static const CREATE_ROAD_MAP = '/createRoadMap';
   static const CREATE_DEADLINE = '/createDeadline';
   static const DO_EXAM = '/doExam';
+
+  // Road Map Content
+  static const ROAD_MAP_CONTENT = '/roadMapContent';
+  static const CREATE_ROAD_MAP_CONTENT = '/createRoadMapContent';
 
   // User
   static const EDIT_INFO_USER = '/editInfoUser';

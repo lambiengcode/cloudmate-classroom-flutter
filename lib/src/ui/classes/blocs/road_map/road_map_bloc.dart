@@ -15,6 +15,7 @@ class RoadMapBloc extends Bloc<RoadMapEvent, RoadMapState> {
   RoadMapBloc() : super(RoadMapInitial());
 
   List<RoadMapModel> roadMaps = [];
+  bool isRoadMapOver = false;
 
   @override
   Stream<RoadMapState> mapEventToState(RoadMapEvent event) async* {
@@ -28,8 +29,8 @@ class RoadMapBloc extends Bloc<RoadMapEvent, RoadMapState> {
       yield GetDoneRoadMap(roadMaps: roadMaps);
 
       if (isCreateSuccess) {
+        AppNavigator.popUntil(AppRoutes.ROAD_MAP);
         _showDialogResult(event.context);
-        AppNavigator.popUntil(AppRoutes.DETAILS_CLASS);
       } else {
         _showDialogResult(
           event.context,
@@ -37,6 +38,20 @@ class RoadMapBloc extends Bloc<RoadMapEvent, RoadMapState> {
           subTitle: 'Thêm lộ trình thất bại, thử lại sau!',
         );
       }
+    }
+
+    if (event is GetRoadMapEvent) {
+      if (roadMaps.length == 0) {
+        yield RoadMapInitial();
+      } else {
+        yield GettingRoadMap(roadMaps: roadMaps);
+      }
+
+      await _getRoadMaps(
+        classId: event.classId,
+      );
+
+      yield GetDoneRoadMap(roadMaps: roadMaps);
     }
   }
 
@@ -73,5 +88,17 @@ class RoadMapBloc extends Bloc<RoadMapEvent, RoadMapState> {
         subTitle: subTitle,
       ),
     );
+  }
+
+  Future<void> _getRoadMaps({required String classId}) async {
+    List<RoadMapModel> roadMaps = await RoadMapRepository().getRoadMaps(
+      classId: classId,
+    );
+
+    if (roadMaps.isEmpty) {
+      isRoadMapOver = true;
+    } else {
+      this.roadMaps.addAll(roadMaps);
+    }
   }
 }

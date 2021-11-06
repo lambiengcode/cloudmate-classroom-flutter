@@ -154,6 +154,7 @@ class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
     return Container(
       padding: EdgeInsets.fromLTRB(14.0, 18.0, 18.0, 4.0),
       child: TextFormField(
+        maxLines: null,
         controller: controller,
         cursorColor: Theme.of(context).textTheme.bodyText1!.color,
         cursorRadius: Radius.circular(30.0),
@@ -167,7 +168,7 @@ class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
         },
         onChanged: (val) {
           setState(() {
-            if (title == 'Tên bộ đề') {
+            if (title == 'Tên lộ trình') {
               _name = val.trim();
             } else {
               _description = val.trim();
