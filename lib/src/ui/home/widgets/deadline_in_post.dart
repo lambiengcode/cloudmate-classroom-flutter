@@ -1,3 +1,4 @@
+import 'package:cloudmate/src/models/road_map_content_model.dart';
 import 'package:cloudmate/src/ui/classes/screens/submit_deadline_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cloudmate/src/resources/hard/hard_schedule.dart';
@@ -9,8 +10,8 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 class DeadlineInPost extends StatefulWidget {
-  final ScheduleDeadline deadline;
-  DeadlineInPost({required this.deadline});
+  final RoadMapContentModel roadMapContent;
+  DeadlineInPost({required this.roadMapContent});
   @override
   State<StatefulWidget> createState() => _ExamInPostCard();
 }
@@ -36,8 +37,7 @@ class _ExamInPostCard extends State<DeadlineInPost> {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 8.sp, vertical: 4.sp),
       padding: EdgeInsets.all(12.5.sp),
-      decoration:
-          AppDecoration.buttonActionBorderActive(context, 10.sp).decoration,
+      decoration: AppDecoration.buttonActionBorderActive(context, 10.sp).decoration,
       child: Row(
         children: [
           Expanded(
@@ -45,7 +45,7 @@ class _ExamInPostCard extends State<DeadlineInPost> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  widget.deadline.name,
+                  widget.roadMapContent.name,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -65,7 +65,7 @@ class _ExamInPostCard extends State<DeadlineInPost> {
                     SizedBox(width: 6.sp),
                     Text(
                       DateFormat('HH:mm - dd/MM/yyyy').format(
-                        widget.deadline.deadline,
+                        widget.roadMapContent.endTime,
                       ),
                       style: TextStyle(
                         fontSize: 11.sp,
@@ -84,9 +84,7 @@ class _ExamInPostCard extends State<DeadlineInPost> {
                     ),
                     SizedBox(width: 6.sp),
                     Text(
-                      widget.deadline.fileName == ''
-                          ? 'Chưa nộp'
-                          : widget.deadline.fileName,
+                      'Chưa nộp',
                       style: TextStyle(
                         fontSize: 11.sp,
                         fontFamily: FontFamily.lato,
@@ -106,8 +104,7 @@ class _ExamInPostCard extends State<DeadlineInPost> {
               height: 32.sp,
               width: 32.sp,
               decoration: BoxDecoration(
-                color:
-                    widget.deadline.fileName == '' ? colorHigh : colorDarkGrey,
+                color: colorHigh,
                 borderRadius: BorderRadius.circular(8.sp),
               ),
               alignment: Alignment.center,
