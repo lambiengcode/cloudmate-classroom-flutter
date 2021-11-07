@@ -31,4 +31,6 @@ class ApiGateway {
 
   // Road Map Content
   static const ROAD_MAP_CONTENT = 'api/road-map-content';
+  static const ROAD_MAP_CONTENT_ASSIGNMENT = 'api/road-map-content/assignment';
+  static const ROAD_MAP_CONTENT_ATTENDANCE = 'api/road-map-content/attendance';
 }

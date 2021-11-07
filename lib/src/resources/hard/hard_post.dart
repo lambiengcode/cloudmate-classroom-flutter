@@ -1,6 +1,7 @@
 import 'dart:convert';
 
-import 'package:cloudmate/src/resources/hard/hard_attended.dart';
+import 'package:cloudmate/src/models/road_map_content_model.dart';
+import 'package:cloudmate/src/models/road_map_content_type.dart';
 import 'package:cloudmate/src/resources/hard/hard_chat.dart';
 import 'package:cloudmate/src/resources/hard/hard_exam_post.dart';
 import 'package:cloudmate/src/resources/hard/hard_schedule.dart';
@@ -15,7 +16,7 @@ class Post {
   int status;
   Exam? exam;
   ScheduleDeadline? deadline;
-  Attendance? attendance;
+  RoadMapContentModel? attendance;
   List<String>? images;
 
   Post({
@@ -117,14 +118,16 @@ List<Post> posts = [
     imageAuthor: 'https://avatars.githubusercontent.com/u/60530946?v=4',
     content: 'Điểm danh nào...',
     status: 2,
-    attendance: Attendance(
+    attendance: RoadMapContentModel(
       id: '',
-      attendances: [],
       startTime: DateTime.now(),
       endTime: DateTime.now().add(
         Duration(minutes: 10),
       ),
-      total: 5,
+      name: '',
+      description: '',
+      type: RoadMapContentType.attendance,
+      roadMapContentId: '',
     ),
   ),
   Post(
@@ -160,8 +163,7 @@ List<Post> posts = [
     id: '5',
     groupName: 'Firebase',
     authorName: 'Hồng Vinh',
-    imageGroup:
-        'https://firebase.google.com/images/brand-guidelines/logo-logomark.png',
+    imageGroup: 'https://firebase.google.com/images/brand-guidelines/logo-logomark.png',
     imageAuthor: 'https://avatars.githubusercontent.com/u/60530946?v=4',
     content: 'Cho mình hỏi đoạn code này sao không chạy được ạ!',
     status: 3,

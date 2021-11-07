@@ -43,7 +43,7 @@ class _DrawerOptionState extends State<DrawerOption> {
                             context,
                             'Tạo kiểm tra ngay',
                             PhosphorIcons.clockAfternoon,
-                            colorActive,
+                            colorAttendance,
                             AppRoutes.LIST_EXAM,
                             arguments: {
                               'classId': widget.classModel.id,
@@ -71,14 +71,6 @@ class _DrawerOptionState extends State<DrawerOption> {
                             arguments: {
                               'classId': widget.classModel.id,
                             },
-                          ),
-                          _buildDividerTransparant(context),
-                          _buildLine(
-                            context,
-                            'Điểm danh',
-                            PhosphorIcons.handGrabbing,
-                            colorPrimary,
-                            null,
                           ),
                           _buildDividerTransparant(context),
                         ],

@@ -1,3 +1,4 @@
+import 'package:cloudmate/src/models/road_map_content_model.dart';
 import 'package:cloudmate/src/models/road_map_content_type.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
@@ -7,6 +8,8 @@ import 'package:cloudmate/src/ui/classes/blocs/road_map_content/road_map_content
 import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
@@ -14,10 +17,12 @@ class CreateRoadmapContentScreen extends StatefulWidget {
   final RoadMapContentBloc roadMapContentBloc;
   final String classId;
   final String roadMapId;
+  final RoadMapContentModel? roadMapContentModel;
   const CreateRoadmapContentScreen({
     required this.roadMapContentBloc,
     required this.classId,
     required this.roadMapId,
+    this.roadMapContentModel,
   });
   @override
   _CreateRoadmapContentScreenState createState() => _CreateRoadmapContentScreenState();
@@ -27,14 +32,44 @@ class _CreateRoadmapContentScreenState extends State<CreateRoadmapContentScreen>
   final _formKey = GlobalKey<FormState>();
   TextEditingController _nameController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
+  TextEditingController _startTimeController = TextEditingController();
+  TextEditingController _endTimeController = TextEditingController();
   FocusNode textFieldFocus = FocusNode();
   String _name = '';
   String _description = '';
+  DateTime _startTime = DateTime.now();
+  DateTime _endTime = DateTime.now().add(Duration(days: 3));
   RoadMapContentType _roadMapContentType = RoadMapContentType.assignment;
 
   @override
   void initState() {
     super.initState();
+    _updateTextTimeController();
+  }
+
+  void _updateTextTimeController() {
+    _startTimeController.text = DateFormat('HH:mm - dd/MM/yyyy').format(_startTime);
+    _endTimeController.text = DateFormat('HH:mm - dd/MM/yyyy').format(_endTime);
+  }
+
+  void _handlePickDate(
+    context,
+    DateTime initialDate,
+    DateTime? minTime,
+    DateTime? maxTime,
+    Function onConfirm,
+  ) async {
+    DatePicker.showDateTimePicker(
+      context,
+      showTitleActions: true,
+      minTime: minTime,
+      maxTime: maxTime,
+      onConfirm: (date) {
+        onConfirm(date);
+      },
+      currentTime: initialDate,
+      locale: LocaleType.vi,
+    );
   }
 
   @override
@@ -138,30 +173,30 @@ class _CreateRoadmapContentScreenState extends State<CreateRoadmapContentScreen>
                             SizedBox(height: 12.0),
                             _buildLineInfo(
                               context,
-                              'Tiêu đề cho ${_roadMapContentType.value}',
-                              'Hãy nhập tiêu đề cho ${_roadMapContentType.value}',
+                              'Tiêu đề cho ${_roadMapContentType.value.toLowerCase()}',
+                              'Hãy nhập tiêu đề cho ${_roadMapContentType.value.toLowerCase()}',
                               _nameController,
                             ),
                             _buildDivider(context),
                             _buildLineInfo(
                               context,
                               'Mô tả',
-                              'Hãy nhập mô tả ${_roadMapContentType.value}',
+                              'Hãy nhập mô tả ${_roadMapContentType.value.toLowerCase()}',
                               _descriptionController,
                             ),
                             _buildDivider(context),
                             _buildLineInfo(
                               context,
                               'Thời gian bắt đầu',
-                              'Đặt thời gian bắt đầu cho ${_roadMapContentType.value}',
-                              _descriptionController,
+                              'Đặt thời gian bắt đầu cho ${_roadMapContentType.value.toLowerCase()}',
+                              _startTimeController,
                             ),
                             _buildDivider(context),
                             _buildLineInfo(
                               context,
                               'Thời gian kết thúc',
-                              'Đặt thời gian kết thúc cho ${_roadMapContentType.value}',
-                              _descriptionController,
+                              'Đặt thời gian kết thúc cho ${_roadMapContentType.value.toLowerCase()}',
+                              _endTimeController,
                             ),
                             _buildDivider(context),
                             SizedBox(height: 8.0),
@@ -208,47 +243,71 @@ class _CreateRoadmapContentScreenState extends State<CreateRoadmapContentScreen>
 
   Widget _buildLineInfo(context, title, valid, controller) {
     final _size = MediaQuery.of(context).size;
-    return Container(
-      padding: EdgeInsets.fromLTRB(14.0, 18.0, 18.0, 4.0),
-      child: TextFormField(
-        maxLines: null,
-        controller: controller,
-        cursorColor: Theme.of(context).textTheme.bodyText1!.color,
-        cursorRadius: Radius.circular(30.0),
-        style: TextStyle(
-          color: Theme.of(context).textTheme.bodyText1!.color,
-          fontSize: _size.width / 26.0,
-          fontWeight: FontWeight.w500,
-        ),
-        validator: (val) {
-          return val!.trim().length == 0 ? valid : null;
-        },
-        onChanged: (val) {
-          setState(() {
-            if (title == 'Tên lộ trình') {
-              _name = val.trim();
+    return GestureDetector(
+      onTap: () {
+        if (title.contains('Thời gian')) {
+          DateTime initialDate = title.contains('bắt đầu') ? _startTime : _endTime;
+          DateTime? minDate = title.contains('bắt đầu') ? null : _startTime;
+          DateTime? maxDate = title.contains('kết thúc') ? null : _endTime;
+          _handlePickDate(context, initialDate, minDate, maxDate, (date) {
+            if (title.contains('bắt đầu')) {
+              if (_startTime.isBefore(_endTime)) {
+                _startTime = date;
+              }
             } else {
-              _description = val.trim();
+              if (_endTime.isAfter(_startTime)) {
+                _endTime = date;
+              }
             }
+            setState(() {
+              _updateTextTimeController();
+            });
           });
-        },
-        inputFormatters: [
-          title == 'Số điện thoại'
-              ? FilteringTextInputFormatter.digitsOnly
-              : FilteringTextInputFormatter.singleLineFormatter,
-        ],
-        obscureText: title == 'Mật khẩu' ? true : false,
-        decoration: InputDecoration(
-          floatingLabelBehavior: FloatingLabelBehavior.always,
-          contentPadding: EdgeInsets.only(
-            left: 12.0,
-          ),
-          border: InputBorder.none,
-          labelText: title,
-          labelStyle: TextStyle(
-            color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
+        }
+      },
+      child: Container(
+        padding: EdgeInsets.fromLTRB(14.0, 18.0, 18.0, 4.0),
+        child: TextFormField(
+          enabled: !title.contains('Thời gian'),
+          maxLines: null,
+          controller: controller,
+          cursorColor: Theme.of(context).textTheme.bodyText1!.color,
+          cursorRadius: Radius.circular(30.0),
+          style: TextStyle(
+            color: Theme.of(context).textTheme.bodyText1!.color,
             fontSize: _size.width / 26.0,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w500,
+          ),
+          validator: (val) {
+            return val!.trim().length == 0 ? valid : null;
+          },
+          onChanged: (val) {
+            setState(() {
+              if (title == 'Tên lộ trình') {
+                _name = val.trim();
+              } else {
+                _description = val.trim();
+              }
+            });
+          },
+          inputFormatters: [
+            title == 'Số điện thoại'
+                ? FilteringTextInputFormatter.digitsOnly
+                : FilteringTextInputFormatter.singleLineFormatter,
+          ],
+          obscureText: title == 'Mật khẩu' ? true : false,
+          decoration: InputDecoration(
+            floatingLabelBehavior: FloatingLabelBehavior.always,
+            contentPadding: EdgeInsets.only(
+              left: 12.0,
+            ),
+            border: InputBorder.none,
+            labelText: title,
+            labelStyle: TextStyle(
+              color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
+              fontSize: _size.width / 26.0,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
       ),

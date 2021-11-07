@@ -5,16 +5,25 @@ import 'package:dio/dio.dart';
 
 class RoadMapContentRepository {
   Future<RoadMapContentModel?> createRoadMapContent({
+    bool isCreateAssignment = true,
     required String classId,
+    required String roadMapId,
     required String name,
     required String description,
+    required String startTime,
+    required String endTime,
   }) async {
     var body = {
       "name": name,
       "description": description,
-      "classBy": classId,
+      "startTime": startTime,
+      "endTime": endTime,
     };
-    Response response = await BaseRepository().postRoute(ApiGateway.ROAD_MAP_CONTENT, body);
+    Response response = await BaseRepository().postRoute(
+      isCreateAssignment ? ApiGateway.ROAD_MAP_CONTENT_ASSIGNMENT : ApiGateway.ROAD_MAP_CONTENT_ATTENDANCE,
+      body,
+      query: 'idClass=$classId&idRoadMap=$roadMapId',
+    );
     if ([200, 201].contains(response.statusCode)) {
       dynamic jsonResponse = response.data['data'];
       return RoadMapContentModel.fromMap(jsonResponse);
@@ -25,10 +34,11 @@ class RoadMapContentRepository {
 
   Future<List<RoadMapContentModel>> getListRoadMapContent({
     required String roadMapId,
+    required String classId,
   }) async {
     Response response = await BaseRepository().getRoute(
       ApiGateway.ROAD_MAP_CONTENT,
-      query: "id=$roadMapId",
+      query: 'idClass=$classId&idRoadMap=$roadMapId',
     );
     if ([200, 201].contains(response.statusCode)) {
       List<dynamic> jsonResponse = response.data['data'];
