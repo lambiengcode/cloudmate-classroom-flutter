@@ -1,17 +1,16 @@
+import 'package:cloudmate/src/models/road_map_content_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:cloudmate/src/resources/hard/hard_attended.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/app_decorations.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
-import 'package:cloudmate/src/themes/theme_service.dart';
 import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 class AttendanceInPost extends StatefulWidget {
-  final Attendance attendance;
-  AttendanceInPost({required this.attendance});
+  final RoadMapContentModel roadMapContent;
+  AttendanceInPost({required this.roadMapContent});
   @override
   State<StatefulWidget> createState() => _ExamInPostCard();
 }
@@ -30,7 +29,7 @@ class _ExamInPostCard extends State<AttendanceInPost> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Điểm danh: ' + DateFormat('dd/MM/yyyy').format(widget.attendance.startTime),
+                  'Điểm danh: ' + DateFormat('dd/MM/yyyy').format(widget.roadMapContent.startTime),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -50,7 +49,7 @@ class _ExamInPostCard extends State<AttendanceInPost> {
                     SizedBox(width: 6.sp),
                     Text(
                       DateFormat('HH:mm - dd/MM/yyyy').format(
-                        widget.attendance.endTime,
+                        widget.roadMapContent.endTime,
                       ),
                       style: TextStyle(
                         fontSize: 11.sp,
@@ -69,7 +68,7 @@ class _ExamInPostCard extends State<AttendanceInPost> {
                     ),
                     SizedBox(width: 6.sp),
                     Text(
-                      '${widget.attendance.attendances.length}/${widget.attendance.total}',
+                      '10/15',
                       style: TextStyle(
                         fontSize: 11.sp,
                         fontFamily: FontFamily.lato,

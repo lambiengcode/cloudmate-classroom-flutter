@@ -43,6 +43,7 @@ dependencies:
   percent_indicator: ^3.0.1
   lottie: ^1.2.0
   fl_chart: ^0.40.2
+  flutter_datetime_picker: ^1.5.1
 
   # Image
   blurhash: ^0.2.1

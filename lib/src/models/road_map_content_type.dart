@@ -31,4 +31,22 @@ extension RoadMapContentTypeExtension on RoadMapContentType {
       RoadMapContentType.attendance,
     ];
   }
+
+  int get toIntValue {
+    switch (this) {
+      case RoadMapContentType.assignment:
+        return 1;
+      case RoadMapContentType.attendance:
+        return 0;
+    }
+  }
+}
+
+fromIntValue(int value) {
+  switch (value) {
+    case 1:
+      return RoadMapContentType.assignment;
+    case 0:
+      return RoadMapContentType.attendance;
+  }
 }

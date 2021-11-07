@@ -130,7 +130,7 @@ class _PostCardState extends State<PostCard> {
                 : widget.post.status == 1
                     ? DeadlineInPost(deadline: widget.post.deadline!)
                     : widget.post.status == 2
-                        ? AttendanceInPost(attendance: widget.post.attendance!)
+                        ? AttendanceInPost(roadMapContent: widget.post.attendance!)
                         : widget.post.images!.length > 0
                             ? Padding(
                                 padding: EdgeInsets.only(top: 6.sp),
