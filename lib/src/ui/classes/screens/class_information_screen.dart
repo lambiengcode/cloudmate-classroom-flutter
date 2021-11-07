@@ -380,7 +380,7 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                 ),
                 alignment: Alignment.center,
                 child: Text(
-                  'Enroll Class',
+                  'Tham gia ngay',
                   style: TextStyle(
                     color: mC,
                     fontFamily: FontFamily.lato,

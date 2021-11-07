@@ -136,11 +136,10 @@ class ClassRepository {
   }
 
   Future<bool> leaveClass({required String classId}) async {
-    var body = {
-      'idClass': classId,
-    };
-    Response response = await BaseRepository().deleteRoute(ApiGateway.LEAVE_CLASS, body: body);
-    print(response.data);
+    Response response = await BaseRepository().deleteRoute(
+      ApiGateway.LEAVE_CLASS,
+      query: 'idClass=$classId',
+    );
     if (response.statusCode == 200) {
       return true;
     }

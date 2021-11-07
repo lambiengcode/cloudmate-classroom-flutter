@@ -8,8 +8,8 @@ import 'package:cloudmate/src/configs/application.dart';
 class BaseRepository {
   var dio = diox.Dio(diox.BaseOptions(
     baseUrl: Application.baseUrl!,
-    connectTimeout: 10000,
-    receiveTimeout: 10000,
+    connectTimeout: 20000,
+    receiveTimeout: 20000,
   )); // with default Options
 
   Future<diox.Response<dynamic>> downloadFile(String url, String path, Function onReceive) async {
@@ -140,7 +140,7 @@ class BaseRepository {
       gateway + (params ?? ''),
       options: getOptions(),
       queryParameters: query == null ? null : paramsObject,
-      data: convert.jsonEncode(body),
+      data: body == null ? null : convert.jsonEncode(body),
     );
     return response;
   }

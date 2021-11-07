@@ -70,7 +70,6 @@ class ExamRepository {
       ApiGateway.SET_OF_QUESTIONS,
       query: 'status=0&id=$examId',
     );
-    print(response.data);
     if (response.statusCode == 200) {
       return true;
     }
