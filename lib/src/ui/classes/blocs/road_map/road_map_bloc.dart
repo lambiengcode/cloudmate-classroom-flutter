@@ -75,6 +75,18 @@ class RoadMapBloc extends Bloc<RoadMapEvent, RoadMapState> {
     return roadMapModel != null;
   }
 
+  Future<void> _getRoadMaps({required String classId}) async {
+    List<RoadMapModel> roadMaps = await RoadMapRepository().getRoadMaps(
+      classId: classId,
+    );
+
+    if (roadMaps.isEmpty) {
+      isRoadMapOver = true;
+    } else {
+      this.roadMaps.addAll(roadMaps);
+    }
+  }
+
   void _showDialogResult(
     context, {
     String title = 'Thành công',
@@ -88,17 +100,5 @@ class RoadMapBloc extends Bloc<RoadMapEvent, RoadMapState> {
         subTitle: subTitle,
       ),
     );
-  }
-
-  Future<void> _getRoadMaps({required String classId}) async {
-    List<RoadMapModel> roadMaps = await RoadMapRepository().getRoadMaps(
-      classId: classId,
-    );
-
-    if (roadMaps.isEmpty) {
-      isRoadMapOver = true;
-    } else {
-      this.roadMaps.addAll(roadMaps);
-    }
   }
 }

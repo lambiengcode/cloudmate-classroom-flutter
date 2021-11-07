@@ -20,10 +20,13 @@ class RoadMapContentRepository {
       "endTime": endTime,
     };
     Response response = await BaseRepository().postRoute(
-      isCreateAssignment ? ApiGateway.ROAD_MAP_CONTENT_ASSIGNMENT : ApiGateway.ROAD_MAP_CONTENT_ATTENDANCE,
+      isCreateAssignment
+          ? ApiGateway.ROAD_MAP_CONTENT_ASSIGNMENT
+          : ApiGateway.ROAD_MAP_CONTENT_ATTENDANCE,
       body,
       query: 'idClass=$classId&idRoadMap=$roadMapId',
     );
+    print(response.data);
     if ([200, 201].contains(response.statusCode)) {
       dynamic jsonResponse = response.data['data'];
       return RoadMapContentModel.fromMap(jsonResponse);
@@ -40,9 +43,10 @@ class RoadMapContentRepository {
       ApiGateway.ROAD_MAP_CONTENT,
       query: 'idClass=$classId&idRoadMap=$roadMapId',
     );
+    print(response.data);
     if ([200, 201].contains(response.statusCode)) {
       List<dynamic> jsonResponse = response.data['data'];
-      return jsonResponse.map((item) => RoadMapContentModel.fromJson(item)).toList();
+      return jsonResponse.map((item) => RoadMapContentModel.fromMap(item)).toList();
     }
 
     return [];

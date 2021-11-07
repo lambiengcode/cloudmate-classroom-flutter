@@ -1,7 +1,6 @@
 import 'package:cloudmate/src/models/road_map_content_model.dart';
 import 'package:cloudmate/src/models/road_map_content_type.dart';
 import 'package:cloudmate/src/models/road_map_model.dart';
-import 'package:cloudmate/src/resources/hard/hard_attended.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/routes/app_routes.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
@@ -10,7 +9,9 @@ import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
 import 'package:cloudmate/src/ui/classes/blocs/road_map/road_map_bloc.dart';
 import 'package:cloudmate/src/ui/classes/blocs/road_map_content/road_map_content_bloc.dart';
+import 'package:cloudmate/src/ui/common/screens/loading_screen.dart';
 import 'package:cloudmate/src/ui/home/widgets/attendance_in_post.dart';
+import 'package:cloudmate/src/ui/home/widgets/deadline_in_post.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -38,84 +39,102 @@ class _RoadMapContentScreenState extends State<RoadMapContentScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => _roadMapContentBloc
+    return BlocProvider<RoadMapContentBloc>(
+      create: (context) => RoadMapContentBloc()
         ..add(
           GetRoadMapContentEvent(
             classId: widget.classId,
             roadMapId: widget.roadMapModel.id,
           ),
         ),
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          systemOverlayStyle: ThemeService.systemBrightness,
-          centerTitle: true,
-          elevation: .0,
-          leading: IconButton(
-            onPressed: () => AppNavigator.pop(),
-            icon: Icon(
-              PhosphorIcons.caretLeft,
-              size: 20.sp,
-            ),
-          ),
-          title: Text(
-            widget.roadMapModel.name,
-            style: TextStyle(
-              fontSize: 15.sp,
-              fontFamily: FontFamily.lato,
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).textTheme.bodyText1!.color,
-            ),
-          ),
-          actions: [
-            IconButton(
-              onPressed: () => AppNavigator.push(
-                AppRoutes.CREATE_ROAD_MAP_CONTENT,
-                arguments: {
-                  'roadMapContentBloc': _roadMapContentBloc,
-                  'classId': widget.classId,
-                  'roadMapId': widget.roadMapModel.id,
-                },
-              ),
-              icon: Icon(
-                PhosphorIcons.listPlusBold,
-                size: 20.sp,
-                color: colorPrimary,
-              ),
-            ),
-          ],
-        ),
-        body: Container(
-          color: Theme.of(context).scaffoldBackgroundColor,
-          padding: EdgeInsets.only(bottom: 12.sp),
-          child: Column(
-            children: <Widget>[
-              SizedBox(height: 2.5.sp),
-              Divider(
-                height: .25,
-                thickness: .25,
-              ),
-              SizedBox(height: 12.sp),
-              Expanded(
-                child: Container(
-                  child: ListView.builder(
-                    itemCount: 12,
-                    itemBuilder: (context, index) {
-                      return _buildContent(context, index + 1, index == 11);
-                    },
-                  ),
+      child: BlocBuilder<RoadMapContentBloc, RoadMapContentState>(
+        builder: (context, state) {
+          if (state is RoadMapContentInitial) {
+            return LoadingScreen();
+          }
+
+          return Scaffold(
+            resizeToAvoidBottomInset: false,
+            appBar: AppBar(
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              systemOverlayStyle: ThemeService.systemBrightness,
+              centerTitle: true,
+              elevation: .0,
+              leading: IconButton(
+                onPressed: () => AppNavigator.pop(),
+                icon: Icon(
+                  PhosphorIcons.caretLeft,
+                  size: 20.sp,
                 ),
               ),
-            ],
-          ),
-        ),
+              title: Text(
+                widget.roadMapModel.name,
+                style: TextStyle(
+                  fontSize: 15.sp,
+                  fontFamily: FontFamily.lato,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).textTheme.bodyText1!.color,
+                ),
+              ),
+              actions: [
+                IconButton(
+                  onPressed: () => AppNavigator.push(
+                    AppRoutes.CREATE_ROAD_MAP_CONTENT,
+                    arguments: {
+                      'roadMapContentBloc': _roadMapContentBloc,
+                      'classId': widget.classId,
+                      'roadMapId': widget.roadMapModel.id,
+                    },
+                  ),
+                  icon: Icon(
+                    PhosphorIcons.listPlusBold,
+                    size: 20.sp,
+                    color: colorPrimary,
+                  ),
+                ),
+              ],
+            ),
+            body: Container(
+              color: Theme.of(context).scaffoldBackgroundColor,
+              padding: EdgeInsets.only(bottom: 12.sp),
+              child: Column(
+                children: <Widget>[
+                  SizedBox(height: 2.5.sp),
+                  Divider(
+                    height: .25,
+                    thickness: .25,
+                  ),
+                  SizedBox(height: 12.sp),
+                  Expanded(
+                    child: state.props[0].isEmpty
+                        ? SizedBox()
+                        : Container(
+                            child: ListView.builder(
+                              itemCount: state.props[0].length + 1,
+                              itemBuilder: (context, index) {
+                                bool isLast = index == state.props[0].length;
+
+                                return _buildContent(
+                                  context,
+                                  index + 1,
+                                  isLast,
+                                  isLast ? null : state.props[0][index],
+                                );
+                              },
+                            ),
+                          ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }
 
-  Widget _buildContent(BuildContext context, int index, bool isLast) {
+  Widget _buildContent(
+      BuildContext context, int index, bool isLast, RoadMapContentModel roadMapContentModel) {
     return TimelineTile(
       alignment: TimelineAlign.manual,
       lineXY: 0.14,
@@ -166,19 +185,9 @@ class _RoadMapContentScreenState extends State<RoadMapContentScreen> {
                       maxLines: 2,
                     ),
                   ),
-                  AttendanceInPost(
-                    roadMapContent: RoadMapContentModel(
-                      id: '',
-                      startTime: DateTime.now(),
-                      endTime: DateTime.now().add(
-                        Duration(minutes: 10),
-                      ),
-                      type: RoadMapContentType.assignment,
-                      name: '',
-                      description: '',
-                      roadMapContentId: ''
-                    ),
-                  ),
+                  roadMapContentModel.type == RoadMapContentType.attendance
+                      ? AttendanceInPost(roadMapContent: roadMapContentModel)
+                      : DeadlineInPost(roadMapContent: roadMapContentModel),
                 ],
               ),
             ),

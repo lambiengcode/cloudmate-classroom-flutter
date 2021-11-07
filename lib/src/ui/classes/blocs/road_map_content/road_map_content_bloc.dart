@@ -1,7 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloudmate/src/models/road_map_content_model.dart';
+import 'package:cloudmate/src/models/road_map_content_type.dart';
 import 'package:cloudmate/src/resources/remote/road_map_content_repository.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
+import 'package:cloudmate/src/routes/app_routes.dart';
+import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
+import 'package:cloudmate/src/ui/common/dialogs/dialog_notice.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
@@ -16,27 +20,42 @@ class RoadMapContentBloc extends Bloc<RoadMapContentEvent, RoadMapContentState> 
 
   @override
   Stream<RoadMapContentState> mapEventToState(RoadMapContentEvent event) async* {
-    
+    if (event is GetRoadMapContentEvent) {
+      if (roadMapContentList.length == 0) {
+        yield RoadMapContentInitial();
+      } else {
+        yield GettingRoadMapContent(roadMapContentList: roadMapContentList);
+      }
+
+      await _getRoadMapContentList(classId: event.classId, roadMapId: event.roadMapId);
+      yield GetDoneRoadMapContent(roadMapContentList: roadMapContentList);
+    }
+
+    if (event is CreateRoadMapContentEvent) {
+      bool isCreateSuccess = await _createRoadMapContent(event);
+
+      yield GetDoneRoadMapContent(roadMapContentList: roadMapContentList);
+
+      if (isCreateSuccess) {
+        AppNavigator.popUntil(AppRoutes.ROAD_MAP_CONTENT);
+      } else {
+        _showDialogResult(event.context);
+      }
+    }
   }
 
   // MARK: - Private Methods
 
-  Future<bool> _createRoadMapContent({
-    required String classId,
-    required String roadMapId,
-    required String name,
-    required String description,
-    required DateTime startTime,
-    required DateTime endTime,
-  }) async {
+  Future<bool> _createRoadMapContent(CreateRoadMapContentEvent event) async {
     RoadMapContentModel? roadMapContentModel =
         await RoadMapContentRepository().createRoadMapContent(
-      classId: classId,
-      roadMapId: roadMapId,
-      name: name,
-      description: description,
-      startTime: startTime.toUtc().toString().split(' ').join('T'),
-      endTime: endTime.toUtc().toString().split(' ').join('T'),
+      isCreateAssignment: event.type == RoadMapContentType.assignment,
+      classId: event.classId,
+      roadMapId: event.roadMapId,
+      name: event.name,
+      description: event.description,
+      startTime: event.startTime.toUtc().toString().split(' ').join('T'),
+      endTime: event.endTime.toUtc().toString().split(' ').join('T'),
     );
 
     AppNavigator.pop();
@@ -49,15 +68,31 @@ class RoadMapContentBloc extends Bloc<RoadMapContentEvent, RoadMapContentState> 
   }
 
   Future<void> _getRoadMapContentList({required String classId, required String roadMapId}) async {
-    List<RoadMapContentModel> roadMapContents = await RoadMapContentRepository().getListRoadMapContent(
+    List<RoadMapContentModel> roadMapContents =
+        await RoadMapContentRepository().getListRoadMapContent(
       classId: classId,
       roadMapId: roadMapId,
     );
 
     if (roadMapContents.isEmpty) {
       isRoadMapContentOver = true;
-    }else {
+    } else {
       roadMapContentList.addAll(roadMapContents);
     }
+  }
+
+  void _showDialogResult(
+    context, {
+    String title = 'Thất bại',
+    String subTitle = 'Tạo thất bại, hãy thử lại sau!',
+  }) {
+    dialogAnimationWrapper(
+      dismissible: false,
+      context: context,
+      child: DialogNotice(
+        title: title,
+        subTitle: subTitle,
+      ),
+    );
   }
 }

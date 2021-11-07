@@ -208,6 +208,18 @@ class _CreateRoadmapContentScreenState extends State<CreateRoadmapContentScreen>
                         onTap: () async {
                           if (_formKey.currentState!.validate()) {
                             showDialogLoading(context);
+                            widget.roadMapContentBloc.add(
+                              CreateRoadMapContentEvent(
+                                classId: widget.classId,
+                                roadMapId: widget.roadMapId,
+                                name: _name,
+                                description: _description,
+                                startTime: _startTime,
+                                endTime: _endTime,
+                                context: context,
+                                type: _roadMapContentType,
+                              ),
+                            );
                           }
                         },
                         child: Container(
@@ -283,7 +295,7 @@ class _CreateRoadmapContentScreenState extends State<CreateRoadmapContentScreen>
           },
           onChanged: (val) {
             setState(() {
-              if (title == 'Tên lộ trình') {
+              if (title.contains('Tiêu đề')) {
                 _name = val.trim();
               } else {
                 _description = val.trim();

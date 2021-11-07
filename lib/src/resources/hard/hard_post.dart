@@ -15,7 +15,6 @@ class Post {
   String content;
   int status;
   Exam? exam;
-  ScheduleDeadline? deadline;
   RoadMapContentModel? attendance;
   List<String>? images;
 
@@ -28,7 +27,6 @@ class Post {
     required this.content,
     required this.status,
     this.attendance,
-    this.deadline,
     this.exam,
     this.images,
   });
@@ -196,13 +194,16 @@ List<Post> posts = [
     imageAuthor: 'https://avatars.githubusercontent.com/u/60530946?v=4',
     content: 'Nộp BTVN đúng nha các em...',
     status: 1,
-    deadline: ScheduleDeadline(
+    attendance: RoadMapContentModel(
       id: '',
-      name: 'Bài tập về nhà tuần 7',
-      deadline: DateTime.now().add(
-        Duration(minutes: 60),
+      startTime: DateTime.now(),
+      endTime: DateTime.now().add(
+        Duration(minutes: 10),
       ),
-      fileName: '',
+      name: 'BTVN Tuần 7',
+      description: '',
+      type: RoadMapContentType.attendance,
+      roadMapContentId: '',
     ),
   ),
 ];

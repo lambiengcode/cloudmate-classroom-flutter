@@ -11,6 +11,7 @@ class CreateRoadMapContentEvent extends RoadMapContentEvent {
   final DateTime startTime;
   final DateTime endTime;
   final BuildContext context;
+  final RoadMapContentType type;
   CreateRoadMapContentEvent({
     required this.classId,
     required this.roadMapId,
@@ -19,6 +20,7 @@ class CreateRoadMapContentEvent extends RoadMapContentEvent {
     required this.startTime,
     required this.endTime,
     required this.context,
+    required this.type,
   });
 }
 

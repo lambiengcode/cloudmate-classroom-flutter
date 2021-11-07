@@ -128,7 +128,7 @@ class _PostCardState extends State<PostCard> {
                     exam: widget.post.exam!,
                   )
                 : widget.post.status == 1
-                    ? DeadlineInPost(deadline: widget.post.deadline!)
+                    ? DeadlineInPost(roadMapContent: widget.post.attendance!)
                     : widget.post.status == 2
                         ? AttendanceInPost(roadMapContent: widget.post.attendance!)
                         : widget.post.images!.length > 0
