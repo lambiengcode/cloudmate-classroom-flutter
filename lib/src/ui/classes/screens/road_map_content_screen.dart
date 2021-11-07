@@ -33,14 +33,14 @@ class _RoadMapContentScreenState extends State<RoadMapContentScreen> {
 
   @override
   void initState() {
-    super.initState();
     _roadMapContentBloc = RoadMapContentBloc();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<RoadMapContentBloc>(
-      create: (context) => RoadMapContentBloc()
+      create: (context) => _roadMapContentBloc
         ..add(
           GetRoadMapContentEvent(
             classId: widget.classId,
@@ -176,7 +176,7 @@ class _RoadMapContentScreenState extends State<RoadMapContentScreen> {
                   Padding(
                     padding: EdgeInsets.only(left: 3.w, bottom: 4.sp),
                     child: Text(
-                      'Các em điểm danh tại đây nha...',
+                      widget.roadMapModel.name,
                       style: TextStyle(
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w400,

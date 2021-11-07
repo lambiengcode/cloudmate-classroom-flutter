@@ -31,12 +31,10 @@ class CreateRoadmapContentScreen extends StatefulWidget {
 class _CreateRoadmapContentScreenState extends State<CreateRoadmapContentScreen> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController _nameController = TextEditingController();
-  TextEditingController _descriptionController = TextEditingController();
   TextEditingController _startTimeController = TextEditingController();
   TextEditingController _endTimeController = TextEditingController();
   FocusNode textFieldFocus = FocusNode();
   String _name = '';
-  String _description = '';
   DateTime _startTime = DateTime.now();
   DateTime _endTime = DateTime.now().add(Duration(days: 3));
   RoadMapContentType _roadMapContentType = RoadMapContentType.assignment;
@@ -180,13 +178,6 @@ class _CreateRoadmapContentScreenState extends State<CreateRoadmapContentScreen>
                             _buildDivider(context),
                             _buildLineInfo(
                               context,
-                              'Mô tả',
-                              'Hãy nhập mô tả ${_roadMapContentType.value.toLowerCase()}',
-                              _descriptionController,
-                            ),
-                            _buildDivider(context),
-                            _buildLineInfo(
-                              context,
                               'Thời gian bắt đầu',
                               'Đặt thời gian bắt đầu cho ${_roadMapContentType.value.toLowerCase()}',
                               _startTimeController,
@@ -213,7 +204,6 @@ class _CreateRoadmapContentScreenState extends State<CreateRoadmapContentScreen>
                                 classId: widget.classId,
                                 roadMapId: widget.roadMapId,
                                 name: _name,
-                                description: _description,
                                 startTime: _startTime,
                                 endTime: _endTime,
                                 context: context,
@@ -297,8 +287,6 @@ class _CreateRoadmapContentScreenState extends State<CreateRoadmapContentScreen>
             setState(() {
               if (title.contains('Tiêu đề')) {
                 _name = val.trim();
-              } else {
-                _description = val.trim();
               }
             });
           },

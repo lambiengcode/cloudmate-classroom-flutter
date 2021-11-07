@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/blocs/authentication/bloc.dart';
 import 'package:cloudmate/src/helpers/picker/custom_image_picker.dart';
@@ -11,7 +10,6 @@ import 'package:cloudmate/src/ui/classes/blocs/class/class_bloc.dart';
 import 'package:cloudmate/src/ui/classes/widgets/recommend_class_card.dart';
 import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:cloudmate/src/ui/common/screens/loading_screen.dart';
-import 'package:cloudmate/src/ui/common/widgets/animated_fade.dart';
 import 'package:cloudmate/src/utils/blurhash.dart';
 import 'package:flutter/material.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
@@ -26,8 +24,7 @@ class ProfileScreen extends StatefulWidget {
   State<StatefulWidget> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen>
-    with TickerProviderStateMixin {
+class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateMixin {
   late AnimationController _infoCardController;
   ScrollController scrollController = ScrollController();
 
@@ -36,10 +33,11 @@ class _ProfileScreenState extends State<ProfileScreen>
     super.initState();
     _infoCardController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 300),
+      duration: Duration(milliseconds: 500),
+      value: 1.0,
     );
     scrollController.addListener(() {
-      _infoCardController.value = (scrollController.offset / 5.h);
+      _infoCardController.value = 1 / (scrollController.offset);
     });
   }
 
@@ -74,8 +72,7 @@ class _ProfileScreenState extends State<ProfileScreen>
             ),
             title: AnimatedBuilder(
               animation: _infoCardController,
-              builder: (context, child) =>
-                  _infoCardController.value < .5 ? SizedBox() : child!,
+              builder: (context, child) => _infoCardController.value > .5 ? SizedBox() : child!,
               child: Text(
                 auth.userModel!.displayName!,
                 style: TextStyle(
@@ -148,47 +145,44 @@ class _ProfileScreenState extends State<ProfileScreen>
                     ),
                   ),
                 ),
-                AnimatedBuilder(
-                  animation: _infoCardController,
-                  builder: (context, child) => child!,
-                  child: AnimatedFade(
-                    animation: Tween(begin: 1.0, end: 0.0)
-                        .animate(_infoCardController),
-                    child: Column(
-                      children: [
-                        SizedBox(height: 10.sp),
-                        Text(
-                          auth.userModel!.displayName!,
-                          maxLines: 1,
+                SizeTransition(
+                  axisAlignment: 1.0,
+                  sizeFactor: _infoCardController,
+                  child: Column(
+                    children: [
+                      SizedBox(height: 8.sp),
+                      Text(
+                        auth.userModel!.displayName!,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          fontFamily: FontFamily.lato,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      SizedBox(height: 6.sp),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 10.w),
+                        alignment: Alignment.center,
+                        child: Text(
+                          auth.userModel!.intro == ''
+                              ? '☃ Chưa cập nhật ☃'
+                              : auth.userModel!.intro!,
+                          maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                            fontSize: 14.sp,
-                            fontFamily: FontFamily.lato,
-                            fontWeight: FontWeight.w600,
+                            fontSize: 11.sp,
+                            fontWeight: FontWeight.w400,
+                            color: colorPrimary,
                           ),
+                          textAlign: TextAlign.center,
                         ),
-                        SizedBox(height: 8.sp),
-                        Container(
-                          padding: EdgeInsets.symmetric(horizontal: 10.w),
-                          alignment: Alignment.center,
-                          child: Text(
-                            auth.userModel!.intro == ''
-                                ? '☃ Chưa cập nhật ☃'
-                                : auth.userModel!.intro!,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: 11.sp,
-                              fontWeight: FontWeight.w400,
-                              color: colorPrimary,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        SizedBox(height: 18.sp),
-                        _buildInfoBar(),
-                      ],
-                    ),
+                      ),
+                      SizedBox(height: 12.sp),
+                      _buildInfoBar(),
+                      SizedBox(height: 12.sp),
+                    ],
                   ),
                 ),
                 SizedBox(height: 12.sp),
@@ -201,8 +195,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                 BlocBuilder<ClassBloc, ClassState>(
                   builder: (context, state) {
                     return Expanded(
-                      child:
-                          NotificationListener<OverscrollIndicatorNotification>(
+                      child: NotificationListener<OverscrollIndicatorNotification>(
                         onNotification: (overscroll) {
                           overscroll.disallowGlow();
                           return true;
@@ -268,11 +261,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                   fontFamily: FontFamily.lato,
                   fontSize: 10.75.sp,
                   fontWeight: FontWeight.w400,
-                  color: Theme.of(context)
-                      .textTheme
-                      .bodyText1!
-                      .color!
-                      .withOpacity(.9),
+                  color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.9),
                 ),
               ),
               SizedBox(height: 6.5.sp),
