@@ -84,6 +84,7 @@ class QuestionRepository {
       ApiGateway.QUESTION,
       query: 'status=0&id=$questionId',
     );
+    print(response.data);
     if (response.statusCode == 200) {
       return true;
     }

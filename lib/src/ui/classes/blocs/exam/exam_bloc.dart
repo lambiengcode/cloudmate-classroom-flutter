@@ -150,6 +150,7 @@ class ExamBloc extends Bloc<ExamEvent, ExamState> {
   Future<bool> _deleteExam({required String examId}) async {
     bool isDeleteSuccess = await ExamRepository().deleteExam(examId: examId);
     AppNavigator.pop();
+    AppNavigator.pop();
     if (isDeleteSuccess) {
       int index = listExam.indexWhere((item) => item.id == examId);
       if (index != -1) {

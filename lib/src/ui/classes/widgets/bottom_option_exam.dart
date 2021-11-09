@@ -35,8 +35,7 @@ class _BottomOptionExamState extends State<BottomOptionExam> {
             Container(
               height: 4.0,
               margin: EdgeInsets.symmetric(horizontal: 35.w),
-              decoration:
-                  AppDecoration.buttonActionBorder(context, 30.sp).decoration,
+              decoration: AppDecoration.buttonActionBorder(context, 30.sp).decoration,
             ),
             SizedBox(height: 8.0),
             _buildAction(context, 'Chỉnh sửa bộ đề', PhosphorIcons.pencil),
@@ -75,12 +74,10 @@ class _BottomOptionExamState extends State<BottomOptionExam> {
                 handleConfirm: () {
                   showDialogLoading(context);
                   widget.examBloc.add(
-                    DeleteExamEvent(
-                        context: context, examId: widget.examModel.id),
+                    DeleteExamEvent(context: context, examId: widget.examModel.id),
                   );
                 },
-                subTitle:
-                    'Sau khi xoá bộ đề bạn sẽ không thể khôi phục lại dữ liệu này',
+                subTitle: 'Sau khi xoá bộ đề bạn sẽ không thể khôi phục lại dữ liệu này',
                 title: 'Xoá bộ đề',
               ),
             );

@@ -176,7 +176,7 @@ class _RoadMapContentScreenState extends State<RoadMapContentScreen> {
                   Padding(
                     padding: EdgeInsets.only(left: 3.w, bottom: 4.sp),
                     child: Text(
-                      widget.roadMapModel.name,
+                      roadMapContentModel.name,
                       style: TextStyle(
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w400,

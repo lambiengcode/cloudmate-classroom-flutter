@@ -319,6 +319,7 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
     if (isLeaveSuccess) {
       int index = classes.indexWhere((item) => item.id == classId);
       if (index != -1) {
+        recommendClasses.add(classes[index]);
         classes.removeAt(index);
       }
     }
