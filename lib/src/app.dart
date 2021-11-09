@@ -14,6 +14,7 @@ import 'package:cloudmate/src/themes/theme_service.dart';
 import 'package:cloudmate/src/themes/themes.dart';
 import 'package:i18n_extension/i18n_widget.dart';
 import 'package:sizer/sizer.dart';
+import 'package:get/get.dart';
 
 class App extends StatefulWidget {
   @override
@@ -44,7 +45,7 @@ class _AppState extends State<App> {
               return Sizer(
                 builder: (context, orientation, deviceType) {
                   return I18n(
-                    child: MaterialApp(
+                    child: GetMaterialApp(
                       navigatorKey: AppNavigator.navigatorKey,
                       debugShowCheckedModeBanner: false,
                       title: 'Cloudmate',

@@ -7,6 +7,7 @@ import 'package:cloudmate/src/ui/classes/blocs/question/question_bloc.dart';
 import 'package:cloudmate/src/ui/classes/widgets/character_counter.dart';
 import 'package:cloudmate/src/ui/classes/widgets/dialog_add_answer.dart';
 import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
+import 'package:cloudmate/src/ui/common/widgets/get_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -131,7 +132,11 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
           IconButton(
             onPressed: () {
               if (_corrects.length == 0) {
-                showDialog(context: context, builder: (context) => AlertDialog());
+                GetSnackBar getSnackBar =  GetSnackBar(
+                  title: 'Tạo câu hỏi thất bại!',
+                  subTitle: 'Chưa có câu trả lời đúng cho câu hỏi này.',
+                );
+                getSnackBar.show();
                 return;
               }
 
@@ -313,7 +318,7 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
           fontWeight: FontWeight.w500,
         ),
         validator: (val) {
-          return null;
+          return val!.length == 0 ? valid : null;
         },
         onChanged: (val) {
           setState(() {
