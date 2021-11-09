@@ -155,6 +155,7 @@ class AppNavigator {
           settings,
           DoExamScreen(
             questionModel: arguments!['questionModel'],
+            questionIndex: arguments['questionIndex'],
           ),
           _getSlideMode(arguments),
         );

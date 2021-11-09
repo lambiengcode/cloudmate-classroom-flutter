@@ -107,7 +107,6 @@ class _DrawerOptionState extends State<DrawerOption> {
                         context: context,
                         dismissible: true,
                         slideFrom: 'bottom',
-                        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                         child: DialogInput(
                           handleFinish: (input) {
                             AppNavigator.popUntil(AppRoutes.DETAILS_CLASS);

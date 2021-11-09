@@ -16,6 +16,7 @@ class DoExamBloc extends Bloc<DoExamEvent, DoExamState> {
   List<UserModel> users = [];
   QuestionModel? currentQuestion;
   StatisticModel? lastStatistic;
+  String questionIndex = "1/1";
   String? roomId;
   DateTime startTime = DateTime.now();
   DateTime endTime = DateTime.now();
@@ -136,6 +137,7 @@ class DoExamBloc extends Bloc<DoExamEvent, DoExamState> {
     currentQuestion = question;
     AppNavigator.replaceWith(AppRoutes.DO_EXAM, arguments: {
       'questionModel': question,
+      'questionIndex': questionIndex,
     });
   }
 

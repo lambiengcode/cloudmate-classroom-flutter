@@ -7,7 +7,6 @@ Future dialogAnimationWrapper(
     duration = 200,
     paddingTop = 0.0,
     paddingBottom = 0.0,
-    backgroundColor = Colors.white,
     paddingHorizontal = 15.0,
     dismissible = true,
     borderRadius = 25.0,
@@ -31,8 +30,7 @@ Future dialogAnimationWrapper(
   return showGeneralDialog(
     barrierLabel: "Barrier",
     barrierDismissible: dismissible,
-    barrierColor:
-        barrierColor != null ? barrierColor : Colors.black.withOpacity(0.5),
+    barrierColor: barrierColor != null ? barrierColor : Colors.black.withOpacity(0.5),
     transitionDuration: Duration(milliseconds: duration),
     context: context,
     pageBuilder: (_, __, ___) {
@@ -49,7 +47,7 @@ Future dialogAnimationWrapper(
           constraints: BoxConstraints(maxWidth: 320),
           child: child,
         ),
-        backgroundColor: backgroundColor,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       );
     },
     transitionBuilder: (_, anim, __, child) {
