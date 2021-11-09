@@ -26,7 +26,6 @@ class _HomeScreenState extends State<HomeScreen> {
       context: context,
       dismissible: true,
       slideFrom: 'bottom',
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       child: DialogInput(
         handleFinish: (input) {
           AppBloc.doExamBloc.add(JoinQuizEvent(roomId: input.toString().trim()));

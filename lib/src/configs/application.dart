@@ -1,3 +1,5 @@
+import 'package:cloudmate/src/services/firebase_messaging/handle_messaging.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_storage/get_storage.dart';
@@ -12,12 +14,15 @@ class Application {
 
   Future<void> initialAppLication() async {
     try {
+      await Firebase.initializeApp();
       await GetStorage.init();
       await dotenv.load(fileName: ".env");
       baseUrl = dotenv.env['BASE_URL'];
       imageUrl = baseUrl! + 'api/up-load-file?id=';
       socketUrl = dotenv.env['SOCKET_URL'];
       mode = dotenv.env['MODE'];
+      requestPermission();
+      handleReceiveNotification();
     } catch (error) {
       debugPrint(error.toString());
     }

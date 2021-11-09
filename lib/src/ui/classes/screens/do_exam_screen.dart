@@ -17,7 +17,8 @@ import 'package:cloudmate/src/helpers/int.dart';
 
 class DoExamScreen extends StatefulWidget {
   final QuestionModel questionModel;
-  DoExamScreen({required this.questionModel});
+  final String questionIndex;
+  DoExamScreen({required this.questionModel, required this.questionIndex});
   @override
   State<StatefulWidget> createState() => _DoExamScreenState();
 }
@@ -151,7 +152,7 @@ class _DoExamScreenState extends State<DoExamScreen> {
             children: [
               _buildOptionHeader(
                 context,
-                '1/20',
+                widget.questionIndex,
                 PhosphorIcons.question,
                 Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.85),
               ),

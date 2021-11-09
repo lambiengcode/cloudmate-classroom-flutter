@@ -5,6 +5,7 @@ import 'package:cloudmate/src/models/statistic_model.dart';
 import 'package:cloudmate/src/models/user.dart';
 import 'package:cloudmate/src/public/sockets.dart';
 import 'package:cloudmate/src/resources/local/user_local.dart';
+import 'package:cloudmate/src/services/firebase_messaging/handle_messaging.dart';
 import 'package:cloudmate/src/ui/classes/blocs/do_exam/do_exam_bloc.dart';
 import 'package:cloudmate/src/utils/logger.dart';
 import 'package:flutter/material.dart';
@@ -15,10 +16,14 @@ IO.Socket? socket;
 void connectAndListen() async {
   disconnectBeforeConnect();
   String socketUrl = Application.baseUrl!;
+  String? fcmToken = await getFirebaseMessagingToken();
+
+  print('===>>>>> FCM TOKEN: $fcmToken');
   socket = IO.io(
     socketUrl,
     IO.OptionBuilder().enableForceNew().setTransports(['websocket']).setExtraHeaders({
       'authorization': UserLocal().getAccessToken(),
+      'fcmToken': fcmToken,
     }).build(),
   );
   socket!.connect();

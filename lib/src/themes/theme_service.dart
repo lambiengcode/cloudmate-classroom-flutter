@@ -17,9 +17,9 @@ class ThemeService extends ChangeNotifier {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       statusBarBrightness:
-          isSavedDarkMode() ? Brightness.light : Brightness.dark,
+          isSavedDarkMode() ? Brightness.dark : Brightness.light,
       statusBarIconBrightness:
-          isSavedDarkMode() ? Brightness.light : Brightness.dark,
+          isSavedDarkMode() ? Brightness.dark: Brightness.light,
     ));
   }
 
