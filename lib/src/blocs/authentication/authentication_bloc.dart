@@ -12,6 +12,7 @@ import 'package:cloudmate/src/resources/remote/upload_repository.dart';
 import 'package:cloudmate/src/resources/remote/user_repository.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/routes/app_routes.dart';
+import 'package:cloudmate/src/ui/common/widgets/get_snack_bar.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc() : super(InitialAuthenticationState());
@@ -44,6 +45,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           userModel: userModel,
         );
       } else {
+        GetSnackBar getSnackBar = GetSnackBar(
+          title: 'Đăng nhập thất bại!',
+          subTitle: 'Sai số điện thoại hoặc mật khẩu.',
+        );
+        getSnackBar.show();
         yield AuthenticationFail();
       }
     }
@@ -56,6 +62,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           userModel: userModel,
         );
       } else {
+        GetSnackBar getSnackBar = GetSnackBar(
+          title: 'Đăng kí thất bại!',
+          subTitle: 'Số điện thoại đã tồn tại, hãy thử lại!',
+        );
+        getSnackBar.show();
         yield AuthenticationFail();
       }
     }
@@ -152,8 +163,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _updateAvatar({
     required File avatar,
   }) async {
-    UploadResponseModel? response =
-        await UploadRepository().uploadSingleFile(file: avatar);
+    UploadResponseModel? response = await UploadRepository().uploadSingleFile(file: avatar);
 
     if (response != null) {
       UserModel? user = await UserRepository().updateAvatar(
