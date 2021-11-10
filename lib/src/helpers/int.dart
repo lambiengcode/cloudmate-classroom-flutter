@@ -18,4 +18,15 @@ extension IntHelper on int {
       return colorHigh;
     }
   }
+
+  String getRoleName() {
+    switch (this) {
+      case 0:
+        return "Thành viên";
+      case 1:
+        return "Admin";
+      default:
+        return "Quản lí";
+    }
+  }
 }

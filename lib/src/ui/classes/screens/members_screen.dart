@@ -1,5 +1,6 @@
 import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/models/class_model.dart';
+import 'package:cloudmate/src/models/user.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
@@ -51,6 +52,11 @@ class _MembersScreenState extends State<MembersScreen> {
       ),
       body: BlocBuilder<ClassBloc, ClassState>(
         builder: (context, state) {
+
+          List<ClassModel> listClass = state.props[0];
+          int indexMyClass = listClass.indexWhere((element) => element.id == widget.classModel.id);
+          List<UserModel> members = listClass[indexMyClass].members;
+
           return Container(
             child: Column(
               children: [
@@ -64,15 +70,11 @@ class _MembersScreenState extends State<MembersScreen> {
                   child: ListView.builder(
                     padding: EdgeInsets.only(bottom: 16.sp),
                     physics: BouncingScrollPhysics(),
-                    itemCount: 4,
+                    itemCount: members.length,
                     itemBuilder: (context, index) {
                       return UserRequestCard(
-                        fullName: 'lambiengcode',
-                        urlToImage: 'https://avatars.githubusercontent.com/u/60530946?v=4',
-                        blurHash: '',
-                        isLast: index == 3,
-                        requestTime: DateTime.now(),
-                        requestMessage: 'Tham gia lớp học',
+                        user: members[index],
+                        isLast: index == members.length - 1,
                       );
                     },
                   ),

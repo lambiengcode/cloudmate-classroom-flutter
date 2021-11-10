@@ -14,7 +14,7 @@ class RoadMapContentRepository {
   }) async {
     var body = {
       "name": name,
-      "description": '',
+      "description": 'description',
       "startTime": startTime,
       "endTime": endTime,
     };

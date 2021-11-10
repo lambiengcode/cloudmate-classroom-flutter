@@ -102,7 +102,7 @@ class ClassRepository {
 
     if ([200, 201].contains(response.statusCode)) {
       List<dynamic> listResult = response.data['data'];
-      return listResult.map((item) => UserModel.fromMap(item)).toList();
+      return listResult.map((item) => UserModel.fromMap(item['user'], role: item['role'])).toList();
     }
 
     return [];

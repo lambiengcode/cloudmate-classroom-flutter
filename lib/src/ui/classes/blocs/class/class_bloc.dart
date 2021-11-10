@@ -283,6 +283,11 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
   Future<void> _getMembers({required String classId}) async {
     List<UserModel> listResult = await ClassRepository().getListMembers(classId: classId);
     if (listResult.isNotEmpty) {
+      String myId = AppBloc.authBloc.userModel!.id;
+      int myIndexInClass = listResult.indexWhere((item) => item.id == myId);
+      if (myIndexInClass != -1) {
+        listResult.removeAt(myIndexInClass);
+      }
       int index = classes.indexWhere((item) => item.id == classId);
       classes[index].members = listResult;
     }
