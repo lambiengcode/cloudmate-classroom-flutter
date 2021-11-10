@@ -52,6 +52,8 @@ class TakeQuestionEvent extends DoExamEvent {
   TakeQuestionEvent({required this.question});
 }
 
+class LeaveQuizEvent extends DoExamEvent {}
+
 class FinishQuizEvent extends DoExamEvent {}
 
 class StartPingEvent extends DoExamEvent {}
