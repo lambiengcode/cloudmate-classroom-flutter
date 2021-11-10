@@ -309,7 +309,7 @@ packages:
     source: sdk
     version: "0.0.0"
   get:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: get
       url: "https://pub.dartlang.org"

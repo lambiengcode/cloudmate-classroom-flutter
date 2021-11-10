@@ -41,8 +41,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
             elevation: 0.0,
             centerTitle: true,
             leading: IconButton(
-              onPressed: () {
-              },
+              onPressed: () {},
               icon: Icon(
                 PhosphorIcons.slidersHorizontal,
                 size: 22.sp,
@@ -154,9 +153,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
                     _buildTitle(
                       yourClass.i18n,
                       PhosphorIcons.chalkboardSimpleBold,
-                      themeService.isSavedDarkMode()
-                          ? colorGreenLight
-                          : colorActive,
+                      themeService.isSavedDarkMode() ? colorGreenLight : colorActive,
                     ),
                     Container(
                       height: 164.sp,

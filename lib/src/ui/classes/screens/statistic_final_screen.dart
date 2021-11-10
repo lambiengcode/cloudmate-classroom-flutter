@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:cloudmate/src/models/statistic_model.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
@@ -12,24 +10,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
-class StatisticInExamScreen extends StatefulWidget {
+class StatisticFinalScreen extends StatefulWidget {
   final StatisticModel statisticModel;
-  StatisticInExamScreen({required this.statisticModel});
+  StatisticFinalScreen({required this.statisticModel});
   @override
-  State<StatefulWidget> createState() => _StatisticInExamScreenState();
+  State<StatefulWidget> createState() => _StatisticFinalScreenState();
 }
 
-class _StatisticInExamScreenState extends State<StatisticInExamScreen> {
+class _StatisticFinalScreenState extends State<StatisticFinalScreen> {
   late DoExamBloc _doExamBloc;
-  Timer? _timmerInstance;
-  int time = 3;
   String answer = "";
   List<double> percents = [];
 
   @override
   void initState() {
     super.initState();
-    startTimmer();
     _doExamBloc = BlocProvider.of<DoExamBloc>(context);
     int total = widget.statisticModel.chooses.reduce((value, element) => value + element);
     double totalPercent = 0.0;
@@ -45,28 +40,7 @@ class _StatisticInExamScreenState extends State<StatisticInExamScreen> {
 
   @override
   void dispose() {
-    if (_timmerInstance != null) {
-      if (_timmerInstance!.isActive) {
-        _timmerInstance!.cancel();
-      }
-    }
     super.dispose();
-  }
-
-  void startTimmer() {
-    var oneSec = Duration(seconds: 1);
-    _timmerInstance = Timer.periodic(
-      oneSec,
-      (Timer timer) => setState(
-        () {
-          if (time <= 0) {
-            _timmerInstance!.cancel();
-          } else {
-            time--;
-          }
-        },
-      ),
-    );
   }
 
   @override
@@ -136,45 +110,6 @@ class _StatisticInExamScreenState extends State<StatisticInExamScreen> {
                       ),
                     ],
                   ),
-                ),
-              ),
-              Container(
-                width: 100.w,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(height: 20.sp),
-                    Text(
-                      'Tiếp tục trong',
-                      style: TextStyle(
-                        color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.75),
-                        fontFamily: FontFamily.lato,
-                        fontSize: 15.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    SizedBox(height: 12.sp),
-                    Text(
-                      '$time',
-                      style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        fontFamily: FontFamily.lato,
-                        fontSize: 25.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    SizedBox(height: 4.sp),
-                    Text(
-                      'giây nữa',
-                      style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        fontFamily: FontFamily.lato,
-                        fontSize: 15.sp,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    SizedBox(height: 6.sp),
-                  ],
                 ),
               ),
             ],
