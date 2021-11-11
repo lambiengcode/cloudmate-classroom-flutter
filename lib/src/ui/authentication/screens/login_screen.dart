@@ -38,6 +38,7 @@ class _LoginPageState extends State<LoginPage> {
         height: 100.h,
         width: 100.w,
         child: Form(
+          autovalidateMode: AutovalidateMode.disabled,
           key: _formKey,
           child: NotificationListener<OverscrollIndicatorNotification>(
             onNotification: (overscroll) {
@@ -48,8 +49,7 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).viewInsets.bottom),
+                    padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
                     child: SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
@@ -122,10 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                                         style: TextStyle(
                                           fontFamily: FontFamily.lato,
                                           fontSize: 10.sp,
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .bodyText2!
-                                              .color,
+                                          color: Theme.of(context).textTheme.bodyText2!.color,
                                         ),
                                         children: [
                                           TextSpan(
@@ -145,18 +142,19 @@ class _LoginPageState extends State<LoginPage> {
                                 SizedBox(height: 6.sp),
                                 GestureDetector(
                                   onTap: () async {
-                                    showDialogLoading(context);
-                                    AppBloc.authBloc.add(
-                                      LoginEvent(
-                                        username: email,
-                                        password: password,
-                                      ),
-                                    );
+                                    if (_formKey.currentState!.validate()) {
+                                      showDialogLoading(context);
+                                      AppBloc.authBloc.add(
+                                        LoginEvent(
+                                          username: email,
+                                          password: password,
+                                        ),
+                                      );
+                                    }
                                   },
                                   child: Container(
                                     height: 40.sp,
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 16.sp),
+                                    margin: EdgeInsets.symmetric(horizontal: 16.sp),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(8.sp),
                                       color: colorPrimary,
@@ -210,13 +208,15 @@ class _LoginPageState extends State<LoginPage> {
             usernameFocus.unfocus();
             passwordFocus.requestFocus();
           } else {
-            showDialogLoading(context);
-            AppBloc.authBloc.add(
-              LoginEvent(
-                username: email,
-                password: password,
-              ),
-            );
+            if (_formKey.currentState!.validate()) {
+              showDialogLoading(context);
+              AppBloc.authBloc.add(
+                LoginEvent(
+                  username: email,
+                  password: password,
+                ),
+              );
+            }
           }
         },
         cursorRadius: Radius.circular(30.0),
@@ -228,7 +228,13 @@ class _LoginPageState extends State<LoginPage> {
         inputFormatters: [
           FilteringTextInputFormatter.singleLineFormatter,
         ],
-        validator: (val) => null,
+        validator: (val) {
+          if (title == 'Email') {
+            return val!.trim().isEmpty ? valid : null;
+          } else {
+            return val!.length < 6 ? valid : null;
+          }
+        },
         onChanged: (val) {
           if (title == 'Email') {
             email = val.trim();
@@ -245,8 +251,7 @@ class _LoginPageState extends State<LoginPage> {
           border: InputBorder.none,
           labelText: title,
           labelStyle: TextStyle(
-            color:
-                Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
+            color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
             fontSize: 11.sp,
             fontWeight: FontWeight.w500,
           ),
