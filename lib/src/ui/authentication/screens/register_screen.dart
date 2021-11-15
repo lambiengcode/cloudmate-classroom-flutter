@@ -64,6 +64,7 @@ class _RegisterPageState extends State<RegisterPage> {
         width: 100.w,
         child: Form(
           key: _formKey,
+          autovalidateMode: AutovalidateMode.always,
           child: NotificationListener<OverscrollIndicatorNotification>(
             onNotification: (overscroll) {
               overscroll.disallowGlow();

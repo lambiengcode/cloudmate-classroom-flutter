@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:cloudmate/src/models/statistic_model.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
@@ -77,14 +76,7 @@ class _StatisticInExamScreenState extends State<StatisticInExamScreen> {
         systemOverlayStyle: ThemeService.systemBrightness,
         centerTitle: true,
         elevation: .0,
-        leading: IconButton(
-          onPressed: () => _doExamBloc.add(LeaveQuizEvent()),
-          icon: Icon(
-            PhosphorIcons.signOut,
-            size: 20.sp,
-            color: colorHigh,
-          ),
-        ),
+        automaticallyImplyLeading: false,
         title: Text(
           'Thống kê',
           style: TextStyle(
@@ -94,6 +86,16 @@ class _StatisticInExamScreenState extends State<StatisticInExamScreen> {
             color: Theme.of(context).textTheme.bodyText1!.color,
           ),
         ),
+        actions: [
+          IconButton(
+            onPressed: () => _doExamBloc.add(FinishQuizEvent()),
+            icon: Icon(
+              PhosphorIcons.signOut,
+              size: 20.sp,
+              color: colorHigh,
+            ),
+          )
+        ],
       ),
       body: Container(
         child: SafeArea(

@@ -73,6 +73,17 @@ class _DrawerOptionState extends State<DrawerOption> {
                             },
                           ),
                           _buildDividerTransparant(context),
+                          _buildLine(
+                            context,
+                            'Lịch sử kiểm tra',
+                            PhosphorIcons.clockClockwise,
+                            colorPrimary,
+                            AppRoutes.LIST_EXAM,
+                            arguments: {
+                              'classId': widget.classModel.id,
+                            },
+                          ),
+                          _buildDividerTransparant(context),
                         ],
                   _buildLine(
                     context,

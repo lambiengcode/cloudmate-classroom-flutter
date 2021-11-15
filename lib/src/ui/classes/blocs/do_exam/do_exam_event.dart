@@ -5,7 +5,8 @@ abstract class DoExamEvent {}
 
 class CreateQuizEvent extends DoExamEvent {
   final String examId;
-  CreateQuizEvent({required this.examId});
+  final String classId;
+  CreateQuizEvent({required this.examId, required this.classId});
 }
 
 class CreateQuizSuccessEvent extends DoExamEvent {
@@ -51,8 +52,6 @@ class TakeQuestionEvent extends DoExamEvent {
   final QuestionModel question;
   TakeQuestionEvent({required this.question});
 }
-
-class LeaveQuizEvent extends DoExamEvent {}
 
 class FinishQuizEvent extends DoExamEvent {}
 

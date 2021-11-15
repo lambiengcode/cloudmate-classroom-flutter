@@ -1,4 +1,4 @@
-package com.example.flutter_mobile_2school
+package com.wanted.cloudmate
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,11 +1,14 @@
+import 'package:cloudmate/src/helpers/device_helper.dart';
+import 'package:cloudmate/src/models/device_model.dart';
 import 'package:cloudmate/src/public/sockets.dart';
 import 'package:cloudmate/src/services/socket/socket.dart';
 import 'package:cloudmate/src/utils/logger.dart';
 
 class SocketEmit {
-  createQuiz({required examId}) {
+  createQuiz({required examId, required classId}) {
     socket!.emit(SocketEvent.CREATE_QUIZ_CSS, {
       'idSetOfQuestions': examId,
+      'idClass': classId,
     });
   }
 
@@ -18,7 +21,7 @@ class SocketEmit {
 
   leaveRoom({required roomId}) {
     socket!.emit(SocketEvent.LEAVE_ROOM_CSS, {
-      'roomId': roomId,
+      'idRoom': roomId,
     });
   }
 
@@ -29,12 +32,6 @@ class SocketEmit {
   }
 
   answerQuestion({required String answer, required String roomId, required String questionId}) {
-    print('answerQuestion :' +
-        {
-          'idRoom': roomId,
-          'idQuestion': questionId,
-          'answer': answer,
-        }.toString());
     socket!.emit(SocketEvent.ANSWER_THE_QUESTION_CSS, {
       'idRoom': roomId,
       'idQuestion': questionId,
@@ -44,5 +41,13 @@ class SocketEmit {
 
   pingToServer() {
     socket!.emit(SocketEvent.PING);
+  }
+
+  sendDeviceInfo() async {
+    DeviceModel deviceModel = await getDeviceDetails();
+    socket!.emit(
+      SocketEvent.SEND_FCM_TOKEN_CSS,
+      deviceModel.toMap(),
+    );
   }
 }

@@ -107,7 +107,10 @@ class _ListExamScreenState extends State<ListExamScreen> {
           onTap: () {
             if (widget.isPickedMode) {
               AppBloc.doExamBloc.add(
-                CreateQuizEvent(examId: state.props[0][index].id),
+                CreateQuizEvent(
+                  examId: state.props[0][index].id,
+                  classId: widget.classId,
+                ),
               );
             } else {
               AppNavigator.push(

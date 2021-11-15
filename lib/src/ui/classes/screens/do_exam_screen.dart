@@ -24,6 +24,7 @@ class DoExamScreen extends StatefulWidget {
 }
 
 class _DoExamScreenState extends State<DoExamScreen> {
+  late DoExamBloc _doExamBloc;
   List<Color> _colors = [
     colorPrimary,
     colorHigh,
@@ -39,6 +40,7 @@ class _DoExamScreenState extends State<DoExamScreen> {
   void initState() {
     super.initState();
     startTimmer();
+    _doExamBloc = BlocProvider.of<DoExamBloc>(context);
     _colors.shuffle();
   }
 
@@ -171,7 +173,7 @@ class _DoExamScreenState extends State<DoExamScreen> {
             null,
             colorHigh,
             handlePressed: () {
-              AppNavigator.pop();
+              _doExamBloc.add(FinishQuizEvent());
             },
           ),
         ],
