@@ -22,4 +22,6 @@ class SocketEvent {
 
   static const TAKE_THE_QUESTION_CSS = 'TAKE_THE_QUESTION_CSS';
   static const TAKE_THE_QUESTION_SSC = 'TAKE_THE_QUESTION_SSC';
+
+  static const SEND_FCM_TOKEN_CSS = 'SEND_FCM_TOKEN_CSS';
 }

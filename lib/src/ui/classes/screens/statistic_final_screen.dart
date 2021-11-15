@@ -51,14 +51,7 @@ class _StatisticFinalScreenState extends State<StatisticFinalScreen> {
         systemOverlayStyle: ThemeService.systemBrightness,
         centerTitle: true,
         elevation: .0,
-        leading: IconButton(
-          onPressed: () => _doExamBloc.add(LeaveQuizEvent()),
-          icon: Icon(
-            PhosphorIcons.signOut,
-            size: 20.sp,
-            color: colorHigh,
-          ),
-        ),
+        automaticallyImplyLeading: false,
         title: Text(
           'Thống kê',
           style: TextStyle(
@@ -68,6 +61,16 @@ class _StatisticFinalScreenState extends State<StatisticFinalScreen> {
             color: Theme.of(context).textTheme.bodyText1!.color,
           ),
         ),
+        actions: [
+          IconButton(
+            onPressed: () => _doExamBloc.add(FinishQuizEvent()),
+            icon: Icon(
+              PhosphorIcons.signOut,
+              size: 20.sp,
+              color: colorHigh,
+            ),
+          )
+        ],
       ),
       body: Container(
         child: SafeArea(

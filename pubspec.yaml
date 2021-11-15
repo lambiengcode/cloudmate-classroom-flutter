@@ -46,6 +46,7 @@ dependencies:
   flutter_datetime_picker: ^1.5.1
   excel: ^2.0.0-null-safety-3
   get: ^4.3.8
+  device_info: ^2.0.3
 
   # Firebase
   firebase_core: ^1.10.0

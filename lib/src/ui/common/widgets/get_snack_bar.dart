@@ -5,9 +5,11 @@ import 'package:sizer/sizer.dart';
 class GetSnackBar {
   final String title;
   final String subTitle;
+  final int duration;
   GetSnackBar({
     required this.title,
     required this.subTitle,
+    this.duration = 1500,
   });
 
   show() {
@@ -18,7 +20,7 @@ class GetSnackBar {
       colorText: Colors.white,
       backgroundColor: Colors.black45,
       duration: Duration(
-        milliseconds: 1500,
+        milliseconds: duration,
       ),
       titleText: Text(
         title,

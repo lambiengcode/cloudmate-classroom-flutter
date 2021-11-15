@@ -26,7 +26,7 @@ class DoExamBloc extends Bloc<DoExamEvent, DoExamState> {
   Stream<DoExamState> mapEventToState(DoExamEvent event) async* {
     if (event is CreateQuizEvent) {
       _resetUsers();
-      _createQuiz(examId: event.examId);
+      _createQuiz(examId: event.examId, classId: event.classId);
     }
 
     if (event is CreateQuizSuccessEvent) {
@@ -91,9 +91,9 @@ class DoExamBloc extends Bloc<DoExamEvent, DoExamState> {
   }
 
   // MARK: - Event handle function
-  void _createQuiz({required String examId}) {
+  void _createQuiz({required String examId, required String classId}) {
     AppNavigator.pop();
-    SocketEmit().createQuiz(examId: examId);
+    SocketEmit().createQuiz(examId: examId, classId: classId);
   }
 
   void _createQuizSuccess() {
@@ -164,12 +164,13 @@ class DoExamBloc extends Bloc<DoExamEvent, DoExamState> {
   void _endPing() {
     endTime = DateTime.now();
     ping = endTime.difference(startTime).inMicroseconds;
-    Future.delayed(Duration(seconds: 3), () {
-      _startPing();
-    });
+    // Future.delayed(Duration(seconds: 5), () {
+    //   _startPing();
+    // });
   }
 
   void _leaveQuiz() {
+    SocketEmit().leaveRoom(roomId: roomId);
     AppNavigator.pop();
   }
 }
