@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "346586327036",
+    "project_id": "cloudmate-243bf",
+    "storage_bucket": "cloudmate-243bf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:346586327036:android:22508e54c1752947f77479",
+        "android_client_info": {
+          "package_name": "com.wanted.cloudmate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "346586327036-fjps5ntuml5676862ju5eljav2qoq8sr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwdoptIa5nvx6rZp_Jia_6dS7c0nYF_9I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "346586327036-fjps5ntuml5676862ju5eljav2qoq8sr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "346586327036-cukqoq8teu58v3eb35rdugq1sjq7va0t.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.wanted.cloudmate"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

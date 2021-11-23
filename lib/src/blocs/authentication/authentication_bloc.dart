@@ -37,7 +37,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
     }
 
-    if (event is LoginEvent) {
+    if  (event is LoginEvent) {
       bool isSuccess = await _handleLogin(event);
       AppNavigator.pop();
       if (isSuccess) {

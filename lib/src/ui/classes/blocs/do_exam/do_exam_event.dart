@@ -6,7 +6,14 @@ abstract class DoExamEvent {}
 class CreateQuizEvent extends DoExamEvent {
   final String examId;
   final String classId;
-  CreateQuizEvent({required this.examId, required this.classId});
+  final String title;
+  final String description;
+  CreateQuizEvent({
+    required this.examId,
+    required this.classId,
+    required this.title,
+    required this.description,
+  });
 }
 
 class CreateQuizSuccessEvent extends DoExamEvent {
