@@ -12,6 +12,7 @@ import 'package:cloudmate/src/resources/remote/upload_repository.dart';
 import 'package:cloudmate/src/resources/remote/user_repository.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/routes/app_routes.dart';
+import 'package:cloudmate/src/ui/classes/blocs/class/class_bloc.dart';
 import 'package:cloudmate/src/ui/common/widgets/get_snack_bar.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
@@ -47,7 +48,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       } else {
         GetSnackBar getSnackBar = GetSnackBar(
           title: 'Đăng nhập thất bại!',
-          subTitle: 'Sai số điện thoại hoặc mật khẩu.',
+          subTitle: 'Sai Email hoặc mật khẩu, hãy thử lại!',
         );
         getSnackBar.show();
         yield AuthenticationFail();
@@ -64,7 +65,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       } else {
         GetSnackBar getSnackBar = GetSnackBar(
           title: 'Đăng kí thất bại!',
-          subTitle: 'Số điện thoại đã tồn tại, hãy thử lại!',
+          subTitle: 'Email đã được đăng kí, hãy thử lại!',
         );
         getSnackBar.show();
         yield AuthenticationFail();
@@ -130,6 +131,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Future<bool> _handleLogOut() async {
+    AppBloc.classBloc.add(ClearClass());
     await AuthenticationRepository().logOut();
     return true;
   }

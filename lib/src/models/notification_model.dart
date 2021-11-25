@@ -4,10 +4,12 @@ class NotificationModel {
   final String id;
   final String title;
   final String description;
+  final DateTime createdAt;
   NotificationModel({
     required this.id,
     required this.title,
     required this.description,
+    required this.createdAt,
   });
 
   NotificationModel copyWith({
@@ -19,6 +21,7 @@ class NotificationModel {
       id: id ?? this.id,
       title: title ?? this.title,
       description: description ?? this.description,
+      createdAt: this.createdAt,
     );
   }
 
@@ -32,9 +35,10 @@ class NotificationModel {
 
   factory NotificationModel.fromMap(Map<String, dynamic> map) {
     return NotificationModel(
-      id: map['id'],
+      id: map['_id'],
       title: map['title'],
       description: map['description'],
+      createdAt: DateTime.parse(map['createdAt']),
     );
   }
 

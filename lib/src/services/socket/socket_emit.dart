@@ -5,10 +5,12 @@ import 'package:cloudmate/src/services/socket/socket.dart';
 import 'package:cloudmate/src/utils/logger.dart';
 
 class SocketEmit {
-  createQuiz({required examId, required classId}) {
+  createQuiz({required examId, required classId, required title, required description,}) {
     socket!.emit(SocketEvent.CREATE_QUIZ_CSS, {
       'idSetOfQuestions': examId,
       'idClass': classId,
+      'title': title,
+      'description': description,
     });
   }
 

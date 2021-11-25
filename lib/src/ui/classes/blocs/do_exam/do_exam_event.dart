@@ -6,7 +6,14 @@ abstract class DoExamEvent {}
 class CreateQuizEvent extends DoExamEvent {
   final String examId;
   final String classId;
-  CreateQuizEvent({required this.examId, required this.classId});
+  final String title;
+  final String description;
+  CreateQuizEvent({
+    required this.examId,
+    required this.classId,
+    required this.title,
+    required this.description,
+  });
 }
 
 class CreateQuizSuccessEvent extends DoExamEvent {
@@ -50,10 +57,16 @@ class AnswerQuestionEvent extends DoExamEvent {
 
 class TakeQuestionEvent extends DoExamEvent {
   final QuestionModel question;
-  TakeQuestionEvent({required this.question});
+  final String indexQuestion;
+  TakeQuestionEvent({required this.question, required this.indexQuestion});
 }
 
-class FinishQuizEvent extends DoExamEvent {}
+class FinishQuizEvent extends DoExamEvent {
+  final FinalStatisticModel finalStatistic;
+  FinishQuizEvent({required this.finalStatistic});
+}
+
+class QuitQuizEvent extends DoExamEvent {}
 
 class StartPingEvent extends DoExamEvent {}
 

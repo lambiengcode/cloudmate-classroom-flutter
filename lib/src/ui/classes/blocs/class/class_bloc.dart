@@ -194,6 +194,20 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
         isOver: isOverClasses,
       );
     }
+
+    if (event is ClearClass) {
+      classes.clear();
+      recommendClasses.clear();
+      isOverClasses = false;
+      isOverRecommend = false;
+      skip = 0;
+      skipRecommend = 0;
+      yield GetClassesDone(
+        listClasses: classes,
+        listRecommend: recommendClasses,
+        isOver: isOverClasses,
+      );
+    }
   }
 
   // MARK: - Event handler function
@@ -261,7 +275,7 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
       if (newClass != null) {
         int index = classes.indexWhere((item) => item.id == id);
         if (index != -1) {
-          classes.insert(0, newClass);
+          classes[index] = newClass;
         }
       }
     }
