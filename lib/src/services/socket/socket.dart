@@ -71,11 +71,19 @@ void connectAndListen() async {
     socket!.on(SocketEvent.TAKE_THE_QUESTION_SSC, (data) {
       UtilLogger.log('TAKE_THE_QUESTION_SSC', data);
       if (data['data'] == null || data['data'] == 'null') {
-        AppBloc.doExamBloc.add(FinishQuizEvent());
+        AppBloc.doExamBloc.add(QuitQuizEvent());
         return;
       }
       QuestionModel question = QuestionModel.fromMap(data['data']);
-      AppBloc.doExamBloc.add(TakeQuestionEvent(question: question));
+      AppBloc.doExamBloc
+          .add(TakeQuestionEvent(question: question, indexQuestion: data['data']['indexQuestion']));
+    });
+
+    socket!.on('STATISTICAL_ROOM_FINAL_SSC', (data) {
+      UtilLogger.log('STATISTICAL_ROOM_FINAL_SSC', data);
+      Map<String, dynamic> statistical = data['data'];
+      FinalStatisticModel finalStatistic = FinalStatisticModel.fromMap(statistical);
+      AppBloc.doExamBloc.add(FinishQuizEvent(finalStatistic: finalStatistic));
     });
 
     socket!.onDisconnect((_) => debugPrint('disconnect'));

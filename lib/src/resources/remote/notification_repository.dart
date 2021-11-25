@@ -10,7 +10,7 @@ class NotificationRepository {
       query: 'skip=$skip&limit=$limit',
     );
     if (response.statusCode == 200) {
-      List<dynamic> resultJson = response.data;
+      List<dynamic> resultJson = response.data['data'];
       return resultJson.map((item) => NotificationModel.fromMap(item)).toList();
     }
 

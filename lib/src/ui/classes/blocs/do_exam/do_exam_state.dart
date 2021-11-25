@@ -24,6 +24,6 @@ class ShowStatistic extends DoExamState {
 }
 
 class FinishStatistic extends DoExamState {
-  final StatisticModel statistic;
+  final FinalStatisticModel statistic;
   FinishStatistic({required this.statistic});
 }

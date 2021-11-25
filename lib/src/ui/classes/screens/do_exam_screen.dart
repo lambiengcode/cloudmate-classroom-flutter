@@ -173,7 +173,7 @@ class _DoExamScreenState extends State<DoExamScreen> {
             null,
             colorHigh,
             handlePressed: () {
-              _doExamBloc.add(FinishQuizEvent());
+              _doExamBloc.add(QuitQuizEvent());
             },
           ),
         ],

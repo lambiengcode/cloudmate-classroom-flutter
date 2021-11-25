@@ -1,4 +1,5 @@
 import 'package:cloudmate/src/models/class_model.dart';
+import 'package:cloudmate/src/utils/blurhash.dart';
 import 'package:flutter/material.dart';
 import 'package:cloudmate/src/resources/hard/hard_chat.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
@@ -35,10 +36,15 @@ class _RecommendClassCardState extends State<RecommendClassCard> {
                     height: 46.sp,
                     width: 46.sp,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12.sp),
-                      image: DecorationImage(
-                        image: NetworkImage(widget.classModel.image),
-                        fit: BoxFit.cover,
+                      shape: BoxShape.circle,
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(1000.sp),
+                      child: BlurHash(
+                        hash: widget.classModel.blurHash,
+                        image: widget.classModel.image,
+                        imageFit: BoxFit.cover,
+                        color: colorPrimary,
                       ),
                     ),
                   ),

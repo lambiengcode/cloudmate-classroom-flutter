@@ -1,11 +1,15 @@
+import 'package:cloudmate/src/models/notification_model.dart';
 import 'package:cloudmate/src/public/constants.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/utils/blurhash.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
 
 class NotificationCard extends StatefulWidget {
+  final NotificationModel notification;
+  NotificationCard({required this.notification});
   @override
   State<StatefulWidget> createState() => _NotificationCardState();
 }
@@ -50,20 +54,31 @@ class _NotificationCardState extends State<NotificationCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'This is notification in Cloudmate app. This is notification in Cloudmate application.',
+                  widget.notification.title,
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    fontSize: 12.sp,
+                    fontFamily: FontFamily.lato,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                SizedBox(height: 2.sp),
+                Text(
+                  widget.notification.description,
                   textAlign: TextAlign.start,
                   style: TextStyle(
                     fontSize: 12.sp,
                     fontFamily: FontFamily.lato,
                   ),
                 ),
-                SizedBox(height: 6.sp),
+                SizedBox(height: 4.sp),
                 Text(
-                  '18 Oct, 2021',
+                  DateFormat('HH:mm - dd/MM/yyyy').format(widget.notification.createdAt),
                   style: TextStyle(
                     fontSize: 11.25.sp,
                     fontFamily: FontFamily.lato,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w600,
+                    color: colorPrimary,
                   ),
                 ),
               ],

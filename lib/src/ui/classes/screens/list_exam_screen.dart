@@ -110,8 +110,8 @@ class _ListExamScreenState extends State<ListExamScreen> {
                 CreateQuizEvent(
                   examId: state.props[0][index].id,
                   classId: widget.classId,
-                  title: '',
-                  description: '',
+                  title: 'title',
+                  description: 'description',
                 ),
               );
             } else {

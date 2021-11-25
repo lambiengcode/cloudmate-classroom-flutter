@@ -13,6 +13,7 @@ class UserModel {
   final int? status;
   final String? intro;
   final int? role;
+  final int? score;
 
   UserModel({
     required this.id,
@@ -25,6 +26,7 @@ class UserModel {
     this.status,
     this.intro,
     this.role,
+    this.score,
   });
 
   UserModel copyWith({
@@ -37,6 +39,8 @@ class UserModel {
     String? lastName,
     int? status,
     String? intro,
+    int? role,
+    int? score,
   }) {
     return UserModel(
       id: id ?? this.id,
@@ -48,6 +52,8 @@ class UserModel {
       lastName: lastName ?? this.lastName,
       status: status ?? this.status,
       intro: intro ?? this.intro,
+      role: role ?? this.role,
+      score: score ?? this.score,
     );
   }
 
@@ -62,15 +68,16 @@ class UserModel {
       'lastName': lastName,
       'status': status,
       'intro': intro,
+      'role': role,
+      'score': score,
     };
   }
 
   factory UserModel.fromMap(Map<String, dynamic> map, {int? role}) {
     return UserModel(
       id: map['_id'],
-      image: map['image'] == ''
-          ? Constants.urlImageDefault
-          : (Application.imageUrl! + map['image']),
+      image:
+          map['image'] == '' ? Constants.urlImageDefault : (Application.imageUrl! + map['image']),
       blurHash: map['blurHash'] ?? '',
       phone: map['phone'] ?? '',
       displayName: map['displayName'] ?? '',
@@ -79,6 +86,23 @@ class UserModel {
       status: map['status'] ?? 0,
       intro: map['intro'],
       role: role ?? 0,
+    );
+  }
+
+  factory UserModel.fromStatistic(Map<dynamic, dynamic> map, {int? score}) {
+    return UserModel(
+      id: map['_id'],
+      image:
+          map['image'] == '' ? Constants.urlImageDefault : (Application.imageUrl! + map['image']),
+      blurHash: map['blurHash'] ?? '',
+      phone: map['phone'] ?? '',
+      displayName: map['displayName'] ?? '',
+      firstName: map['firstName'] ?? '',
+      lastName: map['lastName'] ?? '',
+      status: map['status'] ?? 0,
+      intro: map['intro'],
+      role: 0,
+      score: score ?? 0,
     );
   }
 

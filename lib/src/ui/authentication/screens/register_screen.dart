@@ -6,6 +6,7 @@ import 'package:cloudmate/src/themes/theme_service.dart';
 import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/utils.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
@@ -117,8 +118,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               ),
                               _buildDivider(context),
                               Container(
-                                padding:
-                                    EdgeInsets.fromLTRB(14.0, 24.0, 18.0, 4.0),
+                                padding: EdgeInsets.fromLTRB(14.0, 24.0, 18.0, 4.0),
                                 child: TextFormField(
                                   controller: _confirmPswController,
                                   cursorColor: colorTitle,
@@ -132,13 +132,11 @@ class _RegisterPageState extends State<RegisterPage> {
                                     fontSize: 11.sp,
                                     fontWeight: FontWeight.w500,
                                   ),
-                                  validator: (val) => val!.trim() != password
-                                      ? 'Mật khẩu không khớp'
-                                      : null,
+                                  validator: (val) =>
+                                      val!.trim() != password ? 'Mật khẩu không khớp' : null,
                                   obscureText: hidePassword,
                                   decoration: InputDecoration(
-                                    floatingLabelBehavior:
-                                        FloatingLabelBehavior.always,
+                                    floatingLabelBehavior: FloatingLabelBehavior.always,
                                     contentPadding: EdgeInsets.only(
                                       left: 12.0,
                                     ),
@@ -223,7 +221,13 @@ class _RegisterPageState extends State<RegisterPage> {
           fontWeight: FontWeight.w500,
         ),
         validator: (val) {
-          return;
+          if (title == 'Email') {
+            return !GetUtils.isEmail(val!) ? valid : null;
+          } else if (title == 'Mật khẩu') {
+            return val!.length < 6 ? valid : null;
+          } else {
+            return val!.length == 0 ? valid : null;
+          }
         },
         onChanged: (val) {
           setState(() {
@@ -252,8 +256,7 @@ class _RegisterPageState extends State<RegisterPage> {
           border: InputBorder.none,
           labelText: title,
           labelStyle: TextStyle(
-            color:
-                Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
+            color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
             fontSize: 11.sp,
             fontWeight: FontWeight.w600,
           ),

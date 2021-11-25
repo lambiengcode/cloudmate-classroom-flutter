@@ -88,7 +88,7 @@ class _StatisticInExamScreenState extends State<StatisticInExamScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: () => _doExamBloc.add(FinishQuizEvent()),
+            onPressed: () => _doExamBloc.add(QuitQuizEvent()),
             icon: Icon(
               PhosphorIcons.signOut,
               size: 20.sp,

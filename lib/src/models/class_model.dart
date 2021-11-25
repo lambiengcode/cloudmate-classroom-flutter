@@ -100,7 +100,7 @@ class ClassModel {
       status: map['status'],
       blurHash: map['blurHash'] == '' ? defaultImageObject['blurHash'] : map['blurHash'],
       members: [],
-      image: map['image'] == '' ? defaultImageObject['image'] : map['image'],
+      image: map['image'] == '' ? defaultImageObject['image']! : (Application.imageUrl! + map['image']),
     );
   }
 

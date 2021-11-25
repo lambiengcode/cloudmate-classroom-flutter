@@ -197,7 +197,7 @@ class _EditInfoScreenState extends State<EditInfoScreen> {
           } else if (title == 'Tên của bạn') {
             return val!.trim().length == 0 ? valid : null;
           } else if (title == 'Số điện thoại') {
-            return val!.trim().length < 9 ? valid : null;
+            return val!.trim().length < 10 ? valid : null;
           }
           return val!.trim().length == 0 ? valid : null;
         },

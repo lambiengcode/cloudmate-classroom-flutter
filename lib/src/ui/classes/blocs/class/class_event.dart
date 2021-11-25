@@ -59,3 +59,5 @@ class UpdateImageClass extends ClassEvent {
   final String id;
   UpdateImageClass({required this.image, required this.id});
 }
+
+class ClearClass extends ClassEvent {}

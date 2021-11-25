@@ -57,10 +57,16 @@ class AnswerQuestionEvent extends DoExamEvent {
 
 class TakeQuestionEvent extends DoExamEvent {
   final QuestionModel question;
-  TakeQuestionEvent({required this.question});
+  final String indexQuestion;
+  TakeQuestionEvent({required this.question, required this.indexQuestion});
 }
 
-class FinishQuizEvent extends DoExamEvent {}
+class FinishQuizEvent extends DoExamEvent {
+  final FinalStatisticModel finalStatistic;
+  FinishQuizEvent({required this.finalStatistic});
+}
+
+class QuitQuizEvent extends DoExamEvent {}
 
 class StartPingEvent extends DoExamEvent {}
 

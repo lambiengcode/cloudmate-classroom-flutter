@@ -66,7 +66,7 @@ class DoExamBloc extends Bloc<DoExamEvent, DoExamState> {
     }
 
     if (event is TakeQuestionEvent) {
-      _setCurrentQuestion(question: event.question);
+      _setCurrentQuestion(question: event.question, indexQuestion: event.indexQuestion);
       yield DoingQuestion(question: currentQuestion!, ping: ping);
     }
 
@@ -80,6 +80,13 @@ class DoExamBloc extends Bloc<DoExamEvent, DoExamState> {
     }
 
     if (event is FinishQuizEvent) {
+      _leaveQuiz();
+      AppNavigator.replaceWith(AppRoutes.FINAL_STATISTIC_QUESTION, arguments: {
+      'statisticModel': event.finalStatistic,
+    });
+    }
+
+    if (event is QuitQuizEvent) {
       _leaveQuiz();
     }
 
@@ -148,8 +155,9 @@ class DoExamBloc extends Bloc<DoExamEvent, DoExamState> {
     users.clear();
   }
 
-  void _setCurrentQuestion({required QuestionModel question}) async {
+  void _setCurrentQuestion({required QuestionModel question, required String indexQuestion}) async {
     currentQuestion = question;
+    questionIndex = indexQuestion;
     AppNavigator.replaceWith(AppRoutes.DO_EXAM, arguments: {
       'questionModel': question,
       'questionIndex': questionIndex,

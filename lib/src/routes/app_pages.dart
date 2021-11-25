@@ -12,6 +12,7 @@ import 'package:cloudmate/src/ui/classes/screens/lobby_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/members_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/road_map_content_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/road_map_screen.dart';
+import 'package:cloudmate/src/ui/classes/screens/statistic_final_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/statistic_in_exam_screen.dart';
 import 'package:cloudmate/src/ui/notification/notification_screen.dart';
 import 'package:cloudmate/src/ui/profile/screens/edit_profile_screen.dart';
@@ -146,6 +147,14 @@ class AppNavigator {
         return _buildRoute(
           settings,
           StatisticInExamScreen(
+            statisticModel: arguments!['statisticModel'],
+          ),
+          _getSlideMode(arguments),
+        );
+      case AppRoutes.FINAL_STATISTIC_QUESTION:
+        return _buildRoute(
+          settings,
+          StatisticFinalScreen(
             statisticModel: arguments!['statisticModel'],
           ),
           _getSlideMode(arguments),

@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
+import 'package:cloudmate/src/helpers/string.dart';
 
 class CreateQuestionScreen extends StatefulWidget {
   final QuestionBloc questionBloc;
@@ -132,7 +133,7 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
           IconButton(
             onPressed: () {
               if (_corrects.length == 0) {
-                GetSnackBar getSnackBar =  GetSnackBar(
+                GetSnackBar getSnackBar = GetSnackBar(
                   title: 'Tạo câu hỏi thất bại!',
                   subTitle: 'Chưa có câu trả lời đúng cho câu hỏi này.',
                 );
@@ -275,7 +276,7 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
                                           ),
                                           SizedBox(width: 10.sp),
                                           Text(
-                                            answer,
+                                            answer.limitLength(30),
                                             style: TextStyle(
                                               color: Colors.white,
                                             ),

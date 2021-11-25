@@ -7,6 +7,7 @@ import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/utils.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
@@ -230,7 +231,7 @@ class _LoginPageState extends State<LoginPage> {
         ],
         validator: (val) {
           if (title == 'Email') {
-            return val!.trim().isEmpty ? valid : null;
+            return !GetUtils.isEmail(val!) ? valid : null;
           } else {
             return val!.length < 6 ? valid : null;
           }
