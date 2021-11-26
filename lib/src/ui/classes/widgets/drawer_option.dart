@@ -1,4 +1,5 @@
 import 'package:cloudmate/src/blocs/app_bloc.dart';
+import 'package:cloudmate/src/helpers/role_helper.dart';
 import 'package:cloudmate/src/models/class_model.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/routes/app_routes.dart';
@@ -107,29 +108,35 @@ class _DrawerOptionState extends State<DrawerOption> {
                     },
                   ),
                   _buildDividerTransparant(context),
-                  _buildLine(
-                    context,
-                    'Báo xấu',
-                    PhosphorIcons.info,
-                    null,
-                    null,
-                    handlePressed: () async {
-                      await dialogAnimationWrapper(
-                        context: context,
-                        dismissible: true,
-                        slideFrom: 'bottom',
-                        child: DialogInput(
-                          handleFinish: (input) {
-                            AppNavigator.popUntil(AppRoutes.DETAILS_CLASS);
+                  RoleHelper().canShowOptionReport(
+                          widget.classModel.members, widget.classModel.createdBy.id)
+                      ? _buildLine(
+                          context,
+                          'Báo xấu',
+                          PhosphorIcons.info,
+                          null,
+                          null,
+                          handlePressed: () async {
+                            await dialogAnimationWrapper(
+                              context: context,
+                              dismissible: true,
+                              slideFrom: 'bottom',
+                              child: DialogInput(
+                                handleFinish: (input) {
+                                  AppNavigator.popUntil(AppRoutes.DETAILS_CLASS);
+                                },
+                                title: 'Báo xấu lớp học',
+                                buttonTitle: 'Đồng ý',
+                                hideInputField: 'Nhập lí do...',
+                              ),
+                            );
                           },
-                          title: 'Báo xấu lớp học',
-                          buttonTitle: 'Đồng ý',
-                          hideInputField: 'Nhập lí do...',
-                        ),
-                      );
-                    },
-                  ),
-                  _buildDivider(context),
+                        )
+                      : SizedBox(),
+                  RoleHelper().canShowOptionReport(
+                          widget.classModel.members, widget.classModel.createdBy.id)
+                      ? _buildDivider(context)
+                      : SizedBox(),
                   _buildLine(
                     context,
                     'Rời lớp',

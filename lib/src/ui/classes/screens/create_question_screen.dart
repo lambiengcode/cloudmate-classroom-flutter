@@ -271,7 +271,7 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
                                             child: Icon(
                                               PhosphorIcons.xCircleFill,
                                               size: 20.sp,
-                                              color: Colors.white,
+                                              color: Colors.white, 
                                             ),
                                           ),
                                           SizedBox(width: 10.sp),
@@ -281,7 +281,7 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
                                               color: Colors.white,
                                             ),
                                           ),
-                                          SizedBox(width: 18.sp),
+                                          SizedBox(width: 18.sp), 
                                         ],
                                       ),
                                     ),
