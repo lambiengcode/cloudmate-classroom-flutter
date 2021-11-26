@@ -20,6 +20,10 @@ class ApiGateway {
   static const LEAVE_CLASS = 'api/classes/leaveClass';
   static const MEMBERS = 'api/classes/members';
 
+  // History
+  static const HISTORY = 'api/quiz-class/history';
+  static const DETAIL_HISTORY = 'api/quiz-class/history-detail';
+
   // Exam
   static const SET_OF_QUESTIONS = 'api/set-of-questions';
 

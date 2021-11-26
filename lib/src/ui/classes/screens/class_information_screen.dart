@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:ui';
 import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/helpers/picker/custom_image_picker.dart';
+import 'package:cloudmate/src/helpers/role_helper.dart';
 import 'package:cloudmate/src/models/class_model.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/ui/classes/blocs/class/class_bloc.dart';
@@ -9,6 +10,7 @@ import 'package:cloudmate/src/ui/classes/widgets/drawer_option.dart';
 import 'package:cloudmate/src/ui/common/dialogs/dialog_confirm.dart';
 import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:cloudmate/src/ui/common/widgets/animated_fade.dart';
+import 'package:cloudmate/src/ui/common/widgets/get_snack_bar.dart';
 import 'package:cloudmate/src/utils/blurhash.dart';
 import 'package:flutter/material.dart';
 import 'package:cloudmate/src/resources/hard/hard_post.dart';
@@ -146,7 +148,18 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  _scaffoldKey.currentState!.openEndDrawer();
+                                  if (RoleHelper().canShowDrawerClass(
+                                    widget.classModel.members,
+                                    widget.classModel.createdBy.id,
+                                  )) {
+                                    _scaffoldKey.currentState!.openEndDrawer();
+                                  } else {
+                                    GetSnackBar getSnackBar = GetSnackBar(
+                                      title: 'Không thể xem các lựa chọn',
+                                      subTitle: 'Hãy tham gia lớp học, để có thể xem chi tiết',
+                                    );
+                                    getSnackBar.show();
+                                  }
                                 },
                                 child: Container(
                                   padding: EdgeInsets.all(9.25.sp),
@@ -237,7 +250,9 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                                                 .map((item) => item.blurHash!)
                                                 .toList(),
                                           ),
-                                    SizedBox(width: 6.sp),
+                                    SizedBox(
+                                      width: _classModel.members.isEmpty ? 2.sp : 6.sp,
+                                    ),
                                     Text(
                                       _classModel.members.isEmpty
                                           ? 'Chưa có học viên'
