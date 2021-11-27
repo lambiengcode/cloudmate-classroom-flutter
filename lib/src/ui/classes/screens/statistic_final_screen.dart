@@ -1,10 +1,14 @@
+import 'package:cloudmate/src/helpers/export_excel.dart';
 import 'package:cloudmate/src/models/statistic_model.dart';
+import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
 import 'package:cloudmate/src/ui/classes/widgets/user_score_card.dart';
 import 'package:flutter/material.dart';
+
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+
 import 'package:sizer/sizer.dart';
 
 class StatisticFinalScreen extends StatefulWidget {
@@ -15,7 +19,6 @@ class StatisticFinalScreen extends StatefulWidget {
 }
 
 class _StatisticFinalScreenState extends State<StatisticFinalScreen> {
-
   @override
   void initState() {
     super.initState();
@@ -35,6 +38,14 @@ class _StatisticFinalScreenState extends State<StatisticFinalScreen> {
         centerTitle: true,
         elevation: .0,
         automaticallyImplyLeading: false,
+        leading: IconButton(
+          onPressed: () => exportResultToExcel(widget.statisticModel.users),
+          icon: Icon(
+            PhosphorIcons.export,
+            size: 20.sp,
+            color: colorHigh,
+          ),
+        ),
         title: Text(
           'Thống kê tổng quan',
           style: TextStyle(
@@ -46,7 +57,7 @@ class _StatisticFinalScreenState extends State<StatisticFinalScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => AppNavigator.pop(),
             icon: Icon(
               PhosphorIcons.signOut,
               size: 20.sp,
@@ -61,25 +72,25 @@ class _StatisticFinalScreenState extends State<StatisticFinalScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 2.5.sp),
-                Divider(
-                  height: .25,
-                  thickness: .25,
+              Divider(
+                height: .25,
+                thickness: .25,
+              ),
+              SizedBox(height: 6.sp),
+              Expanded(
+                child: ListView.builder(
+                  padding: EdgeInsets.only(bottom: 16.sp),
+                  physics: BouncingScrollPhysics(),
+                  itemCount: widget.statisticModel.users.length,
+                  itemBuilder: (context, index) {
+                    return UserScoreCard(
+                      user: widget.statisticModel.users[index],
+                      totalScore: widget.statisticModel.totalScore,
+                      isLast: index == widget.statisticModel.users.length - 1,
+                    );
+                  },
                 ),
-                SizedBox(height: 6.sp),
-                Expanded(
-                  child: ListView.builder(
-                    padding: EdgeInsets.only(bottom: 16.sp),
-                    physics: BouncingScrollPhysics(),
-                    itemCount: widget.statisticModel.users.length,
-                    itemBuilder: (context, index) {
-                      return UserScoreCard(
-                        user: widget.statisticModel.users[index],
-                        totalScore: widget.statisticModel.totalScore,
-                        isLast: index == widget.statisticModel.users.length - 1,
-                      );
-                    },
-                  ),
-                ),
+              ),
             ],
           ),
         ),

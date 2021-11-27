@@ -79,7 +79,7 @@ class _DrawerOptionState extends State<DrawerOption> {
                             'Lịch sử kiểm tra',
                             PhosphorIcons.clockClockwise,
                             colorPrimary,
-                            AppRoutes.LIST_EXAM,
+                            AppRoutes.HISTORY_EXAM,
                             arguments: {
                               'classId': widget.classModel.id,
                             },

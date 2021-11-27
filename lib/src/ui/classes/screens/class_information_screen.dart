@@ -242,7 +242,7 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                                     widget.classModel.members.isEmpty
                                         ? Container()
                                         : StackAvatar(
-                                            size: 22.sp,
+                                              size: 22.sp,
                                             images: widget.classModel.members
                                                 .map((item) => item.image!)
                                                 .toList(),

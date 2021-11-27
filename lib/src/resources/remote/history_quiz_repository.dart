@@ -9,7 +9,7 @@ class HistoryQuizRepository {
     if (response.statusCode == 200) {
       List<dynamic> data = response.data['data'];
       return data.map((e) => HistoryQuizModel.fromJson(e)).toList();
-    } 
+    }
     return [];
   }
 }

@@ -271,7 +271,7 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
                                             child: Icon(
                                               PhosphorIcons.xCircleFill,
                                               size: 20.sp,
-                                              color: Colors.white, 
+                                              color: Colors.white,
                                             ),
                                           ),
                                           SizedBox(width: 10.sp),
@@ -281,7 +281,7 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
                                               color: Colors.white,
                                             ),
                                           ),
-                                          SizedBox(width: 18.sp), 
+                                          SizedBox(width: 18.sp),
                                         ],
                                       ),
                                     ),
@@ -319,6 +319,13 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
           fontWeight: FontWeight.w500,
         ),
         validator: (val) {
+          if (title == 'Nhập câu hỏi') {
+            if (val!.length == 0) {
+              return valid;
+            } else if (val.length > 60) {
+              return 'Câu hỏi không được vượt quá 60 ký tự';
+            }
+          }
           return val!.length == 0 ? valid : null;
         },
         onChanged: (val) {
@@ -332,11 +339,11 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
             }
           });
         },
-        inputFormatters: [
-          title != 'Nhập câu hỏi'
-              ? FilteringTextInputFormatter.digitsOnly
-              : FilteringTextInputFormatter.singleLineFormatter,
-        ],
+        inputFormatters: title != 'Nhập câu hỏi'
+            ? [FilteringTextInputFormatter.digitsOnly]
+            : [
+                FilteringTextInputFormatter.singleLineFormatter,
+              ],
         decoration: InputDecoration(
           floatingLabelBehavior: FloatingLabelBehavior.always,
           contentPadding: EdgeInsets.only(
