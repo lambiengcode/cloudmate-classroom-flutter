@@ -1,4 +1,5 @@
 import 'package:cloudmate/src/models/statistic_model.dart';
+import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
@@ -46,7 +47,7 @@ class _StatisticFinalScreenState extends State<StatisticFinalScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => AppNavigator.pop(),
             icon: Icon(
               PhosphorIcons.signOut,
               size: 20.sp,
