@@ -13,16 +13,17 @@ class HistoryQuizBloc extends Bloc<HistoryQuizEvent, HistoryQuizState> {
 
   @override
   Stream<HistoryQuizState> mapEventToState(HistoryQuizEvent event) async* {
-    yield HistoryQuizInitial();
-    _fetchHistoryQuiz();
-    yield GetDoneHistoryQuiz(_historyQuizList);
+    if (event is GetHistoryQuizEvent) {
+      yield HistoryQuizInitial();
+      await _fetchHistoryQuiz(event.classId);
+      yield GetDoneHistoryQuiz(_historyQuizList);
+    }
   }
 
   // MARK: - private methods
-  Future<void> _fetchHistoryQuiz() async {
-    List<HistoryQuizModel> historyQuizList = await HistoryQuizRepository().getHistory();
-    if (historyQuizList.isNotEmpty) {
-      _historyQuizList = historyQuizList;
-    }
+  Future<void> _fetchHistoryQuiz(String classId) async {
+    List<HistoryQuizModel> historyQuizList =
+        await HistoryQuizRepository().getHistory(classId: classId);
+    _historyQuizList = historyQuizList;
   }
 }

@@ -2,6 +2,7 @@ import 'package:cloudmate/src/models/history_quiz_model.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
@@ -34,8 +35,8 @@ class _HistoryQuizCardState extends State<HistoryQuizCard> {
                   child: Row(
                     children: [
                       Container(
-                        height: 30.sp,
-                        width: 30.sp,
+                        height: 32.sp,
+                        width: 32.sp,
                         decoration: BoxDecoration(
                           color: colorPrimary,
                           borderRadius: BorderRadius.circular(8.sp),
@@ -62,19 +63,30 @@ class _HistoryQuizCardState extends State<HistoryQuizCard> {
                               overflow: TextOverflow.ellipsis,
                               maxLines: 2,
                               style: TextStyle(
-                                fontSize: 12.sp,
+                                fontSize: 12.5.sp,
                                 fontWeight: FontWeight.w600,
                                 fontFamily: FontFamily.lato,
                                 color: colorPrimary,
                               ),
                             ),
-                            SizedBox(height: 3.5.sp),
+                            SizedBox(height: 2.sp),
                             Text(
-                              widget.historyQuizModel.title,
+                              'Tổng Điểm: ${widget.historyQuizModel.score}',
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                               style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                    fontSize: 10.5.sp,
+                                    fontSize: 11.sp,
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: FontFamily.lato,
+                                  ),
+                            ),
+                            SizedBox(height: 2.sp),
+                            Text(
+                              'Ngày kiểm tra: ${DateFormat('HH:mm - dd/MM/yyyy').format(widget.historyQuizModel.createdAt)}',
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                    fontSize: 11.sp,
                                     fontWeight: FontWeight.w400,
                                     fontFamily: FontFamily.lato,
                                   ),
