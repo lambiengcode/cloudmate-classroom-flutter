@@ -4,8 +4,10 @@ import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
+import 'package:cloudmate/src/ui/classes/blocs/do_exam/do_exam_bloc.dart';
 import 'package:cloudmate/src/ui/classes/widgets/user_score_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -19,9 +21,14 @@ class StatisticFinalScreen extends StatefulWidget {
 }
 
 class _StatisticFinalScreenState extends State<StatisticFinalScreen> {
+
+  late DoExamBloc _doExamBloc;
+
+  
   @override
   void initState() {
     super.initState();
+    _doExamBloc = BlocProvider.of<DoExamBloc>(context);
   }
 
   @override
@@ -43,7 +50,7 @@ class _StatisticFinalScreenState extends State<StatisticFinalScreen> {
           icon: Icon(
             PhosphorIcons.export,
             size: 20.sp,
-            color: colorHigh,
+            color: Theme.of(context).primaryColor,
           ),
         ),
         title: Text(
@@ -57,7 +64,7 @@ class _StatisticFinalScreenState extends State<StatisticFinalScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: () => AppNavigator.pop(),
+            onPressed: () => _doExamBloc.add(QuitQuizEvent()),
             icon: Icon(
               PhosphorIcons.signOut,
               size: 20.sp,
