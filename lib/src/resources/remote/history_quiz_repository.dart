@@ -1,4 +1,6 @@
 import 'package:cloudmate/src/models/history_quiz_model.dart';
+import 'package:cloudmate/src/models/statistic_model.dart';
+import 'package:cloudmate/src/models/user.dart';
 import 'package:cloudmate/src/public/api_gateway.dart';
 import 'package:cloudmate/src/resources/base_repository.dart';
 import 'package:dio/dio.dart';
@@ -12,4 +14,13 @@ class HistoryQuizRepository {
     }
     return [];
   }
+
+  Future<List<UserModel>> getDetailsHistory({required String quizId}) async {
+    Response response = await BaseRepository().getRoute(ApiGateway.DETAIL_HISTORY, query: 'idQuizClass=$quizId');
+    if (response.statusCode == 200) {
+      List<dynamic> data = response.data['data'];
+      return data.map((e) => UserModel.fromStatistic(e['user'], score: e['score'])).toList();
+    }
+    return [];
+  } 
 }

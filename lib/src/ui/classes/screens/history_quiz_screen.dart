@@ -1,8 +1,12 @@
+import 'package:cloudmate/src/models/user.dart';
+import 'package:cloudmate/src/resources/remote/history_quiz_repository.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
+import 'package:cloudmate/src/routes/app_routes.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
 import 'package:cloudmate/src/ui/classes/blocs/history_quiz/history_quiz_bloc.dart';
 import 'package:cloudmate/src/ui/classes/widgets/history_quiz_item.dart';
+import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:cloudmate/src/ui/common/screens/loading_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -68,10 +72,26 @@ class _HistoryQuizScreenState extends State<HistoryQuizScreen> {
                       physics: BouncingScrollPhysics(),
                       itemCount: state.props[0].length,
                       itemBuilder: (context, index) {
-                        return HistoryQuizCard(
-                          historyQuizModel: state.props[0][index],
-                          index: index,
-                          isLast: index == state.props[0].length - 1,
+                        return GestureDetector(
+                          onTap: () async {
+                            showDialogLoading(context);
+                            List<UserModel>? users = await HistoryQuizRepository()
+                                .getDetailsHistory(quizId: state.props[0][index].id);
+                            AppNavigator.pop();
+                            AppNavigator.push(
+                              AppRoutes.DETAILS_HISTORY_EXAM,
+                              arguments: {
+                                'users': users,
+                                'title': state.props[0][index].title,
+                                'score': state.props[0][index].score,
+                              },
+                            );
+                          },
+                          child: HistoryQuizCard(
+                            historyQuizModel: state.props[0][index],
+                            index: index + 1,
+                            isLast: index == state.props[0].length - 1,
+                          ),
                         );
                       },
                     ),

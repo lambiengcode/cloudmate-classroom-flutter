@@ -19,6 +19,7 @@ class AppRoutes {
   static const STATISTIC_QUESTION = '/statisticQuestion';
   static const FINAL_STATISTIC_QUESTION = '/finalStatisticQuestion';
   static const HISTORY_EXAM = '/historyExam';
+  static const DETAILS_HISTORY_EXAM = '/detailsHistoryExam';
 
   // Road Map
   static const ROAD_MAP = '/roadMap';
