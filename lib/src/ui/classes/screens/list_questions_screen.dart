@@ -1,4 +1,6 @@
+import 'package:cloudmate/src/helpers/export_excel.dart';
 import 'package:cloudmate/src/models/exam_model.dart';
+import 'package:cloudmate/src/models/question_mode.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/routes/app_routes.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
@@ -6,6 +8,7 @@ import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
 import 'package:cloudmate/src/ui/classes/blocs/question/question_bloc.dart';
 import 'package:cloudmate/src/ui/classes/widgets/question_card.dart';
+import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:cloudmate/src/ui/common/screens/loading_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -61,6 +64,24 @@ class _ListQuestionScreenState extends State<ListQuestionScreen> {
                 ),
               ),
               actions: [
+                IconButton(
+                  onPressed: () async {
+                    showDialogLoading(context);
+                    List<QuestionModel> questions = await pickFileExcel();
+                    _questionBloc.add(
+                      ImportQuestionsEvent(
+                        context: context,
+                        examId: widget.examModel.id,
+                        questions: questions,
+                      ),
+                    );
+                  },
+                  icon: Icon(
+                    PhosphorIcons.fileArrowUp,
+                    size: 20.sp,
+                    color: colorAttendance,
+                  ),
+                ),
                 IconButton(
                   onPressed: () {
                     AppNavigator.push(AppRoutes.CREATE_QUESTION, arguments: {

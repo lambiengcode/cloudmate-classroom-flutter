@@ -9,13 +9,11 @@ import 'package:cloudmate/src/resources/remote/class_repository.dart';
 import 'package:cloudmate/src/resources/remote/upload_repository.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/routes/app_routes.dart';
-import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:cloudmate/src/ui/common/dialogs/dialog_notice.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart';
-import 'package:sizer/sizer.dart';
 part 'class_event.dart';
 part 'class_state.dart';
 
@@ -297,11 +295,6 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
   Future<void> _getMembers({required String classId}) async {
     List<UserModel> listResult = await ClassRepository().getListMembers(classId: classId);
     if (listResult.isNotEmpty) {
-      String myId = AppBloc.authBloc.userModel!.id;
-      int myIndexInClass = listResult.indexWhere((item) => item.id == myId);
-      if (myIndexInClass != -1) {
-        listResult.removeAt(myIndexInClass);
-      }
       int index = classes.indexWhere((item) => item.id == classId);
       classes[index].members = listResult;
     }

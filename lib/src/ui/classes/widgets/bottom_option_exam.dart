@@ -98,7 +98,9 @@ class _BottomOptionExamState extends State<BottomOptionExam> {
                 Icon(
                   icon,
                   size: 20.sp,
-                  color: Colors.grey.shade800,
+                  color: Theme.of(context).brightness == Brightness.light
+                      ? Colors.grey.shade800
+                      : Colors.white,
                 ),
                 SizedBox(
                   width: 12.sp,
@@ -107,7 +109,9 @@ class _BottomOptionExamState extends State<BottomOptionExam> {
                   title,
                   style: TextStyle(
                     fontSize: 12.sp,
-                    color: Colors.grey.shade800,
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? Colors.grey.shade800
+                        : Colors.white,
                     fontWeight: FontWeight.w600,
                   ),
                 )

@@ -1,4 +1,7 @@
+import 'dart:convert';
 import 'dart:io';
+import 'package:cloudmate/src/models/question_mode.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:downloads_path_provider/downloads_path_provider.dart';
 import 'package:path_provider/path_provider.dart';
@@ -52,4 +55,37 @@ Future<void> exportResultToExcel(List<UserModel> users) async {
     subTitle: 'Hãy kiểm tra file trong thư mục Downloads của điện thoại.',
   );
   getSnackBar.show();
+}
+
+Future<List<QuestionModel>> pickFileExcel() async {
+  FilePickerResult? result = await FilePicker.platform.pickFiles(
+    type: FileType.custom,
+    allowedExtensions: ['.csv'],
+  );
+  if (result != null) {
+    PlatformFile file = result.files.first;
+
+    final input = new File(file.path!).openRead();
+    final fields = await input.transform(utf8.decoder).transform(new CsvToListConverter()).toList();
+
+    List<QuestionModel> questions = [];
+
+    fields.asMap().forEach((index, item) {
+      if (index > 0) {
+        questions.add(QuestionModel(
+          id: index.toString(),
+          question: item[0],
+          duration: int.parse(item[1].toString()),
+          score: int.parse(item[2].toString()),
+          answers: item[3].toString().split(','),
+          corrects: item[4].toString().split(',').map((e) => int.parse(e)).toList(),
+          examId: '',
+        ));
+      }
+    });
+
+    return questions;
+  }
+
+  return [];
 }

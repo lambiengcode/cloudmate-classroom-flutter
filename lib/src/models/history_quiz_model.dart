@@ -46,7 +46,7 @@ class HistoryQuizModel {
       title: map['title'],
       score: map['score'],
       isShow: map['isShow'],
-      createdAt: DateTime.parse(map['createdAt']),
+      createdAt: DateTime.parse(map['createdAt']).toLocal(),
     );
   }
 

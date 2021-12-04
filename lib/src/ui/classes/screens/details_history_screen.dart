@@ -1,33 +1,31 @@
 import 'package:cloudmate/src/helpers/export_excel.dart';
-import 'package:cloudmate/src/models/statistic_model.dart';
-import 'package:cloudmate/src/themes/app_colors.dart';
+import 'package:cloudmate/src/models/user.dart';
+import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
-import 'package:cloudmate/src/ui/classes/blocs/do_exam/do_exam_bloc.dart';
 import 'package:cloudmate/src/ui/classes/widgets/user_score_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 import 'package:sizer/sizer.dart';
 
-class StatisticFinalScreen extends StatefulWidget {
-  final FinalStatisticModel statisticModel;
-  StatisticFinalScreen({required this.statisticModel});
+class DetailsHistoryScreen extends StatefulWidget {
+  final String title;
+  final int score;
+  final List<UserModel> users;
+  DetailsHistoryScreen({
+    required this.title,
+    required this.score,
+    required this.users,
+  });
   @override
-  State<StatefulWidget> createState() => _StatisticFinalScreenState();
+  State<StatefulWidget> createState() => _DetailsHistoryScreenState();
 }
 
-class _StatisticFinalScreenState extends State<StatisticFinalScreen> {
-
-  late DoExamBloc _doExamBloc;
-
-  
+class _DetailsHistoryScreenState extends State<DetailsHistoryScreen> {
   @override
   void initState() {
     super.initState();
-    _doExamBloc = BlocProvider.of<DoExamBloc>(context);
   }
 
   @override
@@ -45,15 +43,14 @@ class _StatisticFinalScreenState extends State<StatisticFinalScreen> {
         elevation: .0,
         automaticallyImplyLeading: false,
         leading: IconButton(
-          onPressed: () => exportResultToExcel(widget.statisticModel.users),
+          onPressed: () => AppNavigator.pop(),
           icon: Icon(
-            PhosphorIcons.export,
+            PhosphorIcons.caretLeft,
             size: 20.sp,
-            color: Theme.of(context).primaryColor,
           ),
         ),
         title: Text(
-          'Thống kê tổng quan',
+          widget.title,
           style: TextStyle(
             fontSize: 15.sp,
             fontFamily: FontFamily.lato,
@@ -63,11 +60,11 @@ class _StatisticFinalScreenState extends State<StatisticFinalScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: () => _doExamBloc.add(QuitQuizEvent()),
+            onPressed: () => exportResultToExcel(widget.users),
             icon: Icon(
-              PhosphorIcons.signOut,
+              PhosphorIcons.export,
               size: 20.sp,
-              color: colorHigh,
+              color: Theme.of(context).primaryColor,
             ),
           )
         ],
@@ -87,12 +84,12 @@ class _StatisticFinalScreenState extends State<StatisticFinalScreen> {
                 child: ListView.builder(
                   padding: EdgeInsets.only(bottom: 16.sp),
                   physics: BouncingScrollPhysics(),
-                  itemCount: widget.statisticModel.users.length,
+                  itemCount: widget.users.length,
                   itemBuilder: (context, index) {
                     return UserScoreCard(
-                      user: widget.statisticModel.users[index],
-                      totalScore: widget.statisticModel.totalScore,
-                      isLast: index == widget.statisticModel.users.length - 1,
+                      user: widget.users[index],
+                      totalScore: widget.score,
+                      isLast: index == widget.users.length - 1,
                     );
                   },
                 ),

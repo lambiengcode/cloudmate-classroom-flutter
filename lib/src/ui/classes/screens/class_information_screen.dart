@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:ui';
 import 'package:cloudmate/src/blocs/app_bloc.dart';
+import 'package:cloudmate/src/helpers/members_helpers.dart';
 import 'package:cloudmate/src/helpers/picker/custom_image_picker.dart';
 import 'package:cloudmate/src/helpers/role_helper.dart';
 import 'package:cloudmate/src/models/class_model.dart';
@@ -239,14 +240,17 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                                 SizedBox(height: 3.sp),
                                 Row(
                                   children: [
-                                    widget.classModel.members.isEmpty
+                                    MembersHelper().getMembers(widget.classModel.members).length ==
+                                            0
                                         ? Container()
                                         : StackAvatar(
-                                              size: 22.sp,
-                                            images: widget.classModel.members
+                                            size: 22.sp,
+                                            images: MembersHelper()
+                                                .getMembers(widget.classModel.members)
                                                 .map((item) => item.image!)
                                                 .toList(),
-                                            blueHash: widget.classModel.members
+                                            blueHash: MembersHelper()
+                                                .getMembers(widget.classModel.members)
                                                 .map((item) => item.blurHash!)
                                                 .toList(),
                                           ),
@@ -256,7 +260,7 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                                     Text(
                                       _classModel.members.isEmpty
                                           ? 'Chưa có học viên'
-                                          : '${_classModel.members.length} học viên',
+                                          : '${MembersHelper().getMembers(widget.classModel.members).length} học viên',
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(

@@ -1,3 +1,5 @@
+import 'package:cloudmate/src/ui/common/dialogs/dialog_confirm.dart';
+import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
@@ -32,14 +34,24 @@ Future<void> requestPermission() async {
   );
 }
 
-handleReceiveNotification() async {
+handleReceiveNotification(context) async {
   await requestPermission();
   FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? message) {
     handleTouchOnNotification(message);
   });
 
   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-    if (message.data['action'] != 'MESSAGE') {}
+    dialogAnimationWrapper(
+      dismissible: false,
+      context: context,
+      child: DialogConfirm(
+        title: '',
+        subTitle: '',
+        handleConfirm: () {
+          handleTouchOnNotification(message);
+        },
+      ),
+    );
   });
 
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
@@ -50,7 +62,3 @@ handleReceiveNotification() async {
 }
 
 handleTouchOnNotification(RemoteMessage? message) {}
-
-showDialogFCM(RemoteMessage message) async {}
-
-handleNotificationInApp(Map<String, dynamic> data) {}

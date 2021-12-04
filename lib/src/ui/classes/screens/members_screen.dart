@@ -1,4 +1,5 @@
 import 'package:cloudmate/src/blocs/app_bloc.dart';
+import 'package:cloudmate/src/helpers/members_helpers.dart';
 import 'package:cloudmate/src/models/class_model.dart';
 import 'package:cloudmate/src/models/user.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
@@ -52,10 +53,9 @@ class _MembersScreenState extends State<MembersScreen> {
       ),
       body: BlocBuilder<ClassBloc, ClassState>(
         builder: (context, state) {
-
           List<ClassModel> listClass = state.props[0];
           int indexMyClass = listClass.indexWhere((element) => element.id == widget.classModel.id);
-          List<UserModel> members = listClass[indexMyClass].members;
+          List<UserModel> members = MembersHelper().getMembers(listClass[indexMyClass].members);
 
           return Container(
             child: Column(

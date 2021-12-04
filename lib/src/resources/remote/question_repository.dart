@@ -31,6 +31,30 @@ class QuestionRepository {
     return null;
   }
 
+  Future<List<QuestionModel>> importQuestions({
+    required List<QuestionModel> questions,
+    required String examId,
+  }) async {
+    var body = {
+      "questions": questions.map((question) => question.toMap()).toList(),
+    };
+
+    print(body);
+
+    Response response = await BaseRepository().postRoute(
+      ApiGateway.IMPORT_EXCEL,
+      body,
+      query: 'idSetOfQuestion=$examId',
+    );
+
+    if ([200, 201].contains(response.statusCode)) {
+      List<dynamic> jsonResponse = response.data['data'];
+      return jsonResponse.map((question) => QuestionModel.fromMap(question)).toList();
+    }
+
+    return [];
+  }
+
   Future<List<QuestionModel>> getListQuestion({
     required int skip,
     required String id,

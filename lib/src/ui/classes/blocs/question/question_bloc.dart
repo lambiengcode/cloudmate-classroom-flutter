@@ -55,7 +55,7 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
 
       if (isCreateSuccess) {
         AppNavigator.popUntil(AppRoutes.LIST_QUESTION);
-      }else {
+      } else {
         _showDialogResult(
           event.context,
           title: 'Thất bại',
@@ -113,6 +113,34 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
         );
       }
     }
+
+    if (event is ImportQuestionsEvent) {
+      yield GetDoneQuestion(
+        listQuestion: listQuestion,
+        isOver: isOverQuestion,
+      );
+      bool isImportSuccess = await _importQuestions(
+        examId: event.examId,
+        questions: event.questions,
+      );
+      yield GetDoneQuestion(
+        listQuestion: listQuestion,
+        isOver: isOverQuestion,
+      );
+      if (isImportSuccess) {
+        _showDialogResult(
+          event.context,
+          title: 'Thành công',
+          subTitle: 'Bạn đã import thành công',
+        );
+      } else {
+        _showDialogResult(
+          event.context,
+          title: 'Thất bại',
+          subTitle: 'Import thất bại, vui lòng thử lại sau',
+        );
+      }
+    }
   }
 
   // MARK: - Event handler function
@@ -131,6 +159,20 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
       skip += questions.length;
       listQuestion.addAll(questions);
     }
+  }
+
+  Future<bool> _importQuestions(
+      {required String examId, required List<QuestionModel> questions}) async {
+    List<QuestionModel> questionsResponse = await QuestionRepository().importQuestions(
+      examId: examId,
+      questions: questions,
+    );
+    AppNavigator.pop();
+    if (questionsResponse.isNotEmpty) {
+      listQuestion.addAll(questionsResponse);
+    }
+
+    return questionsResponse.isNotEmpty;
   }
 
   Future<bool> _createQuestion({

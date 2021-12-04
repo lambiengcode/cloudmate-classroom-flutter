@@ -4,6 +4,7 @@ import 'package:cloudmate/src/ui/classes/screens/create_exam_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/create_question_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/create_road_map_content_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/create_roadmap_screen.dart';
+import 'package:cloudmate/src/ui/classes/screens/details_history_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/do_exam_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/history_quiz_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/list_exam_screen.dart';
@@ -173,6 +174,16 @@ class AppNavigator {
         return _buildRoute(
           settings,
           HistoryQuizScreen(classId: arguments!['classId']),
+          _getSlideMode(arguments),
+        );
+      case AppRoutes.DETAILS_HISTORY_EXAM:
+        return _buildRoute(
+          settings,
+          DetailsHistoryScreen(
+            users: arguments!['users'],
+            title: arguments['title'],
+            score: arguments['score'],
+          ),
           _getSlideMode(arguments),
         );
 
