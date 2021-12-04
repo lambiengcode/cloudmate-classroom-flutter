@@ -66,8 +66,9 @@ class _ListQuestionScreenState extends State<ListQuestionScreen> {
               actions: [
                 IconButton(
                   onPressed: () async {
-                    showDialogLoading(context);
+                    
                     List<QuestionModel> questions = await pickFileExcel();
+                    showDialogLoading(context);
                     _questionBloc.add(
                       ImportQuestionsEvent(
                         context: context,

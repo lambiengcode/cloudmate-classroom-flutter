@@ -1,6 +1,11 @@
+import 'package:cloudmate/src/helpers/export_excel.dart';
 import 'package:cloudmate/src/models/history_quiz_model.dart';
+import 'package:cloudmate/src/models/user.dart';
+import 'package:cloudmate/src/resources/remote/history_quiz_repository.dart';
+import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
+import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -103,7 +108,13 @@ class _HistoryQuizCardState extends State<HistoryQuizCard> {
                     size: 20.sp,
                     color: Theme.of(context).primaryColor,
                   ),
-                  onPressed: () => null,
+                  onPressed: () async {
+                    showDialogLoading(context);
+                    List<UserModel>? users = await HistoryQuizRepository()
+                        .getDetailsHistory(quizId: widget.historyQuizModel.id);
+                    AppNavigator.pop();
+                    exportResultToExcel(users);
+                  },
                 ),
               ],
             ),

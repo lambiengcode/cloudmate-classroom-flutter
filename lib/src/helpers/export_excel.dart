@@ -58,11 +58,12 @@ Future<void> exportResultToExcel(List<UserModel> users) async {
 }
 
 Future<List<QuestionModel>> pickFileExcel() async {
-  FilePickerResult? result = await FilePicker.platform.pickFiles(
-    type: FileType.custom,
-    allowedExtensions: ['.csv'],
-  );
-  if (result != null) {
+  try {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['csv'],
+    );
+    if (result != null) {
     PlatformFile file = result.files.first;
 
     final input = new File(file.path!).openRead();
@@ -88,4 +89,8 @@ Future<List<QuestionModel>> pickFileExcel() async {
   }
 
   return [];
+  } catch (err) {
+    print(err);
+    return [];
+  }
 }
