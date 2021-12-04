@@ -53,3 +53,10 @@ class DeleteQuestionEvent extends QuestionEvent {
   final String questionId;
   DeleteQuestionEvent({required this.questionId, required this.context});
 }
+
+class ImportQuestionsEvent extends QuestionEvent {
+  final BuildContext context;
+  final String examId;
+  final List<QuestionModel> questions;
+  ImportQuestionsEvent({required this.context, required this.examId, required this.questions});
+}

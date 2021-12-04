@@ -42,12 +42,10 @@ class QuestionModel {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
       'question': question,
       'answers': answers,
-      'corrects': corrects,
+      'correct': corrects,
       'duration': duration,
-      'examId': examId,
       'score': score,
     };
   }

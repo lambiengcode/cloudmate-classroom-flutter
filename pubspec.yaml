@@ -49,6 +49,7 @@ dependencies:
   device_info: ^2.0.3
   permission_handler: ^8.0.0
   downloads_path_provider: ^0.1.0
+  file_picker: ^4.2.7
 
   # Firebase
   firebase_core: ^1.10.0
