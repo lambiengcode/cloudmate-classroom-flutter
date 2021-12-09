@@ -81,7 +81,7 @@ class DoExamBloc extends Bloc<DoExamEvent, DoExamState> {
 
     if (event is FinishQuizEvent) {
       _leaveQuiz();
-      AppNavigator.replaceWith(AppRoutes.FINAL_STATISTIC_QUESTION, arguments: {
+      AppNavigator.push(AppRoutes.FINAL_STATISTIC_QUESTION, arguments: {
       'statisticModel': event.finalStatistic,
     });
     }
