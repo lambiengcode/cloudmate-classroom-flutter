@@ -75,14 +75,10 @@ class _QuestionCardState extends State<QuestionCard> {
                             ),
                             SizedBox(height: 3.5.sp),
                             Text(
-                              'Thời gian trả lời :' +
-                                  widget.question.duration.formatTwoDigits(),
+                              'Thời gian trả lời: ' + widget.question.duration.formatTwoDigits(),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .copyWith(
+                              style: Theme.of(context).textTheme.bodyText1!.copyWith(
                                     fontSize: 10.5.sp,
                                     fontWeight: FontWeight.w400,
                                     fontFamily: FontFamily.lato,
