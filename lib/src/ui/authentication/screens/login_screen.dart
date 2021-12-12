@@ -231,9 +231,9 @@ class _LoginPageState extends State<LoginPage> {
         ],
         validator: (val) {
           if (title == 'Email') {
-            return !GetUtils.isEmail(val!) ? valid : null;
+            return !GetUtils.isEmail(val!.trim()) ? valid : null;
           } else {
-            return val!.length < 6 ? valid : null;
+            return val!.trim().length < 6 ? valid : null;
           }
         },
         onChanged: (val) {

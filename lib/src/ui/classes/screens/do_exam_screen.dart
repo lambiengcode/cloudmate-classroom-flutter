@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/models/question_mode.dart';
-import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';

@@ -75,7 +75,7 @@ class UserModel {
 
   factory UserModel.fromMap(Map<String, dynamic> map, {int? role}) {
     return UserModel(
-      id: map['_id'],
+      id: map['_id'] ?? '',
       image:
           map['image'] == '' ? Constants.urlImageDefault : (Application.imageUrl! + map['image']),
       blurHash: map['blurHash'] ?? '',
@@ -85,7 +85,7 @@ class UserModel {
       lastName: map['lastName'] ?? '',
       status: map['status'] ?? 0,
       intro: map['intro'],
-      role: role ?? 0,
+      role: role ?? 0, 
     );
   }
 

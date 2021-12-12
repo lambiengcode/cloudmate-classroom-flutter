@@ -82,8 +82,8 @@ class DoExamBloc extends Bloc<DoExamEvent, DoExamState> {
     if (event is FinishQuizEvent) {
       _leaveQuiz();
       AppNavigator.push(AppRoutes.FINAL_STATISTIC_QUESTION, arguments: {
-      'statisticModel': event.finalStatistic,
-    });
+        'statisticModel': event.finalStatistic,
+      });
     }
 
     if (event is QuitQuizEvent) {
@@ -137,6 +137,7 @@ class DoExamBloc extends Bloc<DoExamEvent, DoExamState> {
   }
 
   void _newUser({required UserModel user}) async {
+    print(user.toString());
     users.add(user);
   }
 
