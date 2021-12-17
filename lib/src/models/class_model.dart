@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:cloudmate/src/configs/application.dart';
 import 'package:cloudmate/src/models/user.dart';
 import 'package:cloudmate/src/public/constants.dart';
 
@@ -78,7 +77,8 @@ class ClassModel {
       members: ((map['member'] ?? []) as List<dynamic>)
           .map((item) => UserModel.fromMap(item['user'], role: item['role']))
           .toList(),
-      image: map['image'] == '' ? defaultImageObject['image']! : (Application.imageUrl! + map['image']),
+      image:
+          map['image'] == '' ? defaultImageObject['image']! : (Constants.imageUrl + map['image']),
     );
   }
 
@@ -100,7 +100,8 @@ class ClassModel {
       status: map['status'],
       blurHash: map['blurHash'] == '' ? defaultImageObject['blurHash'] : map['blurHash'],
       members: [],
-      image: map['image'] == '' ? defaultImageObject['image']! : (Application.imageUrl! + map['image']),
+      image:
+          map['image'] == '' ? defaultImageObject['image']! : (Constants.imageUrl + map['image']),
     );
   }
 

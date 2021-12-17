@@ -60,7 +60,7 @@ class _DetailsHistoryScreenState extends State<DetailsHistoryScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: () => exportResultToExcel(widget.users),
+            onPressed: () => exportResultToExcel(widget.users, widget.score),
             icon: Icon(
               PhosphorIcons.export,
               size: 20.sp,

@@ -1,3 +1,5 @@
+import 'package:cloudmate/src/blocs/app_bloc.dart';
+import 'package:cloudmate/src/ui/classes/blocs/do_exam/do_exam_bloc.dart';
 import 'package:cloudmate/src/ui/common/dialogs/dialog_confirm.dart';
 import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -37,7 +39,9 @@ Future<void> requestPermission() async {
 handleReceiveNotification(context) async {
   await requestPermission();
   FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? message) {
-    handleTouchOnNotification(message);
+    if (message != null) {
+      handleTouchOnNotification(message);
+    }
   });
 
   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
@@ -45,8 +49,8 @@ handleReceiveNotification(context) async {
       dismissible: false,
       context: context,
       child: DialogConfirm(
-        title: '',
-        subTitle: '',
+        title: message.notification!.title!,
+        subTitle: message.notification!.body!,
         handleConfirm: () {
           handleTouchOnNotification(message);
         },
@@ -61,4 +65,8 @@ handleReceiveNotification(context) async {
   }).onError((error) => print('Error: $error [\'lambiengcode\']'));
 }
 
-handleTouchOnNotification(RemoteMessage? message) {}
+handleTouchOnNotification(RemoteMessage? message) {
+  if (message != null) {
+    AppBloc.doExamBloc.add(JoinQuizEvent(roomId: message.data['idRoom'].toString().trim()));
+  }
+}

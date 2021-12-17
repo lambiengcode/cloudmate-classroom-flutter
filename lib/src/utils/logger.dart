@@ -6,7 +6,7 @@ class UtilLogger {
 
   static log([String tag = TAG, dynamic msg]) {
     if (Application.mode == 'DEV') {
-      print('$msg: ' + tag.toString());
+      developer.log('$msg', name: tag);
     }
   }
 

@@ -14,6 +14,7 @@ import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/routes/app_routes.dart';
 import 'package:cloudmate/src/ui/classes/blocs/class/class_bloc.dart';
 import 'package:cloudmate/src/ui/common/widgets/get_snack_bar.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc() : super(InitialAuthenticationState());
@@ -111,12 +112,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Future<bool> _handleLogin(LoginEvent event) async {
-    bool isSuccess = await AuthenticationRepository().login(
+    String? token = await AuthenticationRepository().login(
       event.username,
       event.password,
     );
 
-    return isSuccess;
+    return token != null;
   }
 
   Future<bool> _handleRegister(RegisterEvent event) async {
@@ -132,6 +133,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<bool> _handleLogOut() async {
     AppBloc.classBloc.add(ClearClass());
+    await FirebaseMessaging.instance.deleteToken();
     await AuthenticationRepository().logOut();
     return true;
   }

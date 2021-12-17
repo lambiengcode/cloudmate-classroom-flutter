@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:cloudmate/src/configs/application.dart';
 import 'package:cloudmate/src/public/constants.dart';
 
 class UserModel {
@@ -76,8 +75,7 @@ class UserModel {
   factory UserModel.fromMap(Map<String, dynamic> map, {int? role}) {
     return UserModel(
       id: map['_id'] ?? '',
-      image:
-          map['image'] == '' ? Constants.urlImageDefault : (Application.imageUrl! + map['image']),
+      image: map['image'] == '' ? Constants.urlImageDefault : (Constants.imageUrl + map['image']),
       blurHash: map['blurHash'] ?? '',
       phone: map['phone'] ?? '',
       displayName: map['displayName'] ?? '',
@@ -85,15 +83,14 @@ class UserModel {
       lastName: map['lastName'] ?? '',
       status: map['status'] ?? 0,
       intro: map['intro'],
-      role: role ?? 0, 
+      role: role ?? 0,
     );
   }
 
   factory UserModel.fromStatistic(Map<dynamic, dynamic> map, {int? score}) {
     return UserModel(
       id: map['_id'],
-      image:
-          map['image'] == '' ? Constants.urlImageDefault : (Application.imageUrl! + map['image']),
+      image: map['image'] == '' ? Constants.urlImageDefault : (Constants.imageUrl + map['image']),
       blurHash: map['blurHash'] ?? '',
       phone: map['phone'] ?? '',
       displayName: map['displayName'] ?? '',

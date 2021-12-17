@@ -113,7 +113,7 @@ class _HistoryQuizCardState extends State<HistoryQuizCard> {
                     List<UserModel>? users = await HistoryQuizRepository()
                         .getDetailsHistory(quizId: widget.historyQuizModel.id);
                     AppNavigator.pop();
-                    exportResultToExcel(users);
+                    exportResultToExcel(users, widget.historyQuizModel.score);
                   },
                 ),
               ],

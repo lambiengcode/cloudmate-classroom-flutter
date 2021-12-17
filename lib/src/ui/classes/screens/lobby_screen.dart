@@ -1,5 +1,4 @@
 import 'package:cloudmate/src/blocs/app_bloc.dart';
-import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
 import 'package:cloudmate/src/ui/classes/blocs/do_exam/do_exam_bloc.dart';
@@ -30,7 +29,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
               centerTitle: true,
               elevation: .0,
               leading: IconButton(
-                onPressed: () => AppNavigator.pop(),
+                onPressed: () => AppBloc.doExamBloc.add(QuitQuizEvent()),
                 icon: Icon(
                   PhosphorIcons.caretLeft,
                   size: 20.sp,

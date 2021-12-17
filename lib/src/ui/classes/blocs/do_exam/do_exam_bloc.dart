@@ -35,9 +35,11 @@ class DoExamBloc extends Bloc<DoExamEvent, DoExamState> {
     }
 
     if (event is CreateQuizSuccessEvent) {
-      _setCurrentRoomId(roomId: event.roomId);
-      _createQuizSuccess();
-      yield InLobby(users: users);
+      if (state is! InLobby) {
+        _setCurrentRoomId(roomId: event.roomId);
+        _createQuizSuccess();
+        yield InLobby(users: users);
+      }
     }
 
     if (event is StartQuizEvent) {
@@ -50,15 +52,20 @@ class DoExamBloc extends Bloc<DoExamEvent, DoExamState> {
     }
 
     if (event is JoinQuizSuccessEvent) {
-      _setUsers(users: event.users);
-      _createQuizSuccess();
-      yield InLobby(users: users);
+      if (state is! InLobby) {
+        _setUsers(users: event.users);
+        _createQuizSuccess();
+        yield InLobby(users: users);
+      }
     }
 
     if (event is NewUserJoined) {
-      yield InLobby(users: users);
-      _newUser(user: event.user);
-      yield InLobby(users: users);
+      int index = users.indexWhere((item) => item.id == event.user.id);
+      if (state is InLobby && index == -1) {
+        yield InLobby(users: users);
+        _newUser(user: event.user);
+        yield InLobby(users: users);
+      }
     }
 
     if (event is AnswerQuestionEvent) {
@@ -66,17 +73,32 @@ class DoExamBloc extends Bloc<DoExamEvent, DoExamState> {
     }
 
     if (event is TakeQuestionEvent) {
-      _setCurrentQuestion(question: event.question, indexQuestion: event.indexQuestion);
-      yield DoingQuestion(question: currentQuestion!, ping: ping);
+      if (currentQuestion != null) {
+        if (currentQuestion!.id != event.question.id) {
+          _setCurrentQuestion(question: event.question, indexQuestion: event.indexQuestion);
+          yield DoingQuestion(question: currentQuestion!, ping: ping);
+        }
+      } else {
+        _setCurrentQuestion(question: event.question, indexQuestion: event.indexQuestion);
+        yield DoingQuestion(question: currentQuestion!, ping: ping);
+      }
     }
 
     if (event is UpdateStatisticEvent) {
-      _setLastStatistic(statistic: event.statistic);
+      if (lastStatistic != null) {
+        if (lastStatistic!.answers != event.statistic.answers) {
+          _setLastStatistic(statistic: event.statistic);
+        }
+      } else {
+        _setLastStatistic(statistic: event.statistic);
+      }
     }
 
     if (event is LeaveUserJoined) {
-      _removeUser(userId: event.userId);
-      _leaveQuiz();
+      if (state is InLobby) {
+        _removeUser(userId: event.userId);
+        yield InLobby(users: users);
+      }
     }
 
     if (event is FinishQuizEvent) {
@@ -84,10 +106,12 @@ class DoExamBloc extends Bloc<DoExamEvent, DoExamState> {
       AppNavigator.push(AppRoutes.FINAL_STATISTIC_QUESTION, arguments: {
         'statisticModel': event.finalStatistic,
       });
+       yield DoExamInitial();
     }
 
     if (event is QuitQuizEvent) {
       _leaveQuiz();
+      yield DoExamInitial();
     }
 
     if (event is StartPingEvent) {
@@ -142,9 +166,10 @@ class DoExamBloc extends Bloc<DoExamEvent, DoExamState> {
   }
 
   void _removeUser({required String userId}) async {
-    int index = users.indexWhere((user) => user.id == userId);
-    if (index != -1) {
-      users.removeAt(index);
+    for (var i = 0; i < users.length; i++) {
+      if (users[i].id == userId) {
+        users.removeAt(i);
+      }
     }
   }
 
