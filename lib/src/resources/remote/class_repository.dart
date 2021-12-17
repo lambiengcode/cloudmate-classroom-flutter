@@ -79,10 +79,12 @@ class ClassRepository {
   Future<List<ClassModel>> getListClasses({
     required int skip,
     int limit = 15,
+    String? token,
   }) async {
     Response response = await BaseRepository().getRoute(
       ApiGateway.CLASS,
       query: 'skip=$skip&limit=$limit',
+      token: token,
     );
     if ([200, 201].contains(response.statusCode)) {
       List<dynamic> listResult = response.data['data'];
@@ -111,10 +113,12 @@ class ClassRepository {
   Future<List<ClassModel>> getListRecommendClasses({
     required int skip,
     int limit = 15,
+    String? token,
   }) async {
     Response response = await BaseRepository().getRoute(
       ApiGateway.RECOMMEND_CLASSES,
       query: 'skip=$skip&limit=$limit',
+      token: token,
     );
     if ([200, 201].contains(response.statusCode)) {
       List<dynamic> listResult = response.data['data'];

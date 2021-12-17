@@ -11,6 +11,7 @@ Future<DeviceModel> getDeviceDetails() async {
   late String identifier;
   late String appVersion;
   final String? fcmToken = await getFirebaseMessagingToken();
+  print(fcmToken);
   final DeviceInfoPlugin deviceInfoPlugin = new DeviceInfoPlugin();
   try {
     if (Platform.isAndroid) {

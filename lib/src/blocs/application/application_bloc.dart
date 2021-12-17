@@ -18,9 +18,7 @@ class ApplicationBloc extends Bloc<ApplicationEvent, ApplicationState> {
       await Application().initialAppLication(event.context);
       AppBloc.themeBloc.add(
         InitialTheme(
-          themeMode: ThemeService().isSavedDarkMode()
-              ? ThemeMode.dark
-              : ThemeMode.light,
+          themeMode: ThemeService().isSavedDarkMode() ? ThemeMode.dark : ThemeMode.light,
         ),
       );
 

@@ -4,14 +4,13 @@ import 'package:cloudmate/src/models/question_mode.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:downloads_path_provider/downloads_path_provider.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:cloudmate/src/ui/common/widgets/get_snack_bar.dart';
 import 'package:csv/csv.dart';
 import 'package:cloudmate/src/models/user.dart';
 
-Future<void> exportResultToExcel(List<UserModel> users) async {
+Future<void> exportResultToExcel(List<UserModel> users, int totalScore) async {
   List<List<dynamic>> afterMapRevenue = [
     [
       'Họ tên',
@@ -23,13 +22,10 @@ Future<void> exportResultToExcel(List<UserModel> users) async {
     var values = [
       e.displayName,
       e.phone,
-      e.score,
+      '${e.score}/$totalScore',
     ];
-    var expectValues = [];
-    for (int i = 0; i < users.length; i++) {
-      expectValues.add(values[i]);
-    }
-    afterMapRevenue.add(expectValues);
+
+    afterMapRevenue.add(values);
   });
   var status = await Permission.storage.status;
 
@@ -40,9 +36,7 @@ Future<void> exportResultToExcel(List<UserModel> users) async {
   ;
   late Directory downloadsDirectory;
   try {
-    downloadsDirectory = Platform.isIOS
-        ? await getApplicationDocumentsDirectory()
-        : await DownloadsPathProvider.downloadsDirectory;
+    downloadsDirectory = await DownloadsPathProvider.downloadsDirectory;
   } on PlatformException {
     print('Could not get the downloads directory');
   }

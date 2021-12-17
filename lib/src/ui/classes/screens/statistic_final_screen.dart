@@ -45,7 +45,7 @@ class _StatisticFinalScreenState extends State<StatisticFinalScreen> {
         elevation: .0,
         automaticallyImplyLeading: false,
         leading: IconButton(
-          onPressed: () => exportResultToExcel(widget.statisticModel.users),
+          onPressed: () => exportResultToExcel(widget.statisticModel.users, widget.statisticModel.totalScore),
           icon: Icon(
             PhosphorIcons.export,
             size: 20.sp,

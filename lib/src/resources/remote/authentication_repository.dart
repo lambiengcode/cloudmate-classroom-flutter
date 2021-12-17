@@ -6,7 +6,7 @@ import 'package:cloudmate/src/resources/local/user_local.dart';
 import 'package:dio/dio.dart';
 
 class AuthenticationRepository {
-  Future<bool> login(String username, String password) async {
+  Future<String?> login(String username, String password, {String? token}) async {
     var body = {
       'username': username.toLowerCase(),
       'password': password,
@@ -14,13 +14,16 @@ class AuthenticationRepository {
     Response response = await BaseRepository().postRoute(
       ApiGateway.LOGIN,
       body,
+      token: token,
     );
 
     if (response.statusCode == 200) {
-      UserLocal().saveAccessToken(response.data['data']['token']);
-      return true;
+      if (token == null) {
+        UserLocal().saveAccessToken(response.data['data']['token']);
+      }
+      return response.data['data']['token'];
     }
-    return false;
+    return null;
   }
 
   Future<bool> register({
@@ -28,6 +31,7 @@ class AuthenticationRepository {
     required String lastName,
     required String username,
     required String password,
+    String? token,
   }) async {
     var body = {
       'firstName': fistName,
@@ -38,10 +42,13 @@ class AuthenticationRepository {
     Response response = await BaseRepository().postRoute(
       ApiGateway.REGISTER,
       body,
+      token: token,
     );
 
     if (response.statusCode == 200) {
-      UserLocal().saveAccessToken(response.data['data']['token']);
+      if (token == null) {
+        UserLocal().saveAccessToken(response.data['data']['token']);
+      }
       return true;
     }
     return false;

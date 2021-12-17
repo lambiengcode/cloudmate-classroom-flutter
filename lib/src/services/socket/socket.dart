@@ -34,34 +34,45 @@ void connectAndListen() async {
 
     socket!.on(SocketEvent.CREATE_QUIZ_SSC, (data) {
       UtilLogger.log('CREATE_QUIZ_SSC', data);
-      AppBloc.doExamBloc.add(CreateQuizSuccessEvent(roomId: data['idRoom']));
+      if (data['success']) {
+        AppBloc.doExamBloc.add(CreateQuizSuccessEvent(roomId: data['idRoom']));
+      }
     });
 
     socket!.on(SocketEvent.JOIN_ROOM_SSC, (data) {
       UtilLogger.log('JOIN_ROOM_SSC', data);
-      UserModel user = UserModel.fromMap(data['user']);
-      AppBloc.doExamBloc.add(NewUserJoined(user: user));
+      if (data['success']) {
+        UserModel user = UserModel.fromMap(data['user']);
+        AppBloc.doExamBloc.add(NewUserJoined(user: user));
+      }
     });
 
     socket!.on(SocketEvent.JOIN_ROOM_NEW_SSC, (data) {
       UtilLogger.log('JOIN_ROOM_NEW_SSC', data);
-      List<dynamic> listResponse = data['users'];
-      List<UserModel> users = listResponse.map((e) => UserModel.fromMap(e)).toList();
-      AppBloc.doExamBloc.add(JoinQuizSuccessEvent(users: users));
+      if (data['success']) {
+        List<dynamic> listResponse = data['users'];
+        List<UserModel> users = listResponse.map((e) => UserModel.fromMap(e)).toList();
+        AppBloc.doExamBloc.add(JoinQuizSuccessEvent(users: users));
+      }
     });
 
     socket!.on(SocketEvent.LEAVE_ROOM_SSC, (data) {
       UtilLogger.log('LEAVE_ROOM_SSC', data);
+      if (data['success']) {
+        AppBloc.doExamBloc.add(LeaveUserJoined(userId: data['data']['idUser']['_id']));
+      }
     });
 
     socket!.on(SocketEvent.STATISTICAL_ROOM_SSC, (data) {
       UtilLogger.log('STATISTICAL_ROOM_SSC', data);
-      Map<dynamic, dynamic> statistical = data;
-      List<String> answers = statistical.keys.map((e) => e.toString()).toList();
-      List<int> chooses = statistical.values.map((e) => int.parse(e.toString())).toList();
-      AppBloc.doExamBloc.add(UpdateStatisticEvent(
-        statistic: StatisticModel(answers: answers, chooses: chooses),
-      ));
+      if (data['success']) {
+        Map<dynamic, dynamic> statistical = data['data'];
+        List<String> answers = statistical.keys.map((e) => e.toString()).toList();
+        List<int> chooses = statistical.values.map((e) => int.parse(e.toString())).toList();
+        AppBloc.doExamBloc.add(UpdateStatisticEvent(
+          statistic: StatisticModel(answers: answers, chooses: chooses),
+        ));
+      }
     });
 
     socket!.on(SocketEvent.START_QUIZ_SSC, (data) {
@@ -70,20 +81,24 @@ void connectAndListen() async {
 
     socket!.on(SocketEvent.TAKE_THE_QUESTION_SSC, (data) {
       UtilLogger.log('TAKE_THE_QUESTION_SSC', data);
-      if (data['data'] == null || data['data'] == 'null') {
-        AppBloc.doExamBloc.add(QuitQuizEvent());
-        return;
+      if (data['success']) {
+        if (data['data'] == null || data['data'] == 'null') {
+          AppBloc.doExamBloc.add(QuitQuizEvent());
+          return;
+        }
+        QuestionModel question = QuestionModel.fromMap(data['data']);
+        AppBloc.doExamBloc.add(
+            TakeQuestionEvent(question: question, indexQuestion: data['data']['indexQuestion']));
       }
-      QuestionModel question = QuestionModel.fromMap(data['data']);
-      AppBloc.doExamBloc
-          .add(TakeQuestionEvent(question: question, indexQuestion: data['data']['indexQuestion']));
     });
 
     socket!.on('STATISTICAL_ROOM_FINAL_SSC', (data) {
       UtilLogger.log('STATISTICAL_ROOM_FINAL_SSC', data);
-      Map<String, dynamic> statistical = data['data'];
-      FinalStatisticModel finalStatistic = FinalStatisticModel.fromMap(statistical);
-      AppBloc.doExamBloc.add(FinishQuizEvent(finalStatistic: finalStatistic));
+      if (data['success']) {
+        Map<String, dynamic> statistical = data['data'];
+        FinalStatisticModel finalStatistic = FinalStatisticModel.fromMap(statistical);
+        AppBloc.doExamBloc.add(FinishQuizEvent(finalStatistic: finalStatistic));
+      }
     });
 
     socket!.onDisconnect((_) => debugPrint('disconnect'));

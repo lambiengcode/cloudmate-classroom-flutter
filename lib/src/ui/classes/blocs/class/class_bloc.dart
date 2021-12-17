@@ -317,9 +317,11 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
     AppNavigator.pop();
     if (isJoinSuccess) {
       int index = recommendClasses.indexWhere((item) => item.id == classId);
+      UserModel myProfile = AppBloc.authBloc.userModel!;
       if (index != -1) {
         classes.add(recommendClasses[index]);
         recommendClasses.removeAt(index);
+        classes[classes.length - 1].members.add(myProfile);
       }
     }
     return isJoinSuccess;
