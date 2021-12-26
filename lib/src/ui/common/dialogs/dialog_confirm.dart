@@ -7,11 +7,14 @@ class DialogConfirm extends StatefulWidget {
   final String title;
   final String subTitle;
   final Function handleConfirm;
+  final double? height;
 
-  const DialogConfirm(
-      {required this.handleConfirm,
-      required this.subTitle,
-      required this.title});
+  const DialogConfirm({
+    required this.handleConfirm,
+    required this.subTitle,
+    required this.title,
+    this.height,
+  });
 
   @override
   State<StatefulWidget> createState() => _DialogConfirmState();
@@ -22,7 +25,7 @@ class _DialogConfirmState extends State<DialogConfirm> {
   Widget build(BuildContext context) {
     return Container(
       width: 300.sp,
-      height: 180.sp,
+      height: widget.height == null ? 180.sp : widget.height,
       padding: EdgeInsets.symmetric(vertical: 16.sp),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,

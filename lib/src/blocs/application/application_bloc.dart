@@ -15,7 +15,7 @@ class ApplicationBloc extends Bloc<ApplicationEvent, ApplicationState> {
   Stream<ApplicationState> mapEventToState(event) async* {
     if (event is OnSetupApplication) {
       // Get themeMode
-      await Application().initialAppLication(event.context);
+      await Application().initialAppLication();
       AppBloc.themeBloc.add(
         InitialTheme(
           themeMode: ThemeService().isSavedDarkMode() ? ThemeMode.dark : ThemeMode.light,

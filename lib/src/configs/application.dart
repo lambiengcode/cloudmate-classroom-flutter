@@ -12,7 +12,7 @@ class Application {
   static String? socketUrl = '';
   static String? mode = '';
 
-  Future<void> initialAppLication(context) async {
+  Future<void> initialAppLication() async {
     try {
       await Firebase.initializeApp();
       await GetStorage.init();
@@ -22,7 +22,7 @@ class Application {
       socketUrl = dotenv.env['SOCKET_URL'];
       mode = dotenv.env['MODE'];
       requestPermission();
-      handleReceiveNotification(context);
+      handleReceiveNotification();
     } catch (error) {
       debugPrint(error.toString());
     }

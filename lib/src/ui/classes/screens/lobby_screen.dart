@@ -22,61 +22,67 @@ class _LobbyScreenState extends State<LobbyScreen> {
     return BlocBuilder<DoExamBloc, DoExamState>(
       builder: (context, state) {
         if (state is InLobby) {
-          return Scaffold(
-            resizeToAvoidBottomInset: false,
-            appBar: AppBar(
-              systemOverlayStyle: ThemeService.systemBrightness,
-              centerTitle: true,
-              elevation: .0,
-              leading: IconButton(
-                onPressed: () => AppBloc.doExamBloc.add(QuitQuizEvent()),
-                icon: Icon(
-                  PhosphorIcons.caretLeft,
-                  size: 20.sp,
-                ),
-              ),
-              title: Text(
-                'ID: ${widget.roomId}',
-                style: TextStyle(
-                  fontSize: 15.sp,
-                  fontFamily: FontFamily.lato,
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).textTheme.bodyText1!.color,
-                ),
-              ),
-              actions: [
-                IconButton(
-                  onPressed: () {
-                    if (state.users.isEmpty) {
-                      print('Users: 0');
-                    } else {
-                      AppBloc.doExamBloc.add(StartQuizEvent());
-                    }
-                  },
+          return WillPopScope(
+            onWillPop: () async {
+              AppBloc.doExamBloc.add(QuitQuizEvent());
+              return true;
+            },
+            child: Scaffold(
+              resizeToAvoidBottomInset: false,
+              appBar: AppBar(
+                systemOverlayStyle: ThemeService.systemBrightness,
+                centerTitle: true,
+                elevation: .0,
+                leading: IconButton(
+                  onPressed: () => AppBloc.doExamBloc.add(QuitQuizEvent()),
                   icon: Icon(
-                    PhosphorIcons.circleWavyWarningFill,
+                    PhosphorIcons.caretLeft,
                     size: 20.sp,
-                    color: Theme.of(context).primaryColor,
                   ),
                 ),
-              ],
-            ),
-            body: Container(
-              height: 100.h,
-              width: 100.w,
-              child: SafeArea(
-                child: Column(
-                  children: [
-                    SizedBox(height: 2.5.sp),
-                    Divider(
-                      height: .25,
-                      thickness: .25,
+                title: Text(
+                  'ID: ${widget.roomId}',
+                  style: TextStyle(
+                    fontSize: 15.sp,
+                    fontFamily: FontFamily.lato,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).textTheme.bodyText1!.color,
+                  ),
+                ),
+                actions: [
+                  IconButton(
+                    onPressed: () {
+                      if (state.users.isEmpty) {
+                        print('Users: 0');
+                      } else {
+                        AppBloc.doExamBloc.add(StartQuizEvent());
+                      }
+                    },
+                    icon: Icon(
+                      PhosphorIcons.circleWavyWarningFill,
+                      size: 20.sp,
+                      color: Theme.of(context).primaryColor,
                     ),
-                    SizedBox(height: 6.sp),
-                    Expanded(
-                      child: _buildBodyLobby(context, state),
-                    ),
-                  ],
+                  ),
+                ],
+              ),
+              body: Container(
+                height: 100.h,
+                width: 100.w,
+                child: SafeArea(
+                  child: Column(
+                    children: [
+                      SizedBox(height: 2.5.sp),
+                      Divider(
+                        height: .25,
+                        thickness: .25,
+                      ),
+                      SizedBox(height: 6.sp),
+                      Expanded(
+                        child: _buildBodyLobby(context, state),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
