@@ -23,6 +23,11 @@ class _DialogInputState extends State<DialogInput> {
   String _answer = '';
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       width: 300.sp,
@@ -56,18 +61,23 @@ class _DialogInputState extends State<DialogInput> {
                       borderRadius: BorderRadius.all(Radius.circular(4.sp)),
                       color: Colors.transparent,
                     ),
-                    child: TextField(
+                    child: TextFormField(
                       style: TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color!,
                         fontSize: 11.sp,
                       ),
                       onChanged: (val) {
                         setState(() {
-                          _answer = val.trim();
+                          if (widget.title == 'Nhập mã PIN') {
+                            _answer = val.trim().toUpperCase();
+                          } else {
+                            _answer = val.trim();
+                          }
                         });
                       },
                       cursorColor: Colors.black,
                       inputFormatters: [
+                        ...widget.title == 'Nhập mã PIN' ? [UpperCaseTextFormatter()] : [],
                         LengthLimitingTextInputFormatter(100),
                       ],
                       keyboardType: TextInputType.multiline,
@@ -76,11 +86,7 @@ class _DialogInputState extends State<DialogInput> {
                         border: InputBorder.none,
                         hintText: widget.hideInputField,
                         hintStyle: TextStyle(
-                          color: Theme.of(context)
-                              .textTheme
-                              .bodyText1!
-                              .color!
-                              .withOpacity(.65),
+                          color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.65),
                           fontSize: 11.sp,
                         ),
                       ),
@@ -136,6 +142,16 @@ class _DialogInputState extends State<DialogInput> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class UpperCaseTextFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+    return TextEditingValue(
+      text: newValue.text.toUpperCase(),
+      selection: newValue.selection,
     );
   }
 }

@@ -29,9 +29,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
 
   // MARK: - Private methods
   Future<void> _getNotification() async {
-    List<NotificationModel> notificationList = await NotificationRepository().getNotifications(
-      skip: notifications.length,
-    );
+    List<NotificationModel> notificationList = await NotificationRepository().getNotifications();
 
     if (notificationList.isEmpty) {
       isNotificationOver = true;

@@ -4,6 +4,8 @@ import 'package:cloudmate/src/ui/common/dialogs/dialog_confirm.dart';
 import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:sizer/sizer.dart';
 
 Future<String?> getFirebaseMessagingToken() async {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
@@ -36,7 +38,7 @@ Future<void> requestPermission() async {
   );
 }
 
-handleReceiveNotification(context) async {
+handleReceiveNotification() async {
   await requestPermission();
   FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? message) {
     if (message != null) {
@@ -45,10 +47,12 @@ handleReceiveNotification(context) async {
   });
 
   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+    print(message.data);
     dialogAnimationWrapper(
       dismissible: false,
-      context: context,
+      context: Get.context,
       child: DialogConfirm(
+        height: 165.sp,
         title: message.notification!.title!,
         subTitle: message.notification!.body!,
         handleConfirm: () {
@@ -67,6 +71,6 @@ handleReceiveNotification(context) async {
 
 handleTouchOnNotification(RemoteMessage? message) {
   if (message != null) {
-    AppBloc.doExamBloc.add(JoinQuizEvent(roomId: message.data['idRoom'].toString().trim()));
+    AppBloc.doExamBloc.add(JoinQuizEvent(roomId: message.data['idRoom'].toString()));
   }
 }

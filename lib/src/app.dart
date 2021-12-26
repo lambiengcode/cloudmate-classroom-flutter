@@ -25,7 +25,7 @@ class _AppState extends State<App> {
   @override
   void initState() {
     super.initState();
-    AppBloc.applicationBloc.add(OnSetupApplication(context: context));
+    AppBloc.applicationBloc.add(OnSetupApplication());
   }
 
   @override
