@@ -1,8 +1,8 @@
 import 'package:lottie/lottie.dart';
 
 class Constants {
-  static const String baseUrl = "https://natha-lms.tk/";
-  static const String imageUrl = "https://natha-lms.tk/" + 'api/up-load-file?id=';
+  static const String baseUrl = "https://2school.ml/";
+  static const String imageUrl = "https://2school.ml/" + 'api/up-load-file?id=';
   // Assets
   LottieBuilder splashLottie = Lottie.asset('assets/lottie/splash.json');
   LottieBuilder loadingLottie = Lottie.asset('assets/lottie/cat_sleeping.json');

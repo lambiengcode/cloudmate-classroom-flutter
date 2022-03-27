@@ -151,7 +151,7 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                                 onTap: () {
                                   if (RoleHelper().canShowDrawerClass(
                                     widget.classModel.members,
-                                    widget.classModel.createdBy.id,
+                                    widget.classModel.createdBy!.id,
                                   )) {
                                     _scaffoldKey.currentState!.openEndDrawer();
                                   } else {
@@ -190,7 +190,7 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                         children: [
                           GestureDetector(
                             onTap: () {
-                              if (widget.classModel.createdBy.id ==
+                              if (widget.classModel.createdBy!.id ==
                                   AppBloc.authBloc.userModel!.id) {
                                 CustomImagePicker().openImagePicker(
                                   context: context,

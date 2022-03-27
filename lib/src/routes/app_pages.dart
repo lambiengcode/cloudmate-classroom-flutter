@@ -1,3 +1,4 @@
+import 'package:cloudmate/src/routes/scaffold_wrapper.dart';
 import 'package:cloudmate/src/ui/classes/screens/create_class_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/create_deadline_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/create_exam_screen.dart';
@@ -16,6 +17,7 @@ import 'package:cloudmate/src/ui/classes/screens/road_map_content_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/road_map_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/statistic_final_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/statistic_in_exam_screen.dart';
+import 'package:cloudmate/src/ui/conversation/conversation_screen.dart';
 import 'package:cloudmate/src/ui/notification/notification_screen.dart';
 import 'package:cloudmate/src/ui/profile/screens/edit_profile_screen.dart';
 import 'package:flutter/material.dart';
@@ -216,6 +218,13 @@ class AppNavigator {
           EditInfoScreen(),
           _getSlideMode(arguments),
         );
+
+      case AppRoutes.CONVERSATION:
+        return _buildRoute(
+          settings,
+          ConversationScreen(conversation: arguments!['conversationModel']),
+          _getSlideMode(arguments),
+        );
       default:
         return _buildRoute(settings, App(), SlideMode.right);
     }
@@ -228,13 +237,13 @@ class AppNavigator {
   ) {
     switch (slideMode) {
       case SlideMode.bot:
-        return SlideFromBottomRoute(page: builder, settings: routeSettings);
+        return SlideFromBottomRoute(page: ScaffoldWrapper(child: builder), settings: routeSettings);
       case SlideMode.top:
-        return SlideFromTopRoute(page: builder, settings: routeSettings);
+        return SlideFromTopRoute(page: ScaffoldWrapper(child: builder), settings: routeSettings);
       case SlideMode.left:
-        return SlideFromLeftRoute(page: builder, settings: routeSettings);
+        return SlideFromLeftRoute(page: ScaffoldWrapper(child: builder), settings: routeSettings);
       case SlideMode.right:
-        return SlideFromRightRoute(page: builder, settings: routeSettings);
+        return SlideFromRightRoute(page: ScaffoldWrapper(child: builder), settings: routeSettings);
     }
   }
 
@@ -264,8 +273,7 @@ class AppNavigator {
     return state.pushReplacementNamed(route, arguments: arguments);
   }
 
-  static void popUntil<T>(String route) =>
-      state.popUntil(ModalRoute.withName(route));
+  static void popUntil<T>(String route) => state.popUntil(ModalRoute.withName(route));
 
   static void pop() {
     if (state.canPop()) {

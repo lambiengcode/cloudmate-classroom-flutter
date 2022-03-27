@@ -41,4 +41,11 @@ class ApiGateway {
 
   // Notification
   static const NOTIFICATION = 'api/notification';
+
+  // Conversations
+  static const CONVERSATION = 'api/memberClass/conversation';
+
+  // Messages
+  static const MESSAGE_CONVERSATION = 'api/message/conversation';
+  static const MESSAGE = 'api/message';
 }

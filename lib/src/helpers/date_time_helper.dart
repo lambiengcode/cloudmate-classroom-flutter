@@ -37,8 +37,7 @@ int relatedWeekday({int? month, int? year, int? day}) {
   // thứ hai là số 1
 }
 
-String addZeroPrefix(number) =>
-    '00'.substring(number.toString().length) + '$number';
+String addZeroPrefix(number) => '00'.substring(number.toString().length) + '$number';
 
 int dayCountForFebruary(year) {
   return year % 4 == 0 ? 29 : 28;
@@ -46,8 +45,7 @@ int dayCountForFebruary(year) {
 
 List dayToWeekday({int? month, int? year}) {
   final dayToWeekday = [];
-  var _dayCountForMonth =
-      month == 2 ? dayCountForFebruary(year) : dayCountForMonth[month! - 1];
+  var _dayCountForMonth = month == 2 ? dayCountForFebruary(year) : dayCountForMonth[month! - 1];
   // vì hiển thị lịch từ chủ nhật, ta thêm 0 vào những ngày trong tuần trước ngày 1
   var fistDayRelatedWeekday = relatedWeekday(day: 1, month: month, year: year);
   if (fistDayRelatedWeekday != 7) {
@@ -78,4 +76,8 @@ List allowedAppointmentDates() {
     thisMonthList.add(DateTime.now().subtract(Duration(days: i)).day);
   }
   return [thisMonthList, nextMonthList];
+}
+
+bool isShowTime(DateTime currentTime, DateTime prevTime) {
+  return currentTime.difference(prevTime).inMinutes >= 20;
 }

@@ -33,4 +33,7 @@ class AppRoutes {
 
   // User
   static const EDIT_INFO_USER = '/editInfoUser';
+
+  // Conversation
+  static const CONVERSATION = '/conversation';
 }

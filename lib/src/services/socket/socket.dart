@@ -1,5 +1,7 @@
 import 'package:cloudmate/src/blocs/app_bloc.dart';
+import 'package:cloudmate/src/blocs/message/message_bloc.dart';
 import 'package:cloudmate/src/configs/application.dart';
+import 'package:cloudmate/src/models/message_model.dart';
 import 'package:cloudmate/src/models/question_mode.dart';
 import 'package:cloudmate/src/models/statistic_model.dart';
 import 'package:cloudmate/src/models/user.dart';
@@ -15,7 +17,7 @@ IO.Socket? socket;
 
 void connectAndListen() async {
   disconnectBeforeConnect();
-  String socketUrl = Application.baseUrl!;
+  String socketUrl = Application.socketUrl!;
   socket = IO.io(
     socketUrl,
     IO.OptionBuilder().enableForceNew().setTransports(['websocket']).setExtraHeaders({
@@ -99,6 +101,11 @@ void connectAndListen() async {
         FinalStatisticModel finalStatistic = FinalStatisticModel.fromMap(statistical);
         AppBloc.doExamBloc.add(FinishQuizEvent(finalStatistic: finalStatistic));
       }
+    });
+
+    socket!.on('SEND_MESSAGE_CONVERSATION_SSC', (data) {
+      print(SocketEvent.SEEN_MESSAGE_CONVERSATION_SSC + ': ${data.toString()}');
+      AppBloc.messageBloc.add(InsertMessageEvent(message: MessageModel.fromMap(data['data'])));
     });
 
     socket!.onDisconnect((_) => debugPrint('disconnect'));

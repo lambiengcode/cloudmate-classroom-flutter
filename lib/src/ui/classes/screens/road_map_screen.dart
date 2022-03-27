@@ -76,7 +76,7 @@ class _RoadMapScreenState extends State<RoadMapScreen> {
                 ),
               ),
               actions: [
-                widget.classModel.createdBy.id == AppBloc.authBloc.userModel!.id
+                widget.classModel.createdBy!.id == AppBloc.authBloc.userModel!.id
                     ? IconButton(
                         onPressed: () => AppNavigator.push(AppRoutes.CREATE_ROAD_MAP, arguments: {
                           'classModel': widget.classModel,

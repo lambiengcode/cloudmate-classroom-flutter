@@ -1,28 +1,18 @@
+import 'package:cloudmate/src/models/class_model.dart';
+import 'package:cloudmate/src/models/conversation_model.dart';
 import 'package:flutter/material.dart';
-import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/utils/blurhash.dart';
+import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 class MessageCard extends StatefulWidget {
-  final int? pendingMessage;
-  final String? urlToImage;
-  final String? blurHash;
-  final String? fullName;
-  final String? lastMessage;
-  final String? time;
-  final bool? notification;
-  final bool? isLast;
+  final ConversationModel conversation;
+  final bool isLast;
   MessageCard({
-    this.pendingMessage,
-    this.fullName,
-    this.lastMessage,
-    this.notification,
-    this.time,
-    this.urlToImage,
-    this.blurHash,
-    required this.isLast,
+    required this.conversation,
+    this.isLast = false,
   });
   @override
   State<StatefulWidget> createState() => _MessageCardState();
@@ -49,8 +39,8 @@ class _MessageCardState extends State<MessageCard> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(250.sp),
                           child: BlurHash(
-                            hash: widget.blurHash ?? '',
-                            image: widget.urlToImage,
+                            hash: widget.conversation.idClass.blurHash,
+                            image: widget.conversation.idClass.image,
                             imageFit: BoxFit.cover,
                             curve: Curves.bounceInOut,
                           ),
@@ -62,30 +52,25 @@ class _MessageCardState extends State<MessageCard> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            widget.fullName!,
+                            widget.conversation.idClass.name,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                             style: TextStyle(
                               fontSize: 13.sp,
                               fontWeight: FontWeight.w600,
                               fontFamily: FontFamily.lato,
-                              color: Theme.of(context)
-                                  .textTheme
-                                  .bodyText2!
-                                  .color!
-                                  .withOpacity(.88),
+                              color: Theme.of(context).textTheme.bodyText2!.color!.withOpacity(.88),
                             ),
                           ),
                           SizedBox(height: 4.5.sp),
                           Text(
-                            widget.lastMessage!,
+                            widget.conversation.latestMessage?.message ?? 'Chưa có tin nhắn',
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
-                            style:
-                                Theme.of(context).textTheme.bodyText1!.copyWith(
-                                      fontSize: 11.sp,
-                                      fontWeight: FontWeight.w500,
-                                    ),
+                            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                  fontSize: 11.sp,
+                                  fontWeight: FontWeight.w400,
+                                ),
                           ),
                         ],
                       ),
@@ -98,7 +83,8 @@ class _MessageCardState extends State<MessageCard> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        widget.time!,
+                        DateFormat('HH:mm')
+                            .format(widget.conversation.latestMessage?.createdAt ?? DateTime.now()),
                         style: Theme.of(context).textTheme.bodyText1!.copyWith(
                               fontSize: 10.75.sp,
                               fontWeight: FontWeight.w500,
@@ -106,36 +92,36 @@ class _MessageCardState extends State<MessageCard> {
                             ),
                       ),
                       SizedBox(height: 4.sp),
-                      widget.notification == false
-                          ? Icon(
-                              PhosphorIcons.bellSimpleSlash,
-                              size: 16.sp,
-                            )
-                          : widget.pendingMessage == 0
-                              ? Container()
-                              : Container(
-                                  padding: EdgeInsets.all(6.sp),
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: colorPrimary,
-                                  ),
-                                  child: Text(
-                                    widget.pendingMessage.toString(),
-                                    style: TextStyle(
-                                      fontSize: 9.sp,
-                                      color: mCL,
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: FontFamily.lato,
-                                    ),
-                                  ),
-                                ),
+                      // widget.notification == false
+                      //     ? Icon(
+                      //         PhosphorIcons.bellSimpleSlash,
+                      //         size: 16.sp,
+                      //       )
+                      //     : widget.pendingMessage == 0
+                      //         ? Container()
+                      //         : Container(
+                      //             padding: EdgeInsets.all(6.sp),
+                      //             decoration: BoxDecoration(
+                      //               shape: BoxShape.circle,
+                      //               color: colorPrimary,
+                      //             ),
+                      //             child: Text(
+                      //               widget.pendingMessage.toString(),
+                      //               style: TextStyle(
+                      //                 fontSize: 9.sp,
+                      //                 color: mCL,
+                      //                 fontWeight: FontWeight.w600,
+                      //                 fontFamily: FontFamily.lato,
+                      //               ),
+                      //             ),
+                      //           ),
                     ],
                   ),
                 ),
               ],
             ),
           ),
-          widget.isLast!
+          widget.isLast
               ? Container()
               : Divider(
                   thickness: .2,

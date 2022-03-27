@@ -70,7 +70,7 @@ class _RecommendClassCardState extends State<RecommendClassCard> {
                         ),
                         SizedBox(height: 4.sp),
                         _buildTileInfo(
-                          widget.classModel.createdBy.displayName,
+                          widget.classModel.createdBy?.displayName,
                           PhosphorIcons.graduationCapFill,
                           Colors.pinkAccent.shade100,
                         ),

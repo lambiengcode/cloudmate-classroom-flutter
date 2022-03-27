@@ -1,4 +1,6 @@
 import 'package:cloudmate/src/blocs/authentication/authentication_bloc.dart';
+import 'package:cloudmate/src/blocs/conversation/conversation_bloc.dart';
+import 'package:cloudmate/src/blocs/message/message_bloc.dart';
 import 'package:cloudmate/src/ui/classes/blocs/class/class_bloc.dart';
 import 'package:cloudmate/src/ui/classes/blocs/do_exam/do_exam_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,6 +15,8 @@ class AppBloc {
   static final authBloc = AuthBloc();
   static final classBloc = ClassBloc();
   static final doExamBloc = DoExamBloc();
+  static final conversationBloc = ConversationBloc();
+  static final messageBloc = MessageBloc();
 
   static final List<BlocProvider> providers = [
     BlocProvider<AppStateBloc>(
@@ -33,6 +37,12 @@ class AppBloc {
     BlocProvider<DoExamBloc>(
       create: (context) => doExamBloc,
     ),
+    BlocProvider<ConversationBloc>(
+      create: (context) => conversationBloc,
+    ),
+    BlocProvider<MessageBloc>(
+      create: (context) => messageBloc,
+    ),
   ];
 
   static void dispose() {
@@ -42,6 +52,8 @@ class AppBloc {
     authBloc.close();
     classBloc.close();
     doExamBloc.close();
+    conversationBloc.close();
+    messageBloc.close();
   }
 
   ///Singleton factory

@@ -37,7 +37,7 @@ class _DrawerOptionState extends State<DrawerOption> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(height: 20.sp),
-                  ...widget.classModel.createdBy.id != AppBloc.authBloc.userModel!.id
+                  ...widget.classModel.createdBy!.id != AppBloc.authBloc.userModel!.id
                       ? []
                       : [
                           _buildLine(
@@ -109,7 +109,7 @@ class _DrawerOptionState extends State<DrawerOption> {
                   ),
                   _buildDividerTransparant(context),
                   RoleHelper().canShowOptionReport(
-                          widget.classModel.members, widget.classModel.createdBy.id)
+                          widget.classModel.members, widget.classModel.createdBy!.id)
                       ? _buildLine(
                           context,
                           'Báo xấu',
@@ -134,7 +134,7 @@ class _DrawerOptionState extends State<DrawerOption> {
                         )
                       : SizedBox(),
                   RoleHelper().canShowOptionReport(
-                          widget.classModel.members, widget.classModel.createdBy.id)
+                          widget.classModel.members, widget.classModel.createdBy!.id)
                       ? _buildDivider(context)
                       : SizedBox(),
                   _buildLine(

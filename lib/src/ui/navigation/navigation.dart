@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/blocs/authentication/bloc.dart';
 import 'package:cloudmate/src/lang/language_service.dart';
+import 'package:cloudmate/src/resources/local/user_local.dart';
 import 'package:cloudmate/src/services/socket/socket.dart';
 import 'package:cloudmate/src/ui/common/screens/loading_screen.dart';
 import 'package:cloudmate/src/utils/blurhash.dart';
@@ -181,9 +182,7 @@ class _NavigationState extends State<Navigation> {
                     width: 24.sp,
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: currentPage == index
-                            ? colorPrimary
-                            : Colors.transparent,
+                        color: currentPage == index ? colorPrimary : Colors.transparent,
                         width: 1.8.sp,
                       ),
                       shape: BoxShape.circle,

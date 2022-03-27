@@ -5,7 +5,12 @@ import 'package:cloudmate/src/services/socket/socket.dart';
 import 'package:cloudmate/src/utils/logger.dart';
 
 class SocketEmit {
-  createQuiz({required examId, required classId, required title, required description,}) {
+  createQuiz({
+    required examId,
+    required classId,
+    required title,
+    required description,
+  }) {
     socket!.emit(SocketEvent.CREATE_QUIZ_CSS, {
       'idSetOfQuestions': examId,
       'idClass': classId,
@@ -50,6 +55,29 @@ class SocketEmit {
     socket!.emit(
       SocketEvent.SEND_FCM_TOKEN_CSS,
       deviceModel.toMap(),
+    );
+  }
+
+  joinRoomChat({required String idConversation}) {
+    print("JOIN: $idConversation");
+    socket!.emit(SocketEvent.JOIN_CONVERSATION_CSS, {'idConversation': idConversation});
+  }
+
+  leaveRoomChat({required String idConversation}) {
+    print("LEAVE: $idConversation");
+    socket!.emit(SocketEvent.LEAVE_CONVERSATION_CSS, {'idConversation': idConversation});
+  }
+
+  sendMessage({required String conversationId, required String messageId}) {
+    var body = {
+      'idConversation': conversationId,
+      'idMessage': messageId,
+    };
+
+    print(body);
+    socket!.emit(
+      SocketEvent.SEEN_MESSAGE_CONVERSATION_CSS,
+      body,
     );
   }
 }

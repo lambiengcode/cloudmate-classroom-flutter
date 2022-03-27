@@ -8,7 +8,7 @@ class ClassModel {
   final String name;
   final String topic;
   final String intro;
-  final UserModel createdBy;
+  final UserModel? createdBy;
   final int status;
   final String blurHash;
   final String image;
@@ -54,7 +54,7 @@ class ClassModel {
       'name': name,
       'topic': topic,
       'intro': intro,
-      'createdBy': createdBy.toMap(),
+      'createdBy': createdBy?.toMap(),
       'status': status,
       'blurHash': blurHash,
     };
@@ -71,7 +71,7 @@ class ClassModel {
       name: map['name'],
       topic: map['topic'],
       intro: map['intro'],
-      createdBy: UserModel.fromMap(map['createdBy']),
+      createdBy: map['createdBy'] is String ? null : UserModel.fromMap(map['createdBy']),
       status: map['status'],
       blurHash: map['blurHash'] == '' ? defaultImageObject['blurHash'] : map['blurHash'],
       members: ((map['member'] ?? []) as List<dynamic>)

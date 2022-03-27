@@ -1,12 +1,20 @@
 import 'dart:ui';
+import 'package:cloudmate/src/blocs/app_bloc.dart';
+import 'package:cloudmate/src/blocs/conversation/conversation_bloc.dart';
+import 'package:cloudmate/src/models/class_model.dart';
+import 'package:cloudmate/src/models/conversation_model.dart';
+import 'package:cloudmate/src/resources/local/user_local.dart';
+import 'package:cloudmate/src/routes/app_pages.dart';
+import 'package:cloudmate/src/routes/app_routes.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
+import 'package:cloudmate/src/ui/common/screens/loading_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:cloudmate/src/resources/hard/hard_chat.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/ui/chats/widgets/message_card.dart';
-import 'package:cloudmate/src/ui/home/widgets/active_friend_card.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
@@ -19,6 +27,8 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     super.initState();
+    AppBloc.conversationBloc.add(OnConversationEvent());
+    print(UserLocal().getAccessToken());
   }
 
   @override
@@ -81,40 +91,39 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
             SizedBox(height: 8.sp),
             Expanded(
-              child: ListView.builder(
-                physics: BouncingScrollPhysics(),
-                padding: EdgeInsets.only(bottom: 12.sp),
-                itemCount: chats.length + 1,
-                itemBuilder: (context, index) {
-                  return index == 0
-                      ? Column(
-                          children: [
-                            _buildActiveFriend(context),
-                            SizedBox(height: 10.sp),
-                            Divider(
-                              height: .25,
-                              thickness: .25,
+              child: BlocBuilder<ConversationBloc, ConversationState>(
+                builder: (context, state) {
+                  if (state is ConversationInitial) {
+                    return LoadingScreen();
+                  }
+
+                  List<ConversationModel> conversations = (state.props[0] as List).cast();
+
+                  return ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                    padding: EdgeInsets.only(bottom: 12.sp),
+                    itemCount: conversations.length,
+                    itemBuilder: (context, index) {
+                      return Column(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              AppNavigator.push(
+                                AppRoutes.CONVERSATION,
+                                arguments: {
+                                  'conversationModel': conversations[index],
+                                },
+                              );
+                            },
+                            child: MessageCard(
+                              conversation: conversations[index],
+                              isLast: index == chats.length,
                             ),
-                            SizedBox(height: 2.sp),
-                          ],
-                        )
-                      : Column(
-                          children: [
-                            GestureDetector(
-                              onTap: () => null,
-                              child: MessageCard(
-                                pendingMessage: chats[index - 1].pendingMessage,
-                                urlToImage: chats[index - 1].image,
-                                fullName: chats[index - 1].fullName,
-                                lastMessage: chats[index - 1].lastMessage,
-                                time: chats[index - 1].time,
-                                notification: chats[index - 1].notification,
-                                blurHash: chats[index - 1].blurHash,
-                                isLast: index == chats.length,
-                              ),
-                            )
-                          ],
-                        );
+                          )
+                        ],
+                      );
+                    },
+                  );
                 },
               ),
             ),
@@ -124,24 +133,24 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  Widget _buildActiveFriend(context) {
-    final _size = MediaQuery.of(context).size;
-    return Container(
-      height: _size.width * .22,
-      width: _size.width,
-      child: ListView.builder(
-        physics: BouncingScrollPhysics(),
-        padding: EdgeInsets.only(left: 12.sp, right: 8.sp),
-        scrollDirection: Axis.horizontal,
-        itemCount: chats.length - 1,
-        itemBuilder: (context, index) {
-          return ActiveFriendCard(
-            urlToImage: chats[index + 1].image,
-            fullName: chats[index + 1].fullName,
-            blurHash: chats[index + 1].blurHash,
-          );
-        },
-      ),
-    );
-  }
+  // Widget _buildActiveFriend(context) {
+  //   final _size = MediaQuery.of(context).size;
+  //   return Container(
+  //     height: _size.width * .22,
+  //     width: _size.width,
+  //     child: ListView.builder(
+  //       physics: BouncingScrollPhysics(),
+  //       padding: EdgeInsets.only(left: 12.sp, right: 8.sp),
+  //       scrollDirection: Axis.horizontal,
+  //       itemCount: chats.length - 1,
+  //       itemBuilder: (context, index) {
+  //         return ActiveFriendCard(
+  //           urlToImage: chats[index + 1].image,
+  //           fullName: chats[index + 1].fullName,
+  //           blurHash: chats[index + 1].blurHash,
+  //         );
+  //       },
+  //     ),
+  //   );
+  // }
 }

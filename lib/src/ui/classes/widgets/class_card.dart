@@ -26,8 +26,7 @@ class _ClassCardState extends State<ClassCard> {
       children: [
         Container(
           width: 120.sp,
-          decoration:
-              AppDecoration.buttonActionBorder(context, 15.0).decoration,
+          decoration: AppDecoration.buttonActionBorder(context, 15.0).decoration,
           margin: EdgeInsets.only(
             right: 8.sp,
             bottom: 12.sp,
@@ -153,7 +152,7 @@ class _ClassCardState extends State<ClassCard> {
                     ),
                     SizedBox(height: 2.5.sp),
                     _buildTileInfo(
-                      widget.classModel.createdBy.displayName,
+                      widget.classModel.createdBy?.displayName ?? '',
                       PhosphorIcons.graduationCapFill,
                       Colors.pinkAccent.shade100,
                     ),
@@ -187,11 +186,7 @@ class _ClassCardState extends State<ClassCard> {
               fontSize: 9.sp,
               fontFamily: FontFamily.lato,
               fontWeight: FontWeight.w600,
-              color: Theme.of(context)
-                  .textTheme
-                  .bodyText1!
-                  .color!
-                  .withOpacity(.75),
+              color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.75),
             ),
           ),
         ],

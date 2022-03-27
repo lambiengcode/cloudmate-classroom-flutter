@@ -86,6 +86,7 @@ class ClassRepository {
       query: 'skip=$skip&limit=$limit',
       token: token,
     );
+
     if ([200, 201].contains(response.statusCode)) {
       List<dynamic> listResult = response.data['data'];
       return listResult.map((item) => ClassModel.fromMap(item)).toList();
@@ -120,6 +121,7 @@ class ClassRepository {
       query: 'skip=$skip&limit=$limit',
       token: token,
     );
+
     if ([200, 201].contains(response.statusCode)) {
       List<dynamic> listResult = response.data['data'];
       return listResult.map((item) => ClassModel.fromMap(item)).toList();
