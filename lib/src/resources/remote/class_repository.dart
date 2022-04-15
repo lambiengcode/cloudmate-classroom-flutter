@@ -10,11 +10,13 @@ class ClassRepository {
     required String topic,
     required String intro,
     required UserModel myProfile,
+    required double price,
   }) async {
     var body = {
       'name': name,
       'topic': topic,
       'intro': intro,
+      'price': price,
     };
 
     Response? response = await BaseRepository().postRoute(ApiGateway.CLASS, body);
@@ -32,11 +34,15 @@ class ClassRepository {
     required String topic,
     required String intro,
     required UserModel myProfile,
+    required List<String> setOfQuestionShare,
+    required double price,
   }) async {
     var body = {
       'name': name,
       'topic': topic,
       'intro': intro,
+      'setOfQuestionShare': setOfQuestionShare,
+      'price': price,
     };
 
     Response? response = await BaseRepository().patchRoute(

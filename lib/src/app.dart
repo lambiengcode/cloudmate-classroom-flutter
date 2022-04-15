@@ -4,6 +4,7 @@ import 'package:cloudmate/src/configs/language.dart';
 import 'package:cloudmate/src/ui/authentication/authentication_screen.dart';
 import 'package:cloudmate/src/ui/navigation/navigation.dart';
 import 'package:cloudmate/src/ui/splash/splash_screen.dart';
+import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -13,7 +14,6 @@ import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
 import 'package:cloudmate/src/themes/themes.dart';
 import 'package:i18n_extension/i18n_widget.dart';
-import 'package:sizer/sizer.dart';
 import 'package:get/get.dart';
 
 class App extends StatefulWidget {

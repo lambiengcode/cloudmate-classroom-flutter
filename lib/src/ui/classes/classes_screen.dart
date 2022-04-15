@@ -16,7 +16,7 @@ import 'package:cloudmate/src/themes/theme_service.dart';
 import 'package:cloudmate/src/ui/classes/widgets/class_card.dart';
 import 'package:cloudmate/src/ui/classes/widgets/recommend_class_card.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:sizer/sizer.dart';
+import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 
 class ClassesScreen extends StatefulWidget {
   @override
@@ -59,10 +59,15 @@ class _ClassesScreenState extends State<ClassesScreen> {
             actions: [
               IconButton(
                 onPressed: () {
-                  LanguageService().switchLanguage(context);
+                  AppNavigator.push(
+                    AppRoutes.LIST_SHARE_EXAM,
+                    arguments: {
+                      'slide': SlideMode.bot,
+                    },
+                  );
                 },
                 icon: Icon(
-                  PhosphorIcons.magnifyingGlassBold,
+                  PhosphorIcons.shareNetwork,
                   size: 20.sp,
                 ),
               ),

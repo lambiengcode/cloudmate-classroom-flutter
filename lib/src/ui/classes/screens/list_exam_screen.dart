@@ -1,5 +1,8 @@
 import 'package:cloudmate/src/blocs/app_bloc.dart';
+import 'package:cloudmate/src/blocs/share_exam/share_exam_bloc.dart';
+import 'package:cloudmate/src/models/class_model.dart';
 import 'package:cloudmate/src/models/exam.dart';
+import 'package:cloudmate/src/models/exam_model.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/routes/app_routes.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
@@ -8,17 +11,16 @@ import 'package:cloudmate/src/themes/theme_service.dart';
 import 'package:cloudmate/src/ui/classes/blocs/do_exam/do_exam_bloc.dart';
 import 'package:cloudmate/src/ui/classes/blocs/exam/exam_bloc.dart';
 import 'package:cloudmate/src/ui/classes/widgets/exam_card.dart';
-import 'package:cloudmate/src/ui/common/screens/loading_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:sizer/sizer.dart';
+import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 
 class ListExamScreen extends StatefulWidget {
-  final String classId;
+  final ClassModel classModel;
   final bool isPickedMode;
-  ListExamScreen({required this.classId, this.isPickedMode = false});
+  ListExamScreen({required this.classModel, this.isPickedMode = false});
   @override
   State<StatefulWidget> createState() => _ListExamScreenState();
 }
@@ -35,7 +37,7 @@ class _ListExamScreenState extends State<ListExamScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<ExamBloc>(
-      create: (_) => _examBloc..add(GetListExamEvent(classId: widget.classId)),
+      create: (_) => _examBloc..add(GetListExamEvent(classId: widget.classModel.id)),
       child: BlocBuilder<ExamBloc, ExamState>(
         builder: (_, state) => Scaffold(
           resizeToAvoidBottomInset: false,
@@ -65,7 +67,7 @@ class _ListExamScreenState extends State<ListExamScreen> {
                   : IconButton(
                       onPressed: () {
                         AppNavigator.push(AppRoutes.CREATE_EXAM, arguments: {
-                          'classId': widget.classId,
+                          'classId': widget.classModel.id,
                           'examBloc': _examBloc,
                         });
                       },
@@ -78,18 +80,24 @@ class _ListExamScreenState extends State<ListExamScreen> {
             ],
           ),
           body: Container(
-            child: Column(
-              children: [
-                SizedBox(height: 2.5.sp),
-                Divider(
-                  height: .25,
-                  thickness: .25,
-                ),
-                SizedBox(height: 6.sp),
-                Expanded(
-                  child: state is ExamInitial ? LoadingScreen() : _buildListExam(context, state),
-                ),
-              ],
+            child: SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
+              child: Column(
+                children: [
+                  SizedBox(height: 2.5.sp),
+                  Divider(
+                    height: .25,
+                    thickness: .25,
+                  ),
+                  SizedBox(height: 6.sp),
+                  state is ExamInitial ? SizedBox() : _buildListExam(context, state),
+                  BlocBuilder<ShareExamBloc, ShareExamState>(builder: (context, state1) {
+                    return state1 is GetDoneShareExam
+                        ? _buildListExamModel(context, state1)
+                        : SizedBox();
+                  }),
+                ],
+              ),
             ),
           ),
         ),
@@ -99,7 +107,8 @@ class _ListExamScreenState extends State<ListExamScreen> {
 
   Widget _buildListExam(context, ExamState state) {
     return ListView.builder(
-      padding: EdgeInsets.only(bottom: 16.sp),
+      padding: EdgeInsets.zero,
+      shrinkWrap: true,
       physics: BouncingScrollPhysics(),
       itemCount: state.props[0].length,
       itemBuilder: (context, index) {
@@ -109,7 +118,7 @@ class _ListExamScreenState extends State<ListExamScreen> {
               AppBloc.doExamBloc.add(
                 CreateQuizEvent(
                   examId: state.props[0][index].id,
-                  classId: widget.classId,
+                  classId: widget.classModel.id,
                   title: 'title',
                   description: 'description',
                 ),
@@ -127,6 +136,51 @@ class _ListExamScreenState extends State<ListExamScreen> {
             exam: state.props[0][index],
             isLast: index == exams.length - 1,
             isPickedMode: widget.isPickedMode,
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildListExamModel(context, GetDoneShareExam state) {
+    List<ExamModel> exams = [];
+
+    state.exams.forEach((exam) {
+      if (widget.classModel.setOfQuestionShare?.indexWhere((element) => element == exam.id) != -1) {
+        exams.add(exam);
+      }
+    });
+
+    return ListView.builder(
+      shrinkWrap: true,
+      padding: EdgeInsets.only(bottom: 16.sp),
+      physics: BouncingScrollPhysics(),
+      itemCount: exams.length,
+      itemBuilder: (context, index) {
+        return GestureDetector(
+          onTap: () {
+            if (widget.isPickedMode) {
+              AppBloc.doExamBloc.add(
+                CreateQuizEvent(
+                  examId: exams[index].id,
+                  classId: widget.classModel.id,
+                  title: 'title',
+                  description: 'description',
+                ),
+              );
+            } else {
+              AppNavigator.push(
+                AppRoutes.LIST_QUESTION,
+                arguments: {
+                  'examModel': exams[index],
+                },
+              );
+            }
+          },
+          child: ExamCard(
+            exam: exams[index],
+            isLast: index == exams.length - 1,
+            isShareCard: true,
           ),
         );
       },

@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:sizer/sizer.dart';
+import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 
 class InputMessage extends StatefulWidget {
   final String conversationId;

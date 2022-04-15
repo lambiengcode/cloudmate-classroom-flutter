@@ -6,6 +6,7 @@ import 'package:cloudmate/src/helpers/picker/custom_image_picker.dart';
 import 'package:cloudmate/src/helpers/role_helper.dart';
 import 'package:cloudmate/src/models/class_model.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
+import 'package:cloudmate/src/services/payment/momo_payment.dart';
 import 'package:cloudmate/src/ui/classes/blocs/class/class_bloc.dart';
 import 'package:cloudmate/src/ui/classes/widgets/drawer_option.dart';
 import 'package:cloudmate/src/ui/common/dialogs/dialog_confirm.dart';
@@ -22,7 +23,8 @@ import 'package:cloudmate/src/ui/home/widgets/post_card.dart';
 import 'package:cloudmate/src/utils/stack_avatar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:sizer/sizer.dart';
+import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
+import 'package:cloudmate/src/helpers/string.dart';
 
 class ClassInformationScreen extends StatefulWidget {
   final ClassModel classModel;
@@ -91,7 +93,7 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
           width: 60.w,
           child: Drawer(
             child: DrawerOption(
-              classModel: widget.classModel,
+              classModel: _classModel,
             ),
           ),
         ),
@@ -278,7 +280,9 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                             ),
                           ),
                           Text(
-                            '\$ Free',
+                            _classModel.price == 0
+                                ? '\$ Free'
+                                : _classModel.price.toInt().toString().formatMoney() + 'đ',
                             style: TextStyle(
                               fontSize: 15.sp,
                               fontFamily: FontFamily.lato,
@@ -378,12 +382,26 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                   child: DialogConfirm(
                     handleConfirm: () {
                       showDialogLoading(context);
-                      AppBloc.classBloc.add(
-                        JoinClass(
-                          classId: widget.classModel.id,
-                          context: context,
-                        ),
-                      );
+                      if (_classModel.price == 0) {
+                        AppBloc.classBloc.add(
+                          JoinClass(
+                            classId: widget.classModel.id,
+                            context: context,
+                          ),
+                        );
+                      } else {
+                        MomoAppPayment().handlePaymentMomo(
+                          amount: _classModel.price.toInt(),
+                          handleFinished: () {
+                            AppBloc.classBloc.add(
+                              JoinClass(
+                                classId: widget.classModel.id,
+                                context: context,
+                              ),
+                            );
+                          },
+                        );
+                      }
                     },
                     subTitle: 'Sau khi tham gia, bạn sẽ trở thành học viên của lớp học này.',
                     title: 'Tham gia lớp học',

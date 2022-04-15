@@ -20,6 +20,7 @@ class AppRoutes {
   static const FINAL_STATISTIC_QUESTION = '/finalStatisticQuestion';
   static const HISTORY_EXAM = '/historyExam';
   static const DETAILS_HISTORY_EXAM = '/detailsHistoryExam';
+  static const LIST_SHARE_EXAM = '/listShareExam';
 
   // Road Map
   static const ROAD_MAP = '/roadMap';

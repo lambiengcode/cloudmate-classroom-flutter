@@ -1,3 +1,5 @@
+import 'package:cloudmate/src/blocs/app_bloc.dart';
+import 'package:cloudmate/src/blocs/share_exam/share_exam_bloc.dart';
 import 'package:cloudmate/src/models/exam_model.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
@@ -8,14 +10,13 @@ import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:sizer/sizer.dart';
+import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 
 class CreateExamScreen extends StatefulWidget {
   final ExamModel? examModel;
-  final String classId;
-  final ExamBloc examBloc;
-  CreateExamScreen(
-      {required this.classId, required this.examBloc, this.examModel});
+  final String? classId;
+  final ExamBloc? examBloc;
+  CreateExamScreen({required this.classId, required this.examBloc, this.examModel});
   @override
   _CreateExamScreenState createState() => _CreateExamScreenState();
 }
@@ -116,24 +117,34 @@ class _CreateExamScreenState extends State<CreateExamScreen> {
                         onTap: () async {
                           if (_formKey.currentState!.validate()) {
                             showDialogLoading(context);
-                            if (widget.examModel == null) {
-                              widget.examBloc.add(
-                                CreateExamEvent(
+                            if (widget.classId == null) {
+                              AppBloc.shareExamBloc.add(
+                                CreateShareExamEvent(
                                   context: context,
-                                  classId: widget.classId,
                                   name: _name,
                                   description: _description,
                                 ),
                               );
                             } else {
-                              widget.examBloc.add(
-                                EditExamEvent(
-                                  context: context,
-                                  examId: widget.examModel!.id,
-                                  name: _name,
-                                  description: _description,
-                                ),
-                              );
+                              if (widget.examModel == null) {
+                                widget.examBloc?.add(
+                                  CreateExamEvent(
+                                    context: context,
+                                    classId: widget.classId!,
+                                    name: _name,
+                                    description: _description,
+                                  ),
+                                );
+                              } else {
+                                widget.examBloc?.add(
+                                  EditExamEvent(
+                                    context: context,
+                                    examId: widget.examModel!.id,
+                                    name: _name,
+                                    description: _description,
+                                  ),
+                                );
+                              }
                             }
                           }
                         },
@@ -208,8 +219,7 @@ class _CreateExamScreenState extends State<CreateExamScreen> {
           border: InputBorder.none,
           labelText: title,
           labelStyle: TextStyle(
-            color:
-                Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
+            color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
             fontSize: _size.width / 26.0,
             fontWeight: FontWeight.w600,
           ),

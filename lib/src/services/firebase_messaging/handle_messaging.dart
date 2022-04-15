@@ -5,7 +5,7 @@ import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sizer/sizer.dart';
+import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 
 Future<String?> getFirebaseMessagingToken() async {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;

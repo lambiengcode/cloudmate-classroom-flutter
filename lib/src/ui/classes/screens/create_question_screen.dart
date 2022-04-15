@@ -11,7 +11,7 @@ import 'package:cloudmate/src/ui/common/widgets/get_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:sizer/sizer.dart';
+import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 import 'package:cloudmate/src/helpers/string.dart';
 
 class CreateQuestionScreen extends StatefulWidget {

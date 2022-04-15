@@ -7,7 +7,7 @@ import 'package:cloudmate/src/ui/notification/blocs/notification_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:sizer/sizer.dart';
+import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 
 class NotificationScreen extends StatefulWidget {
   @override

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/utils/blurhash.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:sizer/sizer.dart';
+import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 import 'package:cloudmate/src/helpers/int.dart';
 
 class UserRequestCard extends StatefulWidget {

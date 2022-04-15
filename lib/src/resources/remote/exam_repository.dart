@@ -15,8 +15,7 @@ class ExamRepository {
       "description": description,
       "classBy": classId,
     };
-    Response response =
-        await BaseRepository().postRoute(ApiGateway.SET_OF_QUESTIONS, body);
+    Response response = await BaseRepository().postRoute(ApiGateway.SET_OF_QUESTIONS, body);
     if ([200, 201].contains(response.statusCode)) {
       dynamic jsonResponse = response.data['data'];
       return ExamModel.fromMap(jsonResponse);
@@ -36,7 +35,10 @@ class ExamRepository {
 
     if (response.statusCode == 200) {
       List<dynamic> jsonResponse = response.data['data'];
-      return jsonResponse.map((item) => ExamModel.fromMap(item)).toList();
+      return jsonResponse
+          .where((element) => element is! List)
+          .map((item) => ExamModel.fromMap(item))
+          .toList();
     }
     return [];
   }

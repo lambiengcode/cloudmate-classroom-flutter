@@ -7,7 +7,7 @@ import 'package:cloudmate/src/ui/common/widgets/custom_date_picker.dart';
 import 'package:cloudmate/src/ui/home/widgets/attendance_in_post.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:sizer/sizer.dart';
+import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
 class CalendarScreen extends StatefulWidget {

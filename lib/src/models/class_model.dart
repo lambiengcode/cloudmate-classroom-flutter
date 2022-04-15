@@ -13,6 +13,8 @@ class ClassModel {
   final String blurHash;
   final String image;
   List<UserModel> members;
+  final List<String>? setOfQuestionShare;
+  double price;
 
   ClassModel({
     required this.id,
@@ -24,6 +26,8 @@ class ClassModel {
     required this.blurHash,
     required this.members,
     required this.image,
+    this.setOfQuestionShare,
+    this.price = 0,
   });
 
   ClassModel copyWith({
@@ -79,6 +83,9 @@ class ClassModel {
           .toList(),
       image:
           map['image'] == '' ? defaultImageObject['image']! : (Constants.imageUrl + map['image']),
+      setOfQuestionShare:
+          ((map['setOfQuestionShare'] ?? []) as List).map((e) => e.toString()).toList(),
+      price: double.parse((map['price'] ?? 0).toString()),
     );
   }
 
@@ -102,6 +109,7 @@ class ClassModel {
       members: [],
       image:
           map['image'] == '' ? defaultImageObject['image']! : (Constants.imageUrl + map['image']),
+      price: double.parse((map['price'] ?? 0).toString()),
     );
   }
 

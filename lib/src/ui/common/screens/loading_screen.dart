@@ -2,7 +2,7 @@ import 'package:cloudmate/src/public/constants.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
+import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 
 class LoadingScreen extends StatelessWidget {
   final bool isShowText;

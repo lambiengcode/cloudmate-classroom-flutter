@@ -5,7 +5,7 @@ import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/utils/blurhash.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:sizer/sizer.dart';
+import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 
 class NotificationCard extends StatefulWidget {
   final NotificationModel notification;

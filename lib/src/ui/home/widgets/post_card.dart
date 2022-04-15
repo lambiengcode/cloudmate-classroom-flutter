@@ -10,7 +10,7 @@ import 'package:cloudmate/src/ui/home/widgets/image_body_post.dart';
 import 'package:cloudmate/src/utils/blurhash.dart';
 import 'package:like_button/like_button.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:sizer/sizer.dart';
+import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 
 class PostCard extends StatefulWidget {
   final Post post;
@@ -108,7 +108,7 @@ class _PostCardState extends State<PostCard> {
                     children: [
                       SizedBox(height: 4.sp),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 3.w),
+                        padding: EdgeInsets.symmetric(horizontal: 10.sp),
                         child: Text(
                           widget.post.content,
                           style: TextStyle(

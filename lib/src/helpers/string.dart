@@ -6,6 +6,25 @@ extension StringHelper on String {
         : input.toString().substring(0, length - 2) + '..';
   }
 
+  formatMoney({String splitBy = ','}) {
+    String result = '';
+    int count = 0;
+    for (int i = this.length - 1; i >= 0; i--) {
+      if (count == 3) {
+        count = 1;
+        result += splitBy;
+      } else {
+        count++;
+      }
+      result += this[i];
+    }
+    String formatMoney = '';
+    for (int i = result.length - 1; i >= 0; i--) {
+      formatMoney += result[i];
+    }
+    return formatMoney;
+  }
+
   String formatName(int length) {
     String name = this;
     List<String> names = name.split(' ');

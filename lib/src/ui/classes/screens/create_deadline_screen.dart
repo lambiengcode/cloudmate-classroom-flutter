@@ -6,7 +6,7 @@ import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:sizer/sizer.dart';
+import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 import 'package:get/get.dart';
 
 class CreateDeadlineScreen extends StatefulWidget {
@@ -152,8 +152,7 @@ class _CreateDeadlinetScreenState extends State<CreateDeadlineScreen> {
           border: InputBorder.none,
           labelText: title,
           labelStyle: TextStyle(
-            color:
-                Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
+            color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
             fontSize: _size.width / 26.0,
             fontWeight: FontWeight.w600,
           ),

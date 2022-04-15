@@ -7,7 +7,7 @@ import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
-import 'package:sizer/sizer.dart';
+import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 
 part 'question_event.dart';
 part 'question_state.dart';

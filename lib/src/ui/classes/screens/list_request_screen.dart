@@ -3,7 +3,7 @@ import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:sizer/sizer.dart';
+import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 
 class ListRequestClassScreen extends StatefulWidget {
   @override

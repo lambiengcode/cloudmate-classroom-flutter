@@ -2,7 +2,7 @@ import 'package:cloudmate/src/helpers/string.dart';
 import 'package:cloudmate/src/models/user.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
+import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 
 class LobbyUserCard extends StatelessWidget {
   final UserModel userModel;

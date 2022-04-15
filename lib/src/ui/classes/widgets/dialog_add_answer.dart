@@ -1,7 +1,7 @@
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sizer/sizer.dart';
+import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 
 class DialogInput extends StatefulWidget {
   final Function handleFinish;

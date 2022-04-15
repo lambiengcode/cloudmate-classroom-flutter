@@ -6,13 +6,19 @@ import 'package:cloudmate/src/ui/classes/widgets/bottom_option_exam.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:sizer/sizer.dart';
+import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 
 class ExamCard extends StatefulWidget {
   final ExamModel exam;
   final bool isLast;
   final bool isPickedMode;
-  ExamCard({required this.exam, this.isLast = false, this.isPickedMode = false});
+  final bool isShareCard;
+  ExamCard({
+    required this.exam,
+    this.isLast = false,
+    this.isPickedMode = false,
+    this.isShareCard = false,
+  });
   @override
   State<StatefulWidget> createState() => _ExamCardState();
 }
@@ -23,7 +29,9 @@ class _ExamCardState extends State<ExamCard> {
   @override
   void initState() {
     super.initState();
-    _examBloc = BlocProvider.of<ExamBloc>(context);
+    if (!widget.isShareCard) {
+      _examBloc = BlocProvider.of<ExamBloc>(context);
+    }
   }
 
   @override
@@ -82,7 +90,7 @@ class _ExamCardState extends State<ExamCard> {
                     ],
                   ),
                 ),
-                widget.isPickedMode
+                widget.isPickedMode || widget.isShareCard
                     ? SizedBox()
                     : IconButton(
                         icon: Icon(

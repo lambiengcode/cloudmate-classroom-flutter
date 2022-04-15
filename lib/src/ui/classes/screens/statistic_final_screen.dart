@@ -10,7 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-import 'package:sizer/sizer.dart';
+import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 
 class StatisticFinalScreen extends StatefulWidget {
   final FinalStatisticModel statisticModel;
@@ -20,10 +20,8 @@ class StatisticFinalScreen extends StatefulWidget {
 }
 
 class _StatisticFinalScreenState extends State<StatisticFinalScreen> {
-
   late DoExamBloc _doExamBloc;
 
-  
   @override
   void initState() {
     super.initState();
@@ -45,7 +43,8 @@ class _StatisticFinalScreenState extends State<StatisticFinalScreen> {
         elevation: .0,
         automaticallyImplyLeading: false,
         leading: IconButton(
-          onPressed: () => exportResultToExcel(widget.statisticModel.users, widget.statisticModel.totalScore),
+          onPressed: () =>
+              exportResultToExcel(widget.statisticModel.users, widget.statisticModel.totalScore),
           icon: Icon(
             PhosphorIcons.export,
             size: 20.sp,

@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:bloc/bloc.dart';
 import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/models/class_model.dart';
@@ -72,6 +71,7 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
         event.topic,
         event.intro,
         myProfile!,
+        event.price,
       );
       AppNavigator.pop();
       yield GetClassesDone(
@@ -105,6 +105,8 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
         event.topic,
         event.intro,
         myProfile!,
+        event.setOfQuestionShare,
+        event.price,
       );
       AppNavigator.pop();
       yield GetClassesDone(
@@ -215,12 +217,14 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
     String topic,
     String intro,
     UserModel myProfile,
+    double price,
   ) async {
     ClassModel? newClass = await ClassRepository().createClass(
       name: name,
       topic: topic,
       intro: intro,
       myProfile: myProfile,
+      price: price,
     );
 
     if (newClass != null) {
@@ -236,6 +240,8 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
     String topic,
     String intro,
     UserModel myProfile,
+    List<String> setOfQuestionShare,
+    double price,
   ) async {
     ClassModel? newClass = await ClassRepository().editClass(
       id: id,
@@ -243,6 +249,8 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
       topic: topic,
       intro: intro,
       myProfile: myProfile,
+      setOfQuestionShare: setOfQuestionShare,
+      price: price,
     );
 
     if (newClass != null) {

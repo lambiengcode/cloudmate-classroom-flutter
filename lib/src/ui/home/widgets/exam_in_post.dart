@@ -7,7 +7,7 @@ import 'package:cloudmate/src/themes/app_decorations.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:sizer/sizer.dart';
+import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 
 class ExamInPost extends StatefulWidget {
   final Exam exam;
@@ -22,8 +22,7 @@ class _ExamInPostCard extends State<ExamInPost> {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 8.sp, vertical: 4.sp),
       padding: EdgeInsets.all(12.5.sp),
-      decoration:
-          AppDecoration.buttonActionBorderActive(context, 10.sp).decoration,
+      decoration: AppDecoration.buttonActionBorderActive(context, 10.sp).decoration,
       child: Row(
         children: [
           Expanded(

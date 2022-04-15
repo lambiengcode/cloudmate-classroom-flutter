@@ -1,6 +1,7 @@
 import 'package:lottie/lottie.dart';
 
 class Constants {
+  static const INCH_TO_DP = 160;
   static const String baseUrl = "https://2school.ml/";
   static const String imageUrl = "https://2school.ml/" + 'api/up-load-file?id=';
   // Assets
@@ -10,6 +11,7 @@ class Constants {
   static const className = 'Tên lớp học';
   static const classTopic = 'Chủ đề';
   static const classIntro = 'Giới thiệu về lớp học';
+  static const price = 'Giá lớp học';
   static final List<Map<String, String>> defaultClassImageUrls = [
     {
       'image': 'https://i.pinimg.com/originals/02/89/09/02890993e3735184e80ecdf9db079e05.png',

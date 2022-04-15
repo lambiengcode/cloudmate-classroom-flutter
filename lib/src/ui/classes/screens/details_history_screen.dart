@@ -7,7 +7,7 @@ import 'package:cloudmate/src/ui/classes/widgets/user_score_card.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-import 'package:sizer/sizer.dart';
+import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 
 class DetailsHistoryScreen extends StatefulWidget {
   final String title;

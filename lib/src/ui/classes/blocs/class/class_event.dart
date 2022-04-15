@@ -14,11 +14,13 @@ class CreateClass extends ClassEvent {
   final String name;
   final String topic;
   final String intro;
+  final double price;
   CreateClass({
     required this.context,
     required this.name,
     required this.intro,
     required this.topic,
+    required this.price,
   });
 }
 
@@ -28,12 +30,17 @@ class EditClass extends ClassEvent {
   final String name;
   final String topic;
   final String intro;
+  final double price;
+  final List<String> setOfQuestionShare;
+
   EditClass({
     required this.context,
     required this.id,
     required this.name,
     required this.intro,
     required this.topic,
+    required this.setOfQuestionShare,
+    required this.price,
   });
 }
 

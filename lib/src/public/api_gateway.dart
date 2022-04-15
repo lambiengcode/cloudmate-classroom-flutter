@@ -26,6 +26,7 @@ class ApiGateway {
 
   // Exam
   static const SET_OF_QUESTIONS = 'api/set-of-questions';
+  static const SET_OF_QUESTIONS_SHARE = 'api/set-of-questions/share';
   static const IMPORT_EXCEL = 'api/set-of-questions/excels';
 
   // Question

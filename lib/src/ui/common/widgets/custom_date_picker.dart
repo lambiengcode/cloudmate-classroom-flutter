@@ -2,7 +2,7 @@ import 'package:cloudmate/src/helpers/date_time_helper.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:sizer/sizer.dart';
+import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 
 class CustomDayPicker extends StatefulWidget {
   final initialDay;
@@ -34,8 +34,7 @@ class _CustomDayPickerState extends State<CustomDayPicker> {
   void initState() {
     super.initState();
     var currentTime = DateTime.now();
-    currentMonth =
-        widget.initialMonth == null ? currentTime.month : widget.initialMonth;
+    currentMonth = widget.initialMonth == null ? currentTime.month : widget.initialMonth;
     currentYear = currentTime.year;
     calendar = dayToWeekday(month: currentMonth, year: currentYear);
     onDaySelected(currentTime.day);
@@ -93,8 +92,7 @@ class _CustomDayPickerState extends State<CustomDayPicker> {
   Color setDayBorderColor(context, index) {
     if (calendar[index] == currentDay) {
       return Theme.of(context).primaryColor;
-    } else if (calendar[index] == DateTime.now().day &&
-        currentMonth == DateTime.now().month) {
+    } else if (calendar[index] == DateTime.now().day && currentMonth == DateTime.now().month) {
       return Color(0xFFDCE5EA);
     }
     return Colors.transparent;

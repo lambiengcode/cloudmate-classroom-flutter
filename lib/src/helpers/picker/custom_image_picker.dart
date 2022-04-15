@@ -5,13 +5,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:sizer/sizer.dart';
+import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 
 class CustomImagePicker {
   final _picker = ImagePicker();
 
-  Widget _buildImageModalButton(
-      {context, index, icon, text, source, Function? handleFinish}) {
+  Widget _buildImageModalButton({context, index, icon, text, source, Function? handleFinish}) {
     return TextButton(
       onPressed: () async {
         XFile? image = await getImage(
@@ -56,11 +55,7 @@ class CustomImagePicker {
     );
   }
 
-  Future getImage(
-      {context,
-      source = ImageSource.gallery,
-      maxWidthImage,
-      imageQualityImage}) async {
+  Future getImage({context, source = ImageSource.gallery, maxWidthImage, imageQualityImage}) async {
     return await _picker.pickImage(
       source: source,
       imageQuality: 80,

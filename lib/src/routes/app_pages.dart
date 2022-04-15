@@ -15,6 +15,7 @@ import 'package:cloudmate/src/ui/classes/screens/lobby_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/members_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/road_map_content_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/road_map_screen.dart';
+import 'package:cloudmate/src/ui/classes/screens/share_exam_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/statistic_final_screen.dart';
 import 'package:cloudmate/src/ui/classes/screens/statistic_in_exam_screen.dart';
 import 'package:cloudmate/src/ui/conversation/conversation_screen.dart';
@@ -83,7 +84,7 @@ class AppNavigator {
         return _buildRoute(
           settings,
           ListExamScreen(
-            classId: arguments!['classId'],
+            classModel: arguments!['classModel'],
             isPickedMode: arguments['isPickedMode'] ?? false,
           ),
           _getSlideMode(arguments),
@@ -92,9 +93,9 @@ class AppNavigator {
         return _buildRoute(
           settings,
           CreateExamScreen(
-            classId: arguments!['classId'],
-            examBloc: arguments['examBloc'],
-            examModel: arguments['examModel'],
+            classId: arguments?['classId'],
+            examBloc: arguments?['examBloc'],
+            examModel: arguments?['examModel'],
           ),
           _getSlideMode(arguments),
         );
@@ -104,6 +105,12 @@ class AppNavigator {
           ListQuestionScreen(
             examModel: arguments!['examModel'],
           ),
+          _getSlideMode(arguments),
+        );
+      case AppRoutes.LIST_SHARE_EXAM:
+        return _buildRoute(
+          settings,
+          ShareExamScreen(),
           _getSlideMode(arguments),
         );
       case AppRoutes.CREATE_QUESTION:

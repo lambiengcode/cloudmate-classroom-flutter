@@ -1,3 +1,4 @@
+import 'package:cloudmate/src/blocs/share_exam/share_exam_bloc.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/routes/app_routes.dart';
 import 'package:cloudmate/src/ui/classes/blocs/do_exam/do_exam_bloc.dart';
@@ -13,7 +14,7 @@ import 'package:cloudmate/src/themes/theme_service.dart';
 import 'package:cloudmate/src/ui/home/widgets/new_post.dart';
 import 'package:cloudmate/src/ui/home/widgets/post_card.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:sizer/sizer.dart';
+import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -35,6 +36,12 @@ class _HomeScreenState extends State<HomeScreen> {
         hideInputField: 'Nhập mã PIN để vào phòng kiểm tra ngay...',
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    AppBloc.shareExamBloc.add(GetShareExamEvent());
   }
 
   @override

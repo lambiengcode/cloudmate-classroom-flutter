@@ -1,4 +1,5 @@
 import 'package:cloudmate/src/blocs/app_bloc.dart';
+import 'package:cloudmate/src/blocs/share_exam/share_exam_bloc.dart';
 import 'package:cloudmate/src/models/class_model.dart';
 import 'package:cloudmate/src/public/constants.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
@@ -9,8 +10,11 @@ import 'package:cloudmate/src/ui/classes/blocs/class/class_bloc.dart';
 import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:sizer/sizer.dart';
+import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
+import 'package:cloudmate/src/helpers/string.dart';
 
 class CreateClassScreen extends StatefulWidget {
   final ClassModel? classModel;
@@ -24,9 +28,12 @@ class _CreateClassScreenState extends State<CreateClassScreen> {
   TextEditingController _nameClassController = TextEditingController();
   TextEditingController _classTopicController = TextEditingController();
   TextEditingController _introClassController = TextEditingController();
+  TextEditingController _priceClassController = TextEditingController();
   String _name = '';
   String _topic = '';
   String _intro = '';
+  String _price = '';
+  List<String> _pickExams = [];
 
   @override
   void initState() {
@@ -35,10 +42,14 @@ class _CreateClassScreenState extends State<CreateClassScreen> {
       _nameClassController.text = widget.classModel!.name;
       _introClassController.text = widget.classModel!.intro;
       _classTopicController.text = widget.classModel!.topic;
+      _priceClassController.text = widget.classModel!.price.toInt().toString().formatMoney();
       _name = widget.classModel!.name;
       _topic = widget.classModel!.topic;
       _intro = widget.classModel!.intro;
+      _price = widget.classModel!.price.toInt().toString().formatMoney();
+      _pickExams = widget.classModel!.setOfQuestionShare ?? [];
     }
+    AppBloc.shareExamBloc.add(GetShareExamEvent());
   }
 
   @override
@@ -79,7 +90,7 @@ class _CreateClassScreenState extends State<CreateClassScreen> {
             child: SingleChildScrollView(
               physics: ClampingScrollPhysics(),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   SizedBox(height: 2.5.sp),
@@ -115,11 +126,82 @@ class _CreateClassScreenState extends State<CreateClassScreen> {
                               _introClassController,
                             ),
                             _buildDivider(context),
+                            _buildLineInfo(
+                              context,
+                              Constants.price,
+                              'Hãy thêm giá cho khoá học của bạn',
+                              _priceClassController,
+                            ),
+                            _buildDivider(context),
                             SizedBox(height: 8.0),
                           ],
                         ),
                       ),
                       SizedBox(height: 20.sp),
+                      Visibility(
+                        visible: widget.classModel != null,
+                        child: Column(
+                          children: [
+                            BlocBuilder<ShareExamBloc, ShareExamState>(
+                              builder: (context, state) {
+                                if (state is GetDoneShareExam) {
+                                  return Container(
+                                    width: double.infinity,
+                                    padding: EdgeInsets.symmetric(horizontal: 22.sp),
+                                    child: Wrap(
+                                      spacing: 5,
+                                      runSpacing: 10,
+                                      children: state.exams.map((exam) {
+                                        int indexOfShare =
+                                            _pickExams.indexWhere((element) => element == exam.id);
+                                        bool isPicked = indexOfShare != -1;
+                                        return GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              if (isPicked) {
+                                                _pickExams.removeAt(indexOfShare);
+                                              } else {
+                                                _pickExams.add(exam.id);
+                                              }
+                                            });
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                              vertical: 6.25.sp,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(
+                                                30.sp,
+                                              ),
+                                              color: isPicked ? colorPrimary : Colors.grey,
+                                            ),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                SizedBox(width: 16.sp),
+                                                Text(
+                                                  exam.name,
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                                SizedBox(width: 16.sp),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      }).toList(),
+                                    ),
+                                  );
+                                }
+
+                                return Container();
+                              },
+                            ),
+                            SizedBox(height: 20.sp),
+                          ],
+                        ),
+                      ),
                       GestureDetector(
                         onTap: () async {
                           if (_formKey.currentState!.validate()) {
@@ -132,6 +214,8 @@ class _CreateClassScreenState extends State<CreateClassScreen> {
                                   name: _name,
                                   intro: _intro,
                                   topic: _topic,
+                                  setOfQuestionShare: _pickExams,
+                                  price: double.parse(_price.replaceAll(',', '')),
                                 ),
                               );
                             } else {
@@ -141,6 +225,7 @@ class _CreateClassScreenState extends State<CreateClassScreen> {
                                   name: _name,
                                   intro: _intro,
                                   topic: _topic,
+                                  price: double.parse(_price.replaceAll(',', '')),
                                 ),
                               );
                             }
@@ -155,9 +240,7 @@ class _CreateClassScreenState extends State<CreateClassScreen> {
                           ),
                           child: Center(
                             child: Text(
-                              widget.classModel != null
-                                  ? 'Lưu thông tin'
-                                  : 'Tạo lớp học',
+                              widget.classModel != null ? 'Lưu thông tin' : 'Tạo lớp học',
                               style: TextStyle(
                                 color: mC,
                                 fontSize: 11.5.sp,
@@ -204,14 +287,39 @@ class _CreateClassScreenState extends State<CreateClassScreen> {
               _topic = val.trim();
             } else if (title == Constants.classIntro) {
               _intro = val.trim();
+            } else {
+              _price = val.trim();
             }
           });
         },
-        inputFormatters: [
-          title == 'Số điện thoại'
-              ? FilteringTextInputFormatter.digitsOnly
-              : FilteringTextInputFormatter.singleLineFormatter,
-        ],
+        inputFormatters: title == Constants.price
+            ? [
+                FilteringTextInputFormatter.digitsOnly,
+                TextInputFormatter.withFunction((oldValue, newValue) {
+                  if (newValue.text.isEmpty) {
+                    return newValue.copyWith(text: '');
+                  } else if (newValue.text.compareTo(oldValue.text) != 0) {
+                    final int selectionIndexFromTheRight =
+                        newValue.text.length - newValue.selection.end;
+                    final f = NumberFormat("#,###");
+                    final number = int.parse(newValue.text.replaceAll(f.symbols.GROUP_SEP, ''));
+                    final newString = f.format(number);
+                    return TextEditingValue(
+                      text: newString,
+                      selection: TextSelection.collapsed(
+                        offset: newString.length - selectionIndexFromTheRight,
+                      ),
+                    );
+                  } else {
+                    return newValue;
+                  }
+                }),
+              ]
+            : [
+                title == 'Số điện thoại'
+                    ? FilteringTextInputFormatter.digitsOnly
+                    : FilteringTextInputFormatter.singleLineFormatter,
+              ],
         obscureText: title == 'Mật khẩu' ? true : false,
         decoration: InputDecoration(
           floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -221,8 +329,7 @@ class _CreateClassScreenState extends State<CreateClassScreen> {
           border: InputBorder.none,
           labelText: title,
           labelStyle: TextStyle(
-            color:
-                Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
+            color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
             fontSize: _size.width / 26.0,
             fontWeight: FontWeight.w600,
           ),

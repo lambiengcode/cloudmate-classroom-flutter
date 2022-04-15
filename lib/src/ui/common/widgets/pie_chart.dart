@@ -3,7 +3,7 @@ import 'package:cloudmate/src/ui/common/widgets/indicator.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:cloudmate/src/helpers/string.dart';
-import 'package:sizer/sizer.dart';
+import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 
 class PieChartRevenue extends StatefulWidget {
   final List<double> data;

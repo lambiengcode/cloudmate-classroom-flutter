@@ -9,7 +9,7 @@ import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:sizer/sizer.dart';
+import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 
 class EditInfoScreen extends StatefulWidget {
   @override
@@ -230,8 +230,7 @@ class _EditInfoScreenState extends State<EditInfoScreen> {
           border: InputBorder.none,
           labelText: title,
           labelStyle: TextStyle(
-            color:
-                Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
+            color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
             fontSize: 11.sp,
             fontWeight: FontWeight.w600,
           ),

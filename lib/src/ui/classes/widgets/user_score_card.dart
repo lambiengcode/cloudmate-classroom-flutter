@@ -3,7 +3,7 @@ import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/utils/blurhash.dart';
-import 'package:sizer/sizer.dart';
+import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 import 'package:cloudmate/src/helpers/int.dart';
 
 class UserScoreCard extends StatefulWidget {

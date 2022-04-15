@@ -4,7 +4,7 @@ import 'package:cloudmate/src/themes/app_decorations.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:sizer/sizer.dart';
+import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 
 class SubmitDeadlineScreen extends StatefulWidget {
   @override
@@ -43,9 +43,7 @@ class _SubmitDeadlineScreenState extends State<SubmitDeadlineScreen> {
               child: Container(
                 height: 48.sp,
                 padding: EdgeInsets.symmetric(horizontal: 10.sp),
-                decoration:
-                    AppDecoration.buttonActionBorderActive(context, 8.sp)
-                        .decoration,
+                decoration: AppDecoration.buttonActionBorderActive(context, 8.sp).decoration,
                 child: Row(
                   children: [
                     SizedBox(width: 6.sp),
@@ -57,11 +55,7 @@ class _SubmitDeadlineScreenState extends State<SubmitDeadlineScreen> {
                           fontSize: 11.5.sp,
                           fontWeight: FontWeight.w600,
                           fontStyle: FontStyle.italic,
-                          color: Theme.of(context)
-                              .textTheme
-                              .bodyText1!
-                              .color!
-                              .withOpacity(.8),
+                          color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
                         ),
                       ),
                     ),

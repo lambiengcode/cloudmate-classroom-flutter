@@ -11,7 +11,7 @@ import 'package:cloudmate/src/ui/common/dialogs/dialog_confirm.dart';
 import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:sizer/sizer.dart';
+import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 
 class DrawerOption extends StatefulWidget {
   final ClassModel classModel;
@@ -47,8 +47,8 @@ class _DrawerOptionState extends State<DrawerOption> {
                             colorAttendance,
                             AppRoutes.LIST_EXAM,
                             arguments: {
-                              'classId': widget.classModel.id,
                               'isPickedMode': true,
+                              'classModel': widget.classModel,
                             },
                           ),
                           _buildDividerTransparant(context),
@@ -70,7 +70,7 @@ class _DrawerOptionState extends State<DrawerOption> {
                             colorPrimary,
                             AppRoutes.LIST_EXAM,
                             arguments: {
-                              'classId': widget.classModel.id,
+                              'classModel': widget.classModel,
                             },
                           ),
                           _buildDividerTransparant(context),

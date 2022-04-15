@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/app_decorations.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
-import 'package:sizer/sizer.dart';
+import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 
 class DateBarPicker extends StatefulWidget {
   @override
@@ -51,8 +51,7 @@ class _DateBarPickerState extends State<DateBarPicker> {
           values[index],
           style: Theme.of(context).textTheme.bodyText1!.copyWith(
                 fontSize: 9.5.sp,
-                fontWeight:
-                    currentPicked == index ? FontWeight.bold : FontWeight.w500,
+                fontWeight: currentPicked == index ? FontWeight.bold : FontWeight.w500,
                 color: currentPicked == index
                     ? colorPrimary
                     : Theme.of(context).textTheme.bodyText1!.color!.withOpacity(

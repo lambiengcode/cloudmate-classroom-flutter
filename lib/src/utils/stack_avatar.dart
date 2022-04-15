@@ -1,7 +1,7 @@
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/utils/blurhash.dart';
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
+import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 
 class StackAvatar extends StatefulWidget {
   final List<String> images;

@@ -91,9 +91,11 @@ class UserModel {
   }
 
   factory UserModel.fromStatistic(Map<dynamic, dynamic> map, {int? score}) {
+    late final Map<String, String> defaultImageObject;
+    defaultImageObject = Constants.getOnlyDefaultClassImage();
     return UserModel(
       id: map['_id'],
-      image: map['image'] == '' ? Constants.urlImageDefault : (Constants.imageUrl + map['image']),
+      image: defaultImageObject['image']!,
       blurHash: map['blurHash'] ?? '',
       phone: map['phone'] ?? '',
       displayName: map['displayName'] ?? '',

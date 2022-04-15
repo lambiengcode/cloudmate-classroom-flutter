@@ -7,7 +7,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:sizer/sizer.dart';
+import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 
 class NewPost extends StatefulWidget {
   @override
@@ -172,8 +172,7 @@ class _NewPostState extends State<NewPost> {
     return Expanded(
       child: Icon(
         icon,
-        color: color ??
-            Theme.of(context).textTheme.bodyText2!.color!.withOpacity(.7),
+        color: color ?? Theme.of(context).textTheme.bodyText2!.color!.withOpacity(.7),
         size: 18.sp,
       ),
     );
