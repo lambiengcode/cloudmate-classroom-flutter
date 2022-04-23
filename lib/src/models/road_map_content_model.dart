@@ -63,9 +63,26 @@ class RoadMapContentModel {
     );
   }
 
+  factory RoadMapContentModel.fromMapPost(Map<String, dynamic> mapA) {
+    Map<String, dynamic> map = mapA['rmcAssignment'] ?? mapA['rmcAttendance'];
+
+    return RoadMapContentModel(
+      id: map['_id'],
+      roadMapContentId: map['_id'],
+      name: map['name'],
+      description: map['description'],
+      type: mapA['rmcAssignment'] != null
+          ? RoadMapContentType.assignment
+          : RoadMapContentType.attendance,
+      startTime: DateTime.parse(map['startTime']),
+      endTime: DateTime.parse(map['endTime']),
+    );
+  }
+
   String toJson() => json.encode(toMap());
 
-  factory RoadMapContentModel.fromJson(String source) => RoadMapContentModel.fromMap(json.decode(source));
+  factory RoadMapContentModel.fromJson(String source) =>
+      RoadMapContentModel.fromMap(json.decode(source));
 
   @override
   String toString() {
@@ -75,25 +92,25 @@ class RoadMapContentModel {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-  
+
     return other is RoadMapContentModel &&
-      other.id == id &&
-      other.roadMapContentId == roadMapContentId &&
-      other.name == name &&
-      other.description == description &&
-      other.type == type &&
-      other.startTime == startTime &&
-      other.endTime == endTime;
+        other.id == id &&
+        other.roadMapContentId == roadMapContentId &&
+        other.name == name &&
+        other.description == description &&
+        other.type == type &&
+        other.startTime == startTime &&
+        other.endTime == endTime;
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
-      roadMapContentId.hashCode ^
-      name.hashCode ^
-      description.hashCode ^
-      type.hashCode ^
-      startTime.hashCode ^
-      endTime.hashCode;
+        roadMapContentId.hashCode ^
+        name.hashCode ^
+        description.hashCode ^
+        type.hashCode ^
+        startTime.hashCode ^
+        endTime.hashCode;
   }
 }

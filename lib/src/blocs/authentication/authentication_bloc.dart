@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/blocs/authentication/bloc.dart';
+import 'package:cloudmate/src/blocs/post_home/post_home_bloc.dart';
 import 'package:cloudmate/src/configs/application.dart';
 import 'package:cloudmate/src/models/upload_response_model.dart';
 import 'package:cloudmate/src/models/user.dart';
@@ -133,6 +134,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<bool> _handleLogOut() async {
     AppBloc.classBloc.add(ClearClass());
+    AppBloc.postHomeBloc.add(CleanPostHomeEvent());
     await FirebaseMessaging.instance.deleteToken();
     await AuthenticationRepository().logOut();
     return true;

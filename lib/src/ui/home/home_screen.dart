@@ -1,4 +1,6 @@
+import 'package:cloudmate/src/blocs/post_home/post_home_bloc.dart';
 import 'package:cloudmate/src/blocs/share_exam/share_exam_bloc.dart';
+import 'package:cloudmate/src/models/post_model.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/routes/app_routes.dart';
 import 'package:cloudmate/src/ui/classes/blocs/do_exam/do_exam_bloc.dart';
@@ -7,12 +9,12 @@ import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/blocs/theme/theme_event.dart';
-import 'package:cloudmate/src/resources/hard/hard_post.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
 import 'package:cloudmate/src/ui/home/widgets/new_post.dart';
 import 'package:cloudmate/src/ui/home/widgets/post_card.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 
@@ -41,6 +43,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    AppBloc.postHomeBloc.add(OnPostHomeEvent());
+    // AppBloc.postHomeBloc.add(CleanPostHomeEvent());
     AppBloc.shareExamBloc.add(GetShareExamEvent());
   }
 
@@ -122,17 +126,22 @@ class _HomeScreenState extends State<HomeScreen> {
                 thickness: .25,
               ),
               Expanded(
-                child: ListView.builder(
-                  padding: EdgeInsets.only(top: 12.sp, bottom: 20.sp),
-                  physics: BouncingScrollPhysics(),
-                  itemCount: posts.length + 1,
-                  itemBuilder: (context, index) {
-                    return index == 0
-                        ? NewPost()
-                        : PostCard(
-                            post: posts[index - 1],
-                            isLast: index == posts.length,
-                          );
+                child: BlocBuilder<PostHomeBloc, PostHomeState>(
+                  builder: (context, state) {
+                    List<PostModel> posts = (state.props[0] as List).cast();
+                    return ListView.builder(
+                      padding: EdgeInsets.only(top: 12.sp, bottom: 20.sp),
+                      physics: BouncingScrollPhysics(),
+                      itemCount: posts.length + 1,
+                      itemBuilder: (context, index) {
+                        return index == 0
+                            ? NewPost()
+                            : PostCard(
+                                post: posts[index - 1],
+                                isLast: index == posts.length,
+                              );
+                      },
+                    );
                   },
                 ),
               ),

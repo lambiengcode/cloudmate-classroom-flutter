@@ -1,10 +1,12 @@
 import 'dart:io';
 import 'dart:ui';
 import 'package:cloudmate/src/blocs/app_bloc.dart';
+import 'package:cloudmate/src/blocs/post_class/post_class_bloc.dart';
 import 'package:cloudmate/src/helpers/members_helpers.dart';
 import 'package:cloudmate/src/helpers/picker/custom_image_picker.dart';
 import 'package:cloudmate/src/helpers/role_helper.dart';
 import 'package:cloudmate/src/models/class_model.dart';
+import 'package:cloudmate/src/models/post_model.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/services/payment/momo_payment.dart';
 import 'package:cloudmate/src/ui/classes/blocs/class/class_bloc.dart';
@@ -50,6 +52,7 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
   @override
   void initState() {
     super.initState();
+    AppBloc.postClassBloc.add(GetPostClassEvent(classId: widget.classModel.id));
     _classModel = widget.classModel;
     _hasJoinedClass = widget.hasJoinedClass;
     _imageController = AnimationController(
@@ -337,17 +340,22 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                         ],
                       ),
                     ),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      padding: EdgeInsets.only(
-                        bottom: 80.sp,
-                      ),
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: posts.length,
-                      itemBuilder: (context, index) {
-                        return PostCard(
-                          post: posts[index],
-                          isLast: index == posts.length - 1,
+                    BlocBuilder<PostClassBloc, PostClassState>(
+                      builder: (context, state) {
+                        List<PostModel> posts = (state.props[0] as List).cast();
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          padding: EdgeInsets.only(
+                            bottom: 80.sp,
+                          ),
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: posts.length,
+                          itemBuilder: (context, index) {
+                            return PostCard(
+                              post: posts[index],
+                              isLast: index == posts.length,
+                            );
+                          },
                         );
                       },
                     ),

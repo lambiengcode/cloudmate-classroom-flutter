@@ -1,19 +1,18 @@
+import 'package:cloudmate/src/models/post_model.dart';
+import 'package:cloudmate/src/models/road_map_content_type.dart';
 import 'package:flutter/material.dart';
-import 'package:cloudmate/src/resources/hard/hard_post.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
 import 'package:cloudmate/src/ui/home/widgets/attendance_in_post.dart';
 import 'package:cloudmate/src/ui/home/widgets/deadline_in_post.dart';
-import 'package:cloudmate/src/ui/home/widgets/exam_in_post.dart';
-import 'package:cloudmate/src/ui/home/widgets/image_body_post.dart';
 import 'package:cloudmate/src/utils/blurhash.dart';
 import 'package:like_button/like_button.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 
 class PostCard extends StatefulWidget {
-  final Post post;
+  final PostModel post;
   final bool isInDetails;
   final bool isLast;
   PostCard({required this.post, this.isInDetails = false, this.isLast = false});
@@ -103,14 +102,14 @@ class _PostCardState extends State<PostCard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 8.sp),
-            widget.post.content != ''
+            widget.post.roadMapContent?.name != ''
                 ? Column(
                     children: [
                       SizedBox(height: 4.sp),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 10.sp),
                         child: Text(
-                          widget.post.content,
+                          widget.post.roadMapContent?.name ?? '',
                           style: TextStyle(
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w400,
@@ -123,23 +122,11 @@ class _PostCardState extends State<PostCard> {
                     ],
                   )
                 : Container(),
-            widget.post.status == 0
-                ? ExamInPost(
-                    exam: widget.post.exam!,
-                  )
-                : widget.post.status == 1
-                    ? DeadlineInPost(roadMapContent: widget.post.attendance!)
-                    : widget.post.status == 2
-                        ? AttendanceInPost(roadMapContent: widget.post.attendance!)
-                        : widget.post.images!.length > 0
-                            ? Padding(
-                                padding: EdgeInsets.only(top: 6.sp),
-                                child: ImageBodyPost(
-                                  blurHashs: widget.post.images,
-                                  images: widget.post.images,
-                                ),
-                              )
-                            : Container(),
+            widget.post.roadMapContent == null
+                ? SizedBox()
+                : widget.post.roadMapContent!.type == RoadMapContentType.attendance
+                    ? AttendanceInPost(roadMapContent: widget.post.roadMapContent!)
+                    : DeadlineInPost(roadMapContent: widget.post.roadMapContent!),
             SizedBox(height: 12.sp),
           ],
         ),
@@ -334,8 +321,8 @@ class _PostCardState extends State<PostCard> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(6.sp),
             child: BlurHash(
-              hash: '',
-              image: widget.post.imageGroup,
+              hash: widget.post.classModel.blurHash,
+              image: widget.post.classModel.image,
               imageFit: BoxFit.cover,
               color: colorPrimary,
             ),
@@ -347,7 +334,7 @@ class _PostCardState extends State<PostCard> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              widget.post.groupName,
+              widget.post.classModel.name,
               style: TextStyle(
                 fontSize: 12.25.sp,
                 fontFamily: FontFamily.lato,
@@ -356,7 +343,7 @@ class _PostCardState extends State<PostCard> {
             ),
             SizedBox(height: 2.15.sp),
             Text(
-              widget.post.authorName,
+              'lambiengcode',
               style: TextStyle(
                 fontSize: 11.sp,
                 fontFamily: FontFamily.lato,

@@ -13,6 +13,10 @@ class ApiGateway {
   static const UPLOAD_MULTIPLE_FILE = 'api/up-load-file/uploads';
   static const GET_FILE_INFO = 'api/up-load-file';
 
+  // Post
+  static const POST_HOME = 'api/post/home';
+  static const POST_CLASS = 'api/post/class';
+
   // Class
   static const CLASS = 'api/classes';
   static const RECOMMEND_CLASSES = 'api/classes/recommendClasses';
