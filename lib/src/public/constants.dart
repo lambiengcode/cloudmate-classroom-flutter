@@ -39,4 +39,10 @@ class Constants {
     defaultClassImageUrls.shuffle();
     return defaultClassImageUrls.first;
   }
+
+  static const filesSupported = [
+    '.docx',
+    '.pdf',
+    '.pptx',
+  ];
 }

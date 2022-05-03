@@ -1,4 +1,6 @@
 import 'package:bloc/bloc.dart';
+import 'package:cloudmate/src/blocs/app_bloc.dart';
+import 'package:cloudmate/src/blocs/post_class/post_class_bloc.dart';
 import 'package:cloudmate/src/models/road_map_content_model.dart';
 import 'package:cloudmate/src/models/road_map_content_type.dart';
 import 'package:cloudmate/src/resources/remote/road_map_content_repository.dart';
@@ -37,6 +39,7 @@ class RoadMapContentBloc extends Bloc<RoadMapContentEvent, RoadMapContentState> 
       yield GetDoneRoadMapContent(roadMapContentList: roadMapContentList);
 
       if (isCreateSuccess) {
+        AppBloc.postClassBloc.add(GetPostClassEvent(classId: event.classId));
         AppNavigator.popUntil(AppRoutes.ROAD_MAP_CONTENT);
       } else {
         _showDialogResult(event.context);

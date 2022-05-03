@@ -16,10 +16,7 @@ class PostClassBloc extends Bloc<PostClassEvent, PostClassState> {
   Stream<PostClassState> mapEventToState(PostClassEvent event) async* {
     if (event is GetPostClassEvent) {
       currentClassId = event.classId;
-      if (postsClass[event.classId] == null) {
-        await _getPosts();
-      }
-
+      await _getPosts();
       yield _getDonePostClass;
     }
 

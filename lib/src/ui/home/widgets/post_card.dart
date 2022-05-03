@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/models/post_model.dart';
 import 'package:cloudmate/src/models/road_map_content_type.dart';
 import 'package:flutter/material.dart';
@@ -22,14 +24,19 @@ class PostCard extends StatefulWidget {
 
 class _PostCardState extends State<PostCard> {
   final GlobalKey<LikeButtonState> _globalKey = GlobalKey<LikeButtonState>();
-  int likeCount = 555;
-  bool isLiked = false;
   bool isSaved = false;
 
-  Future<bool> onLikeButtonTapped(bool isLiked) async {
-    setState(() {
-      this.isLiked = !this.isLiked;
-    });
+  Future<bool> onLikeButtonTapped({required bool isLiked, DocumentReference? snapshot}) async {
+    if (!isLiked) {
+      await FirebaseFirestore.instance.collection('favourites').add({
+        'postId': widget.post.id,
+        'userId': AppBloc.authBloc.userModel?.id,
+      });
+    } else {
+      if (snapshot != null) {
+        await snapshot.delete();
+      }
+    }
 
     return !isLiked;
   }
@@ -73,22 +80,6 @@ class _PostCardState extends State<PostCard> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _buildInfoWritter(context),
-          IconButton(
-            icon: Icon(
-              isSaved ? PhosphorIcons.bookmarkFill : PhosphorIcons.bookmark,
-              size: 25.sp,
-              color: isSaved
-                  ? themeService.isSavedDarkMode()
-                      ? Colors.amberAccent
-                      : Colors.amberAccent.shade700
-                  : null,
-            ),
-            onPressed: () {
-              setState(() {
-                isSaved = !isSaved;
-              });
-            },
-          )
         ],
       ),
     );
@@ -127,7 +118,7 @@ class _PostCardState extends State<PostCard> {
                 : widget.post.roadMapContent!.type == RoadMapContentType.attendance
                     ? AttendanceInPost(roadMapContent: widget.post.roadMapContent!)
                     : DeadlineInPost(roadMapContent: widget.post.roadMapContent!),
-            SizedBox(height: 12.sp),
+            SizedBox(height: 2.sp),
           ],
         ),
       ),
@@ -147,64 +138,87 @@ class _PostCardState extends State<PostCard> {
               Row(
                 children: [
                   SizedBox(width: 6.sp),
-                  LikeButton(
-                    key: _globalKey,
-                    isLiked: isLiked,
-                    likeCountAnimationType: likeCount < 1000
-                        ? LikeCountAnimationType.part
-                        : LikeCountAnimationType.none,
-                    size: 18.sp,
-                    circleColor: CircleColor(
-                      start: Color(0xff00ddff),
-                      end: Color(0xff0099cc),
-                    ),
-                    bubblesColor: BubblesColor(
-                      dotPrimaryColor: colorHigh,
-                      dotSecondaryColor: colorHigh,
-                    ),
-                    likeBuilder: (bool isLiked) {
-                      return Icon(
-                        isLiked ? PhosphorIcons.heartFill : PhosphorIcons.heart,
-                        color: isLiked ? colorHigh : null,
+                  StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection('favourites')
+                        .where('postId', isEqualTo: widget.post.id)
+                        .snapshots(),
+                    builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                      List<QueryDocumentSnapshot> likes = snapshot.data?.docs ?? [];
+                      int indexOfLiked =
+                          likes.indexWhere((e) => e['userId'] == AppBloc.authBloc.userModel?.id);
+                      bool isLiked = indexOfLiked != -1;
+
+                      return LikeButton(
+                        key: _globalKey,
+                        isLiked: isLiked,
+                        likeCountAnimationType: LikeCountAnimationType.none,
                         size: 18.sp,
-                      );
-                    },
-                    likeCount: isLiked ? likeCount + 1 : likeCount,
-                    countBuilder: (int? count, bool isLiked, String text) {
-                      var color = isLiked ? colorHigh : null;
-                      Widget result;
-                      result = Text(
-                        text,
-                        style: TextStyle(
-                          color: color,
-                          fontSize: 10.5.sp,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: FontFamily.lato,
+                        circleColor: CircleColor(
+                          start: Color(0xff00ddff),
+                          end: Color(0xff0099cc),
+                        ),
+                        bubblesColor: BubblesColor(
+                          dotPrimaryColor: colorHigh,
+                          dotSecondaryColor: colorHigh,
+                        ),
+                        likeBuilder: (bool isLiked) {
+                          return Icon(
+                            isLiked ? PhosphorIcons.heartFill : PhosphorIcons.heart,
+                            color: isLiked ? colorHigh : null,
+                            size: 18.sp,
+                          );
+                        },
+                        likeCount: likes.length,
+                        countBuilder: (int? count, bool isLiked, String text) {
+                          var color = isLiked ? colorHigh : null;
+                          Widget result;
+                          result = Text(
+                            text,
+                            style: TextStyle(
+                              color: color,
+                              fontSize: 10.5.sp,
+                              fontWeight: FontWeight.w600,
+                              fontFamily: FontFamily.lato,
+                            ),
+                          );
+
+                          return result;
+                        },
+                        likeCountPadding: EdgeInsets.only(left: 6.sp),
+                        onTap: (isLiked) => onLikeButtonTapped(
+                          isLiked: isLiked,
+                          snapshot: likes.isNotEmpty ? likes[indexOfLiked].reference : null,
                         ),
                       );
-
-                      return result;
                     },
-                    likeCountPadding: EdgeInsets.only(left: 6.sp),
-                    onTap: onLikeButtonTapped,
                   ),
                   SizedBox(width: 16.0),
                   _buildActionButton(
                     context,
-                    'Comment',
-                    PhosphorIcons.chatTeardropDots,
+                    'Share',
+                    PhosphorIcons.share,
                     colorDarkGrey,
-                    '229',
+                    null,
                   ),
                 ],
               ),
-              _buildActionButton(
-                context,
-                'Share',
-                PhosphorIcons.share,
-                colorDarkGrey,
-                null,
-              ),
+              IconButton(
+                icon: Icon(
+                  isSaved ? PhosphorIcons.bookmarkFill : PhosphorIcons.bookmark,
+                  size: 20.sp,
+                  color: isSaved
+                      ? themeService.isSavedDarkMode()
+                          ? Colors.amberAccent
+                          : Colors.amberAccent.shade700
+                      : null,
+                ),
+                onPressed: () {
+                  setState(() {
+                    isSaved = !isSaved;
+                  });
+                },
+              )
             ],
           ),
           SizedBox(height: 8.sp),
