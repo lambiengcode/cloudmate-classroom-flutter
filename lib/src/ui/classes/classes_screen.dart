@@ -27,7 +27,6 @@ class _ClassesScreenState extends State<ClassesScreen> {
   @override
   void initState() {
     super.initState();
-    AppBloc.classBloc.add(TransitionToClassScreen());
   }
 
   @override

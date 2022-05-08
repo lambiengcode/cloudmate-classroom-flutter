@@ -109,7 +109,7 @@ class _RoadMapScreenState extends State<RoadMapScreen> {
                           steps: _steps,
                           roadMaps: state.props[0] as List<RoadMapModel>,
                           roadMapBloc: _roadMapBloc,
-                          classId: widget.classModel.id,
+                          classModel: widget.classModel,
                         )
                       ],
                     ),
@@ -129,13 +129,13 @@ class _TimelineSteps extends StatelessWidget {
     required this.steps,
     required this.roadMaps,
     required this.roadMapBloc,
-    required this.classId,
+    required this.classModel,
   });
 
   final List<Step> steps;
   final List<RoadMapModel> roadMaps;
   final RoadMapBloc roadMapBloc;
-  final String classId;
+  final ClassModel classModel;
 
   @override
   Widget build(BuildContext context) {
@@ -177,7 +177,7 @@ class _TimelineSteps extends StatelessWidget {
               AppNavigator.push(AppRoutes.ROAD_MAP_CONTENT, arguments: {
                 'roadMapModel': roadMaps[itemIndex],
                 'roadMapBloc': roadMapBloc,
-                'classId': classId,
+                'classModel': classModel,
               });
             },
             child: Container(

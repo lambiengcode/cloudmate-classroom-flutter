@@ -93,31 +93,40 @@ class _PostCardState extends State<PostCard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 8.sp),
-            widget.post.roadMapContent?.name != ''
-                ? Column(
-                    children: [
-                      SizedBox(height: 4.sp),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10.sp),
-                        child: Text(
-                          widget.post.roadMapContent?.name ?? '',
-                          style: TextStyle(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          textAlign: TextAlign.start,
-                          maxLines: 2,
-                        ),
-                      ),
-                      SizedBox(height: 6.sp),
-                    ],
-                  )
-                : Container(),
+            Column(
+              children: [
+                SizedBox(height: 4.sp),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10.sp),
+                  child: Text(
+                    widget.post.roadMapContent?.name ?? widget.post.content ?? '',
+                    style: TextStyle(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    textAlign: TextAlign.start,
+                    maxLines: 2,
+                  ),
+                ),
+                SizedBox(height: 6.sp),
+              ],
+            ),
             widget.post.roadMapContent == null
                 ? SizedBox()
                 : widget.post.roadMapContent!.type == RoadMapContentType.attendance
-                    ? AttendanceInPost(roadMapContent: widget.post.roadMapContent!)
-                    : DeadlineInPost(roadMapContent: widget.post.roadMapContent!),
+                    ? AttendanceInPost(
+                        roadMapContent: widget.post.roadMapContent!,
+                        isAdmin:
+                            AppBloc.authBloc.userModel?.id == widget.post.classModel.createdBy?.id,
+                        quantityMembers: widget.post.classModel.totalMember,
+                      )
+                    : DeadlineInPost(
+                        roadMapContent: widget.post.roadMapContent!,
+                        textForAdmin:
+                            AppBloc.authBloc.userModel?.id == widget.post.classModel.createdBy?.id
+                                ? '6/10 Đã nộp'
+                                : null,
+                      ),
             SizedBox(height: 2.sp),
           ],
         ),
@@ -188,7 +197,9 @@ class _PostCardState extends State<PostCard> {
                         likeCountPadding: EdgeInsets.only(left: 6.sp),
                         onTap: (isLiked) => onLikeButtonTapped(
                           isLiked: isLiked,
-                          snapshot: likes.isNotEmpty ? likes[indexOfLiked].reference : null,
+                          snapshot: likes.isNotEmpty && indexOfLiked != -1
+                              ? likes[indexOfLiked].reference
+                              : null,
                         ),
                       );
                     },
@@ -196,10 +207,10 @@ class _PostCardState extends State<PostCard> {
                   SizedBox(width: 16.0),
                   _buildActionButton(
                     context,
-                    'Share',
-                    PhosphorIcons.share,
+                    'Comment',
+                    PhosphorIcons.chat,
                     colorDarkGrey,
-                    null,
+                    0,
                   ),
                 ],
               ),
@@ -357,7 +368,7 @@ class _PostCardState extends State<PostCard> {
             ),
             SizedBox(height: 2.15.sp),
             Text(
-              'lambiengcode',
+              widget.post.createdBy.displayName ?? 'Author',
               style: TextStyle(
                 fontSize: 11.sp,
                 fontFamily: FontFamily.lato,

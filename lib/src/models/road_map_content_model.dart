@@ -9,6 +9,7 @@ class RoadMapContentModel {
   final RoadMapContentType type;
   final DateTime startTime;
   final DateTime endTime;
+  List<String>? fileExtensions;
   RoadMapContentModel({
     required this.id,
     required this.roadMapContentId,
@@ -17,6 +18,7 @@ class RoadMapContentModel {
     required this.type,
     required this.startTime,
     required this.endTime,
+    this.fileExtensions,
   });
 
   RoadMapContentModel copyWith({
@@ -60,6 +62,9 @@ class RoadMapContentModel {
       type: fromIntValue(map['type']),
       startTime: DateTime.parse(map['rmc']?['startTime']),
       endTime: DateTime.parse(map['rmc']?['endTime']),
+      fileExtensions: map['rmc']?['fileExtensions'] == null
+          ? null
+          : (map['rmc']!['fileExtensions'] as List).cast(),
     );
   }
 
@@ -76,6 +81,7 @@ class RoadMapContentModel {
           : RoadMapContentType.attendance,
       startTime: DateTime.parse(map['startTime']),
       endTime: DateTime.parse(map['endTime']),
+      fileExtensions: map['fileExtensions'] == null ? null : (map['fileExtensions'] as List).cast(),
     );
   }
 

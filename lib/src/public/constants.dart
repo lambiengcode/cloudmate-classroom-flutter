@@ -2,12 +2,12 @@ import 'package:lottie/lottie.dart';
 
 class Constants {
   static const INCH_TO_DP = 160;
-  static const String baseUrl = "https://2school.ml/";
-  static const String imageUrl = "https://2school.ml/" + 'api/up-load-file?id=';
+  static const String baseUrl = "http://45.77.174.83:3000/";
+  static const String imageUrl = "http://45.77.174.83:3000/" + 'api/up-load-file?id=';
   // Assets
   LottieBuilder splashLottie = Lottie.asset('assets/lottie/splash.json');
   LottieBuilder loadingLottie = Lottie.asset('assets/lottie/cat_sleeping.json');
-  static const urlImageDefault = 'https://avatars.githubusercontent.com/u/60530946?v=4';
+  static const urlImageDefault = 'https://cdn.fs.teachablecdn.com/WxWw05nmRJGPpOnilxoy';
   static const className = 'Tên lớp học';
   static const classTopic = 'Chủ đề';
   static const classIntro = 'Giới thiệu về lớp học';
@@ -41,8 +41,9 @@ class Constants {
   }
 
   static const filesSupported = [
-    '.docx',
-    '.pdf',
-    '.pptx',
+    'docx',
+    'doc',
+    'pdf',
+    'pptx',
   ];
 }

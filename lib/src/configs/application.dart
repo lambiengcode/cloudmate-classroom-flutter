@@ -17,7 +17,7 @@ class Application {
       await Firebase.initializeApp();
       await GetStorage.init();
       await dotenv.load(fileName: ".env");
-      baseUrl = 'https://2school.ml/';
+      baseUrl = 'http://45.77.174.83:3000/';
       imageUrl = baseUrl! + 'api/up-load-file?id=';
       socketUrl = 'http://45.77.174.83:3000/';
       mode = dotenv.env['MODE'];

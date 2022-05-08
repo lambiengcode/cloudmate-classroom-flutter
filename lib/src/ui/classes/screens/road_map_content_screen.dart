@@ -1,3 +1,5 @@
+import 'package:cloudmate/src/blocs/app_bloc.dart';
+import 'package:cloudmate/src/models/class_model.dart';
 import 'package:cloudmate/src/models/road_map_content_model.dart';
 import 'package:cloudmate/src/models/road_map_content_type.dart';
 import 'package:cloudmate/src/models/road_map_model.dart';
@@ -21,9 +23,9 @@ import 'package:timeline_tile/timeline_tile.dart';
 class RoadMapContentScreen extends StatefulWidget {
   final RoadMapModel roadMapModel;
   final RoadMapBloc roadMapBloc;
-  final String classId;
+  final ClassModel classModel;
   const RoadMapContentScreen(
-      {required this.roadMapModel, required this.roadMapBloc, required this.classId});
+      {required this.roadMapModel, required this.roadMapBloc, required this.classModel});
   @override
   State<StatefulWidget> createState() => _RoadMapContentScreenState();
 }
@@ -43,7 +45,7 @@ class _RoadMapContentScreenState extends State<RoadMapContentScreen> {
       create: (context) => _roadMapContentBloc
         ..add(
           GetRoadMapContentEvent(
-            classId: widget.classId,
+            classId: widget.classModel.id,
             roadMapId: widget.roadMapModel.id,
           ),
         ),
@@ -82,7 +84,7 @@ class _RoadMapContentScreenState extends State<RoadMapContentScreen> {
                     AppRoutes.CREATE_ROAD_MAP_CONTENT,
                     arguments: {
                       'roadMapContentBloc': _roadMapContentBloc,
-                      'classId': widget.classId,
+                      'classId': widget.classModel.id,
                       'roadMapId': widget.roadMapModel.id,
                     },
                   ),
@@ -186,8 +188,18 @@ class _RoadMapContentScreenState extends State<RoadMapContentScreen> {
                     ),
                   ),
                   roadMapContentModel.type == RoadMapContentType.attendance
-                      ? AttendanceInPost(roadMapContent: roadMapContentModel)
-                      : DeadlineInPost(roadMapContent: roadMapContentModel),
+                      ? AttendanceInPost(
+                          roadMapContent: roadMapContentModel,
+                          isAdmin: AppBloc.authBloc.userModel?.id == widget.roadMapModel.createBy,
+                          quantityMembers: widget.classModel.members.length,
+                        )
+                      : DeadlineInPost(
+                          roadMapContent: roadMapContentModel,
+                          textForAdmin:
+                              AppBloc.authBloc.userModel?.id == widget.roadMapModel.createBy
+                                  ? '6/10 Đã nộp'
+                                  : null,
+                        ),
                 ],
               ),
             ),

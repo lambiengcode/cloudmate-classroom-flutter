@@ -3,6 +3,7 @@ import 'package:cloudmate/src/blocs/conversation/conversation_bloc.dart';
 import 'package:cloudmate/src/blocs/message/message_bloc.dart';
 import 'package:cloudmate/src/blocs/post_class/post_class_bloc.dart';
 import 'package:cloudmate/src/blocs/post_home/post_home_bloc.dart';
+import 'package:cloudmate/src/blocs/schedules/schedules_bloc.dart';
 import 'package:cloudmate/src/blocs/share_exam/share_exam_bloc.dart';
 import 'package:cloudmate/src/ui/classes/blocs/class/class_bloc.dart';
 import 'package:cloudmate/src/ui/classes/blocs/do_exam/do_exam_bloc.dart';
@@ -23,6 +24,7 @@ class AppBloc {
   static final shareExamBloc = ShareExamBloc();
   static final postHomeBloc = PostHomeBloc();
   static final postClassBloc = PostClassBloc();
+  static final schedulesBloc = SchedulesBloc();
 
   static final List<BlocProvider> providers = [
     BlocProvider<AppStateBloc>(
@@ -58,6 +60,9 @@ class AppBloc {
     BlocProvider<PostClassBloc>(
       create: (context) => postClassBloc,
     ),
+    BlocProvider<SchedulesBloc>(
+      create: (context) => schedulesBloc,
+    ),
   ];
 
   static void dispose() {
@@ -72,6 +77,7 @@ class AppBloc {
     shareExamBloc.close();
     postHomeBloc.close();
     postClassBloc.close();
+    schedulesBloc.close();
   }
 
   ///Singleton factory

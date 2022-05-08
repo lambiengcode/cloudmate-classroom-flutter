@@ -14,6 +14,7 @@ class ApiGateway {
   static const GET_FILE_INFO = 'api/up-load-file';
 
   // Post
+  static const POST = 'api/post';
   static const POST_HOME = 'api/post/home';
   static const POST_CLASS = 'api/post/class';
 
@@ -53,4 +54,7 @@ class ApiGateway {
   // Messages
   static const MESSAGE_CONVERSATION = 'api/message/conversation';
   static const MESSAGE = 'api/message';
+
+  // Schedule
+  static const SCHEDULE = 'api/road-map-content/schedule';
 }

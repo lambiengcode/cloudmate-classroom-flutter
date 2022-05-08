@@ -95,6 +95,7 @@ class ClassRepository {
 
     if ([200, 201].contains(response.statusCode)) {
       List<dynamic> listResult = response.data['data'];
+
       return listResult.map((item) => ClassModel.fromMap(item)).toList();
     }
 
@@ -130,6 +131,7 @@ class ClassRepository {
 
     if ([200, 201].contains(response.statusCode)) {
       List<dynamic> listResult = response.data['data'];
+      print(listResult.first);
       return listResult.map((item) => ClassModel.fromMap(item)).toList();
     }
 

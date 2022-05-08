@@ -1,7 +1,6 @@
 import 'package:cloudmate/src/models/road_map_content_model.dart';
 import 'package:cloudmate/src/ui/classes/screens/submit_deadline_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:cloudmate/src/resources/hard/hard_schedule.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/app_decorations.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
@@ -11,25 +10,30 @@ import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 
 class DeadlineInPost extends StatefulWidget {
   final RoadMapContentModel roadMapContent;
-  DeadlineInPost({required this.roadMapContent});
+  final String? textForAdmin;
+  DeadlineInPost({required this.roadMapContent, required this.textForAdmin});
   @override
   State<StatefulWidget> createState() => _ExamInPostCard();
 }
 
 class _ExamInPostCard extends State<DeadlineInPost> {
   _handlePressedOpenSubmit() {
-    showModalBottomSheet(
-      context: context,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(12.sp),
+    if (widget.textForAdmin == null) {
+    } else {
+      // Member in class
+      showModalBottomSheet(
+        context: context,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(12.sp),
+          ),
         ),
-      ),
-      isDismissible: true,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) => SubmitDeadlineScreen(),
-    );
+        isDismissible: true,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (context) => SubmitDeadlineScreen(),
+      );
+    }
   }
 
   @override
@@ -84,7 +88,7 @@ class _ExamInPostCard extends State<DeadlineInPost> {
                     ),
                     SizedBox(width: 6.sp),
                     Text(
-                      'Chưa nộp',
+                      widget.textForAdmin != null ? '6/10 Đã nộp' : 'Chưa nộp',
                       style: TextStyle(
                         fontSize: 11.sp,
                         fontFamily: FontFamily.lato,

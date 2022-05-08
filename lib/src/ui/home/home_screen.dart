@@ -3,6 +3,7 @@ import 'package:cloudmate/src/blocs/share_exam/share_exam_bloc.dart';
 import 'package:cloudmate/src/models/post_model.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/routes/app_routes.dart';
+import 'package:cloudmate/src/ui/classes/blocs/class/class_bloc.dart';
 import 'package:cloudmate/src/ui/classes/blocs/do_exam/do_exam_bloc.dart';
 import 'package:cloudmate/src/ui/classes/widgets/dialog_add_answer.dart';
 import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
@@ -44,108 +45,116 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     AppBloc.postHomeBloc.add(OnPostHomeEvent());
-    // AppBloc.postHomeBloc.add(CleanPostHomeEvent());
+    AppBloc.classBloc.add(TransitionToClassScreen());
     AppBloc.shareExamBloc.add(GetShareExamEvent());
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        systemOverlayStyle: ThemeService.systemBrightness,
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        centerTitle: true,
-        leading: IconButton(
-          onPressed: () {
-            AppBloc.themeBloc.add(
-              OnChangeTheme(
-                themeMode:
-                    ThemeService.currentTheme == ThemeMode.dark ? ThemeMode.light : ThemeMode.dark,
-              ),
-            );
-          },
-          icon: Icon(
-            PhosphorIcons.slidersHorizontal,
-            size: 22.sp,
-          ),
-        ),
-        title: RichText(
-            text: TextSpan(
-          children: [
-            TextSpan(
-              text: 'Cloud',
-              style: TextStyle(
-                fontSize: 22.sp,
-                fontWeight: FontWeight.w600,
-                fontFamily: FontFamily.dancing,
-                color: colorPrimary,
-              ),
-            ),
-            TextSpan(
-              text: 'mate',
-              style: TextStyle(
-                fontSize: 22.sp,
-                fontWeight: FontWeight.w600,
-                fontFamily: FontFamily.dancing,
-                color: Theme.of(context).textTheme.bodyText1!.color,
-              ),
-            ),
-          ],
-        )),
-        actions: [
-          IconButton(
-            onPressed: _handlePressedEnterPin,
-            icon: Icon(
-              PhosphorIcons.qrCode,
-              size: 24.sp,
-            ),
-          ),
-          IconButton(
+    return GestureDetector(
+      onTap: () {
+        if (FocusScope.of(context).hasFocus) {
+          FocusScope.of(context).unfocus();
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          systemOverlayStyle: ThemeService.systemBrightness,
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+          centerTitle: true,
+          leading: IconButton(
             onPressed: () {
-              AppNavigator.push(AppRoutes.NOTIFICATION);
+              AppBloc.themeBloc.add(
+                OnChangeTheme(
+                  themeMode: ThemeService.currentTheme == ThemeMode.dark
+                      ? ThemeMode.light
+                      : ThemeMode.dark,
+                ),
+              );
             },
             icon: Icon(
-              PhosphorIcons.bellSimple,
+              PhosphorIcons.slidersHorizontal,
               size: 22.sp,
             ),
           ),
-        ],
-      ),
-      body: Container(
-        height: 100.h,
-        width: 100.w,
-        color: Theme.of(context).scaffoldBackgroundColor,
-        child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          title: RichText(
+              text: TextSpan(
             children: [
-              SizedBox(height: 2.5.sp),
-              Divider(
-                height: .25,
-                thickness: .25,
+              TextSpan(
+                text: 'Hi',
+                style: TextStyle(
+                  fontSize: 22.sp,
+                  fontWeight: FontWeight.w700,
+                  fontFamily: FontFamily.dancing,
+                  color: colorPrimary,
+                ),
               ),
-              Expanded(
-                child: BlocBuilder<PostHomeBloc, PostHomeState>(
-                  builder: (context, state) {
-                    List<PostModel> posts = (state.props[0] as List).cast();
-                    return ListView.builder(
-                      padding: EdgeInsets.only(top: 12.sp, bottom: 20.sp),
-                      physics: BouncingScrollPhysics(),
-                      itemCount: posts.length + 1,
-                      itemBuilder: (context, index) {
-                        return index == 0
-                            ? NewPost()
-                            : PostCard(
-                                post: posts[index - 1],
-                                isLast: index == posts.length,
-                              );
-                      },
-                    );
-                  },
+              TextSpan(
+                text: 'School',
+                style: TextStyle(
+                  fontSize: 22.sp,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: FontFamily.dancing,
+                  color: Theme.of(context).textTheme.bodyText1!.color,
                 ),
               ),
             ],
+          )),
+          actions: [
+            IconButton(
+              onPressed: _handlePressedEnterPin,
+              icon: Icon(
+                PhosphorIcons.qrCode,
+                size: 24.sp,
+              ),
+            ),
+            IconButton(
+              onPressed: () {
+                AppNavigator.push(AppRoutes.NOTIFICATION);
+              },
+              icon: Icon(
+                PhosphorIcons.bellSimple,
+                size: 22.sp,
+              ),
+            ),
+          ],
+        ),
+        body: Container(
+          height: 100.h,
+          width: 100.w,
+          color: Theme.of(context).scaffoldBackgroundColor,
+          child: SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 2.5.sp),
+                Divider(
+                  height: .25,
+                  thickness: .25,
+                ),
+                Expanded(
+                  child: BlocBuilder<PostHomeBloc, PostHomeState>(
+                    builder: (context, state) {
+                      List<PostModel> posts = (state.props[0] as List).cast();
+                      return ListView.builder(
+                        padding: EdgeInsets.only(top: 12.sp, bottom: 20.sp),
+                        physics: BouncingScrollPhysics(),
+                        itemCount: posts.length + 1,
+                        itemBuilder: (context, index) {
+                          return index == 0
+                              ? NewPost()
+                              : PostCard(
+                                  post: posts[index - 1],
+                                  isLast: index == posts.length,
+                                );
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

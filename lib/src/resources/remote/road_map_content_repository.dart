@@ -11,13 +11,18 @@ class RoadMapContentRepository {
     required String name,
     required String startTime,
     required String endTime,
+    required List<String>? fileExtensions,
   }) async {
-    var body = {
+    Map<String, dynamic> body = {
       "name": name,
       "description": 'description',
       "startTime": startTime,
       "endTime": endTime,
     };
+
+    if (fileExtensions != null) {
+      body["fileExtensions"] = fileExtensions;
+    }
     Response response = await BaseRepository().postRoute(
       isCreateAssignment
           ? ApiGateway.ROAD_MAP_CONTENT_ASSIGNMENT
@@ -25,7 +30,7 @@ class RoadMapContentRepository {
       body,
       query: 'idClass=$classId&idRoadMap=$roadMapId',
     );
-    
+
     if ([200, 201].contains(response.statusCode)) {
       dynamic jsonResponse = response.data['data'];
       return RoadMapContentModel.fromMap(jsonResponse);
@@ -45,6 +50,23 @@ class RoadMapContentRepository {
     if ([200, 201].contains(response.statusCode)) {
       List<dynamic> jsonResponse = response.data['data'];
       return jsonResponse.map((item) => RoadMapContentModel.fromMap(item)).toList();
+    }
+
+    return [];
+  }
+
+  Future<List<RoadMapContentModel>> getSchedules({
+    required String month,
+    required String year,
+  }) async {
+    Response response = await BaseRepository().getRoute(
+      ApiGateway.SCHEDULE,
+      query: 'month=$month&year=$year',
+    );
+
+    if ([200, 201].contains(response.statusCode)) {
+      List<dynamic> jsonResponse = response.data['data'];
+      return jsonResponse.map((item) => RoadMapContentModel.fromMapPost(item)).toList();
     }
 
     return [];

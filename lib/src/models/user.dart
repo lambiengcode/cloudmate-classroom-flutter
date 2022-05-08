@@ -5,12 +5,12 @@ class UserModel {
   final String id;
   final String? image;
   final String? blurHash;
-  final String? phone;
-  final String? displayName;
-  final String? firstName;
-  final String? lastName;
+  String? phone;
+  String? displayName;
+  String? firstName;
+  String? lastName;
   final int? status;
-  final String? intro;
+  String? intro;
   final int? role;
   final int? score;
 
@@ -58,7 +58,7 @@ class UserModel {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
+      '_id': id,
       'image': image,
       'blurHash': blurHash,
       'phone': phone,
@@ -72,13 +72,15 @@ class UserModel {
     };
   }
 
-  factory UserModel.fromMap(Map<String, dynamic> map, {int? role}) {
-    late final Map<String, String> defaultImageObject;
-    defaultImageObject = Constants.getOnlyDefaultClassImage();
+  factory UserModel.fromMap(dynamic map, {int? role}) {
+    // late final Map<String, String> defaultImageObject;
+    // defaultImageObject = Constants.getOnlyDefaultClassImage();
 
     return UserModel(
       id: map['_id'] ?? '',
-      image: defaultImageObject['image']!,
+      image: map['image'] == Constants.urlImageDefault || map['image'] == null || map['image'] == ''
+          ? Constants.urlImageDefault
+          : (Constants.imageUrl + map['image']),
       blurHash: map['blurHash'] ?? '',
       phone: map['phone'] ?? '',
       displayName: map['displayName'] ?? '',
@@ -91,11 +93,11 @@ class UserModel {
   }
 
   factory UserModel.fromStatistic(Map<dynamic, dynamic> map, {int? score}) {
-    late final Map<String, String> defaultImageObject;
-    defaultImageObject = Constants.getOnlyDefaultClassImage();
+    // late final Map<String, String> defaultImageObject;
+    // defaultImageObject = Constants.getOnlyDefaultClassImage();
     return UserModel(
       id: map['_id'],
-      image: defaultImageObject['image']!,
+      image: map['image'] == '' ? Constants.urlImageDefault : (Constants.imageUrl + map['image']),
       blurHash: map['blurHash'] ?? '',
       phone: map['phone'] ?? '',
       displayName: map['displayName'] ?? '',

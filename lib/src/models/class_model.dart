@@ -15,6 +15,7 @@ class ClassModel {
   List<UserModel> members;
   final List<String>? setOfQuestionShare;
   double price;
+  int totalMember;
 
   ClassModel({
     required this.id,
@@ -28,6 +29,7 @@ class ClassModel {
     required this.image,
     this.setOfQuestionShare,
     this.price = 0,
+    this.totalMember = 0,
   });
 
   ClassModel copyWith({
@@ -77,15 +79,16 @@ class ClassModel {
       intro: map['intro'],
       createdBy: map['createdBy'] is String ? null : UserModel.fromMap(map['createdBy']),
       status: map['status'],
-      blurHash: map['blurHash'] == '' ? defaultImageObject['blurHash'] : map['blurHash'],
       members: ((map['member'] ?? []) as List<dynamic>)
           .map((item) => UserModel.fromMap(item['user'], role: item['role']))
           .toList(),
+      blurHash: map['blurHash'] == '' ? defaultImageObject['blurHash'] : map['blurHash'],
       image:
           map['image'] == '' ? defaultImageObject['image']! : (Constants.imageUrl + map['image']),
       setOfQuestionShare:
           ((map['setOfQuestionShare'] ?? []) as List).map((e) => e.toString()).toList(),
       price: double.parse((map['price'] ?? 0).toString()),
+      totalMember: ((map['memmberInClass'] as List?) ?? []).length,
     );
   }
 
@@ -105,8 +108,8 @@ class ClassModel {
       intro: map['intro'],
       createdBy: createdBy,
       status: map['status'],
-      blurHash: map['blurHash'] == '' ? defaultImageObject['blurHash'] : map['blurHash'],
       members: [],
+      blurHash: map['blurHash'] == '' ? defaultImageObject['blurHash'] : map['blurHash'],
       image:
           map['image'] == '' ? defaultImageObject['image']! : (Constants.imageUrl + map['image']),
       price: double.parse((map['price'] ?? 0).toString()),

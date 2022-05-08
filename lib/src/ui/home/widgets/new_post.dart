@@ -1,4 +1,5 @@
 import 'package:cloudmate/src/blocs/authentication/bloc.dart';
+import 'package:cloudmate/src/ui/home/widgets/bottom_sheet_pick_class.dart';
 import 'package:cloudmate/src/utils/blurhash.dart';
 import 'package:ezanimation/ezanimation.dart';
 import 'package:flutter/material.dart';
@@ -17,12 +18,29 @@ class NewPost extends StatefulWidget {
 class _NewPostState extends State<NewPost> {
   EzAnimation? _bottomButtonColorAnimation;
   EzAnimation? _charsCounterOpacityAnimation;
+  bool _canPost = false;
 
   final _tweetFieldFocusNode = FocusNode();
   final _tweetTextController = TextEditingController();
 
   @override
   void initState() {
+    _tweetTextController.addListener(() {
+      if (_tweetTextController.text.isEmpty) {
+        if (_canPost) {
+          setState(() {
+            _canPost = false;
+          });
+        }
+      } else {
+        if (!_canPost) {
+          setState(() {
+            _canPost = true;
+          });
+        }
+      }
+    });
+
     _charsCounterOpacityAnimation = EzAnimation(
       0.0,
       1.0,
@@ -79,7 +97,7 @@ class _NewPostState extends State<NewPost> {
         }
 
         return Container(
-          padding: EdgeInsets.only(bottom: 15.sp),
+          padding: EdgeInsets.only(bottom: 6.sp),
           decoration: BoxDecoration(
             border: Border(
               bottom: BorderSide(
@@ -91,12 +109,13 @@ class _NewPostState extends State<NewPost> {
           child: Column(
             children: [
               Container(
-                padding: EdgeInsets.only(left: 13.25.sp, right: 10.sp),
+                padding: EdgeInsets.only(left: 8.sp, right: 10.sp),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(width: 4.sp),
                     Container(
+                      margin: EdgeInsets.only(top: 4.sp),
                       height: 25.sp,
                       width: 25.sp,
                       decoration: BoxDecoration(
@@ -126,6 +145,7 @@ class _NewPostState extends State<NewPost> {
                           fillColor: Theme.of(context).scaffoldBackgroundColor,
                           contentPadding: EdgeInsets.symmetric(
                             horizontal: 5.sp,
+                            vertical: 10.sp,
                           ),
                           labelText: 'Whats going on?',
                           floatingLabelBehavior: FloatingLabelBehavior.never,
@@ -141,26 +161,43 @@ class _NewPostState extends State<NewPost> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(right: 10.sp, top: 4.sp),
-                      child: Icon(
+                    IconButton(
+                      // padding: EdgeInsets.only(right: 10.sp, top: 4.sp),
+                      onPressed: () {
+                        if (_canPost) {
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            backgroundColor: Colors.transparent,
+                            builder: (context) => BottomSheetPickClass(
+                              content: _tweetTextController.text,
+                              handleFinished: () {
+                                _tweetTextController.text = '';
+                                _tweetFieldFocusNode.unfocus();
+                              },
+                            ),
+                          );
+                        }
+                      },
+                      icon: Icon(
                         PhosphorIcons.telegramLogo,
                         size: 20.sp,
+                        color: _canPost ? colorPrimary : null,
                       ),
                     ),
                   ],
                 ),
               ),
-              SizedBox(height: 10.sp),
-              Row(
-                children: [
-                  _buildAction(Feather.video, color: colorPrimary),
-                  _buildAction(Feather.image),
-                  _buildAction(Feather.bar_chart_2),
-                  _buildAction(Feather.star),
-                  _buildAction(Feather.calendar),
-                ],
-              ),
+              // SizedBox(height: 10.sp),
+              // Row(
+              //   children: [
+              //     _buildAction(Feather.video, color: colorPrimary),
+              //     _buildAction(Feather.image),
+              //     _buildAction(Feather.bar_chart_2),
+              //     _buildAction(Feather.star),
+              //     _buildAction(Feather.calendar),
+              //   ],
+              // ),
             ],
           ),
         );
@@ -168,13 +205,13 @@ class _NewPostState extends State<NewPost> {
     );
   }
 
-  Widget _buildAction(icon, {color}) {
-    return Expanded(
-      child: Icon(
-        icon,
-        color: color ?? Theme.of(context).textTheme.bodyText2!.color!.withOpacity(.7),
-        size: 18.sp,
-      ),
-    );
-  }
+  // Widget _buildAction(icon, {color}) {
+  //   return Expanded(
+  //     child: Icon(
+  //       icon,
+  //       color: color ?? Theme.of(context).textTheme.bodyText2!.color!.withOpacity(.7),
+  //       size: 18.sp,
+  //     ),
+  //   );
+  // }
 }

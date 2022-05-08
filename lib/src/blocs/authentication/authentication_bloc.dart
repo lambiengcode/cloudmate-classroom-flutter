@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/blocs/authentication/bloc.dart';
 import 'package:cloudmate/src/blocs/post_home/post_home_bloc.dart';
@@ -146,6 +147,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       AppBloc.authBloc.add(LogOutEvent());
     } else {
       userModel = user;
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .where('_id', isEqualTo: user.id)
+          .get();
+
+      if (snapshot.docs.isEmpty) {
+        FirebaseFirestore.instance.collection('users').add(user.toMap());
+      } else {
+        snapshot.docs.first.reference.update(user.toMap());
+      }
     }
   }
 
@@ -161,7 +172,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       phone: phone,
       intro: intro,
     );
-    userModel = user;
+
+    if (userModel != null && user != null) {
+      userModel!.firstName = user.firstName;
+      userModel!.lastName = user.lastName;
+      userModel!.phone = user.phone;
+      userModel!.intro = user.intro;
+      userModel!.displayName = user.displayName;
+    }
 
     AppNavigator.popUntil(AppRoutes.ROOT);
   }

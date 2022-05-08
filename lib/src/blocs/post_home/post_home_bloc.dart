@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloudmate/src/models/post_model.dart';
 import 'package:cloudmate/src/resources/remote/post_repository.dart';
+import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:meta/meta.dart';
 
 part 'post_home_event.dart';
@@ -29,6 +30,22 @@ class PostHomeBloc extends Bloc<PostHomeEvent, PostHomeState> {
         await _getPosts();
         yield _getDonePostHome;
       }
+    }
+
+    if (event is CreatePostHomeEvent) {
+      for (int index = 0; index < event.classChooses.length; index++) {
+        PostModel? post = await PostRepository().createPost(
+          content: event.content,
+          classId: event.classChooses[index],
+        );
+
+        if (post != null) {
+          posts.insert(0, post);
+          yield _getDonePostHome;
+        }
+      }
+
+      AppNavigator.pop();
     }
 
     if (event is CleanPostHomeEvent) {

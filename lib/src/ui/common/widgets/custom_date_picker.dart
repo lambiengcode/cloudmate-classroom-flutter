@@ -12,14 +12,17 @@ class CustomDayPicker extends StatefulWidget {
   final version;
   final passedCurrentDate;
   final Function? handlePickerSelected;
-  CustomDayPicker(
-      {this.initialDay,
-      this.passedCurrentDate,
-      this.initialMonth,
-      this.displayWeekdays = true,
-      this.handlePickerSelected,
-      this.isTheOtherPickerSelected = false,
-      this.version = 2});
+  final Function(DateTime) onChanged;
+  CustomDayPicker({
+    this.initialDay,
+    this.passedCurrentDate,
+    this.initialMonth,
+    this.displayWeekdays = true,
+    this.handlePickerSelected,
+    this.isTheOtherPickerSelected = false,
+    this.version = 2,
+    required this.onChanged,
+  });
 
   @override
   _CustomDayPickerState createState() => _CustomDayPickerState();
@@ -56,6 +59,9 @@ class _CustomDayPickerState extends State<CustomDayPicker> {
         calendar = newCalendar;
       });
     }
+    widget.onChanged(
+      DateTime(currentYear, currentMonth),
+    );
   }
 
   onForwardPressed() {
@@ -74,6 +80,10 @@ class _CustomDayPickerState extends State<CustomDayPicker> {
         calendar = newCalendar;
       });
     }
+
+    widget.onChanged(
+      DateTime(currentYear, currentMonth),
+    );
   }
 
   onDaySelected(day) {

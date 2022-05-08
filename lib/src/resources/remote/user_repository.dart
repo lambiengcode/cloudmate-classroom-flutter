@@ -27,7 +27,11 @@ class UserRepository {
       "intro": intro,
       "phone": phone,
     };
+
     Response response = await BaseRepository().patchRoute(ApiGateway.USER, body: body);
+
+    print(response.data);
+
     if ([200, 201].contains(response.statusCode)) {
       return UserModel.fromMap(response.data['data'] as Map<String, dynamic>);
     }

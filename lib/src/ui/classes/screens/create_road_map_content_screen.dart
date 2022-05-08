@@ -1,5 +1,6 @@
 import 'package:cloudmate/src/models/road_map_content_model.dart';
 import 'package:cloudmate/src/models/road_map_content_type.dart';
+import 'package:cloudmate/src/public/constants.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
@@ -38,11 +39,16 @@ class _CreateRoadmapContentScreenState extends State<CreateRoadmapContentScreen>
   DateTime _startTime = DateTime.now();
   DateTime _endTime = DateTime.now().add(Duration(days: 3));
   RoadMapContentType _roadMapContentType = RoadMapContentType.assignment;
+  List<String> fileExtensions = [];
 
   @override
   void initState() {
     super.initState();
     _updateTextTimeController();
+
+    if (widget.roadMapContentModel?.fileExtensions != null) {
+      fileExtensions = widget.roadMapContentModel!.fileExtensions!;
+    }
   }
 
   void _updateTextTimeController() {
@@ -190,6 +196,59 @@ class _CreateRoadmapContentScreenState extends State<CreateRoadmapContentScreen>
                               _endTimeController,
                             ),
                             _buildDivider(context),
+                            SizedBox(height: 20.sp),
+                            Visibility(
+                              visible: _roadMapContentType == RoadMapContentType.assignment,
+                              child: Container(
+                                width: double.infinity,
+                                padding: EdgeInsets.symmetric(horizontal: 22.sp),
+                                child: Wrap(
+                                  spacing: 5,
+                                  runSpacing: 10,
+                                  children: Constants.filesSupported.map((extensions) {
+                                    int indexOfExtensions = fileExtensions.indexOf(extensions);
+                                    bool isPicked = indexOfExtensions != -1;
+                                    return GestureDetector(
+                                      onTap: () {
+                                        if (!isPicked) {
+                                          setState(() {
+                                            fileExtensions.add(extensions);
+                                          });
+                                        } else {
+                                          setState(() {
+                                            fileExtensions.removeAt(indexOfExtensions);
+                                          });
+                                        }
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: 6.25.sp,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(
+                                            30.sp,
+                                          ),
+                                          color: isPicked ? colorPrimary : Colors.grey,
+                                        ),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            SizedBox(width: 16.sp),
+                                            Text(
+                                              extensions,
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            SizedBox(width: 16.sp),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                            ),
                             SizedBox(height: 8.0),
                           ],
                         ),
@@ -197,6 +256,10 @@ class _CreateRoadmapContentScreenState extends State<CreateRoadmapContentScreen>
                       SizedBox(height: 20.sp),
                       GestureDetector(
                         onTap: () async {
+                          if (fileExtensions.isEmpty &&
+                              _roadMapContentType == RoadMapContentType.assignment) {
+                            return;
+                          }
                           if (_formKey.currentState!.validate()) {
                             showDialogLoading(context);
                             widget.roadMapContentBloc.add(
@@ -208,6 +271,7 @@ class _CreateRoadmapContentScreenState extends State<CreateRoadmapContentScreen>
                                 endTime: _endTime,
                                 context: context,
                                 type: _roadMapContentType,
+                                fileExtensions: fileExtensions,
                               ),
                             );
                           }

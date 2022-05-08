@@ -58,6 +58,7 @@ class RoadMapContentBloc extends Bloc<RoadMapContentEvent, RoadMapContentState> 
       name: event.name,
       startTime: event.startTime.toUtc().toString().split(' ').join('T'),
       endTime: event.endTime.toUtc().toString().split(' ').join('T'),
+      fileExtensions: event.fileExtensions,
     );
 
     AppNavigator.pop();

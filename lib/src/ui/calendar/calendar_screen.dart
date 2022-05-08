@@ -1,11 +1,15 @@
+import 'package:cloudmate/src/blocs/app_bloc.dart';
+import 'package:cloudmate/src/blocs/schedules/schedules_bloc.dart';
 import 'package:cloudmate/src/models/road_map_content_model.dart';
 import 'package:cloudmate/src/models/road_map_content_type.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
-import 'package:cloudmate/src/themes/app_decorations.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/ui/common/widgets/custom_date_picker.dart';
 import 'package:cloudmate/src/ui/home/widgets/attendance_in_post.dart';
+import 'package:cloudmate/src/ui/home/widgets/deadline_in_post.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 import 'package:timeline_tile/timeline_tile.dart';
@@ -16,6 +20,15 @@ class CalendarScreen extends StatefulWidget {
 }
 
 class _CalendarScreenState extends State<CalendarScreen> {
+  DateTime _currentDate = DateTime.now();
+
+  @override
+  void initState() {
+    super.initState();
+    AppBloc.schedulesBloc.add(CleanScheduleEvent());
+    AppBloc.schedulesBloc.add(GetScheduleEvent(currentDate: _currentDate));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,37 +40,42 @@ class _CalendarScreenState extends State<CalendarScreen> {
               CustomDayPicker(
                 handlePickerSelected: null,
                 isTheOtherPickerSelected: null,
+                onChanged: (date) {
+                  _currentDate = date;
+
+                  AppBloc.schedulesBloc.add(GetScheduleEvent(currentDate: _currentDate));
+                },
               ),
               SizedBox(
                 height: 16.sp,
               ),
               Expanded(
-                child: Container(
-                  child: ListView.builder(
-                    itemCount: 2,
-                    itemBuilder: (context, index) {
-                      bool isLast = index == 2;
+                child: BlocBuilder<SchedulesBloc, SchedulesState>(
+                  builder: (context, state) {
+                    if (state is GetScheduleDone) {
+                      return Container(
+                        child: ListView.builder(
+                          itemCount: state.roadmapContent.length,
+                          itemBuilder: (context, index) {
+                            bool isLast = index == state.roadmapContent.length;
 
-                      return _buildContent(
-                        context,
-                        index + 1,
-                        isLast,
-                        isLast
-                            ? null
-                            : RoadMapContentModel(
-                                id: '',
-                                startTime: DateTime.now(),
-                                endTime: DateTime.now().add(
-                                  Duration(minutes: 10),
-                                ),
-                                name: 'Điểm danh nhé các bạn!',
-                                description: '',
-                                type: RoadMapContentType.attendance,
-                                roadMapContentId: '',
-                              ),
+                            return _buildContent(
+                              context,
+                              index + 1,
+                              isLast,
+                              isLast ? null : state.roadmapContent[index],
+                            );
+                          },
+                        ),
                       );
-                    },
-                  ),
+                    }
+
+                    return Container(
+                      child: Center(
+                        child: CupertinoActivityIndicator(),
+                      ),
+                    );
+                  },
                 ),
               ),
             ],
@@ -115,7 +133,16 @@ class _CalendarScreenState extends State<CalendarScreen> {
                       maxLines: 2,
                     ),
                   ),
-                  AttendanceInPost(roadMapContent: roadMapContentModel)
+                  roadMapContentModel.type == RoadMapContentType.attendance
+                      ? AttendanceInPost(
+                          roadMapContent: roadMapContentModel,
+                          isAdmin: false,
+                          quantityMembers: 10,
+                        )
+                      : DeadlineInPost(
+                          roadMapContent: roadMapContentModel,
+                          textForAdmin: null,
+                        ),
                 ],
               ),
             ),

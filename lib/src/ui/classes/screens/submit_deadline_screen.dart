@@ -49,7 +49,7 @@ class _SubmitDeadlineScreenState extends State<SubmitDeadlineScreen> {
                     SizedBox(width: 6.sp),
                     Expanded(
                       child: Text(
-                        'yua-mikami.pdf',
+                        'btvn-tuan-6.docx',
                         style: TextStyle(
                           fontFamily: FontFamily.lato,
                           fontSize: 11.5.sp,

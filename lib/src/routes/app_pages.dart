@@ -203,7 +203,7 @@ class AppNavigator {
           RoadMapContentScreen(
             roadMapModel: arguments!['roadMapModel'],
             roadMapBloc: arguments['roadMapBloc'],
-            classId: arguments['classId'],
+            classModel: arguments['classModel'],
           ),
           _getSlideMode(arguments),
         );
