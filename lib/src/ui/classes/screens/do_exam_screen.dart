@@ -8,7 +8,6 @@ import 'package:cloudmate/src/ui/classes/blocs/do_exam/do_exam_bloc.dart';
 import 'package:cloudmate/src/ui/common/screens/loading_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
@@ -161,7 +160,7 @@ class _DoExamScreenState extends State<DoExamScreen> {
               _buildOptionHeader(
                 context,
                 '$ping ms',
-                Feather.bar_chart,
+                PhosphorIcons.chartBar,
                 ping.getColorByPing(),
               ),
             ],

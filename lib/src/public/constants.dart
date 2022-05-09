@@ -2,12 +2,13 @@ import 'package:lottie/lottie.dart';
 
 class Constants {
   static const INCH_TO_DP = 160;
-  static const String baseUrl = "http://45.77.174.83:3000/";
-  static const String imageUrl = "http://45.77.174.83:3000/" + 'api/up-load-file?id=';
+  static const String baseUrl = "http://139.180.222.96:3000/";
+  static const String imageUrl = "http://139.180.222.96:3000/" + 'api/up-load-file?id=';
   // Assets
   LottieBuilder splashLottie = Lottie.asset('assets/lottie/splash.json');
   LottieBuilder loadingLottie = Lottie.asset('assets/lottie/cat_sleeping.json');
-  static const urlImageDefault = 'https://cdn.fs.teachablecdn.com/WxWw05nmRJGPpOnilxoy';
+  static const urlImageDefault =
+      'https://github.com/lamb1engcode/flutter_mobile_cloudmate/blob/master/HiSchool!.png?raw=true';
   static const className = 'Tên lớp học';
   static const classTopic = 'Chủ đề';
   static const classIntro = 'Giới thiệu về lớp học';

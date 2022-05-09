@@ -84,7 +84,6 @@ class _CreateClassScreenState extends State<CreateClassScreen> {
           key: _formKey,
           child: NotificationListener<OverscrollIndicatorNotification>(
             onNotification: (overscroll) {
-              overscroll.disallowGlow();
               return true;
             },
             child: SingleChildScrollView(

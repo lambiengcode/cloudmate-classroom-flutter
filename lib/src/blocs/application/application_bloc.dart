@@ -6,7 +6,6 @@ import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/blocs/bloc.dart';
 import 'package:cloudmate/src/configs/application.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
-import 'bloc.dart';
 
 class ApplicationBloc extends Bloc<ApplicationEvent, ApplicationState> {
   ApplicationBloc() : super(InitialApplicationState());

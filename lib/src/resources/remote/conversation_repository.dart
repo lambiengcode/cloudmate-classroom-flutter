@@ -1,4 +1,3 @@
-import 'package:cloudmate/src/models/class_model.dart';
 import 'package:cloudmate/src/models/conversation_model.dart';
 import 'package:cloudmate/src/public/api_gateway.dart';
 import 'package:cloudmate/src/resources/base_repository.dart';

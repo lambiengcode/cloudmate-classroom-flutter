@@ -47,7 +47,7 @@ dependencies:
   get: ^4.3.8
   device_info: ^2.0.3
   permission_handler: ^8.0.0
-  downloads_path_provider: ^0.1.0
+  # downloads_path_provider: ^0.1.0
   file_picker: ^4.2.7
 
   # Firebase
@@ -63,7 +63,7 @@ dependencies:
   # Icon
   like_button: ^2.0.3
   phosphor_flutter: ^1.3.1
-  flutter_icons: ^1.1.0
+  # flutter_icons: ^1.1.0
 
   #Payment
   momo_vn: ^2.0.1

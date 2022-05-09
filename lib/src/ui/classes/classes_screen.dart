@@ -1,5 +1,3 @@
-import 'package:cloudmate/src/blocs/app_bloc.dart';
-import 'package:cloudmate/src/lang/language_service.dart';
 import 'package:cloudmate/src/lang/localization.dart';
 import 'package:cloudmate/src/models/class_model.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
@@ -7,7 +5,6 @@ import 'package:cloudmate/src/ui/classes/blocs/class/class_bloc.dart';
 import 'package:cloudmate/src/ui/common/screens/loading_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:cloudmate/src/models/slide_mode.dart';
 import 'package:cloudmate/src/routes/app_routes.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
@@ -80,7 +77,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
                   );
                 },
                 icon: Icon(
-                  Feather.plus_square,
+                  PhosphorIcons.circlesThreePlus,
                   size: 20.sp,
                   color: colorPrimary,
                 ),

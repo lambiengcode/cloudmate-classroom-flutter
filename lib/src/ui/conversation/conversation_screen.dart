@@ -10,6 +10,7 @@ import 'package:cloudmate/src/ui/common/screens/loading_screen.dart';
 import 'package:cloudmate/src/ui/conversation/widgets/input_message.dart';
 import 'package:cloudmate/src/ui/conversation/widgets/message_conversation_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -58,7 +59,9 @@ class _ConversationScreenState extends State<ConversationScreen> {
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: mC,
-            brightness: Theme.of(context).brightness,
+            systemOverlayStyle: SystemUiOverlayStyle(
+              statusBarBrightness: Theme.of(context).brightness,
+            ),
             toolbarHeight: _size.width * .16,
             elevation: 2.0,
             leading: IconButton(

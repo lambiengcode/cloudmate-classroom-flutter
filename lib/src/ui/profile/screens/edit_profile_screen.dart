@@ -76,7 +76,6 @@ class _EditInfoScreenState extends State<EditInfoScreen> {
           key: _formKey,
           child: NotificationListener<OverscrollIndicatorNotification>(
             onNotification: (overscroll) {
-              overscroll.disallowGlow();
               return true;
             },
             child: Column(

@@ -12,7 +12,6 @@ import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:cloudmate/src/ui/common/screens/loading_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 
@@ -90,7 +89,7 @@ class _ListQuestionScreenState extends State<ListQuestionScreen> {
                     });
                   },
                   icon: Icon(
-                    Feather.plus_square,
+                    PhosphorIcons.circlesThreePlus,
                     size: 20.sp,
                     color: colorPrimary,
                   ),

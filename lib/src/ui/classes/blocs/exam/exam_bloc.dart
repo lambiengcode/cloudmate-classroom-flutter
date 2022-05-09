@@ -6,7 +6,6 @@ import 'package:cloudmate/src/routes/app_routes.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
 import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 
 part 'exam_event.dart';

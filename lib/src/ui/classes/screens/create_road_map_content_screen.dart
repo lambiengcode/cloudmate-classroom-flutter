@@ -108,7 +108,6 @@ class _CreateRoadmapContentScreenState extends State<CreateRoadmapContentScreen>
           key: _formKey,
           child: NotificationListener<OverscrollIndicatorNotification>(
             onNotification: (overscroll) {
-              overscroll.disallowGlow();
               return true;
             },
             child: SingleChildScrollView(

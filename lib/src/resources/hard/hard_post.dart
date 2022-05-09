@@ -4,7 +4,6 @@ import 'package:cloudmate/src/models/road_map_content_model.dart';
 import 'package:cloudmate/src/models/road_map_content_type.dart';
 import 'package:cloudmate/src/resources/hard/hard_chat.dart';
 import 'package:cloudmate/src/resources/hard/hard_exam_post.dart';
-import 'package:cloudmate/src/resources/hard/hard_schedule.dart';
 
 class Post {
   final String id;

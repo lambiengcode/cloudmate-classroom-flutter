@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:cloudmate/src/helpers/int.dart';
 import 'package:cloudmate/src/resources/hard/hard_exam_post.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
@@ -90,7 +89,7 @@ class _ExamInPostCard extends State<ExamInPost> {
             ),
             alignment: Alignment.center,
             child: Icon(
-              Feather.eye,
+              PhosphorIcons.eye,
               color: mC,
               size: 15.sp,
             ),

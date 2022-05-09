@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>346586327036-cukqoq8teu58v3eb35rdugq1sjq7va0t.apps.googleusercontent.com</string>
+	<string>346586327036-vg1kj72ndm3pmul858lcs7qm9q4c0nij.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.346586327036-cukqoq8teu58v3eb35rdugq1sjq7va0t</string>
+	<string>com.googleusercontent.apps.346586327036-vg1kj72ndm3pmul858lcs7qm9q4c0nij</string>
 	<key>API_KEY</key>
 	<string>AIzaSyCMAwsOQIix9eFm_QquAQaFSq2-W59K968</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.wanted.cloudmate</string>
+	<string>com.wanted.hischool</string>
 	<key>PROJECT_ID</key>
 	<string>cloudmate-243bf</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:346586327036:ios:c8d5d6eebf6710fcf77479</string>
+	<string>1:346586327036:ios:9148ba5bdf1ce85cf77479</string>
 </dict>
 </plist>

@@ -1,7 +1,5 @@
-import 'dart:ui';
 import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/blocs/conversation/conversation_bloc.dart';
-import 'package:cloudmate/src/models/class_model.dart';
 import 'package:cloudmate/src/models/conversation_model.dart';
 import 'package:cloudmate/src/resources/local/user_local.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
@@ -10,7 +8,6 @@ import 'package:cloudmate/src/themes/theme_service.dart';
 import 'package:cloudmate/src/ui/common/screens/loading_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:cloudmate/src/resources/hard/hard_chat.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
@@ -70,7 +67,7 @@ class _ChatScreenState extends State<ChatScreen> {
           IconButton(
             onPressed: () => null,
             icon: Icon(
-              Feather.plus_square,
+              PhosphorIcons.circlesThreePlus,
               color: colorPrimary,
               size: 20.sp,
             ),

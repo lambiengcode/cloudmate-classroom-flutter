@@ -3,8 +3,6 @@ import 'package:cloudmate/src/models/exam_model.dart';
 import 'package:cloudmate/src/resources/remote/share_exam_repository.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
-
 part 'share_exam_event.dart';
 part 'share_exam_state.dart';
 

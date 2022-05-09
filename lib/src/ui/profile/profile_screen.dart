@@ -197,7 +197,6 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                     return Expanded(
                       child: NotificationListener<OverscrollIndicatorNotification>(
                         onNotification: (overscroll) {
-                          overscroll.disallowGlow();
                           return true;
                         },
                         child: state.props[0].isEmpty

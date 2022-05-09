@@ -9,8 +9,6 @@ import 'package:cloudmate/src/routes/app_routes.dart';
 import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:cloudmate/src/ui/common/dialogs/dialog_notice.dart';
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
-
 part 'road_map_content_event.dart';
 part 'road_map_content_state.dart';
 
