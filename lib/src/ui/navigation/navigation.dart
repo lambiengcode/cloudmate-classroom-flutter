@@ -136,7 +136,7 @@ class _NavigationState extends State<Navigation> {
                 height: 4.sp,
                 width: 4.sp,
                 decoration: BoxDecoration(
-                  color: index == 2 ? colorPrimary : Colors.transparent,
+                  color: index == 10 ? colorPrimary : Colors.transparent,
                   shape: BoxShape.circle,
                 ),
               ),

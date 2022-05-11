@@ -55,8 +55,8 @@ class RoadMapContentModel {
 
   factory RoadMapContentModel.fromMap(Map<String, dynamic> map) {
     return RoadMapContentModel(
-      id: map['id'],
-      roadMapContentId: map['rmc']['roadMapContentId'],
+      id: map['rmc']['_id'] ?? '',
+      roadMapContentId: map['rmc']['_id'] ?? '',
       name: map['rmc']['name'],
       description: map['rmc']?['description'],
       type: fromIntValue(map['type']),

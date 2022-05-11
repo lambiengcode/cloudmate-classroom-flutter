@@ -17,9 +17,9 @@ class Application {
       await Firebase.initializeApp();
       await GetStorage.init();
       await dotenv.load(fileName: ".env");
-      baseUrl = 'http://139.180.222.96:3000/';
+      baseUrl = 'http://149.28.136.143:3000/';
       imageUrl = baseUrl! + 'api/up-load-file?id=';
-      socketUrl = 'http://139.180.222.96:3000/';
+      socketUrl = 'http://149.28.136.143:3000/';
       mode = dotenv.env['MODE'];
       requestPermission();
       handleReceiveNotification();

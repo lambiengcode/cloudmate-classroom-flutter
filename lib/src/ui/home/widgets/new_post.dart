@@ -132,7 +132,7 @@ class _NewPostState extends State<NewPost> {
                       child: TextFormField(
                         style: TextStyle(
                           color: Theme.of(context).textTheme.bodyText1!.color,
-                          fontSize: 12.sp,
+                          fontSize: 11.sp,
                         ),
                         focusNode: _tweetFieldFocusNode,
                         controller: _tweetTextController,
@@ -143,7 +143,7 @@ class _NewPostState extends State<NewPost> {
                             horizontal: 5.sp,
                             vertical: 10.sp,
                           ),
-                          labelText: 'Whats going on?',
+                          labelText: 'Bạn có thắc mắc cần trao đổi?',
                           floatingLabelBehavior: FloatingLabelBehavior.never,
                           labelStyle: TextStyle(
                             color: ThemeService.currentTheme == ThemeMode.dark

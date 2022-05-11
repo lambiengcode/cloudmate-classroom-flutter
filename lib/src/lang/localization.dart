@@ -7,15 +7,15 @@ const recommendClass = 'recommendClass';
 extension Localization on String {
   static final _t = Translations.from("en_us", {
     classTitle: {
-      "en_us": "Classes",
+      "en_us": "Lớp học",
       "vi_vn": "Lớp học",
     },
     yourClass: {
-      "en_us": "Your Classes",
+      "en_us": "Lớp học của bạn",
       "vi_vn": "Lớp học của bạn",
     },
     recommendClass: {
-      "en_us": "Recommend Class",
+      "en_us": "Lớp học đề xuất",
       "vi_vn": "Lớp học đề xuất",
     }
   });

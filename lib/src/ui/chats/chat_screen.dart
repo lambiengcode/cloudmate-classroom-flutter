@@ -37,7 +37,7 @@ class _ChatScreenState extends State<ChatScreen> {
         automaticallyImplyLeading: false,
         centerTitle: false,
         title: Text(
-          'Message',
+          'Tin nhắn',
           style: TextStyle(
             color: Theme.of(context).textTheme.bodyText1!.color,
             fontFamily: FontFamily.lato,

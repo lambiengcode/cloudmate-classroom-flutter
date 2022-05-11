@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/models/post_model.dart';
 import 'package:cloudmate/src/models/road_map_content_type.dart';
+import 'package:cloudmate/src/ui/home/widgets/bottom_sheet_comment.dart';
 import 'package:flutter/material.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
@@ -124,7 +125,7 @@ class _PostCardState extends State<PostCard> {
                         roadMapContent: widget.post.roadMapContent!,
                         textForAdmin:
                             AppBloc.authBloc.userModel?.id == widget.post.classModel.createdBy?.id
-                                ? '6/10 Đã nộp'
+                                ? '0/${widget.post.classModel.totalMember} Đã nộp'
                                 : null,
                       ),
             SizedBox(height: 2.sp),
@@ -205,18 +206,27 @@ class _PostCardState extends State<PostCard> {
                     },
                   ),
                   SizedBox(width: 16.0),
-                  _buildActionButton(
-                    context,
-                    'Comment',
-                    PhosphorIcons.chat,
-                    colorDarkGrey,
-                    0,
+                  StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection('comments')
+                        .where('postId', isEqualTo: widget.post.id)
+                        .snapshots(),
+                    builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                      return _buildActionButton(
+                        context,
+                        'Comments',
+                        PhosphorIcons.chat,
+                        colorDarkGrey,
+                        snapshot.data?.docs.length ?? 0,
+                      );
+                    },
                   ),
                 ],
               ),
               IconButton(
                 icon: Icon(
-                  isSaved ? PhosphorIcons.bookmarkFill : PhosphorIcons.bookmark,
+                  // isSaved ? PhosphorIcons.bookmarkFill : PhosphorIcons.bookmark,
+                  null,
                   size: 20.sp,
                   color: isSaved
                       ? themeService.isSavedDarkMode()
@@ -225,9 +235,9 @@ class _PostCardState extends State<PostCard> {
                       : null,
                 ),
                 onPressed: () {
-                  setState(() {
-                    isSaved = !isSaved;
-                  });
+                  // setState(() {
+                  //   isSaved = !isSaved;
+                  // });
                 },
               )
             ],
@@ -242,10 +252,13 @@ class _PostCardState extends State<PostCard> {
   Widget _buildActionButton(context, title, icon, color, value) {
     return GestureDetector(
       onTap: () {
-        if (title == 'Comment') {
-          if (widget.isInDetails) {
-            print('scroll end');
-          } else {}
+        if (title == 'Comments') {
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            backgroundColor: Colors.transparent,
+            builder: (context) => BottomSheetComment(postModel: widget.post),
+          );
         } else {}
       },
       child: Container(
