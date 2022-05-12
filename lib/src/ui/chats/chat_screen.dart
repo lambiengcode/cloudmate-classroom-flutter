@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cloudmate/src/resources/hard/hard_chat.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
-import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/ui/chats/widgets/message_card.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
@@ -40,7 +39,7 @@ class _ChatScreenState extends State<ChatScreen> {
           'Tin nhắn',
           style: TextStyle(
             color: Theme.of(context).textTheme.bodyText1!.color,
-            fontFamily: FontFamily.lato,
+            // fontFamily: FontFamily.lato,
             fontWeight: FontWeight.w600,
             fontSize: 18.sp,
           ),

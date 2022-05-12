@@ -123,10 +123,9 @@ class _PostCardState extends State<PostCard> {
                       )
                     : DeadlineInPost(
                         roadMapContent: widget.post.roadMapContent!,
-                        textForAdmin:
-                            AppBloc.authBloc.userModel?.id == widget.post.classModel.createdBy?.id
-                                ? '0/${widget.post.classModel.totalMember} Đã nộp'
-                                : null,
+                        isAdmin:
+                            AppBloc.authBloc.userModel?.id == widget.post.classModel.createdBy?.id,
+                        quantityMembers: widget.post.classModel.totalMember,
                       ),
             SizedBox(height: 2.sp),
           ],

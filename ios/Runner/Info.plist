@@ -45,7 +45,7 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Cloudmate need Camera when in use</string>
+	<string>Allow camera access to take and send photos or update your profile pictures.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>This app needs access to location when open and in the background.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -55,9 +55,9 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Need location when in use</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Cloudmate need Microphone when in use</string>
+	<string>Hi School! need Microphone when in use</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Allow camera access to take and send photos or update your profile pictures.</string>
+	<string>Hi School! needs access to your photos so you can include them in your profile.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

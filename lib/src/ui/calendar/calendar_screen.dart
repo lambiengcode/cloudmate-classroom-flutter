@@ -137,11 +137,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
                       ? AttendanceInPost(
                           roadMapContent: roadMapContentModel,
                           isAdmin: false,
-                          quantityMembers: 10,
+                          quantityMembers: 0,
                         )
                       : DeadlineInPost(
                           roadMapContent: roadMapContentModel,
-                          textForAdmin: null,
+                          isAdmin: false,
+                          quantityMembers: 0,
                         ),
                 ],
               ),

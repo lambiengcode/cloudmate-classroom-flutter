@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/blocs/post_class/post_class_bloc.dart';
+import 'package:cloudmate/src/configs/application.dart';
 import 'package:cloudmate/src/helpers/members_helpers.dart';
 import 'package:cloudmate/src/helpers/picker/custom_image_picker.dart';
 import 'package:cloudmate/src/helpers/role_helper.dart';
@@ -280,31 +281,34 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                               ],
                             ),
                           ),
-                          Text(
-                            _classModel.price == 0
-                                ? '\$ Free'
-                                : _classModel.price.toInt().toString().formatMoney() + 'đ',
-                            style: TextStyle(
-                              fontSize: 15.sp,
-                              fontFamily: FontFamily.lato,
-                              fontWeight: FontWeight.w600,
-                              color: colorPrimary,
+                          Visibility(
+                            visible: !Application.isProductionMode && !_hasJoinedClass,
+                            child: Text(
+                              _classModel.price == 0
+                                  ? '\$ Free'
+                                  : _classModel.price.toInt().toString().formatMoney() + 'đ',
+                              style: TextStyle(
+                                fontSize: 15.sp,
+                                fontFamily: FontFamily.lato,
+                                fontWeight: FontWeight.w600,
+                                color: colorPrimary,
+                              ),
                             ),
                           ),
                         ],
                       ),
                     ),
-                    SizedBox(height: 12.sp),
+                    SizedBox(height: 16.sp),
                     Container(
                       padding: EdgeInsets.only(left: 10.sp, right: 12.sp),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Intro',
+                            'Giới thiệu',
                             style: TextStyle(
                               fontSize: 15.sp,
-                              fontFamily: FontFamily.lato,
+                              // fontFamily: FontFamily.lato,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -321,17 +325,17 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                         ],
                       ),
                     ),
-                    SizedBox(height: 16.sp),
+                    SizedBox(height: 24.sp),
                     Container(
                       padding: EdgeInsets.only(left: 10.sp, right: 12.sp),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Posts',
+                            'Hoạt động',
                             style: TextStyle(
                               fontSize: 15.sp,
-                              fontFamily: FontFamily.lato,
+                              // fontFamily: FontFamily.lato,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -376,80 +380,58 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
       child: Container(
         decoration: AppDecoration.containerOnlyShadowTop(context).decoration,
         padding: EdgeInsets.only(bottom: 18.sp, top: 8.sp),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(width: 18.sp),
-            GestureDetector(
-              onTap: () {
-                dialogAnimationWrapper(
-                  context: context,
-                  slideFrom: 'top',
-                  child: DialogConfirm(
-                    handleConfirm: () {
-                      showDialogLoading(context);
-                      if (_classModel.price == 0) {
+        child: GestureDetector(
+          onTap: () {
+            dialogAnimationWrapper(
+              context: context,
+              slideFrom: 'top',
+              child: DialogConfirm(
+                handleConfirm: () {
+                  showDialogLoading(context);
+                  if (Application.isProductionMode || _classModel.price == 0) {
+                    AppBloc.classBloc.add(
+                      JoinClass(
+                        classId: widget.classModel.id,
+                        context: context,
+                      ),
+                    );
+                  } else {
+                    MomoAppPayment().handlePaymentMomo(
+                      amount: _classModel.price.toInt(),
+                      handleFinished: () {
                         AppBloc.classBloc.add(
                           JoinClass(
                             classId: widget.classModel.id,
                             context: context,
                           ),
                         );
-                      } else {
-                        MomoAppPayment().handlePaymentMomo(
-                          amount: _classModel.price.toInt(),
-                          handleFinished: () {
-                            AppBloc.classBloc.add(
-                              JoinClass(
-                                classId: widget.classModel.id,
-                                context: context,
-                              ),
-                            );
-                          },
-                        );
-                      }
-                    },
-                    subTitle: 'Sau khi tham gia, bạn sẽ trở thành học viên của lớp học này.',
-                    title: 'Tham gia lớp học',
-                  ),
-                );
-              },
-              child: Container(
-                width: 70.w,
-                height: 42.sp,
-                decoration: BoxDecoration(
-                  color: colorPrimary,
-                  borderRadius: BorderRadius.circular(8.sp),
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  'Tham gia ngay',
-                  style: TextStyle(
-                    color: mC,
-                    fontFamily: FontFamily.lato,
-                    fontSize: 12.75.sp,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+                      },
+                    );
+                  }
+                },
+                subTitle: 'Sau khi tham gia, bạn sẽ trở thành học viên của lớp học này.',
+                title: 'Tham gia lớp học',
               ),
+            );
+          },
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 16.sp),
+            height: 42.sp,
+            decoration: BoxDecoration(
+              color: colorPrimary,
+              borderRadius: BorderRadius.circular(8.sp),
             ),
-            Spacer(),
-            Container(
-              width: 40.sp,
-              height: 42.sp,
-              decoration: BoxDecoration(
-                color: Colors.amberAccent.shade700,
-                borderRadius: BorderRadius.circular(8.sp),
-              ),
-              alignment: Alignment.center,
-              child: Icon(
-                PhosphorIcons.bookmarkFill,
+            alignment: Alignment.center,
+            child: Text(
+              'Tham gia ngay',
+              style: TextStyle(
                 color: mC,
-                size: 20.sp,
+                fontFamily: FontFamily.lato,
+                fontSize: 12.75.sp,
+                fontWeight: FontWeight.w600,
               ),
             ),
-            SizedBox(width: 18.sp),
-          ],
+          ),
         ),
       ),
     );

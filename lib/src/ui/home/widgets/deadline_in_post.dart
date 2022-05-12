@@ -13,15 +13,20 @@ import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 
 class DeadlineInPost extends StatefulWidget {
   final RoadMapContentModel roadMapContent;
-  final String? textForAdmin;
-  DeadlineInPost({required this.roadMapContent, required this.textForAdmin});
+  final bool isAdmin;
+  final int quantityMembers;
+  const DeadlineInPost({
+    required this.roadMapContent,
+    required this.isAdmin,
+    required this.quantityMembers,
+  });
   @override
   State<StatefulWidget> createState() => _ExamInPostCard();
 }
 
 class _ExamInPostCard extends State<DeadlineInPost> {
   _handlePressedOpenSubmit() {
-    if (widget.textForAdmin != null) {
+    if (widget.isAdmin) {
       // Admin in class
       showModalBottomSheet(
         context: context,
@@ -61,11 +66,14 @@ class _ExamInPostCard extends State<DeadlineInPost> {
     return StreamBuilder(
       stream: FirebaseFirestore.instance
           .collection('assignments')
-          .where('createdBy', isEqualTo: AppBloc.authBloc.userModel?.id)
+          // .where('createdBy', isEqualTo: AppBloc.authBloc.userModel?.id)
           .where('roadMapContentId', isEqualTo: widget.roadMapContent.id)
           .snapshots(),
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
         List assignments = snapshot.data?.docs ?? [];
+
+        int myAssignmentIndex =
+            assignments.indexWhere((item) => item['createdBy'] == AppBloc.authBloc.userModel?.id);
 
         return GestureDetector(
           onTap: () => _handlePressedOpenSubmit(),
@@ -120,10 +128,10 @@ class _ExamInPostCard extends State<DeadlineInPost> {
                           SizedBox(width: 6.sp),
                           Expanded(
                             child: Text(
-                              widget.textForAdmin != null
-                                  ? widget.textForAdmin
-                                  : (assignments.isNotEmpty
-                                      ? assignments.first['fileName']
+                              widget.isAdmin
+                                  ? '${assignments.length}/${widget.quantityMembers}'
+                                  : (myAssignmentIndex != -1
+                                      ? assignments[myAssignmentIndex]['fileName']
                                       : 'Chưa nộp'),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,

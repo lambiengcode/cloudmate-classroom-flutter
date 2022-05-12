@@ -196,10 +196,9 @@ class _RoadMapContentScreenState extends State<RoadMapContentScreen> {
                         )
                       : DeadlineInPost(
                           roadMapContent: roadMapContentModel,
-                          textForAdmin:
-                              AppBloc.authBloc.userModel?.id == widget.roadMapModel.createBy
-                                  ? '0/0 Đã nộp'
-                                  : null,
+                          isAdmin:
+                              AppBloc.authBloc.userModel?.id == widget.classModel.createdBy?.id,
+                          quantityMembers: widget.classModel.totalMember,
                         ),
                 ],
               ),

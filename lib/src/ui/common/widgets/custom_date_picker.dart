@@ -1,6 +1,10 @@
+import 'package:cloudmate/src/blocs/app_bloc.dart';
+import 'package:cloudmate/src/blocs/schedules/schedules_bloc.dart';
 import 'package:cloudmate/src/helpers/date_time_helper.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
+import 'package:cloudmate/src/ui/calendar/widgets/dot_below_date.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 
@@ -60,7 +64,7 @@ class _CustomDayPickerState extends State<CustomDayPicker> {
       });
     }
     widget.onChanged(
-      DateTime(currentYear, currentMonth),
+      DateTime(currentYear, currentMonth, currentDay),
     );
   }
 
@@ -82,7 +86,7 @@ class _CustomDayPickerState extends State<CustomDayPicker> {
     }
 
     widget.onChanged(
-      DateTime(currentYear, currentMonth),
+      DateTime(currentYear, currentMonth, currentDay),
     );
   }
 
@@ -185,6 +189,7 @@ class _CustomDayPickerState extends State<CustomDayPicker> {
                 if (calendar[index] == 0) {
                   return Container();
                 }
+
                 return GestureDetector(
                   child: AnimatedContainer(
                     duration: Duration(milliseconds: 100),
@@ -192,19 +197,55 @@ class _CustomDayPickerState extends State<CustomDayPicker> {
                       color: setDayBorderColor(context, index),
                       shape: BoxShape.circle,
                     ),
-                    child: Center(
-                      child: Text(
-                        calendar[index].toString(),
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: setDayColor(index),
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                    child: BlocBuilder<SchedulesBloc, SchedulesState>(
+                      builder: (context, state) {
+                        final int quantity = AppBloc.schedulesBloc.quantityPerDate(
+                          DateTime(
+                            currentYear,
+                            currentMonth,
+                            calendar[index],
+                          ),
+                        );
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              calendar[index].toString(),
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: setDayColor(index),
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            calendar[index] == currentDay
+                                ? SizedBox()
+                                : quantity > 0
+                                    ? Column(
+                                        children: [
+                                          SizedBox(height: 1.sp),
+                                          DotBelowDate(
+                                            quantity: quantity,
+                                          ),
+                                        ],
+                                      )
+                                    : SizedBox(height: 3.sp),
+                          ],
+                        );
+                      },
                     ),
                   ),
                   onTap: () {
                     onDaySelected(calendar[index]);
+                    AppBloc.schedulesBloc.add(
+                      GetScheduleEvent(
+                        currentDate: DateTime(
+                          currentYear,
+                          currentMonth,
+                          calendar[index],
+                        ),
+                      ),
+                    );
                     if (widget.handlePickerSelected != null) {
                       widget.handlePickerSelected!(
                         currentDay,

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 import 'package:intl/intl.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class CommentCard extends StatefulWidget {
   final QueryDocumentSnapshot snapshot;
@@ -121,14 +120,14 @@ class _CommentCardState extends State<CommentCard> {
             ),
           ),
           SizedBox(width: 6.sp),
-          IconButton(
-            onPressed: () => null,
-            icon: Icon(
-              PhosphorIcons.heart,
-              color: null,
-              size: 16.sp,
-            ),
-          ),
+          // IconButton(
+          //   onPressed: () => null,
+          //   icon: Icon(
+          //     PhosphorIcons.heart,
+          //     color: null,
+          //     size: 16.sp,
+          //   ),
+          // ),
         ],
       ),
     );
