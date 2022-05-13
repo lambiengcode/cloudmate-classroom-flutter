@@ -1,7 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:cloudmate/src/helpers/path_helper.dart';
 import 'package:cloudmate/src/models/question_mode.dart';
+import 'package:cloudmate/src/routes/app_pages.dart';
+import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/services.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:cloudmate/src/ui/common/widgets/get_snack_bar.dart';
 import 'package:csv/csv.dart';
@@ -85,4 +89,24 @@ Future<List<QuestionModel>> pickFileExcel() async {
     print(err);
     return [];
   }
+}
+
+Future<void> saveFile({required String urlToFile, required String fileName}) async {
+  try {
+    Directory? downloadsDirectory = await PathHelper.downloadsDir;
+    final pathOfTheFileToWrite = (downloadsDirectory?.path ?? '') + "/$fileName";
+    print(pathOfTheFileToWrite);
+    // File file = File(pathOfTheFileToWrite);
+    await Dio().download(urlToFile, pathOfTheFileToWrite);
+  } on PlatformException catch (error) {
+    print(error);
+  }
+
+  AppNavigator.pop();
+
+  GetSnackBar getSnackBar = GetSnackBar(
+    title: 'Tải xuống thành công!',
+    subTitle: 'Đã tải và lưu file bài tập thành công.',
+  );
+  getSnackBar.show();
 }

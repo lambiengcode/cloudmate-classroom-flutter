@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloudmate/src/helpers/export_excel.dart';
 import 'package:cloudmate/src/models/assignment_firestore_model.dart';
 import 'package:cloudmate/src/models/user.dart';
 import 'package:cloudmate/src/public/constants.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/app_decorations.dart';
+import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/utils/blurhash.dart';
@@ -115,15 +117,25 @@ class _UserAssignmentDoneState extends State<UserAssignmentDone> {
                         ],
                       ),
                     ),
-                    Container(
-                      height: 32.sp,
-                      width: 32.sp,
-                      margin: EdgeInsets.only(right: 2.sp),
-                      decoration: AppDecoration.buttonActionBorderActive(context, 6.sp).decoration,
-                      child: Icon(
-                        PhosphorIcons.download,
-                        size: 20.sp,
-                        color: colorMedium,
+                    GestureDetector(
+                      onTap: () async {
+                        showDialogLoading(context);
+                        await saveFile(
+                          urlToFile: widget.assignment.urlToFile,
+                          fileName: widget.assignment.fileName,
+                        );
+                      },
+                      child: Container(
+                        height: 32.sp,
+                        width: 32.sp,
+                        margin: EdgeInsets.only(right: 2.sp),
+                        decoration:
+                            AppDecoration.buttonActionBorderActive(context, 6.sp).decoration,
+                        child: Icon(
+                          PhosphorIcons.download,
+                          size: 20.sp,
+                          color: colorMedium,
+                        ),
                       ),
                     ),
                   ],

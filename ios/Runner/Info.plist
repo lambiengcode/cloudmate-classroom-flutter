@@ -58,6 +58,10 @@
 	<string>Hi School! need Microphone when in use</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Hi School! needs access to your photos so you can include them in your profile.</string>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+ 	<true/>
+ 	<key>UIFileSharingEnabled</key>
+ 	<true/>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
