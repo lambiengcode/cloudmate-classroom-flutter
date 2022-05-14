@@ -78,7 +78,7 @@ class ClassModel {
       topic: map['topic'],
       intro: map['intro'],
       createdBy: map['createdBy'] is String ? null : UserModel.fromMap(map['createdBy']),
-      status: map['status'],
+      status: map['status'] ?? 1,
       members: ((map['member'] ?? []) as List<dynamic>)
           .map((item) => UserModel.fromMap(item['user'], role: item['role']))
           .toList(),

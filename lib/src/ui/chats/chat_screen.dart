@@ -1,7 +1,6 @@
 import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/blocs/conversation/conversation_bloc.dart';
 import 'package:cloudmate/src/models/conversation_model.dart';
-import 'package:cloudmate/src/resources/local/user_local.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/routes/app_routes.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
@@ -9,9 +8,7 @@ import 'package:cloudmate/src/ui/common/screens/loading_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cloudmate/src/resources/hard/hard_chat.dart';
-import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/ui/chats/widgets/message_card.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -24,7 +21,6 @@ class _ChatScreenState extends State<ChatScreen> {
   void initState() {
     super.initState();
     AppBloc.conversationBloc.add(OnConversationEvent());
-    print(UserLocal().getAccessToken());
   }
 
   @override
@@ -44,35 +40,35 @@ class _ChatScreenState extends State<ChatScreen> {
             fontSize: 18.sp,
           ),
         ),
-        actions: [
-          IconButton(
-            onPressed: () => null,
-            icon: Icon(
-              PhosphorIcons.magnifyingGlass,
-              color: Theme.of(context).textTheme.bodyText1!.color,
-              size: 20.sp,
-            ),
-          ),
-          SizedBox(width: 2.sp),
-          IconButton(
-            onPressed: () => null,
-            icon: Icon(
-              PhosphorIcons.videoCamera,
-              color: Theme.of(context).textTheme.bodyText1!.color,
-              size: 20.sp,
-            ),
-          ),
-          SizedBox(width: 2.sp),
-          IconButton(
-            onPressed: () => null,
-            icon: Icon(
-              PhosphorIcons.circlesThreePlus,
-              color: colorPrimary,
-              size: 20.sp,
-            ),
-          ),
-          SizedBox(width: 2.sp),
-        ],
+        // actions: [
+        //   IconButton(
+        //     onPressed: () => null,
+        //     icon: Icon(
+        //       PhosphorIcons.magnifyingGlass,
+        //       color: Theme.of(context).textTheme.bodyText1!.color,
+        //       size: 20.sp,
+        //     ),
+        //   ),
+        //   SizedBox(width: 2.sp),
+        //   IconButton(
+        //     onPressed: () => null,
+        //     icon: Icon(
+        //       PhosphorIcons.videoCamera,
+        //       color: Theme.of(context).textTheme.bodyText1!.color,
+        //       size: 20.sp,
+        //     ),
+        //   ),
+        //   SizedBox(width: 2.sp),
+        //   IconButton(
+        //     onPressed: () => null,
+        //     icon: Icon(
+        //       PhosphorIcons.circlesThreePlus,
+        //       color: colorPrimary,
+        //       size: 20.sp,
+        //     ),
+        //   ),
+        //   SizedBox(width: 2.sp),
+        // ],
       ),
       body: Container(
         height: 100.h,

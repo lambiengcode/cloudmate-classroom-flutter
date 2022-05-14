@@ -34,7 +34,6 @@ dependencies:
 
   # Utils
   i18n_extension: ^4.1.2
-  flutter_dotenv: ^5.0.2
   intl: ^0.17.0
   get_storage: ^2.0.3
   ezanimation: ^0.5.0
@@ -85,7 +84,6 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - .env
     - assets/lottie/splash.json
     - assets/lottie/cat_sleeping.json
   #   - images/a_dot_ham.jpeg
