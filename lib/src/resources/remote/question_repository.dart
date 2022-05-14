@@ -39,8 +39,6 @@ class QuestionRepository {
       "questions": questions.map((question) => question.toMap()).toList(),
     };
 
-    print(body);
-
     Response response = await BaseRepository().postRoute(
       ApiGateway.IMPORT_EXCEL,
       body,
@@ -108,7 +106,6 @@ class QuestionRepository {
       ApiGateway.QUESTION,
       query: 'status=0&id=$questionId',
     );
-    print(response.data);
     if (response.statusCode == 200) {
       return true;
     }

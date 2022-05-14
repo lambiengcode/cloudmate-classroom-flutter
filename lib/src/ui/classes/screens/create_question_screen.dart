@@ -56,6 +56,8 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
         }
       });
     }
+
+    print(widget.examId);
   }
 
   bool _checkIsCorrect(String answer) {
@@ -323,6 +325,16 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
               return valid;
             } else if (val.length > 60) {
               return 'Câu hỏi không được vượt quá 60 ký tự';
+            }
+          } else if (title == 'Đặt thời gian trả lời (giây)') {
+            int duration = int.tryParse(val?.trim() ?? '') ?? 0;
+            if (duration < 10) {
+              return 'Thời gian tối thiểu phải là 10 giây';
+            }
+          } else if (title == 'Điểm cho câu trả lời đúng') {
+            int score = int.tryParse(val?.trim() ?? '') ?? 0;
+            if (score < 1) {
+              return 'Điểm tối thiểu phải là 1 điểm';
             }
           }
           return val!.length == 0 ? valid : null;
