@@ -4,7 +4,6 @@ import 'package:cloudmate/src/models/road_map_content_model.dart';
 import 'package:cloudmate/src/services/firebase_firestore/attendance_firestore.dart';
 import 'package:cloudmate/src/ui/home/widgets/bottom_sheet_attendance.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/app_decorations.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
@@ -133,7 +132,7 @@ class _ExamInPostCard extends State<AttendanceInPost> {
                     ),
                     alignment: Alignment.center,
                     child: Icon(
-                      FontAwesome5Solid.hand_paper,
+                      PhosphorIcons.handPalm,
                       color: mC,
                       size: 14.sp,
                     ),

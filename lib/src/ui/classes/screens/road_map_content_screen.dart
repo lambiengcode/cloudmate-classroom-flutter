@@ -112,7 +112,7 @@ class _RoadMapContentScreenState extends State<RoadMapContentScreen> {
                         ? SizedBox()
                         : Container(
                             child: ListView.builder(
-                              itemCount: state.props[0].length + 1,
+                              itemCount: state.props[0].length,
                               itemBuilder: (context, index) {
                                 bool isLast = index == state.props[0].length;
 
@@ -190,15 +190,15 @@ class _RoadMapContentScreenState extends State<RoadMapContentScreen> {
                   roadMapContentModel.type == RoadMapContentType.attendance
                       ? AttendanceInPost(
                           roadMapContent: roadMapContentModel,
-                          isAdmin: AppBloc.authBloc.userModel?.id == widget.roadMapModel.createBy,
-                          quantityMembers: widget.classModel.members.length,
+                          isAdmin:
+                              AppBloc.authBloc.userModel?.id == widget.classModel.createdBy?.id,
+                          quantityMembers: widget.classModel.totalMember,
                         )
                       : DeadlineInPost(
                           roadMapContent: roadMapContentModel,
-                          textForAdmin:
-                              AppBloc.authBloc.userModel?.id == widget.roadMapModel.createBy
-                                  ? '6/10 Đã nộp'
-                                  : null,
+                          isAdmin:
+                              AppBloc.authBloc.userModel?.id == widget.classModel.createdBy?.id,
+                          quantityMembers: widget.classModel.totalMember,
                         ),
                 ],
               ),

@@ -9,7 +9,6 @@ import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class BottomSheetPickClass extends StatefulWidget {
   final String content;

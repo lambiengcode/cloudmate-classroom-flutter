@@ -1,4 +1,3 @@
-import 'package:cloudmate/src/blocs/authentication/authentication_bloc.dart';
 import 'package:cloudmate/src/blocs/authentication/bloc.dart';
 import 'package:cloudmate/src/configs/language.dart';
 import 'package:cloudmate/src/ui/authentication/authentication_screen.dart';

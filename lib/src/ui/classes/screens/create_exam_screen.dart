@@ -73,7 +73,6 @@ class _CreateExamScreenState extends State<CreateExamScreen> {
           key: _formKey,
           child: NotificationListener<OverscrollIndicatorNotification>(
             onNotification: (overscroll) {
-              overscroll.disallowGlow();
               return true;
             },
             child: SingleChildScrollView(

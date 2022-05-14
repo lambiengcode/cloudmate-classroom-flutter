@@ -110,6 +110,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Future<bool> _onAuthCheck() async {
+    UserModel? userLocal = UserLocal().getUser();
+    if (userLocal != null) {
+      userModel = userLocal;
+    }
     return UserLocal().getAccessToken() != '';
   }
 
@@ -147,6 +151,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       AppBloc.authBloc.add(LogOutEvent());
     } else {
       userModel = user;
+      UserLocal().saveUser(user);
       QuerySnapshot snapshot = await FirebaseFirestore.instance
           .collection('users')
           .where('_id', isEqualTo: user.id)

@@ -1,4 +1,3 @@
-import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/models/user.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/services/firebase_firestore/attendance_firestore.dart';

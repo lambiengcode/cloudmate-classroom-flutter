@@ -1,10 +1,10 @@
 import 'package:cloudmate/src/blocs/authentication/bloc.dart';
+import 'package:cloudmate/src/public/constants.dart';
 import 'package:cloudmate/src/ui/home/widgets/bottom_sheet_pick_class.dart';
 import 'package:cloudmate/src/utils/blurhash.dart';
 import 'package:ezanimation/ezanimation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -88,14 +88,6 @@ class _NewPostState extends State<NewPost> {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
-        if (state is! AuthenticationSuccess) {
-          return Container();
-        }
-
-        if (state.userModel == null) {
-          return Container();
-        }
-
         return Container(
           padding: EdgeInsets.only(bottom: 6.sp),
           decoration: BoxDecoration(
@@ -124,8 +116,12 @@ class _NewPostState extends State<NewPost> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(12.5.sp),
                         child: BlurHash(
-                          hash: state.userModel!.blurHash!,
-                          image: state.userModel!.image,
+                          hash: state is AuthenticationSuccess
+                              ? (state.userModel?.blurHash ?? '')
+                              : '',
+                          image: state is AuthenticationSuccess
+                              ? (state.userModel?.image ?? Constants.urlImageDefault)
+                              : Constants.urlImageDefault,
                           imageFit: BoxFit.cover,
                           color: colorPrimary,
                         ),
@@ -136,7 +132,7 @@ class _NewPostState extends State<NewPost> {
                       child: TextFormField(
                         style: TextStyle(
                           color: Theme.of(context).textTheme.bodyText1!.color,
-                          fontSize: 12.sp,
+                          fontSize: 11.sp,
                         ),
                         focusNode: _tweetFieldFocusNode,
                         controller: _tweetTextController,
@@ -147,7 +143,7 @@ class _NewPostState extends State<NewPost> {
                             horizontal: 5.sp,
                             vertical: 10.sp,
                           ),
-                          labelText: 'Whats going on?',
+                          labelText: 'Bạn có thắc mắc cần trao đổi?',
                           floatingLabelBehavior: FloatingLabelBehavior.never,
                           labelStyle: TextStyle(
                             color: ThemeService.currentTheme == ThemeMode.dark

@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:cloudmate/src/routes/app_pages.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';

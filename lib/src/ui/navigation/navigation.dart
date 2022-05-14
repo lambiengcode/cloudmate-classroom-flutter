@@ -1,10 +1,7 @@
-import 'dart:ui';
 import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/blocs/authentication/bloc.dart';
-import 'package:cloudmate/src/lang/language_service.dart';
-import 'package:cloudmate/src/resources/local/user_local.dart';
+import 'package:cloudmate/src/public/constants.dart';
 import 'package:cloudmate/src/services/socket/socket.dart';
-import 'package:cloudmate/src/ui/common/screens/loading_screen.dart';
 import 'package:cloudmate/src/utils/blurhash.dart';
 import 'package:flutter/material.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
@@ -38,9 +35,9 @@ class _NavigationState extends State<Navigation> {
   void initState() {
     super.initState();
     currentPage = widget.initialIndex;
-    Future.delayed(Duration(milliseconds: 800), () async {
-      LanguageService().initialLanguage(context);
-    });
+    // Future.delayed(Duration(milliseconds: 800), () async {
+    //   LanguageService().initialLanguage(context);
+    // });
 
     AppBloc.authBloc.add(GetInfoUser());
     connectAndListen();
@@ -50,14 +47,6 @@ class _NavigationState extends State<Navigation> {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
-        if (state is! AuthenticationSuccess) {
-          return LoadingScreen();
-        }
-
-        if (state.userModel == null) {
-          return LoadingScreen();
-        }
-
         return Scaffold(
           bottomNavigationBar: BottomAppBar(
             clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -102,8 +91,10 @@ class _NavigationState extends State<Navigation> {
                     'Calendar',
                   ),
                   _buildItemBottomAccount(
-                    state.userModel!.image!,
-                    state.userModel!.blurHash!,
+                    state is AuthenticationSuccess
+                        ? (state.userModel?.image ?? Constants.urlImageDefault)
+                        : Constants.urlImageDefault,
+                    state is AuthenticationSuccess ? (state.userModel?.blurHash ?? '') : '',
                     4,
                   ),
                 ],
@@ -145,7 +136,7 @@ class _NavigationState extends State<Navigation> {
                 height: 4.sp,
                 width: 4.sp,
                 decoration: BoxDecoration(
-                  color: index == 2 ? colorPrimary : Colors.transparent,
+                  color: index == 10 ? colorPrimary : Colors.transparent,
                   shape: BoxShape.circle,
                 ),
               ),

@@ -12,7 +12,6 @@ import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:cloudmate/src/ui/common/dialogs/dialog_notice.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:meta/meta.dart';
 part 'class_event.dart';
 part 'class_state.dart';
 

@@ -43,7 +43,6 @@ class _LoginPageState extends State<LoginPage> {
           key: _formKey,
           child: NotificationListener<OverscrollIndicatorNotification>(
             onNotification: (overscroll) {
-              overscroll.disallowGlow();
               return true;
             },
             child: Column(

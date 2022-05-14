@@ -1,4 +1,3 @@
-import 'package:cloudmate/src/configs/application.dart';
 import 'package:cloudmate/src/public/constants.dart';
 import 'package:cloudmate/src/resources/local/user_local.dart';
 import 'package:dio/dio.dart' as diox;
@@ -161,11 +160,11 @@ class BaseRepository {
   }
 
   printEndpoint(String method, String endpoint) {
-    print('${method.toUpperCase()}: ${Application.baseUrl}$endpoint');
+    // print('${method.toUpperCase()}: ${Application.baseUrl}$endpoint');
   }
 
   printResponse(diox.Response<dynamic> response) {
-    print('StatusCode: ${response.statusCode}');
-    print('Body: ${response.data.toString()}');
+    // print('StatusCode: ${response.statusCode}');
+    // print('Body: ${response.data.toString()}');
   }
 }

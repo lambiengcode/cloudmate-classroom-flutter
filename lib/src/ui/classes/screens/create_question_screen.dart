@@ -192,7 +192,6 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
           key: _formKey,
           child: NotificationListener<OverscrollIndicatorNotification>(
             onNotification: (overscroll) {
-              overscroll.disallowGlow();
               return true;
             },
             child: SingleChildScrollView(
