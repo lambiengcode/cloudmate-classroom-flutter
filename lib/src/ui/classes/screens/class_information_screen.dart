@@ -153,6 +153,14 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                               ),
                               GestureDetector(
                                 onTap: () {
+                                  if (widget.classModel.status != 1) {
+                                    GetSnackBar getSnackBar = GetSnackBar(
+                                      title: 'Không thể xem các lựa chọn',
+                                      subTitle: 'Lớp chưa được hệ thống phê duyệt để hoạt động!',
+                                    );
+                                    getSnackBar.show();
+                                    return;
+                                  }
                                   if (RoleHelper().canShowDrawerClass(
                                     widget.classModel.members,
                                     widget.classModel.createdBy!.id,
