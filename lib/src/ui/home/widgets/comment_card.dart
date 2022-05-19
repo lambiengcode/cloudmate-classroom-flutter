@@ -37,6 +37,26 @@ class _CommentCardState extends State<CommentCard> {
   }
 
   @override
+  void didUpdateWidget(covariant CommentCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    FirebaseFirestore.instance
+        .collection('users')
+        .where('_id', isEqualTo: widget.snapshot['userId'])
+        .get()
+        .then((value) {
+      if (value.docs.isNotEmpty) {
+        if (mounted) {
+          setState(() {
+            userModel = UserModel.fromMap(value.docs.first);
+          });
+        } else {
+          userModel = UserModel.fromMap(value.docs.first);
+        }
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(

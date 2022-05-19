@@ -52,7 +52,14 @@ class GetMemberClass extends ClassEvent {
 class JoinClass extends ClassEvent {
   final BuildContext context;
   final String classId;
-  JoinClass({required this.classId, required this.context});
+  final double amount;
+  final String senderPhone;
+  JoinClass({
+    required this.classId,
+    required this.context,
+    required this.senderPhone,
+    required this.amount,
+  });
 }
 
 class LeaveClass extends ClassEvent {

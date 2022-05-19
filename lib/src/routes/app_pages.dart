@@ -137,6 +137,7 @@ class AppNavigator {
           CreateRoadmapScreen(
             classModel: arguments!['classModel'],
             roadMapBloc: arguments['roadMapBloc'],
+            roadMapModel: arguments['roadMapModel'],
           ),
           _getSlideMode(arguments),
         );

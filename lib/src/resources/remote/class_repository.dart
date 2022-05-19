@@ -137,9 +137,16 @@ class ClassRepository {
     return [];
   }
 
-  Future<bool> joinClass({required String classId}) async {
+  Future<bool> joinClass({
+    required String classId,
+    required String senderPhone,
+    required double amount,
+  }) async {
     var body = {
       'idClass': classId,
+      'content': 'đã thanh toán khoá học',
+      'senderPhone': senderPhone,
+      'amount': amount,
     };
     Response response = await BaseRepository().postRoute(ApiGateway.JOIN_CLASS, body);
     if ([200, 201].contains(response.statusCode)) {

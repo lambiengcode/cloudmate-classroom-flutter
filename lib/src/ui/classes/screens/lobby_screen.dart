@@ -1,4 +1,5 @@
 import 'package:cloudmate/src/blocs/app_bloc.dart';
+import 'package:cloudmate/src/blocs/count_down/count_down_bloc.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
 import 'package:cloudmate/src/ui/classes/blocs/do_exam/do_exam_bloc.dart';
@@ -54,9 +55,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
                     onPressed: () {
                       if (state.users.isEmpty) {
                         print('Users: 0');
-                      } else {
-                        AppBloc.doExamBloc.add(StartQuizEvent());
-                      }
+                      } else {}
                     },
                     icon: Icon(
                       PhosphorIcons.circleWavyWarningFill,
@@ -117,7 +116,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
         ),
         SizedBox(height: 20.sp),
         Text(
-          'Tiếp tục trong',
+          'Bắt đầu trong',
           style: TextStyle(
             color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.75),
             fontFamily: FontFamily.lato,
@@ -126,14 +125,18 @@ class _LobbyScreenState extends State<LobbyScreen> {
           ),
         ),
         SizedBox(height: 12.sp),
-        Text(
-          '60',
-          style: TextStyle(
-            color: Theme.of(context).primaryColor,
-            fontFamily: FontFamily.lato,
-            fontSize: 25.sp,
-            fontWeight: FontWeight.w600,
-          ),
+        BlocBuilder<CountDownBloc, CountDownState>(
+          builder: (context, state) {
+            return Text(
+              state is InProgressCountDown ? '${state.duration}' : '30',
+              style: TextStyle(
+                color: Theme.of(context).primaryColor,
+                fontFamily: FontFamily.lato,
+                fontSize: 25.sp,
+                fontWeight: FontWeight.w600,
+              ),
+            );
+          },
         ),
         SizedBox(height: 4.sp),
         Text(

@@ -1,5 +1,7 @@
 import 'package:cloudmate/src/blocs/authentication/authentication_bloc.dart';
+import 'package:cloudmate/src/blocs/bloc/transaction_bloc.dart';
 import 'package:cloudmate/src/blocs/conversation/conversation_bloc.dart';
+import 'package:cloudmate/src/blocs/count_down/count_down_bloc.dart';
 import 'package:cloudmate/src/blocs/message/message_bloc.dart';
 import 'package:cloudmate/src/blocs/post_class/post_class_bloc.dart';
 import 'package:cloudmate/src/blocs/post_home/post_home_bloc.dart';
@@ -25,6 +27,8 @@ class AppBloc {
   static final postHomeBloc = PostHomeBloc();
   static final postClassBloc = PostClassBloc();
   static final schedulesBloc = SchedulesBloc();
+  static final countDownBloc = CountDownBloc();
+  static final transactionBloc = TransactionBloc();
 
   static final List<BlocProvider> providers = [
     BlocProvider<AppStateBloc>(
@@ -63,6 +67,12 @@ class AppBloc {
     BlocProvider<SchedulesBloc>(
       create: (context) => schedulesBloc,
     ),
+    BlocProvider<CountDownBloc>(
+      create: (context) => countDownBloc,
+    ),
+    BlocProvider<TransactionBloc>(
+      create: (context) => transactionBloc,
+    ),
   ];
 
   static void dispose() {
@@ -78,6 +88,8 @@ class AppBloc {
     postHomeBloc.close();
     postClassBloc.close();
     schedulesBloc.close();
+    conversationBloc.close();
+    transactionBloc.close();
   }
 
   ///Singleton factory

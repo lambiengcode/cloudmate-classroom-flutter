@@ -1,4 +1,5 @@
 import 'package:cloudmate/src/models/class_model.dart';
+import 'package:cloudmate/src/models/road_map_model.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
@@ -12,8 +13,13 @@ import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 
 class CreateRoadmapScreen extends StatefulWidget {
   final RoadMapBloc roadMapBloc;
+  final RoadMapModel? roadMapModel;
   final ClassModel classModel;
-  const CreateRoadmapScreen({required this.roadMapBloc, required this.classModel});
+  const CreateRoadmapScreen({
+    required this.roadMapBloc,
+    required this.classModel,
+    required this.roadMapModel,
+  });
   @override
   _CreateRoadmapScreenState createState() => _CreateRoadmapScreenState();
 }
@@ -30,6 +36,11 @@ class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
   @override
   void initState() {
     super.initState();
+
+    if (widget.roadMapModel != null) {
+      _nameController.text = widget.roadMapModel!.name;
+      _descriptionController.text = widget.roadMapModel!.description;
+    }
   }
 
   @override
@@ -48,7 +59,7 @@ class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
           ),
         ),
         title: Text(
-          'Thêm lộ trình',
+          widget.roadMapModel != null ? 'Sửa lộ trình' : 'Thêm lộ trình',
           style: TextStyle(
             fontSize: 15.sp,
             fontFamily: FontFamily.lato,
@@ -107,14 +118,25 @@ class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
                         onTap: () async {
                           if (_formKey.currentState!.validate()) {
                             showDialogLoading(context);
-                            widget.roadMapBloc.add(
-                              CreateRoadMapEvent(
-                                classId: widget.classModel.id,
-                                name: _name,
-                                description: _description,
-                                context: context,
-                              ),
-                            );
+                            if (widget.roadMapModel == null) {
+                              widget.roadMapBloc.add(
+                                CreateRoadMapEvent(
+                                  classId: widget.classModel.id,
+                                  name: _name,
+                                  description: _description,
+                                  context: context,
+                                ),
+                              );
+                            } else {
+                              widget.roadMapBloc.add(
+                                UpdateRoadMapEvent(
+                                  name: _name,
+                                  description: _description,
+                                  context: context,
+                                  id: widget.roadMapModel!.id,
+                                ),
+                              );
+                            }
                           }
                         },
                         child: Container(

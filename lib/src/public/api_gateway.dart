@@ -57,4 +57,7 @@ class ApiGateway {
 
   // Schedule
   static const SCHEDULE = 'api/road-map-content/schedule';
+
+  // Transaction
+  static const TRANSACTION = 'api/transaction';
 }

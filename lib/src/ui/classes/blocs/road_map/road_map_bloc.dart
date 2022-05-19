@@ -38,6 +38,12 @@ class RoadMapBloc extends Bloc<RoadMapEvent, RoadMapState> {
       }
     }
 
+    if (event is DeleteRoadMapEvent) {
+      await _deleteRoadMap(event: event);
+      AppNavigator.popUntil(AppRoutes.ROAD_MAP);
+      yield GetDoneRoadMap(roadMaps: roadMaps);
+    }
+
     if (event is GetRoadMapEvent) {
       if (roadMaps.length == 0) {
         yield RoadMapInitial();
@@ -71,6 +77,17 @@ class RoadMapBloc extends Bloc<RoadMapEvent, RoadMapState> {
       roadMaps.add(roadMapModel);
     }
     return roadMapModel != null;
+  }
+
+  Future<void> _deleteRoadMap({required DeleteRoadMapEvent event}) async {
+    await RoadMapRepository().deleteRoadMap(roadMapId: event.id);
+    AppNavigator.pop();
+
+    int indexOfRoadMap = roadMaps.indexWhere((element) => element.id == event.id);
+
+    if (indexOfRoadMap != -1) {
+      roadMaps.removeAt(indexOfRoadMap);
+    }
   }
 
   Future<void> _getRoadMaps({required String classId}) async {

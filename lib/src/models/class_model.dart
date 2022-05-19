@@ -72,15 +72,19 @@ class ClassModel {
       defaultImageObject = Constants.getOnlyDefaultClassImage();
     }
 
+    UserModel? admin = map['createdBy'] is String ? null : UserModel.fromMap(map['createdBy']);
+
     return ClassModel(
       id: map['_id'],
       name: map['name'],
       topic: map['topic'],
       intro: map['intro'],
-      createdBy: map['createdBy'] is String ? null : UserModel.fromMap(map['createdBy']),
+      createdBy: admin,
       status: map['status'] ?? 0,
       members: ((map['member'] ?? []) as List<dynamic>)
           .map((item) => UserModel.fromMap(item['user'], role: item['role']))
+          .toList()
+          .where((user) => user.id != admin?.id)
           .toList(),
       blurHash: map['blurHash'] == '' ? defaultImageObject['blurHash'] : map['blurHash'],
       image:

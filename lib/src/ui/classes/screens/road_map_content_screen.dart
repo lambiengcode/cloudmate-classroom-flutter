@@ -11,6 +11,7 @@ import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
 import 'package:cloudmate/src/ui/classes/blocs/road_map/road_map_bloc.dart';
 import 'package:cloudmate/src/ui/classes/blocs/road_map_content/road_map_content_bloc.dart';
+import 'package:cloudmate/src/ui/classes/widgets/bottom_option_road_map.dart';
 import 'package:cloudmate/src/ui/common/screens/loading_screen.dart';
 import 'package:cloudmate/src/ui/home/widgets/attendance_in_post.dart';
 import 'package:cloudmate/src/ui/home/widgets/deadline_in_post.dart';
@@ -79,6 +80,29 @@ class _RoadMapContentScreenState extends State<RoadMapContentScreen> {
                 ),
               ),
               actions: [
+                IconButton(
+                  onPressed: () {
+                    showModalBottomSheet(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(16.sp)),
+                      ),
+                      isScrollControlled: true,
+                      context: context,
+                      builder: (context) {
+                        return BottomOptionRoadMap(
+                          roadMapBloc: widget.roadMapBloc,
+                          roadMapModel: widget.roadMapModel,
+                          classModel: widget.classModel,
+                        );
+                      },
+                    );
+                  },
+                  icon: Icon(
+                    PhosphorIcons.dotsNine,
+                    size: 20.sp,
+                    color: colorDarkGrey,
+                  ),
+                ),
                 IconButton(
                   onPressed: () => AppNavigator.push(
                     AppRoutes.CREATE_ROAD_MAP_CONTENT,
@@ -192,13 +216,13 @@ class _RoadMapContentScreenState extends State<RoadMapContentScreen> {
                           roadMapContent: roadMapContentModel,
                           isAdmin:
                               AppBloc.authBloc.userModel?.id == widget.classModel.createdBy?.id,
-                          quantityMembers: widget.classModel.totalMember,
+                          quantityMembers: widget.classModel.members.length,
                         )
                       : DeadlineInPost(
                           roadMapContent: roadMapContentModel,
                           isAdmin:
                               AppBloc.authBloc.userModel?.id == widget.classModel.createdBy?.id,
-                          quantityMembers: widget.classModel.totalMember,
+                          quantityMembers: widget.classModel.members.length,
                         ),
                 ],
               ),

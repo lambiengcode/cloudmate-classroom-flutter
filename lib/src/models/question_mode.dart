@@ -58,7 +58,7 @@ class QuestionModel {
       corrects: map['correct'] == null ? [] : List<int>.from(map['correct']),
       duration: map['duration'],
       examId: map['idSetOfQuestions'] ?? '',
-      score: map['score'],
+      score: map['score'] ?? 10,
     );
   }
 

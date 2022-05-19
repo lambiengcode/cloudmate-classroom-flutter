@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/blocs/authentication/bloc.dart';
+import 'package:cloudmate/src/blocs/bloc/transaction_bloc.dart';
+import 'package:cloudmate/src/configs/application.dart';
 import 'package:cloudmate/src/helpers/picker/custom_image_picker.dart';
 import 'package:cloudmate/src/models/slide_mode.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
@@ -8,12 +10,13 @@ import 'package:cloudmate/src/routes/app_routes.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
 import 'package:cloudmate/src/ui/classes/blocs/class/class_bloc.dart';
 import 'package:cloudmate/src/ui/classes/widgets/recommend_class_card.dart';
+import 'package:cloudmate/src/ui/classes/widgets/transaction_card.dart';
 import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:cloudmate/src/ui/common/screens/loading_screen.dart';
 import 'package:cloudmate/src/utils/blurhash.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
-import 'package:cloudmate/src/themes/app_decorations.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -25,20 +28,14 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateMixin {
-  late AnimationController _infoCardController;
   ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    _infoCardController = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 500),
-      value: 1.0,
-    );
-    scrollController.addListener(() {
-      _infoCardController.value = 1 / (scrollController.offset);
-    });
+    if (!Application.isProductionMode) {
+      AppBloc.transactionBloc.add(GetTransactionEvent());
+    }
   }
 
   @override
@@ -69,19 +66,6 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                   },
                 );
               },
-            ),
-            title: AnimatedBuilder(
-              animation: _infoCardController,
-              builder: (context, child) => _infoCardController.value > .5 ? SizedBox() : child!,
-              child: Text(
-                auth.userModel!.displayName!,
-                style: TextStyle(
-                  fontSize: 15.sp,
-                  fontWeight: FontWeight.w500,
-                  fontFamily: FontFamily.lato,
-                  color: Theme.of(context).textTheme.bodyText1!.color,
-                ),
-              ),
             ),
             actions: [
               IconButton(
@@ -145,79 +129,88 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
                     ),
                   ),
                 ),
-                SizeTransition(
-                  axisAlignment: 1.0,
-                  sizeFactor: _infoCardController,
-                  child: Column(
-                    children: [
-                      SizedBox(height: 8.sp),
-                      Text(
-                        auth.userModel!.displayName!,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          fontFamily: FontFamily.lato,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      SizedBox(height: 6.sp),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10.w),
-                        alignment: Alignment.center,
-                        child: Text(
-                          auth.userModel!.intro == ''
-                              ? '☃ Chưa cập nhật ☃'
-                              : auth.userModel!.intro!,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: 11.sp,
-                            fontWeight: FontWeight.w400,
-                            color: colorPrimary,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      SizedBox(height: 12.sp),
-                      _buildInfoBar(),
-                      SizedBox(height: 12.sp),
-                    ],
+                SizedBox(height: 8.sp),
+                Text(
+                  auth.userModel!.displayName!,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    fontFamily: FontFamily.lato,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
-                SizedBox(height: 12.sp),
+                SizedBox(height: 6.sp),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10.w),
+                  alignment: Alignment.center,
+                  child: Text(
+                    auth.userModel!.intro == '' ? '☃ Chưa cập nhật ☃' : auth.userModel!.intro!,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 11.sp,
+                      fontWeight: FontWeight.w400,
+                      color: colorPrimary,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                SizedBox(height: 16.sp),
                 _buildTitle(
-                  'Archive',
-                  PhosphorIcons.starFill,
+                  'Lịch sử',
+                  PhosphorIcons.clockClockwiseBold,
                   Colors.amberAccent.shade700,
                 ),
                 SizedBox(height: 4.sp),
-                BlocBuilder<ClassBloc, ClassState>(
-                  builder: (context, state) {
-                    return Expanded(
-                      child: NotificationListener<OverscrollIndicatorNotification>(
-                        onNotification: (overscroll) {
-                          return true;
+                Application.isProductionMode
+                    ? BlocBuilder<ClassBloc, ClassState>(
+                        builder: (context, state) {
+                          return Expanded(
+                            child: NotificationListener<OverscrollIndicatorNotification>(
+                              onNotification: (overscroll) {
+                                return true;
+                              },
+                              child: state.props[0].isEmpty
+                                  ? LoadingScreen(
+                                      isShowText: false,
+                                    )
+                                  : ListView.builder(
+                                      controller: scrollController,
+                                      padding: EdgeInsets.only(bottom: 12.sp),
+                                      physics: ClampingScrollPhysics(),
+                                      itemCount: state.props[0].length,
+                                      itemBuilder: (context, index) {
+                                        return RecommendClassCard(
+                                          classModel: state.props[0][index],
+                                        );
+                                      },
+                                    ),
+                            ),
+                          );
                         },
-                        child: state.props[0].isEmpty
-                            ? LoadingScreen(
-                                isShowText: false,
-                              )
-                            : ListView.builder(
-                                controller: scrollController,
-                                padding: EdgeInsets.only(bottom: 12.sp),
-                                physics: ClampingScrollPhysics(),
-                                itemCount: state.props[0].length,
-                                itemBuilder: (context, index) {
-                                  return RecommendClassCard(
-                                    classModel: state.props[0][index],
-                                  );
-                                },
-                              ),
+                      )
+                    : BlocBuilder<TransactionBloc, TransactionState>(
+                        builder: (context, state) {
+                          return Expanded(
+                            child: state is GetDoneTransaction
+                                ? ListView.builder(
+                                    controller: scrollController,
+                                    padding: EdgeInsets.only(bottom: 12.sp),
+                                    physics: ClampingScrollPhysics(),
+                                    itemCount: state.transactions.length,
+                                    itemBuilder: (context, index) {
+                                      return TransactionCard(
+                                        transactionModel: state.transactions[index],
+                                      );
+                                    },
+                                  )
+                                : Center(
+                                    child: CupertinoActivityIndicator(),
+                                  ),
+                          );
+                        },
                       ),
-                    );
-                  },
-                ),
               ],
             ),
           ),
@@ -228,71 +221,9 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
     });
   }
 
-  Widget _buildInfoBar() {
-    return Container(
-      width: 100.w,
-      margin: EdgeInsets.symmetric(horizontal: 20.sp),
-      padding: EdgeInsets.symmetric(vertical: 14.sp),
-      decoration: AppDecoration.buttonActionBorder(context, 6.sp).decoration,
-      child: Row(
-        children: [
-          _buildInfo(context, 'Archive', '88'),
-          _buildCustomDivider(),
-          _buildInfo(context, 'Learning', '593'),
-          _buildCustomDivider(),
-          _buildInfo(context, 'Friend', '241'),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildInfo(context, title, value) {
-    return Expanded(
-      child: GestureDetector(
-        onTap: () => null,
-        child: Container(
-          color: Colors.transparent,
-          child: Column(
-            children: [
-              Text(
-                title,
-                style: TextStyle(
-                  fontFamily: FontFamily.lato,
-                  fontSize: 10.75.sp,
-                  fontWeight: FontWeight.w400,
-                  color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.9),
-                ),
-              ),
-              SizedBox(height: 6.5.sp),
-              Text(
-                value,
-                style: TextStyle(
-                  fontSize: 13.5.sp,
-                  fontWeight: FontWeight.w500,
-                  color: Theme.of(context).textTheme.bodyText1!.color,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCustomDivider() {
-    return Container(
-      height: 40.sp,
-      child: VerticalDivider(
-        width: .25,
-        thickness: .25,
-        color: colorPrimary,
-      ),
-    );
-  }
-
   _buildTitle(title, icon, color) {
     return Container(
-      padding: EdgeInsets.only(left: 16.sp, right: 8.sp),
+      padding: EdgeInsets.only(left: 12.sp, right: 4.sp),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -318,7 +249,7 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
           IconButton(
             onPressed: () => null,
             icon: Icon(
-              PhosphorIcons.pushPinFill,
+              null,
               size: 18.sp,
             ),
           ),

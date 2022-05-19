@@ -4,7 +4,7 @@ import 'package:momo_vn/momo_vn.dart';
 class MomoAppPayment {
   MomoVn? _momoPay;
 
-  handlePaymentMomo({required int amount, required Function handleFinished}) {
+  handlePaymentMomo({required int amount, required Function(PaymentResponse) handleFinished}) {
     MomoPaymentInfo options = MomoPaymentInfo(
       merchantName: "Cloudmate",
       appScheme: "momoiwtv20220329",
@@ -37,8 +37,8 @@ class MomoAppPayment {
   }
 
   void _handlePaymentSuccess(
-      {required PaymentResponse response, required Function handleFinished}) {
-    handleFinished();
+      {required PaymentResponse response, required Function(PaymentResponse) handleFinished}) {
+    handleFinished(response);
     _momoPay?.clear();
   }
 

@@ -25,10 +25,12 @@ class UpdateRoadMapEvent extends RoadMapEvent {
   final String id;
   final String name;
   final String description;
+  final BuildContext context;
   UpdateRoadMapEvent({
     required this.id,
     required this.name,
     required this.description,
+    required this.context,
   });
 }
 

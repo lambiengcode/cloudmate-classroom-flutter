@@ -1,4 +1,6 @@
 import 'package:bloc/bloc.dart';
+import 'package:cloudmate/src/blocs/app_bloc.dart';
+import 'package:cloudmate/src/blocs/count_down/count_down_bloc.dart';
 import 'package:cloudmate/src/models/question_mode.dart';
 import 'package:cloudmate/src/models/statistic_model.dart';
 import 'package:cloudmate/src/models/user.dart';
@@ -56,6 +58,7 @@ class DoExamBloc extends Bloc<DoExamEvent, DoExamState> {
         _setUsers(users: event.users);
         _createQuizSuccess();
         yield InLobby(users: users);
+        AppBloc.countDownBloc.add(StartCountDownEvent());
       }
     }
 
@@ -65,6 +68,7 @@ class DoExamBloc extends Bloc<DoExamEvent, DoExamState> {
         yield InLobby(users: users);
         _newUser(user: event.user);
         yield InLobby(users: users);
+        AppBloc.countDownBloc.add(ResetCountDownEvent());
       }
     }
 
@@ -98,6 +102,11 @@ class DoExamBloc extends Bloc<DoExamEvent, DoExamState> {
       if (state is InLobby) {
         _removeUser(userId: event.userId);
         yield InLobby(users: users);
+        if (users.isEmpty) {
+          AppBloc.countDownBloc.add(EndCountDownEvent());
+        } else {
+          AppBloc.countDownBloc.add(ResetCountDownEvent());
+        }
       }
     }
 
@@ -106,7 +115,7 @@ class DoExamBloc extends Bloc<DoExamEvent, DoExamState> {
       AppNavigator.push(AppRoutes.FINAL_STATISTIC_QUESTION, arguments: {
         'statisticModel': event.finalStatistic,
       });
-       yield DoExamInitial();
+      yield DoExamInitial();
     }
 
     if (event is QuitQuizEvent) {
@@ -161,7 +170,6 @@ class DoExamBloc extends Bloc<DoExamEvent, DoExamState> {
   }
 
   void _newUser({required UserModel user}) async {
-    print(user.toString());
     users.add(user);
   }
 

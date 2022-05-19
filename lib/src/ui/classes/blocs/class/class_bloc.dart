@@ -158,7 +158,11 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
     }
 
     if (event is JoinClass) {
-      bool isJoinSuccess = await _joinClass(classId: event.classId);
+      bool isJoinSuccess = await _joinClass(
+        classId: event.classId,
+        amount: event.amount,
+        senderPhone: event.senderPhone,
+      );
       yield GetClassesDone(
         listClasses: classes,
         listRecommend: recommendClasses,
@@ -319,8 +323,16 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
     }
   }
 
-  Future<bool> _joinClass({required String classId}) async {
-    bool isJoinSuccess = await ClassRepository().joinClass(classId: classId);
+  Future<bool> _joinClass({
+    required String classId,
+    required String senderPhone,
+    required double amount,
+  }) async {
+    bool isJoinSuccess = await ClassRepository().joinClass(
+      classId: classId,
+      senderPhone: senderPhone,
+      amount: amount,
+    );
     AppNavigator.pop();
     if (isJoinSuccess) {
       int index = recommendClasses.indexWhere((item) => item.id == classId);

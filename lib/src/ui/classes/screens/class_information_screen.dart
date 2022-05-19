@@ -23,6 +23,7 @@ import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/ui/home/widgets/post_card.dart';
 import 'package:cloudmate/src/utils/stack_avatar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:momo_vn/momo_vn.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 import 'package:cloudmate/src/helpers/string.dart';
@@ -401,16 +402,20 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                       JoinClass(
                         classId: widget.classModel.id,
                         context: context,
+                        senderPhone: '0000',
+                        amount: _classModel.price,
                       ),
                     );
                   } else {
                     MomoAppPayment().handlePaymentMomo(
                       amount: _classModel.price.toInt(),
-                      handleFinished: () {
+                      handleFinished: (PaymentResponse response) {
                         AppBloc.classBloc.add(
                           JoinClass(
                             classId: widget.classModel.id,
                             context: context,
+                            senderPhone: response.phoneNumber ?? '0000',
+                            amount: _classModel.price,
                           ),
                         );
                       },
