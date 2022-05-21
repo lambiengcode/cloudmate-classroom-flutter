@@ -112,6 +112,7 @@ class DoExamBloc extends Bloc<DoExamEvent, DoExamState> {
 
     if (event is FinishQuizEvent) {
       _leaveQuiz();
+      AppBloc.countDownBloc.add(EndCountDownEvent());
       AppNavigator.push(AppRoutes.FINAL_STATISTIC_QUESTION, arguments: {
         'statisticModel': event.finalStatistic,
       });

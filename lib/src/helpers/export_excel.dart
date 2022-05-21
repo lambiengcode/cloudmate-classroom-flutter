@@ -6,6 +6,7 @@ import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:cloudmate/src/ui/common/widgets/get_snack_bar.dart';
 import 'package:csv/csv.dart';
@@ -33,23 +34,21 @@ Future<void> exportResultToExcel(List<UserModel> users, int totalScore) async {
   if (!status.isGranted) {
     await Permission.storage.request();
   }
-  // final res = const ListToCsvConverter().convert(afterMapRevenue);
+  final res = const ListToCsvConverter().convert(afterMapRevenue);
 
-  // late Directory downloadsDirectory;
-  // try {
-  //   downloadsDirectory = await DownloadsPathProvider.downloadsDirectory;
-  // } on PlatformException {
-  //   print('Could not get the downloads directory');
-  // }
-  // String time = DateFormat('yyyyMMdd-HHmmss').format(DateTime.now());
-  // final pathOfTheFileToWrite = downloadsDirectory.path + "/RESULT-$time.csv";
-  // File file = File(pathOfTheFileToWrite);
-  // await file.writeAsString(res);
-  GetSnackBar getSnackBar = GetSnackBar(
-    title: 'Xuất excel thành công!',
-    subTitle: 'Hãy kiểm tra file trong thư mục Downloads của điện thoại.',
-  );
-  getSnackBar.show();
+  Directory? downloadsDirectory = await PathHelper.downloadsDir;
+
+  if (downloadsDirectory != null) {
+    String time = DateFormat('yyyyMMdd-HHmmss').format(DateTime.now());
+    final pathOfTheFileToWrite = downloadsDirectory.path + "/RESULT-$time.csv";
+    File file = File(pathOfTheFileToWrite);
+    await file.writeAsString(res);
+    GetSnackBar getSnackBar = GetSnackBar(
+      title: 'Xuất excel thành công!',
+      subTitle: 'Hãy kiểm tra file trong thư mục Downloads của điện thoại.',
+    );
+    getSnackBar.show();
+  }
 }
 
 Future<List<QuestionModel>> pickFileExcel() async {

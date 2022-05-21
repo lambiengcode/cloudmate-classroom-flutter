@@ -32,9 +32,9 @@ Future<void> requestPermission() async {
     debugPrint('User declined or has not accepted permission');
   }
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-    alert: true,
-    badge: true,
-    sound: true,
+    alert: false,
+    badge: false,
+    sound: false,
   );
 }
 
