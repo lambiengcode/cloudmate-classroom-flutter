@@ -15,6 +15,7 @@ import 'package:cloudmate/src/ui/common/dialogs/dialog_confirm.dart';
 import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:cloudmate/src/ui/common/widgets/animated_fade.dart';
 import 'package:cloudmate/src/ui/common/widgets/get_snack_bar.dart';
+import 'package:cloudmate/src/ui/home/widgets/post_shimmer_list.dart';
 import 'package:cloudmate/src/utils/blurhash.dart';
 import 'package:flutter/material.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
@@ -353,6 +354,12 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                     ),
                     BlocBuilder<PostClassBloc, PostClassState>(
                       builder: (context, state) {
+                        if (state is PostClassInitial) {
+                          return PostShimmerList(
+                            isShowNewPost: false,
+                          );
+                        }
+
                         List<PostModel> posts = (state.props[0] as List).cast();
                         return ListView.builder(
                           shrinkWrap: true,

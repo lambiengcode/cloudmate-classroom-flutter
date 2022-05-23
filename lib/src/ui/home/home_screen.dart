@@ -7,6 +7,7 @@ import 'package:cloudmate/src/ui/classes/blocs/class/class_bloc.dart';
 import 'package:cloudmate/src/ui/classes/blocs/do_exam/do_exam_bloc.dart';
 import 'package:cloudmate/src/ui/classes/widgets/dialog_add_answer.dart';
 import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
+import 'package:cloudmate/src/ui/home/widgets/post_shimmer_list.dart';
 import 'package:flutter/material.dart';
 import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/blocs/theme/theme_event.dart';
@@ -136,6 +137,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 Expanded(
                   child: BlocBuilder<PostHomeBloc, PostHomeState>(
                     builder: (context, state) {
+                      if (state is PostHomeInitial) {
+                        return PostShimmerList();
+                      }
+
                       List<PostModel> posts = (state.props[0] as List).cast();
                       return ListView.builder(
                         padding: EdgeInsets.only(top: 12.sp, bottom: 20.sp),
