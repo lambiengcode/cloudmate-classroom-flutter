@@ -17,6 +17,14 @@ class SocketEmit {
       'title': title,
       'description': description,
     });
+    // print(socket?.connected);
+    // print(SocketEvent.CREATE_QUIZ_CSS +
+    //     {
+    //       'idSetOfQuestions': examId,
+    //       'idClass': classId,
+    //       'title': title,
+    //       'description': description,
+    //     }.toString());
   }
 
   joinQuiz({required roomId}) {

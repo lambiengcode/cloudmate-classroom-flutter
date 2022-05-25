@@ -118,6 +118,7 @@ class _ListQuestionScreenState extends State<ListQuestionScreen> {
                                 questionBloc: _questionBloc,
                                 isLast: index == state.props[0].length - 1,
                                 index: index + 1,
+                                examId: widget.examModel.id,
                               );
                             },
                           ),

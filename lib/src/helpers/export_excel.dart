@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:cloudmate/src/helpers/path_helper.dart';
 import 'package:cloudmate/src/models/question_mode.dart';
+import 'package:cloudmate/src/models/question_type_enum.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
@@ -76,6 +77,8 @@ Future<List<QuestionModel>> pickFileExcel() async {
             answers: item[3].toString().split(','),
             corrects: item[4].toString().split(',').map((e) => int.parse(e)).toList(),
             examId: '',
+            banner: null,
+            type: QuestionType.singleChoise,
           ));
         }
       });

@@ -12,7 +12,12 @@ import 'package:cloudmate/src/utils/sizer_custom/sizer.dart';
 class BottomOptionQuestion extends StatefulWidget {
   final QuestionModel questionModel;
   final QuestionBloc questionBloc;
-  BottomOptionQuestion({required this.questionBloc, required this.questionModel});
+  final String examId;
+  BottomOptionQuestion({
+    required this.questionBloc,
+    required this.questionModel,
+    required this.examId,
+  });
   @override
   State<StatefulWidget> createState() => _BottomOptionQuestionState();
 }
@@ -61,7 +66,7 @@ class _BottomOptionQuestionState extends State<BottomOptionQuestion> {
           case 'Chỉnh sửa câu hỏi':
             AppNavigator.pop();
             AppNavigator.push(AppRoutes.CREATE_QUESTION, arguments: {
-              'questionId': '',
+              'examId': widget.examId.toString(),
               'questionBloc': widget.questionBloc,
               'questionModel': widget.questionModel,
             });

@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:cloudmate/src/models/question_mode.dart';
+import 'package:cloudmate/src/models/question_type_enum.dart';
 import 'package:cloudmate/src/resources/remote/question_repository.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/routes/app_routes.dart';
@@ -46,6 +49,8 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
         corrects: event.corrects,
         duration: event.duration,
         score: event.score,
+        image: event.banner,
+        type: event.type,
       );
       yield GetDoneQuestion(
         listQuestion: listQuestion,
@@ -181,6 +186,8 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
     required List<int> corrects,
     required int duration,
     required int score,
+    required File? image,
+    required QuestionType type,
   }) async {
     QuestionModel? questionModel = await QuestionRepository().createQuestion(
       question: question,
@@ -189,6 +196,8 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
       corrects: corrects,
       duration: duration,
       score: score,
+      banner: image,
+      type: type,
     );
     AppNavigator.pop();
     if (questionModel != null) {

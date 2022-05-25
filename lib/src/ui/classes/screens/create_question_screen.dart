@@ -1,4 +1,8 @@
+import 'dart:io';
+
+import 'package:cloudmate/src/helpers/picker/custom_image_picker.dart';
 import 'package:cloudmate/src/models/question_mode.dart';
+import 'package:cloudmate/src/models/question_type_enum.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
@@ -29,6 +33,8 @@ class CreateQuestionScreen extends StatefulWidget {
 
 class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
   final _formKey = GlobalKey<FormState>();
+  File? _image;
+  QuestionType _questionType = QuestionType.singleChoise;
   TextEditingController _questionController = TextEditingController();
   TextEditingController _durationController = TextEditingController();
   TextEditingController _scoreController = TextEditingController();
@@ -52,12 +58,12 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
       _answers = _questionModel.answers;
       _questionModel.corrects.forEach((index) {
         if (index <= _answers.length) {
-          _corrects.add(_answers[index]);
+          _corrects.add(_answers[index].toString());
         }
       });
-    }
 
-    print(widget.examId);
+      _questionType = widget.questionModel!.type;
+    }
   }
 
   bool _checkIsCorrect(String answer) {
@@ -162,6 +168,8 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
                       examId: widget.examId,
                       question: _question,
                       score: int.parse(_score),
+                      banner: _image,
+                      type: _questionType,
                     ),
                   );
                 } else {
@@ -174,6 +182,7 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
                       questionId: widget.questionModel!.id,
                       question: _question,
                       score: int.parse(_score),
+                      banner: _image,
                     ),
                   );
                 }
@@ -207,11 +216,61 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
                     height: .25,
                     thickness: .25,
                   ),
+                  SizedBox(height: 12.sp),
+                  _buildTitle(context: context, title: 'Kiểu câu hỏi', isShowSuffix: false),
+                  SizedBox(height: 4.sp),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 22.sp),
+                    padding: EdgeInsets.only(right: 6.0),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                      border: Border(
+                        bottom: BorderSide(
+                          color: Theme.of(context).dividerColor,
+                          width: .25,
+                        ),
+                      ),
+                    ),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButtonFormField(
+                        icon: Icon(
+                          null,
+                          size: 18.sp,
+                          color: colorTitle,
+                        ),
+                        iconEnabledColor: Colors.grey.shade800,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                        ),
+                        value: _questionType,
+                        items: QuestionType.values.map((state) {
+                          return DropdownMenuItem(
+                            value: state,
+                            child: Text(
+                              state.getTileByEnum(),
+                              style: TextStyle(
+                                fontSize: 12.sp,
+                                color: colorTitle,
+                                fontWeight: FontWeight.w500,
+                                fontFamily: FontFamily.lato,
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (QuestionType? val) {
+                          setState(() {
+                            _questionType = val!;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Container(
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             SizedBox(height: 12.0),
                             _buildLineInfo(
@@ -236,7 +295,50 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
                             ),
                             _buildDivider(context),
                             SizedBox(height: 8.sp),
-                            _buildTitle(context, 'Câu trả lời'),
+                            _buildTitle(
+                                context: context, title: 'Hình ảnh kèm theo', isShowSuffix: false),
+                            SizedBox(height: 16.sp),
+                            GestureDetector(
+                              onTap: () {
+                                CustomImagePicker().openImagePicker(
+                                  context: context,
+                                  handleFinish: (File image) async {
+                                    setState(() {
+                                      _image = image;
+                                    });
+                                  },
+                                );
+                              },
+                              child: Container(
+                                margin: EdgeInsets.symmetric(horizontal: 22.sp),
+                                height: 48.sp,
+                                width: 48.sp,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: colorPrimary,
+                                    width: 1.5.sp,
+                                  ),
+                                  borderRadius: BorderRadius.circular(6.sp),
+                                  image: _image == null && widget.questionModel?.banner == null
+                                      ? null
+                                      : DecorationImage(
+                                          image: _image != null
+                                              ? FileImage(_image!)
+                                              : NetworkImage(widget.questionModel!.banner!)
+                                                  as ImageProvider,
+                                          fit: BoxFit.cover,
+                                        ),
+                                ),
+                                alignment: Alignment.center,
+                                child: Icon(
+                                  PhosphorIcons.plusCircle,
+                                  color: colorPrimary,
+                                  size: 18.sp,
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 12.sp),
+                            _buildTitle(context: context, title: 'Câu trả lời', isShowSuffix: true),
                             SizedBox(height: 4.sp),
                             Container(
                               width: double.infinity,
@@ -383,7 +485,7 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
     );
   }
 
-  Widget _buildTitle(context, title) {
+  Widget _buildTitle({context, title, isShowSuffix = false}) {
     return Padding(
       padding: EdgeInsets.only(left: 22.sp, right: 10.sp),
       child: Row(
@@ -398,14 +500,16 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
               color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.72),
             ),
           ),
-          IconButton(
-            onPressed: () => _handlePressedAddQuestion(),
-            icon: Icon(
-              PhosphorIcons.plusCircleBold,
-              color: colorPrimary,
-              size: 20.sp,
-            ),
-          ),
+          !isShowSuffix
+              ? SizedBox()
+              : IconButton(
+                  onPressed: () => _handlePressedAddQuestion(),
+                  icon: Icon(
+                    PhosphorIcons.plusCircleBold,
+                    color: colorPrimary,
+                    size: 20.sp,
+                  ),
+                ),
         ],
       ),
     );

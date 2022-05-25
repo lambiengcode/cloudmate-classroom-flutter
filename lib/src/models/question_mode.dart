@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:cloudmate/src/models/question_type_enum.dart';
+import 'package:cloudmate/src/public/constants.dart';
 import 'package:flutter/foundation.dart';
 
 class QuestionModel {
@@ -10,6 +12,8 @@ class QuestionModel {
   final int duration;
   final String examId;
   final int score;
+  final String? banner;
+  final QuestionType type;
   QuestionModel({
     required this.id,
     required this.question,
@@ -18,6 +22,8 @@ class QuestionModel {
     required this.duration,
     required this.examId,
     required this.score,
+    required this.banner,
+    required this.type,
   });
 
   QuestionModel copyWith({
@@ -28,6 +34,8 @@ class QuestionModel {
     int? duration,
     String? examId,
     int? score,
+    String? banner,
+    QuestionType? type,
   }) {
     return QuestionModel(
       id: id ?? this.id,
@@ -37,6 +45,8 @@ class QuestionModel {
       duration: duration ?? this.duration,
       examId: examId ?? this.examId,
       score: score ?? this.score,
+      banner: banner ?? this.banner,
+      type: type ?? this.type,
     );
   }
 
@@ -51,14 +61,21 @@ class QuestionModel {
   }
 
   factory QuestionModel.fromMap(Map<String, dynamic> map) {
+    List<String> answers = List<String>.from(map['answers']);
     return QuestionModel(
       id: map['_id'],
       question: map['question'],
-      answers: List<String>.from(map['answers']),
-      corrects: map['correct'] == null ? [] : List<int>.from(map['correct']),
+      answers: answers,
+      corrects: map['correct'] == null
+          ? []
+          : (map['correct'] as List).map((e) => int.parse(e.toString())).toList(),
       duration: map['duration'],
       examId: map['idSetOfQuestions'] ?? '',
       score: map['score'] ?? 10,
+      banner: map['banner'] == null || map['banner'].toString().isEmpty
+          ? null
+          : (Constants.imageUrl + map['banner']['path']),
+      type: fromTypeNumber(type: map['typeQuestion'] ?? 2),
     );
   }
 
@@ -68,7 +85,7 @@ class QuestionModel {
 
   @override
   String toString() {
-    return 'QuestionModel(id: $id, question: $question, answers: $answers, corrects: $corrects, duration: $duration, examId: $examId)';
+    return 'QuestionModel(id: $id, question: $question, answers: $answers, duration: $duration, examId: $examId)';
   }
 
   @override

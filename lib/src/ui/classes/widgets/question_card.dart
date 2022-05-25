@@ -13,11 +13,13 @@ class QuestionCard extends StatefulWidget {
   final QuestionBloc questionBloc;
   final bool isLast;
   final int index;
+  final String examId;
   QuestionCard({
     required this.question,
     this.isLast = false,
     required this.index,
     required this.questionBloc,
+    required this.examId,
   });
   @override
   State<StatefulWidget> createState() => _QuestionCardState();
@@ -124,6 +126,7 @@ class _QuestionCardState extends State<QuestionCard> {
         return BottomOptionQuestion(
           questionBloc: widget.questionBloc,
           questionModel: widget.question,
+          examId: widget.examId,
         );
       },
     );

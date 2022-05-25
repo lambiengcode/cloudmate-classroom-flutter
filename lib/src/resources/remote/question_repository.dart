@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:cloudmate/src/models/question_mode.dart';
+import 'package:cloudmate/src/models/question_type_enum.dart';
 import 'package:cloudmate/src/public/api_gateway.dart';
 import 'package:cloudmate/src/resources/base_repository.dart';
 import 'package:dio/dio.dart';
@@ -11,8 +14,11 @@ class QuestionRepository {
     required List<int> corrects,
     required int duration,
     required int score,
+    required File? banner,
+    required QuestionType type,
   }) async {
     var body = {
+      "typeQuestion": type.getTypeNumber().toString(),
       "question": question,
       "answers": answers,
       "correct": corrects,
@@ -21,7 +27,16 @@ class QuestionRepository {
       "score": score,
     };
 
-    Response response = await BaseRepository().postRoute(ApiGateway.QUESTION, body);
+    if (banner != null) {
+      body['banner'] =
+          await MultipartFile.fromFile(banner.path, filename: banner.path.split('/').last);
+    }
+
+    FormData formData = FormData.fromMap(body);
+
+    Response response = await BaseRepository().sendFormData(ApiGateway.QUESTION, formData);
+
+    print(response.data);
 
     if ([200, 201].contains(response.statusCode)) {
       var jsonResponse = response.data['data'];

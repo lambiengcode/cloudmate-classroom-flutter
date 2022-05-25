@@ -160,6 +160,7 @@ class ClassRepository {
       ApiGateway.LEAVE_CLASS,
       query: 'idClass=$classId',
     );
+
     if (response.statusCode == 200) {
       return true;
     }
