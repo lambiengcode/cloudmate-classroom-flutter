@@ -108,6 +108,25 @@ class _DoExamScreenState extends State<DoExamScreen> {
                         ],
                       ),
                     ),
+                    Visibility(
+                      visible: widget.questionModel.banner != null,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(height: 20.sp),
+                          Container(
+                            height: 100.sp,
+                            width: 100.w,
+                            decoration: BoxDecoration(
+                              image: widget.questionModel.banner == null ? null : DecorationImage(
+                                image: NetworkImage(widget.questionModel.banner!),
+                                fit: BoxFit.fitHeight,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                     SizedBox(height: 20.sp),
                     Container(
                       width: 100.w,

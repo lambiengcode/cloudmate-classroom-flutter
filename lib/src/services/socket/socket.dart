@@ -88,6 +88,7 @@ void connectAndListen() async {
           AppBloc.doExamBloc.add(QuitQuizEvent());
           return;
         }
+        print(data['data']);
         QuestionModel question = QuestionModel.fromMap(data['data']);
         AppBloc.doExamBloc.add(
             TakeQuestionEvent(question: question, indexQuestion: data['data']['indexQuestion']));
