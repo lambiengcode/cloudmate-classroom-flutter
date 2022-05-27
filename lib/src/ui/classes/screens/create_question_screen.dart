@@ -40,7 +40,9 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
   TextEditingController _scoreController = TextEditingController();
   FocusNode textFieldFocus = FocusNode();
   List<String> _answers = [];
+  List<String> _answersTrueFalse = ['Đúng', 'Sai'];
   List<String> _corrects = [];
+  String _trueOrFalse = 'Đúng';
   String _question = '';
   String _duration = '';
   String _score = '';
@@ -161,9 +163,12 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
                 if (widget.questionModel == null) {
                   widget.questionBloc.add(
                     CreateQuestionEvent(
-                      answers: _answers,
+                      answers:
+                          _questionType == QuestionType.trueFalse ? _answersTrueFalse : _answers,
                       context: context,
-                      corrects: _formatListCorrect,
+                      corrects: _questionType == QuestionType.trueFalse
+                          ? [_answersTrueFalse.indexOf(_trueOrFalse)]
+                          : _formatListCorrect,
                       duration: int.parse(_duration),
                       examId: widget.examId,
                       question: _question,
@@ -175,9 +180,12 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
                 } else {
                   widget.questionBloc.add(
                     UpdateQuestionEvent(
-                      answers: _answers,
+                      answers:
+                          _questionType == QuestionType.trueFalse ? _answersTrueFalse : _answers,
                       context: context,
-                      corrects: _formatListCorrect,
+                      corrects: _questionType == QuestionType.trueFalse
+                          ? [_answersTrueFalse.indexOf(_trueOrFalse)]
+                          : _formatListCorrect,
                       duration: int.parse(_duration),
                       questionId: widget.questionModel!.id,
                       question: _question,
@@ -258,6 +266,9 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
                           );
                         }).toList(),
                         onChanged: (QuestionType? val) {
+                          if (val == QuestionType.singleChoise) {
+                            _corrects.clear();
+                          }
                           setState(() {
                             _questionType = val!;
                           });
@@ -338,18 +349,38 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
                               ),
                             ),
                             SizedBox(height: 12.sp),
-                            _buildTitle(context: context, title: 'Câu trả lời', isShowSuffix: true),
+                            _buildTitle(
+                              context: context,
+                              title: 'Câu trả lời',
+                              isShowSuffix: _questionType != QuestionType.trueFalse,
+                            ),
                             SizedBox(height: 4.sp),
                             Container(
                               width: double.infinity,
-                              padding: EdgeInsets.symmetric(horizontal: 22.sp),
+                              padding: EdgeInsets.symmetric(horizontal: 22.sp - 5),
                               child: Wrap(
                                 spacing: 5,
                                 runSpacing: 10,
-                                children: _answers.map((answer) {
+                                children: (_questionType == QuestionType.trueFalse
+                                        ? _answersTrueFalse
+                                        : _answers)
+                                    .map((answer) {
                                   return GestureDetector(
                                     onTap: () {
-                                      _handleToggleAnswer(answer);
+                                      switch (_questionType) {
+                                        case QuestionType.multipleChoise:
+                                          _handleToggleAnswer(answer);
+                                          break;
+                                        case QuestionType.singleChoise:
+                                          _corrects.clear();
+                                          _handleToggleAnswer(answer);
+                                          break;
+                                        case QuestionType.trueFalse:
+                                          _trueOrFalse = answer;
+                                          break;
+                                        default:
+                                          break;
+                                      }
                                     },
                                     child: Container(
                                       padding: EdgeInsets.symmetric(
@@ -367,16 +398,18 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           SizedBox(width: 6.sp),
-                                          GestureDetector(
-                                            onTap: () {
-                                              _handleRemoveAnswer(answer);
-                                            },
-                                            child: Icon(
-                                              PhosphorIcons.xCircleFill,
-                                              size: 20.sp,
-                                              color: Colors.white,
-                                            ),
-                                          ),
+                                          _questionType == QuestionType.trueFalse
+                                              ? SizedBox()
+                                              : GestureDetector(
+                                                  onTap: () {
+                                                    _handleRemoveAnswer(answer);
+                                                  },
+                                                  child: Icon(
+                                                    PhosphorIcons.xCircleFill,
+                                                    size: 20.sp,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
                                           SizedBox(width: 10.sp),
                                           Text(
                                             answer.limitLength(30),

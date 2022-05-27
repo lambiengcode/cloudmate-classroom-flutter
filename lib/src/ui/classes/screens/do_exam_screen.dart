@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/models/question_mode.dart';
+import 'package:cloudmate/src/models/question_type_enum.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
@@ -32,7 +33,7 @@ class _DoExamScreenState extends State<DoExamScreen> {
   ];
   Timer? _timmerInstance;
   int time = 0;
-  String answer = "";
+  List<String> _anwsers = [];
 
   @override
   void initState() {
@@ -118,10 +119,12 @@ class _DoExamScreenState extends State<DoExamScreen> {
                             height: 100.sp,
                             width: 100.w,
                             decoration: BoxDecoration(
-                              image: widget.questionModel.banner == null ? null : DecorationImage(
-                                image: NetworkImage(widget.questionModel.banner!),
-                                fit: BoxFit.fitHeight,
-                              ),
+                              image: widget.questionModel.banner == null
+                                  ? null
+                                  : DecorationImage(
+                                      image: NetworkImage(widget.questionModel.banner!),
+                                      fit: BoxFit.fitHeight,
+                                    ),
                             ),
                           ),
                         ],
@@ -257,16 +260,30 @@ class _DoExamScreenState extends State<DoExamScreen> {
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {
-              if (answer == '') {
-                AppBloc.doExamBloc.add(
-                  AnswerQuestionEvent(
-                    answer: widget.questionModel.answers[index],
-                  ),
-                );
+              if (_anwsers.indexOf(widget.questionModel.answers[index]) == -1) {
+                if (widget.questionModel.type == QuestionType.multipleChoise) {
+                  AppBloc.doExamBloc.add(
+                    AnswerQuestionEvent(
+                      answer: widget.questionModel.answers[index],
+                    ),
+                  );
 
-                setState(() {
-                  answer = widget.questionModel.answers[index];
-                });
+                  setState(() {
+                    _anwsers.add(widget.questionModel.answers[index]);
+                  });
+                } else {
+                  if (_anwsers.isEmpty) {
+                    AppBloc.doExamBloc.add(
+                      AnswerQuestionEvent(
+                        answer: widget.questionModel.answers[index],
+                      ),
+                    );
+
+                    setState(() {
+                      _anwsers.add(widget.questionModel.answers[index]);
+                    });
+                  }
+                }
               }
             },
             child: Container(
@@ -277,9 +294,10 @@ class _DoExamScreenState extends State<DoExamScreen> {
               padding: EdgeInsets.symmetric(vertical: 15.25.sp),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5.sp),
-                color: answer == "" || answer == widget.questionModel.answers[index]
-                    ? _colors[index % (_colors.length)]
-                    : Colors.grey,
+                color:
+                    _anwsers.isEmpty || _anwsers.indexOf(widget.questionModel.answers[index]) != -1
+                        ? _colors[index % (_colors.length)]
+                        : Colors.grey,
               ),
               alignment: Alignment.center,
               child: Text(
