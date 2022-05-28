@@ -69,7 +69,11 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
   }
 
   bool _checkIsCorrect(String answer) {
-    return _corrects.contains(answer);
+    if (_questionType == QuestionType.trueFalse) {
+      return _trueOrFalse == answer;
+    } else {
+      return _corrects.contains(answer);
+    }
   }
 
   _handleAddAnswer(String answer) {
@@ -142,13 +146,15 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              if (_corrects.length == 0) {
-                GetSnackBar getSnackBar = GetSnackBar(
-                  title: 'Tạo câu hỏi thất bại!',
-                  subTitle: 'Chưa có câu trả lời đúng cho câu hỏi này.',
-                );
-                getSnackBar.show();
-                return;
+              if (_questionType != QuestionType.trueFalse) {
+                if (_corrects.length == 0) {
+                  GetSnackBar getSnackBar = GetSnackBar(
+                    title: 'Tạo câu hỏi thất bại!',
+                    subTitle: 'Chưa có câu trả lời đúng cho câu hỏi này.',
+                  );
+                  getSnackBar.show();
+                  return;
+                }
               }
 
               if (_formKey.currentState!.validate()) {
@@ -376,7 +382,9 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
                                           _handleToggleAnswer(answer);
                                           break;
                                         case QuestionType.trueFalse:
-                                          _trueOrFalse = answer;
+                                          setState(() {
+                                            _trueOrFalse = answer;
+                                          });
                                           break;
                                         default:
                                           break;
