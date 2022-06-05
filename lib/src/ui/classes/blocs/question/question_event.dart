@@ -17,6 +17,7 @@ class CreateQuestionEvent extends QuestionEvent {
   final String question;
   final int score;
   final File? banner;
+  final File? audio;
   final QuestionType type;
 
   CreateQuestionEvent({
@@ -28,6 +29,7 @@ class CreateQuestionEvent extends QuestionEvent {
     required this.question,
     required this.score,
     required this.banner,
+    required this.audio,
     required this.type,
   });
 }

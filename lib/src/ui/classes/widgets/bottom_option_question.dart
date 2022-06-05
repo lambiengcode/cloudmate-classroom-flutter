@@ -70,6 +70,11 @@ class _BottomOptionQuestionState extends State<BottomOptionQuestion> {
               'questionBloc': widget.questionBloc,
               'questionModel': widget.questionModel,
             });
+
+            // AppNavigator.push(AppRoutes.DO_EXAM, arguments: {
+            //   'questionModel': widget.questionModel,
+            //   'questionIndex': '1/1',
+            // });
             break;
           case 'Xoá câu hỏi':
             dialogAnimationWrapper(

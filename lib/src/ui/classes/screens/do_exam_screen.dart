@@ -34,6 +34,10 @@ class _DoExamScreenState extends State<DoExamScreen> {
   Timer? _timmerInstance;
   int time = 0;
   List<String> _anwsers = [];
+  List<Map<String, String>> dragAndDrops = [];
+  List<String> _keys = [];
+  List<String> _values = [];
+  List<int> _mAnswerDaD = [];
 
   @override
   void initState() {
@@ -63,10 +67,34 @@ class _DoExamScreenState extends State<DoExamScreen> {
             _timmerInstance!.cancel();
           } else {
             time++;
+
+            if (time == widget.questionModel.duration - 1 &&
+                widget.questionModel.type == QuestionType.dragAndDrop) {
+              print(_mAnswerDaD);
+              print(widget.questionModel.corrects);
+              AppBloc.doExamBloc.add(AnswerQuestionEvent(answer: _mAnswerDaD.join(',')));
+            }
           }
         },
       ),
     );
+
+    if (widget.questionModel.type == QuestionType.dragAndDrop) {
+      widget.questionModel.answers.asMap().forEach((index, answer) {
+        if (index < (widget.questionModel.answers.length / 2)) {
+          dragAndDrops.add({
+            'key': answer,
+          });
+        } else {
+          dragAndDrops[index - (widget.questionModel.answers.length ~/ 2)]['value'] = answer;
+        }
+      });
+
+      _keys = dragAndDrops.map((e) => e['key'].toString()).toList();
+      _values = dragAndDrops.map((e) => e['value'].toString()).toList();
+
+      _values.shuffle();
+    }
   }
 
   @override
@@ -151,7 +179,9 @@ class _DoExamScreenState extends State<DoExamScreen> {
                       ),
                     ),
                     SizedBox(height: 24.sp),
-                    _buildAnswerOption(context),
+                    widget.questionModel.type == QuestionType.dragAndDrop
+                        ? _buildLayoutForDaD()
+                        : _buildAnswerOption(context),
                   ],
                 ),
               ),
@@ -312,6 +342,93 @@ class _DoExamScreenState extends State<DoExamScreen> {
             ),
           );
         },
+      ),
+    );
+  }
+
+  Widget _buildLayoutForDaD() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 8.sp),
+      child: Row(
+        children: [
+          _buildColumnLayoutDaD1(_keys),
+          _buildColumnLayoutDaD2(_values),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildColumnLayoutDaD1(List<String> values) {
+    return Expanded(
+      child: Column(
+        children: values
+            .map(
+              (e) => Draggable(
+                child: _buildContainerDaD(value: e),
+                feedback: _buildContainerDaD(value: e, color: colorPrimary),
+                data: e,
+                childWhenDragging: SizedBox(),
+              ),
+            )
+            .toList(),
+      ),
+    );
+  }
+
+  Widget _buildColumnLayoutDaD2(List<String> values) {
+    return Expanded(
+      child: Column(
+        children: values
+            .map(
+              (e) => DragTarget<String>(
+                builder: (BuildContext context, List<String?> incoming, List rejected) {
+                  return _buildContainerDaD(value: e);
+                },
+                onWillAccept: (data) => true,
+                onAccept: (data) {
+                  int indexOfKey = _keys.indexOf(data);
+                  int indexOfValue = _values.indexOf(e);
+
+                  _mAnswerDaD.add(dragAndDrops.indexWhere((dad) => dad['key'] == data) + 1);
+                  _mAnswerDaD.add(dragAndDrops.indexWhere((dad) => dad['value'] == e) +
+                      1 +
+                      dragAndDrops.length);
+
+                  setState(() {
+                    _keys.removeAt(indexOfKey);
+                    _values.removeAt(indexOfValue);
+                  });
+                },
+                onLeave: (data) {},
+              ),
+            )
+            .toList(),
+      ),
+    );
+  }
+
+  Widget _buildContainerDaD({required String value, Color? color}) {
+    return Material(
+      elevation: 0.0,
+      color: Colors.transparent,
+      child: Container(
+        width: 45.w,
+        decoration: BoxDecoration(
+          color: color ?? colorDarkGrey,
+          borderRadius: BorderRadius.circular(4.sp),
+        ),
+        margin: EdgeInsets.symmetric(vertical: 8.sp),
+        padding: EdgeInsets.symmetric(vertical: 12.sp),
+        alignment: Alignment.center,
+        child: Text(
+          value,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+            fontSize: 11.sp,
+            color: Colors.white,
+          ),
+        ),
       ),
     );
   }

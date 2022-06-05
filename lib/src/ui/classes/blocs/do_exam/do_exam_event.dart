@@ -55,6 +55,11 @@ class AnswerQuestionEvent extends DoExamEvent {
   AnswerQuestionEvent({required this.answer});
 }
 
+class SubmitAnswerDaDEvent extends DoExamEvent {
+  final List<int> answers;
+  SubmitAnswerDaDEvent({required this.answers});
+}
+
 class TakeQuestionEvent extends DoExamEvent {
   final QuestionModel question;
   final String indexQuestion;

@@ -10,6 +10,7 @@ import 'package:cloudmate/src/themes/theme_service.dart';
 import 'package:cloudmate/src/ui/classes/blocs/question/question_bloc.dart';
 import 'package:cloudmate/src/ui/classes/widgets/character_counter.dart';
 import 'package:cloudmate/src/ui/classes/widgets/dialog_add_answer.dart';
+import 'package:cloudmate/src/ui/classes/widgets/dialog_add_dad.dart';
 import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:cloudmate/src/ui/common/widgets/get_snack_bar.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +35,7 @@ class CreateQuestionScreen extends StatefulWidget {
 class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
   final _formKey = GlobalKey<FormState>();
   File? _image;
+  File? _audio;
   QuestionType _questionType = QuestionType.singleChoise;
   TextEditingController _questionController = TextEditingController();
   TextEditingController _durationController = TextEditingController();
@@ -46,6 +48,7 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
   String _question = '';
   String _duration = '';
   String _score = '';
+  List<Map<String, String>> dragAndDrops = [];
 
   @override
   void initState() {
@@ -55,16 +58,30 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
       _questionController.text = _questionModel.question;
       _durationController.text = _questionModel.duration.toString();
       _scoreController.text = _questionModel.score.toString();
+      _score = _questionModel.score.toString();
       _question = _questionModel.question;
       _duration = _questionModel.duration.toString();
-      _answers = _questionModel.answers;
-      _questionModel.corrects.forEach((index) {
-        if (index <= _answers.length) {
-          _corrects.add(_answers[index].toString());
-        }
-      });
 
       _questionType = widget.questionModel!.type;
+
+      if (_questionType != QuestionType.dragAndDrop) {
+        _answers = _questionModel.answers;
+        _questionModel.corrects.forEach((index) {
+          if (index <= _answers.length) {
+            _corrects.add(_answers[index].toString());
+          }
+        });
+      } else {
+        _questionModel.answers.asMap().forEach((index, answer) {
+          if (index < (_questionModel.answers.length / 2)) {
+            dragAndDrops.add({
+              'key': answer,
+            });
+          } else {
+            dragAndDrops[index - (_questionModel.answers.length ~/ 2)]['value'] = answer;
+          }
+        });
+      }
     }
   }
 
@@ -111,11 +128,20 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
       context: context,
       dismissible: true,
       slideFrom: 'bottom',
-      child: DialogInput(
-        handleFinish: _handleAddAnswer,
-        title: 'Nhập câu trả lời',
-        buttonTitle: 'Thêm câu trả lời',
-      ),
+      child: _questionType == QuestionType.dragAndDrop
+          ? DialogAddDad(handleFinish: (key, val) {
+              setState(() {
+                dragAndDrops.add({
+                  'key': key,
+                  'value': val,
+                });
+              });
+            })
+          : DialogInput(
+              handleFinish: _handleAddAnswer,
+              title: 'Nhập câu trả lời',
+              buttonTitle: 'Thêm câu trả lời',
+            ),
     );
   }
 
@@ -146,7 +172,8 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              if (_questionType != QuestionType.trueFalse) {
+              if (_questionType != QuestionType.trueFalse &&
+                  _questionType != QuestionType.dragAndDrop) {
                 if (_corrects.length == 0) {
                   GetSnackBar getSnackBar = GetSnackBar(
                     title: 'Tạo câu hỏi thất bại!',
@@ -166,32 +193,60 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
                     _formatListCorrect.add(index);
                   }
                 });
+
+                List<String> _answerOfDaD = [];
+                List<int> _correctofDaD = [];
+
+                if (_questionType == QuestionType.dragAndDrop) {
+                  List<String> _keys = dragAndDrops.map((e) => e['key'].toString()).toList();
+                  List<String> _values = dragAndDrops.map((e) => e['value'].toString()).toList();
+
+                  dragAndDrops.asMap().forEach((key, value) {
+                    _correctofDaD.add(_keys.indexOf(value['key'].toString()) + 1);
+                    _correctofDaD
+                        .add(_values.indexOf(value['value'].toString()) + 1 + _keys.length);
+                  });
+
+                  _answerOfDaD = _keys + _values;
+                }
+
                 if (widget.questionModel == null) {
                   widget.questionBloc.add(
                     CreateQuestionEvent(
-                      answers:
-                          _questionType == QuestionType.trueFalse ? _answersTrueFalse : _answers,
+                      answers: _questionType == QuestionType.dragAndDrop
+                          ? _answerOfDaD
+                          : _questionType == QuestionType.trueFalse
+                              ? _answersTrueFalse
+                              : _answers,
                       context: context,
-                      corrects: _questionType == QuestionType.trueFalse
-                          ? [_answersTrueFalse.indexOf(_trueOrFalse)]
-                          : _formatListCorrect,
+                      corrects: _questionType == QuestionType.dragAndDrop
+                          ? _correctofDaD
+                          : _questionType == QuestionType.trueFalse
+                              ? [_answersTrueFalse.indexOf(_trueOrFalse)]
+                              : _formatListCorrect,
                       duration: int.parse(_duration),
                       examId: widget.examId,
                       question: _question,
                       score: int.parse(_score),
                       banner: _image,
+                      audio: _audio,
                       type: _questionType,
                     ),
                   );
                 } else {
                   widget.questionBloc.add(
                     UpdateQuestionEvent(
-                      answers:
-                          _questionType == QuestionType.trueFalse ? _answersTrueFalse : _answers,
+                      answers: _questionType == QuestionType.dragAndDrop
+                          ? _answerOfDaD
+                          : _questionType == QuestionType.trueFalse
+                              ? _answersTrueFalse
+                              : _answers,
                       context: context,
-                      corrects: _questionType == QuestionType.trueFalse
-                          ? [_answersTrueFalse.indexOf(_trueOrFalse)]
-                          : _formatListCorrect,
+                      corrects: _questionType == QuestionType.dragAndDrop
+                          ? _correctofDaD
+                          : _questionType == QuestionType.trueFalse
+                              ? [_answersTrueFalse.indexOf(_trueOrFalse)]
+                              : _formatListCorrect,
                       duration: int.parse(_duration),
                       questionId: widget.questionModel!.id,
                       question: _question,
@@ -312,48 +367,66 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
                             ),
                             _buildDivider(context),
                             SizedBox(height: 8.sp),
-                            _buildTitle(
-                                context: context, title: 'Hình ảnh kèm theo', isShowSuffix: false),
-                            SizedBox(height: 16.sp),
-                            GestureDetector(
-                              onTap: () {
-                                CustomImagePicker().openImagePicker(
-                                  context: context,
-                                  handleFinish: (File image) async {
-                                    setState(() {
-                                      _image = image;
-                                    });
-                                  },
-                                );
-                              },
-                              child: Container(
-                                margin: EdgeInsets.symmetric(horizontal: 22.sp),
-                                height: 48.sp,
-                                width: 48.sp,
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: colorPrimary,
-                                    width: 1.5.sp,
-                                  ),
-                                  borderRadius: BorderRadius.circular(6.sp),
-                                  image: _image == null && widget.questionModel?.banner == null
-                                      ? null
-                                      : DecorationImage(
-                                          image: _image != null
-                                              ? FileImage(_image!)
-                                              : NetworkImage(widget.questionModel!.banner!)
-                                                  as ImageProvider,
-                                          fit: BoxFit.cover,
+                            _questionType == QuestionType.dragAndDrop
+                                ? SizedBox()
+                                : _buildTitle(
+                                    context: context,
+                                    title: 'Âm thanh câu hỏi',
+                                    isShowSuffix: false),
+                            _questionType == QuestionType.dragAndDrop
+                                ? SizedBox()
+                                : SizedBox(height: 16.sp),
+                            _questionType == QuestionType.dragAndDrop
+                                ? SizedBox()
+                                : _buildTitle(
+                                    context: context,
+                                    title: 'Hình ảnh kèm theo',
+                                    isShowSuffix: false),
+                            _questionType == QuestionType.dragAndDrop
+                                ? SizedBox()
+                                : SizedBox(height: 16.sp),
+                            _questionType == QuestionType.dragAndDrop
+                                ? SizedBox()
+                                : GestureDetector(
+                                    onTap: () {
+                                      CustomImagePicker().openImagePicker(
+                                        context: context,
+                                        handleFinish: (File image) async {
+                                          setState(() {
+                                            _image = image;
+                                          });
+                                        },
+                                      );
+                                    },
+                                    child: Container(
+                                      margin: EdgeInsets.symmetric(horizontal: 22.sp),
+                                      height: 48.sp,
+                                      width: 48.sp,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: colorPrimary,
+                                          width: 1.5.sp,
                                         ),
-                                ),
-                                alignment: Alignment.center,
-                                child: Icon(
-                                  PhosphorIcons.plusCircle,
-                                  color: colorPrimary,
-                                  size: 18.sp,
-                                ),
-                              ),
-                            ),
+                                        borderRadius: BorderRadius.circular(6.sp),
+                                        image: _image == null &&
+                                                widget.questionModel?.banner == null
+                                            ? null
+                                            : DecorationImage(
+                                                image: _image != null
+                                                    ? FileImage(_image!)
+                                                    : NetworkImage(widget.questionModel!.banner!)
+                                                        as ImageProvider,
+                                                fit: BoxFit.cover,
+                                              ),
+                                      ),
+                                      alignment: Alignment.center,
+                                      child: Icon(
+                                        PhosphorIcons.plusCircle,
+                                        color: colorPrimary,
+                                        size: 18.sp,
+                                      ),
+                                    ),
+                                  ),
                             SizedBox(height: 12.sp),
                             _buildTitle(
                               context: context,
@@ -361,78 +434,80 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
                               isShowSuffix: _questionType != QuestionType.trueFalse,
                             ),
                             SizedBox(height: 4.sp),
-                            Container(
-                              width: double.infinity,
-                              padding: EdgeInsets.symmetric(horizontal: 22.sp - 5),
-                              child: Wrap(
-                                spacing: 5,
-                                runSpacing: 10,
-                                children: (_questionType == QuestionType.trueFalse
-                                        ? _answersTrueFalse
-                                        : _answers)
-                                    .map((answer) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      switch (_questionType) {
-                                        case QuestionType.multipleChoise:
-                                          _handleToggleAnswer(answer);
-                                          break;
-                                        case QuestionType.singleChoise:
-                                          _corrects.clear();
-                                          _handleToggleAnswer(answer);
-                                          break;
-                                        case QuestionType.trueFalse:
-                                          setState(() {
-                                            _trueOrFalse = answer;
-                                          });
-                                          break;
-                                        default:
-                                          break;
-                                      }
-                                    },
-                                    child: Container(
-                                      padding: EdgeInsets.symmetric(
-                                        vertical: 6.sp,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(
-                                          30.sp,
-                                        ),
-                                        color: _checkIsCorrect(answer)
-                                            ? Theme.of(context).primaryColor
-                                            : Colors.grey,
-                                      ),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          SizedBox(width: 6.sp),
-                                          _questionType == QuestionType.trueFalse
-                                              ? SizedBox()
-                                              : GestureDetector(
-                                                  onTap: () {
-                                                    _handleRemoveAnswer(answer);
-                                                  },
-                                                  child: Icon(
-                                                    PhosphorIcons.xCircleFill,
-                                                    size: 20.sp,
+                            _questionType == QuestionType.dragAndDrop
+                                ? _buildLayoutForDaD()
+                                : Container(
+                                    width: double.infinity,
+                                    padding: EdgeInsets.symmetric(horizontal: 22.sp - 5),
+                                    child: Wrap(
+                                      spacing: 5,
+                                      runSpacing: 10,
+                                      children: (_questionType == QuestionType.trueFalse
+                                              ? _answersTrueFalse
+                                              : _answers)
+                                          .map((answer) {
+                                        return GestureDetector(
+                                          onTap: () {
+                                            switch (_questionType) {
+                                              case QuestionType.multipleChoise:
+                                                _handleToggleAnswer(answer);
+                                                break;
+                                              case QuestionType.singleChoise:
+                                                _corrects.clear();
+                                                _handleToggleAnswer(answer);
+                                                break;
+                                              case QuestionType.trueFalse:
+                                                setState(() {
+                                                  _trueOrFalse = answer;
+                                                });
+                                                break;
+                                              default:
+                                                break;
+                                            }
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                              vertical: 6.sp,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(
+                                                30.sp,
+                                              ),
+                                              color: _checkIsCorrect(answer)
+                                                  ? Theme.of(context).primaryColor
+                                                  : Colors.grey,
+                                            ),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                SizedBox(width: 6.sp),
+                                                _questionType == QuestionType.trueFalse
+                                                    ? SizedBox()
+                                                    : GestureDetector(
+                                                        onTap: () {
+                                                          _handleRemoveAnswer(answer);
+                                                        },
+                                                        child: Icon(
+                                                          PhosphorIcons.xCircleFill,
+                                                          size: 20.sp,
+                                                          color: Colors.white,
+                                                        ),
+                                                      ),
+                                                SizedBox(width: 10.sp),
+                                                Text(
+                                                  answer.limitLength(30),
+                                                  style: TextStyle(
                                                     color: Colors.white,
                                                   ),
                                                 ),
-                                          SizedBox(width: 10.sp),
-                                          Text(
-                                            answer.limitLength(30),
-                                            style: TextStyle(
-                                              color: Colors.white,
+                                                SizedBox(width: 18.sp),
+                                              ],
                                             ),
                                           ),
-                                          SizedBox(width: 18.sp),
-                                        ],
-                                      ),
+                                        );
+                                      }).toList(),
                                     ),
-                                  );
-                                }).toList(),
-                              ),
-                            )
+                                  )
                           ],
                         ),
                       ),
@@ -444,6 +519,68 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildLayoutForDaD() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 8.sp),
+      child: Row(
+        children: [
+          _buildColumnLayoutDaD(dragAndDrops.map((e) => e['key'].toString()).toList(), true),
+          _buildColumnLayoutDaD(dragAndDrops.map((e) => e['value'].toString()).toList(), false),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildColumnLayoutDaD(List<String> values, bool isKey) {
+    return Expanded(
+      child: Column(
+        children: values
+            .map((e) => Container(
+                  width: 45.w,
+                  decoration: BoxDecoration(
+                    color: colorDarkGrey,
+                    borderRadius: BorderRadius.circular(4.sp),
+                  ),
+                  margin: EdgeInsets.symmetric(vertical: 8.sp),
+                  padding: EdgeInsets.symmetric(vertical: 12.sp),
+                  alignment: Alignment.center,
+                  child: Row(
+                    children: [
+                      SizedBox(width: 4.sp),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            dragAndDrops.removeWhere(
+                              (dad) => isKey ? dad['key'] == e : dad['value'] == e,
+                            );
+                          });
+                        },
+                        child: Icon(
+                          PhosphorIcons.xCircleFill,
+                          size: 20.sp,
+                          color: Colors.white,
+                        ),
+                      ),
+                      SizedBox(width: 4.sp),
+                      Expanded(
+                        child: Text(
+                          e,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 11.sp,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ))
+            .toList(),
       ),
     );
   }

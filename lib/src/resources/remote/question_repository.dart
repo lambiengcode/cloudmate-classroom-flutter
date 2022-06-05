@@ -15,6 +15,7 @@ class QuestionRepository {
     required int duration,
     required int score,
     required File? banner,
+    required File? audio,
     required QuestionType type,
   }) async {
     var body = {
@@ -30,6 +31,11 @@ class QuestionRepository {
     if (banner != null) {
       body['banner'] =
           await MultipartFile.fromFile(banner.path, filename: banner.path.split('/').last);
+    }
+
+    if (audio != null) {
+      body['audio'] =
+          await MultipartFile.fromFile(audio.path, filename: audio.path.split('/').last);
     }
 
     FormData formData = FormData.fromMap(body);

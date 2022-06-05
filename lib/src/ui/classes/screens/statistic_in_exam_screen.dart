@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:cloudmate/src/blocs/app_bloc.dart';
+import 'package:cloudmate/src/models/question_type_enum.dart';
 import 'package:cloudmate/src/models/statistic_model.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
@@ -23,6 +25,7 @@ class _StatisticInExamScreenState extends State<StatisticInExamScreen> {
   int time = 3;
   String answer = "";
   List<double> percents = [];
+  bool isVisible = true;
 
   @override
   void initState() {
@@ -39,6 +42,10 @@ class _StatisticInExamScreenState extends State<StatisticInExamScreen> {
         totalPercent += item / total;
       }
     });
+
+    if (AppBloc.doExamBloc.currentQuestion?.type == QuestionType.dragAndDrop) {
+      isVisible = false;
+    }
   }
 
   @override
@@ -121,21 +128,24 @@ class _StatisticInExamScreenState extends State<StatisticInExamScreen> {
               ),
               SizedBox(height: 20.sp),
               Expanded(
-                child: Container(
-                  width: 100.w,
-                  padding: EdgeInsets.symmetric(horizontal: 10.sp),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      ...List.generate(
-                        widget.statisticModel.answers.length,
-                        (index) => _buildLineStatistic(
-                          context,
-                          widget.statisticModel.chooses[index],
-                          widget.statisticModel.answers[index],
+                child: Visibility(
+                  visible: isVisible,
+                  child: Container(
+                    width: 100.w,
+                    padding: EdgeInsets.symmetric(horizontal: 10.sp),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        ...List.generate(
+                          widget.statisticModel.answers.length,
+                          (index) => _buildLineStatistic(
+                            context,
+                            widget.statisticModel.chooses[index],
+                            widget.statisticModel.answers[index],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),

@@ -50,6 +50,7 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
         duration: event.duration,
         score: event.score,
         image: event.banner,
+        audio: event.audio,
         type: event.type,
       );
       yield GetDoneQuestion(
@@ -187,6 +188,7 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
     required int duration,
     required int score,
     required File? image,
+    required File? audio,
     required QuestionType type,
   }) async {
     QuestionModel? questionModel = await QuestionRepository().createQuestion(
@@ -197,6 +199,7 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
       duration: duration,
       score: score,
       banner: image,
+      audio: audio,
       type: type,
     );
     AppNavigator.pop();
