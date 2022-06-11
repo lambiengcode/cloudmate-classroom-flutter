@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:cloudmate/src/blocs/app_bloc.dart';
+import 'package:cloudmate/src/helpers/audio_helper.dart';
 import 'package:cloudmate/src/models/question_mode.dart';
 import 'package:cloudmate/src/models/question_type_enum.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
@@ -42,6 +43,9 @@ class _DoExamScreenState extends State<DoExamScreen> {
   @override
   void initState() {
     super.initState();
+    if (widget.questionModel.audio != null) {
+      AudioHelper().soundAndRing(widget.questionModel.audio!);
+    }
     startTimmer();
     _doExamBloc = BlocProvider.of<DoExamBloc>(context);
     _colors.shuffle();
@@ -133,6 +137,37 @@ class _DoExamScreenState extends State<DoExamScreen> {
                             color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.75),
                           ),
                         ],
+                      ),
+                    ),
+                    Text(
+                      'Audio',
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    SizedBox(height: 12.sp),
+                    Visibility(
+                      visible: widget.questionModel.audio != null,
+                      child: StreamBuilder<PositionData>(
+                        stream: AudioHelper().positionDataStream,
+                        builder: (context, snapshot) {
+                          int positionData = (snapshot.data?.position ?? Duration.zero).inSeconds;
+                          int duration =
+                              snapshot.data?.bufferedPosition.inSeconds ?? (positionData + 1);
+
+                          return LinearPercentIndicator(
+                            padding: EdgeInsets.symmetric(horizontal: 18.sp),
+                            width: 100.w,
+                            lineHeight: 6.sp,
+                            percent:
+                                (positionData / duration) > 1.0 ? 1.0 : (positionData / duration),
+                            backgroundColor: ThemeService().isSavedDarkMode()
+                                ? Colors.grey.shade800
+                                : Colors.grey.shade300,
+                            progressColor: colorMedium,
+                          );
+                        },
                       ),
                     ),
                     Visibility(
