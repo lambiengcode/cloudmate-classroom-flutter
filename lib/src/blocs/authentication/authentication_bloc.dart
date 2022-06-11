@@ -107,6 +107,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         userModel: userModel,
       );
     }
+
+    if (event is DeleteAccount) {
+      await _deleteAccount();
+      yield AuthenticationFail();
+    }
   }
 
   Future<bool> _onAuthCheck() async {
@@ -204,5 +209,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     }
     AppNavigator.popUntil(AppRoutes.ROOT);
+  }
+
+  Future<void> _deleteAccount() async {
+    await UserRepository().deleteAccount();
+    AppNavigator.popUntil(AppRoutes.ROOT);
+    _handleLogOut();
   }
 }

@@ -78,6 +78,7 @@ Future<List<QuestionModel>> pickFileExcel() async {
             corrects: item[4].toString().split(',').map((e) => int.parse(e)).toList(),
             examId: '',
             banner: null,
+            audio: null,
             type: QuestionType.singleChoise,
           ));
         }

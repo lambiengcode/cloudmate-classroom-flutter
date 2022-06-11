@@ -13,6 +13,7 @@ class QuestionModel {
   final String examId;
   final int score;
   final String? banner;
+  final String? audio;
   final QuestionType type;
   QuestionModel({
     required this.id,
@@ -24,6 +25,7 @@ class QuestionModel {
     required this.score,
     required this.banner,
     required this.type,
+    required this.audio,
   });
 
   QuestionModel copyWith({
@@ -35,6 +37,7 @@ class QuestionModel {
     String? examId,
     int? score,
     String? banner,
+    String? audio,
     QuestionType? type,
   }) {
     return QuestionModel(
@@ -47,6 +50,7 @@ class QuestionModel {
       score: score ?? this.score,
       banner: banner ?? this.banner,
       type: type ?? this.type,
+      audio: audio ?? this.audio,
     );
   }
 
@@ -75,6 +79,9 @@ class QuestionModel {
       banner: map['banner'] == null || map['banner'].toString().isEmpty
           ? null
           : (Constants.imageUrl + map['banner']['path']),
+      audio: map['audio'] == null || map['audio'].toString().isEmpty
+          ? null
+          : (Constants.imageUrl + map['audio']['path']),
       type: fromTypeNumber(type: map['typeQuestion'] ?? 2),
     );
   }

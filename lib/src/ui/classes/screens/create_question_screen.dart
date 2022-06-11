@@ -5,6 +5,7 @@ import 'package:cloudmate/src/models/question_mode.dart';
 import 'package:cloudmate/src/models/question_type_enum.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
+import 'package:cloudmate/src/themes/app_decorations.dart';
 import 'package:cloudmate/src/themes/font_family.dart';
 import 'package:cloudmate/src/themes/theme_service.dart';
 import 'package:cloudmate/src/ui/classes/blocs/question/question_bloc.dart';
@@ -13,6 +14,7 @@ import 'package:cloudmate/src/ui/classes/widgets/dialog_add_answer.dart';
 import 'package:cloudmate/src/ui/classes/widgets/dialog_add_dad.dart';
 import 'package:cloudmate/src/ui/common/dialogs/dialog_loading.dart';
 import 'package:cloudmate/src/ui/common/widgets/get_snack_bar.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -143,6 +145,23 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
               buttonTitle: 'Thêm câu trả lời',
             ),
     );
+  }
+
+  Future<void> pickFileAudio() async {
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['mp3'],
+      );
+
+      if (result != null && result.files.isNotEmpty) {
+        setState(() {
+          _audio = File(result.paths.first!);
+        });
+      }
+    } catch (err) {
+      print(err);
+    }
   }
 
   @override
@@ -366,13 +385,77 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
                               _scoreController,
                             ),
                             _buildDivider(context),
-                            SizedBox(height: 8.sp),
+                            _questionType == QuestionType.dragAndDrop
+                                ? SizedBox()
+                                : SizedBox(height: 16.sp),
                             _questionType == QuestionType.dragAndDrop
                                 ? SizedBox()
                                 : _buildTitle(
                                     context: context,
-                                    title: 'Âm thanh câu hỏi',
+                                    title: 'Âm thanh kèm theo',
                                     isShowSuffix: false),
+                            _questionType == QuestionType.dragAndDrop
+                                ? SizedBox()
+                                : SizedBox(height: 16.sp),
+                            // Here is container for pick audio file
+                            GestureDetector(
+                              onTap: () async {},
+                              child: Container(
+                                margin: EdgeInsets.symmetric(horizontal: 22.sp),
+                                height: 42.sp,
+                                padding: EdgeInsets.symmetric(horizontal: 10.sp),
+                                decoration: AppDecoration.buttonActionBorderActive(context, 8.sp)
+                                    .decoration,
+                                child: Row(
+                                  children: [
+                                    SizedBox(width: 6.sp),
+                                    Expanded(
+                                      child: Text(
+                                        _audio == null
+                                            ? (widget.questionModel?.audio == null
+                                                ? 'Chọn âm thanh'
+                                                : widget.questionModel!.audio!)
+                                            : _audio!.path,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          fontFamily: FontFamily.lato,
+                                          fontSize: 11.5.sp,
+                                          fontWeight: FontWeight.w400,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .color!
+                                              .withOpacity(.8),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 12.sp),
+                                    GestureDetector(
+                                      onTap: () async {
+                                        showDialogLoading(context);
+                                        await pickFileAudio();
+                                        AppNavigator.pop();
+                                      },
+                                      child: Container(
+                                        height: 28.sp,
+                                        width: 28.sp,
+                                        decoration: BoxDecoration(
+                                          color: colorPrimary,
+                                          borderRadius: BorderRadius.circular(8.sp),
+                                        ),
+                                        alignment: Alignment.center,
+                                        child: Icon(
+                                          PhosphorIcons.folderNotchOpenFill,
+                                          size: 15.sp,
+                                          color: mC,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                             _questionType == QuestionType.dragAndDrop
                                 ? SizedBox()
                                 : SizedBox(height: 16.sp),

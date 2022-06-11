@@ -72,7 +72,9 @@ class ClassModel {
       defaultImageObject = Constants.getOnlyDefaultClassImage();
     }
 
-    UserModel? admin = map['createdBy'] is String ? null : UserModel.fromMap(map['createdBy']);
+    UserModel? admin = map['createdBy'] == null || map['createdBy'] is String
+        ? null
+        : UserModel.fromMap(map['createdBy']);
 
     return ClassModel(
       id: map['_id'],

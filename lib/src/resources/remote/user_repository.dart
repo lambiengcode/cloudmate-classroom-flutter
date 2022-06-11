@@ -54,4 +54,14 @@ class UserRepository {
     }
     return null;
   }
+
+  Future<bool> deleteAccount() async {
+    Response response = await BaseRepository().deleteRoute(ApiGateway.DELETE_ACCOUNT);
+    print(response.statusCode);
+    print(response.data.toString());
+    if (response.statusCode == 200) {
+      return true;
+    }
+    return false;
+  }
 }

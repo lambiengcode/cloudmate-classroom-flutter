@@ -68,6 +68,28 @@ class _EditInfoScreenState extends State<EditInfoScreen> {
             color: Theme.of(context).textTheme.bodyText1!.color,
           ),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              if (_formKey.currentState!.validate()) {
+                showDialogLoading(context);
+                AppBloc.authBloc.add(
+                  UpdateInfoUser(
+                    phone: _phone,
+                    intro: _intro,
+                    firstName: _firstName,
+                    lastName: _lastName,
+                  ),
+                );
+              }
+            },
+            icon: Icon(
+              PhosphorIcons.check,
+              size: 20.sp,
+              color: colorPrimary,
+            ),
+          ),
+        ],
       ),
       body: Container(
         height: 100.h,
@@ -129,46 +151,69 @@ class _EditInfoScreenState extends State<EditInfoScreen> {
                           ),
                         ),
                         SizedBox(height: 12.0),
-                        GestureDetector(
-                          onTap: () async {
-                            if (_formKey.currentState!.validate()) {
-                              showDialogLoading(context);
-                              AppBloc.authBloc.add(
-                                UpdateInfoUser(
-                                  phone: _phone,
-                                  intro: _intro,
-                                  firstName: _firstName,
-                                  lastName: _lastName,
-                                ),
-                              );
-                            }
-                          },
-                          child: Container(
-                            height: 40.sp,
-                            margin: EdgeInsets.symmetric(
-                              horizontal: 12.w,
-                            ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8.sp),
-                              color: colorPrimary,
-                            ),
-                            child: Center(
-                              child: Text(
-                                'Lưu thông tin',
-                                style: TextStyle(
-                                  color: mC,
-                                  fontSize: 10.sp,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+                        // GestureDetector(
+                        //   onTap: () async {
+
+                        //   },
+                        //   child: Container(
+                        //     height: 40.sp,
+                        //     margin: EdgeInsets.symmetric(
+                        //       horizontal: 12.w,
+                        //     ),
+                        //     decoration: BoxDecoration(
+                        //       borderRadius: BorderRadius.circular(8.sp),
+                        //       color: colorPrimary,
+                        //     ),
+                        //     child: Center(
+                        //       child: Text(
+                        //         'Lưu thông tin',
+                        //         style: TextStyle(
+                        //           color: mC,
+                        //           fontSize: 10.sp,
+                        //           fontWeight: FontWeight.w600,
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
                         SizedBox(height: 36.0),
                       ],
                     ),
                   ),
-                )
+                ),
+
+                // Button delete account
+                SizedBox(height: 12.0),
+                GestureDetector(
+                  onTap: () async {
+                    showDialogLoading(context);
+                    AppBloc.authBloc.add(
+                      DeleteAccount(),
+                    );
+                  },
+                  child: Container(
+                    height: 40.sp,
+                    margin: EdgeInsets.symmetric(
+                      horizontal: 12.w,
+                    ),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: colorHigh, width: 1.sp),
+                      borderRadius: BorderRadius.circular(8.sp),
+                      color: Colors.white,
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Xóa tài khoản',
+                        style: TextStyle(
+                          color: colorHigh,
+                          fontSize: 10.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20.sp),
               ],
             ),
           ),

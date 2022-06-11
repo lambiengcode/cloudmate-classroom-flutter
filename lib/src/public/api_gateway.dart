@@ -2,6 +2,7 @@ class ApiGateway {
   // Authentication
   static const LOGIN = 'api/authentication/login';
   static const REGISTER = 'api/authentication/register';
+  static const DELETE_ACCOUNT = 'api/authentication';
 
   // User
   static const USER = 'api/user';

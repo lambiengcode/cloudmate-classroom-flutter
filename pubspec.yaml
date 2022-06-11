@@ -68,6 +68,9 @@ dependencies:
   #Payment
   momo_vn: ^2.0.1
 
+  # Audio
+  just_audio: ^0.9.20
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

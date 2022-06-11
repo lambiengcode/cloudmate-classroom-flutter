@@ -52,3 +52,5 @@ class UpdateAvatarUser extends AuthEvent {
   final File avatar;
   UpdateAvatarUser({required this.avatar});
 }
+
+class DeleteAccount extends AuthEvent {}

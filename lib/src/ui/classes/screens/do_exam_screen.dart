@@ -70,8 +70,6 @@ class _DoExamScreenState extends State<DoExamScreen> {
 
             if (time == widget.questionModel.duration - 1 &&
                 widget.questionModel.type == QuestionType.dragAndDrop) {
-              print(_mAnswerDaD);
-              print(widget.questionModel.corrects);
               AppBloc.doExamBloc.add(AnswerQuestionEvent(answer: _mAnswerDaD.join(',')));
             }
           }

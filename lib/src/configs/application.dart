@@ -9,7 +9,7 @@ class Application {
   static String? imageUrl = '';
   static String? socketUrl = '';
   static String? mode = '';
-  static bool isProductionMode = false;
+  static bool isProductionMode = true;
 
   Future<void> initialAppLication() async {
     try {
