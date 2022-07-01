@@ -6,16 +6,16 @@ class MomoAppPayment {
 
   handlePaymentMomo({required int amount, required Function(PaymentResponse) handleFinished}) {
     MomoPaymentInfo options = MomoPaymentInfo(
-      merchantName: "Cloudmate",
+      merchantName: "Hi School!",
       appScheme: "momoiwtv20220329",
       merchantCode: 'MOMOIWTV20220329',
       partnerCode: 'MOMOIWTV20220329',
       amount: amount,
       orderId: DateTime.now().microsecondsSinceEpoch.toString(),
-      orderLabel: 'THANH TOÁN KHOÁ HỌC CLOUDMATE',
-      merchantNameLabel: "THANH TOÁN KHOÁ HỌC CLOUDMATE",
+      orderLabel: 'THANH TOÁN KHOÁ HỌC HI SCHOOL!',
+      merchantNameLabel: "THANH TOÁN KHOÁ HỌC HI SCHOOL!",
       fee: 0,
-      description: 'Thanh toán khoá học trên Cloudmate',
+      description: 'Thanh toán khoá học trên HiSchool!',
       partner: 'merchant',
       isTestMode: true,
       extra: "{\"key1\":\"value1\",\"key2\":\"value2\"}",

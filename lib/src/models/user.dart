@@ -99,7 +99,7 @@ class UserModel {
     // defaultImageObject = Constants.getOnlyDefaultClassImage();
     return UserModel(
       id: map['_id'],
-      image: map['image'] == '' ? Constants.urlImageDefault : (Constants.imageUrl + map['image']),
+      image: map['image'] == null || map['image'] == '' ? Constants.urlImageDefault : (Constants.imageUrl + map['image']),
       blurHash: map['blurHash'] ?? '',
       phone: map['phone'] ?? '',
       displayName: map['displayName'] ?? '',

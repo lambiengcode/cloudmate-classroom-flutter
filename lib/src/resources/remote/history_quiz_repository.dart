@@ -21,7 +21,7 @@ class HistoryQuizRepository {
         print(response.data.toString());
     if (response.statusCode == 200) {
       List<dynamic> data = response.data['data'];
-      return data.map((e) => UserModel.fromStatistic(e['user'], score: e['score'])).toList();
+      return data.where((e) => e['user'] != null).map((e) => UserModel.fromStatistic(e['user'], score: e['score'])).toList();
     }
     return [];
   }

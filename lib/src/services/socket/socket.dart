@@ -27,8 +27,6 @@ void connectAndListen() async {
   socket!.connect();
   socket!.onConnect((_) async {
     debugPrint('connected');
-    SocketEmit().sendDeviceInfo();
-    AppBloc.doExamBloc.add(StartPingEvent());
 
     socket!.onPing((data) {
       AppBloc.doExamBloc.add(EndPingEvent());
@@ -108,6 +106,9 @@ void connectAndListen() async {
       print(SocketEvent.SEEN_MESSAGE_CONVERSATION_SSC + ': ${data.toString()}');
       AppBloc.messageBloc.add(InsertMessageEvent(message: MessageModel.fromMap(data['data'])));
     });
+
+    SocketEmit().sendDeviceInfo();
+    AppBloc.doExamBloc.add(StartPingEvent());
 
     socket!.onDisconnect((_) => debugPrint('disconnect'));
   });

@@ -34,6 +34,7 @@ class ExamRepository {
     );
 
     if (response.statusCode == 200) {
+      print(response.data);
       List<dynamic> jsonResponse = response.data['data'];
       return jsonResponse
           .where((element) => element is! List)

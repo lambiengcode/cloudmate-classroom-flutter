@@ -1,5 +1,6 @@
 import 'package:cloudmate/src/blocs/app_bloc.dart';
 import 'package:cloudmate/src/blocs/authentication/bloc.dart';
+import 'package:cloudmate/src/configs/application.dart';
 import 'package:cloudmate/src/models/user.dart';
 import 'package:cloudmate/src/routes/app_pages.dart';
 import 'package:cloudmate/src/themes/app_colors.dart';
@@ -184,30 +185,33 @@ class _EditInfoScreenState extends State<EditInfoScreen> {
 
                 // Button delete account
                 SizedBox(height: 12.0),
-                GestureDetector(
-                  onTap: () async {
-                    showDialogLoading(context);
-                    AppBloc.authBloc.add(
-                      DeleteAccount(),
-                    );
-                  },
-                  child: Container(
-                    height: 40.sp,
-                    margin: EdgeInsets.symmetric(
-                      horizontal: 12.w,
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: colorHigh, width: 1.sp),
-                      borderRadius: BorderRadius.circular(8.sp),
-                      color: Colors.white,
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Xóa tài khoản',
-                        style: TextStyle(
-                          color: colorHigh,
-                          fontSize: 10.sp,
-                          fontWeight: FontWeight.w600,
+                Visibility(
+                  visible: Application.isProductionMode,
+                  child: GestureDetector(
+                    onTap: () async {
+                      showDialogLoading(context);
+                      AppBloc.authBloc.add(
+                        DeleteAccount(),
+                      );
+                    },
+                    child: Container(
+                      height: 40.sp,
+                      margin: EdgeInsets.symmetric(
+                        horizontal: 12.w,
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: colorHigh, width: 1.sp),
+                        borderRadius: BorderRadius.circular(8.sp),
+                        color: Colors.white,
+                      ),
+                      child: Center(
+                        child: Text(
+                          'Xóa tài khoản',
+                          style: TextStyle(
+                            color: colorHigh,
+                            fontSize: 10.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ),

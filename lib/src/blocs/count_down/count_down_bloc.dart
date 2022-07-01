@@ -45,7 +45,9 @@ class CountDownBloc extends Bloc<CountDownEvent, CountDownState> {
   Future<void> _onStart() async {
     if (!flagTimer) {
       await Future.delayed(Duration(seconds: 1), () {
-        duration--;
+        if (duration > 0) {
+          duration--;
+        }
         if (duration == 0) {
           if (AppBloc.doExamBloc.users
                   .indexWhere((user) => user.id == AppBloc.authBloc.userModel?.id) ==

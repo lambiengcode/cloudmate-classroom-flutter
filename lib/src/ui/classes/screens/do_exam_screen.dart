@@ -139,33 +139,36 @@ class _DoExamScreenState extends State<DoExamScreen> {
                         ],
                       ),
                     ),
-                    Text(
-                      'Audio',
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    SizedBox(height: 12.sp),
                     Visibility(
                       visible: widget.questionModel.audio != null,
-                      child: StreamBuilder<PositionData>(
-                        stream: AudioHelper().positionDataStream,
+                      child: StreamBuilder<Duration>(
+                        stream: AudioHelper.bufferedController.stream,
                         builder: (context, snapshot) {
-                          int positionData = (snapshot.data?.position ?? Duration.zero).inSeconds;
-                          int duration =
-                              snapshot.data?.bufferedPosition.inSeconds ?? (positionData + 1);
+                          int duration = snapshot.data?.inSeconds ?? (time + 1);
 
-                          return LinearPercentIndicator(
-                            padding: EdgeInsets.symmetric(horizontal: 18.sp),
-                            width: 100.w,
-                            lineHeight: 6.sp,
-                            percent:
-                                (positionData / duration) > 1.0 ? 1.0 : (positionData / duration),
-                            backgroundColor: ThemeService().isSavedDarkMode()
-                                ? Colors.grey.shade800
-                                : Colors.grey.shade300,
-                            progressColor: colorMedium,
+                          print(duration);
+
+                          return Column(
+                            children: [
+                              Text(
+                                'Audio',
+                                style: TextStyle(
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              SizedBox(height: 12.sp),
+                              LinearPercentIndicator(
+                                padding: EdgeInsets.symmetric(horizontal: 18.sp),
+                                width: 100.w,
+                                lineHeight: 6.sp,
+                                percent: (time / duration) > 1.0 ? 1.0 : (time / duration),
+                                backgroundColor: ThemeService().isSavedDarkMode()
+                                    ? Colors.grey.shade800
+                                    : Colors.grey.shade300,
+                                progressColor: colorMedium,
+                              ),
+                            ],
                           );
                         },
                       ),

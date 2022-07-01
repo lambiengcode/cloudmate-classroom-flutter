@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
@@ -16,10 +18,12 @@ class ThemeService extends ChangeNotifier {
   switchStatusColor() {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
-      statusBarBrightness:
-          isSavedDarkMode() ? Brightness.dark : Brightness.light,
-      statusBarIconBrightness:
-          isSavedDarkMode() ? Brightness.dark: Brightness.light,
+      statusBarBrightness: Platform.isIOS
+          ? (isSavedDarkMode() ? Brightness.dark : Brightness.light)
+          : (isSavedDarkMode() ? Brightness.light : Brightness.dark),
+      statusBarIconBrightness: Platform.isIOS
+          ? (isSavedDarkMode() ? Brightness.dark : Brightness.light)
+          : (isSavedDarkMode() ? Brightness.light : Brightness.dark),
     ));
   }
 
