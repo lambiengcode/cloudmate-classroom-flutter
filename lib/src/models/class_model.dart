@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cloudmate/src/configs/application.dart';
 import 'package:cloudmate/src/models/user.dart';
 import 'package:cloudmate/src/public/constants.dart';
 
@@ -88,11 +89,15 @@ class ClassModel {
           .toList()
           .where((user) => user.id != admin?.id)
           .toList(),
-      blurHash: map['blurHash'] == '' ? defaultImageObject['blurHash'] : map['blurHash'],
-      image:
-          map['image'] == '' ? defaultImageObject['image']! : (Constants.imageUrl + map['image']),
-      setOfQuestionShare:
-          ((map['setOfQuestionShare'] ?? []) as List).map((e) => e.toString()).toList(),
+      blurHash: map['blurHash'] == ''
+          ? defaultImageObject['blurHash']
+          : map['blurHash'],
+      image: map['image'] == ''
+          ? defaultImageObject['image']!
+          : (Application.imageUrl + map['image']),
+      setOfQuestionShare: ((map['setOfQuestionShare'] ?? []) as List)
+          .map((e) => e.toString())
+          .toList(),
       price: double.parse((map['price'] ?? 0).toString()),
       totalMember: ((map['memmberInClass'] as List?) ?? []).length,
     );
@@ -115,16 +120,20 @@ class ClassModel {
       createdBy: createdBy,
       status: map['status'],
       members: [],
-      blurHash: map['blurHash'] == '' ? defaultImageObject['blurHash'] : map['blurHash'],
-      image:
-          map['image'] == '' ? defaultImageObject['image']! : (Constants.imageUrl + map['image']),
+      blurHash: map['blurHash'] == ''
+          ? defaultImageObject['blurHash']
+          : map['blurHash'],
+      image: map['image'] == ''
+          ? defaultImageObject['image']!
+          : (Application.imageUrl + map['image']),
       price: double.parse((map['price'] ?? 0).toString()),
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory ClassModel.fromJson(String source) => ClassModel.fromMap(json.decode(source));
+  factory ClassModel.fromJson(String source) =>
+      ClassModel.fromMap(json.decode(source));
 
   @override
   String toString() {

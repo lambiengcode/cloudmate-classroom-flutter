@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cloudmate/src/configs/application.dart';
 import 'package:cloudmate/src/public/constants.dart';
 
 class UserModel {
@@ -78,11 +79,13 @@ class UserModel {
 
     return UserModel(
       id: map['_id'] ?? '',
-      image: map['image'] == Constants.urlImageDefault || map['image'] == null || map['image'] == ''
+      image: map['image'] == Constants.urlImageDefault ||
+              map['image'] == null ||
+              map['image'] == ''
           ? Constants.urlImageDefault
           : map['image'].toString().contains('http')
               ? map['image']
-              : (Constants.imageUrl + map['image']),
+              : (Application.imageUrl + map['image']),
       blurHash: map['blurHash'] ?? '',
       phone: map['phone'] ?? '',
       displayName: map['displayName'] ?? '',
@@ -99,7 +102,9 @@ class UserModel {
     // defaultImageObject = Constants.getOnlyDefaultClassImage();
     return UserModel(
       id: map['_id'],
-      image: map['image'] == null || map['image'] == '' ? Constants.urlImageDefault : (Constants.imageUrl + map['image']),
+      image: map['image'] == null || map['image'] == ''
+          ? Constants.urlImageDefault
+          : (Application.imageUrl + map['image']),
       blurHash: map['blurHash'] ?? '',
       phone: map['phone'] ?? '',
       displayName: map['displayName'] ?? '',
@@ -114,7 +119,8 @@ class UserModel {
 
   String toJson() => json.encode(toMap());
 
-  factory UserModel.fromJson(String source) => UserModel.fromMap(json.decode(source));
+  factory UserModel.fromJson(String source) =>
+      UserModel.fromMap(json.decode(source));
 
   @override
   String toString() {

@@ -52,7 +52,7 @@ dependencies:
   # Firebase
   firebase_core: ^1.10.0
   firebase_messaging: ^11.1.0
-  firebase_storage: ^8.0.1
+  firebase_storage: ^10.3.7
   cloud_firestore: ^1.0.3
 
   # Image

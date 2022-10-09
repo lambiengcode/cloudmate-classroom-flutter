@@ -212,6 +212,7 @@ class UiImage extends ImageProvider<UiImage> {
       SynchronousFuture<UiImage>(this);
 
   @override
+  // ignore: deprecated_member_use
   ImageStreamCompleter load(UiImage key, DecoderCallback decode) =>
       OneFrameImageStreamCompleter(_loadAsync(key));
 
@@ -228,6 +229,7 @@ class UiImage extends ImageProvider<UiImage> {
   }
 
   @override
+  // ignore: deprecated_member_use
   int get hashCode => hashValues(image.hashCode, scale);
 
   @override

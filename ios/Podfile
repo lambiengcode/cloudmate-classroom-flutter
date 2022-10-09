@@ -38,6 +38,7 @@ post_install do |installer|
     flutter_additional_ios_build_settings(target)
   end
   installer.pods_project.build_configurations.each do |config|
+    config.build_settings['IPHONE_DEPLOYMENT_TARGET']='11.0'
     config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64 i386"
   end
 end

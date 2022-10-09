@@ -17,10 +17,12 @@ IO.Socket? socket;
 
 void connectAndListen() async {
   disconnectBeforeConnect();
-  String socketUrl = Application.socketUrl!;
+  String socketUrl = Application.socketUrl;
   socket = IO.io(
     socketUrl,
-    IO.OptionBuilder().enableForceNew().setTransports(['websocket']).setExtraHeaders({
+    IO.OptionBuilder()
+        .enableForceNew()
+        .setTransports(['websocket']).setExtraHeaders({
       'authorization': UserLocal().getAccessToken(),
     }).build(),
   );
@@ -51,7 +53,8 @@ void connectAndListen() async {
       UtilLogger.log('JOIN_ROOM_NEW_SSC', data);
       if (data['success']) {
         List<dynamic> listResponse = data['users'];
-        List<UserModel> users = listResponse.map((e) => UserModel.fromMap(e)).toList();
+        List<UserModel> users =
+            listResponse.map((e) => UserModel.fromMap(e)).toList();
         AppBloc.doExamBloc.add(JoinQuizSuccessEvent(users: users));
       }
     });
@@ -59,7 +62,8 @@ void connectAndListen() async {
     socket!.on(SocketEvent.LEAVE_ROOM_SSC, (data) {
       UtilLogger.log('LEAVE_ROOM_SSC', data);
       if (data['success']) {
-        AppBloc.doExamBloc.add(LeaveUserJoined(userId: data['data']['idUser']['_id']));
+        AppBloc.doExamBloc
+            .add(LeaveUserJoined(userId: data['data']['idUser']['_id']));
       }
     });
 
@@ -67,8 +71,10 @@ void connectAndListen() async {
       UtilLogger.log('STATISTICAL_ROOM_SSC', data);
       if (data['success']) {
         Map<dynamic, dynamic> statistical = data['data'];
-        List<String> answers = statistical.keys.map((e) => e.toString()).toList();
-        List<int> chooses = statistical.values.map((e) => int.parse(e.toString())).toList();
+        List<String> answers =
+            statistical.keys.map((e) => e.toString()).toList();
+        List<int> chooses =
+            statistical.values.map((e) => int.parse(e.toString())).toList();
         AppBloc.doExamBloc.add(UpdateStatisticEvent(
           statistic: StatisticModel(answers: answers, chooses: chooses),
         ));
@@ -88,8 +94,8 @@ void connectAndListen() async {
         }
         print(data['data']);
         QuestionModel question = QuestionModel.fromMap(data['data']);
-        AppBloc.doExamBloc.add(
-            TakeQuestionEvent(question: question, indexQuestion: data['data']['indexQuestion']));
+        AppBloc.doExamBloc.add(TakeQuestionEvent(
+            question: question, indexQuestion: data['data']['indexQuestion']));
       }
     });
 
@@ -97,14 +103,16 @@ void connectAndListen() async {
       UtilLogger.log('STATISTICAL_ROOM_FINAL_SSC', data);
       if (data['success']) {
         Map<String, dynamic> statistical = data['data'];
-        FinalStatisticModel finalStatistic = FinalStatisticModel.fromMap(statistical);
+        FinalStatisticModel finalStatistic =
+            FinalStatisticModel.fromMap(statistical);
         AppBloc.doExamBloc.add(FinishQuizEvent(finalStatistic: finalStatistic));
       }
     });
 
     socket!.on('SEND_MESSAGE_CONVERSATION_SSC', (data) {
       print(SocketEvent.SEEN_MESSAGE_CONVERSATION_SSC + ': ${data.toString()}');
-      AppBloc.messageBloc.add(InsertMessageEvent(message: MessageModel.fromMap(data['data'])));
+      AppBloc.messageBloc
+          .add(InsertMessageEvent(message: MessageModel.fromMap(data['data'])));
     });
 
     SocketEmit().sendDeviceInfo();

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
+import 'package:cloudmate/src/configs/application.dart';
 import 'package:cloudmate/src/models/question_type_enum.dart';
-import 'package:cloudmate/src/public/constants.dart';
 import 'package:flutter/foundation.dart';
 
 class QuestionModel {
@@ -72,23 +72,26 @@ class QuestionModel {
       answers: answers,
       corrects: map['correct'] == null
           ? []
-          : (map['correct'] as List).map((e) => int.parse(e.toString())).toList(),
+          : (map['correct'] as List)
+              .map((e) => int.parse(e.toString()))
+              .toList(),
       duration: map['duration'],
       examId: map['idSetOfQuestions'] ?? '',
       score: map['score'] ?? 10,
       banner: map['banner'] == null || map['banner'].toString().isEmpty
           ? null
-          : (Constants.imageUrl + map['banner']['path']),
+          : (Application.imageUrl + map['banner']['path']),
       audio: map['audio'] == null || map['audio'].toString().isEmpty
           ? null
-          : (Constants.imageUrl + map['audio']['path']),
+          : (Application.imageUrl + map['audio']['path']),
       type: fromTypeNumber(type: map['typeQuestion'] ?? 2),
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory QuestionModel.fromJson(String source) => QuestionModel.fromMap(json.decode(source));
+  factory QuestionModel.fromJson(String source) =>
+      QuestionModel.fromMap(json.decode(source));
 
   @override
   String toString() {

@@ -1,4 +1,4 @@
-import 'package:cloudmate/src/public/constants.dart';
+import 'package:cloudmate/src/configs/application.dart';
 import 'package:cloudmate/src/resources/local/user_local.dart';
 import 'package:dio/dio.dart' as diox;
 import 'dart:convert' as convert;
@@ -6,12 +6,13 @@ import 'dart:async';
 
 class BaseRepository {
   var dio = diox.Dio(diox.BaseOptions(
-    baseUrl: Constants.baseUrl,
+    baseUrl: Application.baseUrl,
     connectTimeout: 20000,
     receiveTimeout: 20000,
   )); // with default Options
 
-  Future<diox.Response<dynamic>> downloadFile(String url, String path, Function onReceive) async {
+  Future<diox.Response<dynamic>> downloadFile(
+      String url, String path, Function onReceive) async {
     var response = await dio.download(
       url,
       path,
@@ -41,14 +42,16 @@ class BaseRepository {
     return response;
   }
 
-  Future<diox.Response<dynamic>> postRoute(String gateway, Map<String, dynamic> body,
+  Future<diox.Response<dynamic>> postRoute(
+      String gateway, Map<String, dynamic> body,
       {String? query, String? token}) async {
     printEndpoint('POST', gateway);
 
     Map<String, String> paramsObject = {};
     if (query != null) {
       query.split('&').forEach((element) {
-        paramsObject[element.split('=')[0].toString()] = element.split('=')[1].toString();
+        paramsObject[element.split('=')[0].toString()] =
+            element.split('=')[1].toString();
       });
     }
     var response = await dio.post(
@@ -61,7 +64,8 @@ class BaseRepository {
     return response;
   }
 
-  Future<diox.Response<dynamic>> putRoute(String gateway, Map<String, dynamic> body,
+  Future<diox.Response<dynamic>> putRoute(
+      String gateway, Map<String, dynamic> body,
       {String? token}) async {
     printEndpoint('PUT', gateway);
     var response = await dio.put(
@@ -82,7 +86,8 @@ class BaseRepository {
     Map<String, String> paramsObject = {};
     if (query != null) {
       query.split('&').forEach((element) {
-        paramsObject[element.split('=')[0].toString()] = element.split('=')[1].toString();
+        paramsObject[element.split('=')[0].toString()] =
+            element.split('=')[1].toString();
       });
     }
 
@@ -105,7 +110,8 @@ class BaseRepository {
     Map<String, String> paramsObject = {};
     if (query != null) {
       query.split('&').forEach((element) {
-        paramsObject[element.split('=')[0].toString()] = element.split('=')[1].toString();
+        paramsObject[element.split('=')[0].toString()] =
+            element.split('=')[1].toString();
       });
     }
 
@@ -129,7 +135,8 @@ class BaseRepository {
     Map<String, String> paramsObject = {};
     if (query != null) {
       query.split('&').forEach((element) {
-        paramsObject[element.split('=')[0].toString()] = element.split('=')[1].toString();
+        paramsObject[element.split('=')[0].toString()] =
+            element.split('=')[1].toString();
       });
     }
 
