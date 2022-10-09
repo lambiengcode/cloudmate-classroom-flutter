@@ -9,7 +9,7 @@ class Application {
   static String imageUrl = '';
   static String socketUrl = '';
   static String mode = '';
-  static bool isProductionMode = false;
+  static bool isProductionMode = true;
 
   Future<void> initialAppLication() async {
     try {
@@ -17,7 +17,7 @@ class Application {
       baseUrl = 'http://45.76.148.139:4005/';
       imageUrl = baseUrl + 'api/up-load-file?id=';
       socketUrl = 'http://45.76.148.139:4005/';
-      mode = 'PRODUCTION';
+      mode = 'PRODUCTION'; 
       requestPermission();
       handleReceiveNotification();
     } catch (error) {

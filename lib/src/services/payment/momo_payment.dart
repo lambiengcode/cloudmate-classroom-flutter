@@ -4,18 +4,20 @@ import 'package:momo_vn/momo_vn.dart';
 class MomoAppPayment {
   MomoVn? _momoPay;
 
-  handlePaymentMomo({required int amount, required Function(PaymentResponse) handleFinished}) {
+  handlePaymentMomo(
+      {required int amount,
+      required Function(PaymentResponse) handleFinished}) {
     MomoPaymentInfo options = MomoPaymentInfo(
-      merchantName: "Hi School!",
+      merchantName: "Cloudmate",
       appScheme: "momoiwtv20220329",
       merchantCode: 'MOMOIWTV20220329',
       partnerCode: 'MOMOIWTV20220329',
       amount: amount,
       orderId: DateTime.now().microsecondsSinceEpoch.toString(),
-      orderLabel: 'THANH TOÁN KHOÁ HỌC HI SCHOOL!',
-      merchantNameLabel: "THANH TOÁN KHOÁ HỌC HI SCHOOL!",
+      orderLabel: 'THANH TOÁN KHOÁ HỌC CLOUDMATE',
+      merchantNameLabel: "THANH TOÁN KHOÁ HỌC CLOUDMATE",
       fee: 0,
-      description: 'Thanh toán khoá học trên HiSchool!',
+      description: 'Thanh toán khoá học trên Cloudmate',
       partner: 'merchant',
       isTestMode: true,
       extra: "{\"key1\":\"value1\",\"key2\":\"value2\"}",
@@ -37,7 +39,8 @@ class MomoAppPayment {
   }
 
   void _handlePaymentSuccess(
-      {required PaymentResponse response, required Function(PaymentResponse) handleFinished}) {
+      {required PaymentResponse response,
+      required Function(PaymentResponse) handleFinished}) {
     handleFinished(response);
     _momoPay?.clear();
   }
