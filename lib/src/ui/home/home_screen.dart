@@ -33,7 +33,8 @@ class _HomeScreenState extends State<HomeScreen> {
       slideFrom: 'bottom',
       child: DialogInput(
         handleFinish: (input) {
-          AppBloc.doExamBloc.add(JoinQuizEvent(roomId: input.toString().trim()));
+          AppBloc.doExamBloc
+              .add(JoinQuizEvent(roomId: input.toString().trim()));
         },
         title: 'Nhập mã PIN',
         buttonTitle: 'Vào phòng',
@@ -75,15 +76,18 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             },
             icon: Icon(
-              PhosphorIcons.slidersHorizontal,
+              ThemeService.currentTheme == ThemeMode.dark
+                  ? PhosphorIcons.sunFill
+                  : PhosphorIcons.moonFill,
               size: 22.sp,
+              color: Colors.amber,
             ),
           ),
           title: RichText(
               text: TextSpan(
             children: [
               TextSpan(
-                text: 'Hi',
+                text: 'Cloud',
                 style: TextStyle(
                   fontSize: 22.sp,
                   fontWeight: FontWeight.w700,
@@ -92,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               TextSpan(
-                text: 'School',
+                text: 'mate',
                 style: TextStyle(
                   fontSize: 22.sp,
                   fontWeight: FontWeight.w600,

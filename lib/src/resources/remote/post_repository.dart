@@ -48,7 +48,8 @@ class PostRepository {
       'content': content,
     };
 
-    Response? response = await BaseRepository().postRoute(ApiGateway.POST, body);
+    Response? response =
+        await BaseRepository().postRoute(ApiGateway.POST, body);
 
     if ([200, 201].contains(response.statusCode)) {
       var rawData = response.data['data'];

@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
    <application
-        android:label="Hi School!"
+        android:label="Cloudmate"
         android:icon="@mipmap/launcher_icon"
         android:usesCleartextTraffic="true"
         android:hardwareAccelerated="true"
