@@ -1,4 +1,4 @@
-## Cloudmate! :beers:
+## Cloudmate - Classroom on Cloud :beers:
 
 <p>
 <a href="https://apps.apple.com/vn/app/hi-school/id1623113857"><img src="https://askany.com/images/app-store.png" height="60px" width="180px"/></a>
