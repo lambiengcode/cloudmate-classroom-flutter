@@ -1,7 +1,9 @@
-## Cloudmate! :beers:
+## Cloudmate - Classroom on Cloud :beers:
 
-<img href="https://apps.apple.com/vn/app/hi-school/id1623113857" src="https://askany.com/images/app-store.png" height="60px" width="180px"/>
-<img href="https://play.google.com/store/apps/details?id=com.wanted.cloudmate" src="https://askany.com/images/ch-play.png" height="60px" width="180px"/>
+<p>
+<a href="https://apps.apple.com/vn/app/hi-school/id1623113857"><img src="https://askany.com/images/app-store.png" height="60px" width="180px"/></a>
+<a href="https://play.google.com/store/apps/details?id=com.wanted.cloudmate"><img src="https://askany.com/images/ch-play.png" height="60px" width="180px"/></a>
+</p>
 
 ### Description:
 - This is mobile application about cloud classroom, students and teachers can 
