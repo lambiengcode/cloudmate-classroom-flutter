@@ -30,7 +30,7 @@ dependencies:
   flutter_bloc: ^7.2.0
   flutter_isolate: ^2.0.0
   get_it: ^7.2.0
-  socket_io_client: ^2.0.0-beta.4-nullsafety.0
+  socket_io_client: ^2.0.0
 
   # Utils
   i18n_extension: ^4.1.2
@@ -66,7 +66,8 @@ dependencies:
   # flutter_icons: ^1.1.0
 
   #Payment
-  momo_vn: ^2.0.1
+  momo_vn:
+    git: https://github.com/Askany-NDN/momo.vn.git
 
   # Audio
   just_audio: ^0.9.20

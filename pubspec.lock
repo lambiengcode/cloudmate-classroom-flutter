@@ -591,9 +591,11 @@ packages:
   momo_vn:
     dependency: "direct main"
     description:
-      name: momo_vn
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: HEAD
+      resolved-ref: "1570980cdbf36ca6995f0a6ecffaa121dd45589b"
+      url: "https://github.com/Askany-NDN/momo.vn.git"
+    source: git
     version: "2.0.2"
   nested:
     dependency: transitive

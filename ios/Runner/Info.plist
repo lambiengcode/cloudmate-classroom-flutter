@@ -29,7 +29,7 @@
 			<string></string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>momoiwtv20220329</string>
+				<!-- <string>momoiwtv20220329</string> -->
 			</array>
 		</dict>
 	</array>
