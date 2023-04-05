@@ -66,7 +66,7 @@ class _EditInfoScreenState extends State<EditInfoScreen> {
             fontSize: 15.sp,
             fontFamily: FontFamily.lato,
             fontWeight: FontWeight.w600,
-            color: Theme.of(context).textTheme.bodyText1!.color,
+            color: Theme.of(context).textTheme.bodyLarge!.color,
           ),
         ),
         actions: [
@@ -235,7 +235,7 @@ class _EditInfoScreenState extends State<EditInfoScreen> {
         cursorColor: colorTitle,
         cursorRadius: Radius.circular(30.0),
         style: TextStyle(
-          color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.95),
+          color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.95),
           fontSize: 11.sp,
           fontWeight: FontWeight.w500,
         ),
@@ -278,7 +278,7 @@ class _EditInfoScreenState extends State<EditInfoScreen> {
           border: InputBorder.none,
           labelText: title,
           labelStyle: TextStyle(
-            color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
+            color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.8),
             fontSize: 11.sp,
             fontWeight: FontWeight.w600,
           ),

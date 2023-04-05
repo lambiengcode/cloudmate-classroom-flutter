@@ -56,7 +56,7 @@ class _RegisterPageState extends State<RegisterPage> {
             fontSize: 15.sp,
             fontFamily: FontFamily.lato,
             fontWeight: FontWeight.w600,
-            color: Theme.of(context).textTheme.bodyText1!.color,
+            color: Theme.of(context).textTheme.bodyLarge!.color,
           ),
         ),
       ),
@@ -124,7 +124,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                   style: TextStyle(
                                     color: Theme.of(context)
                                         .textTheme
-                                        .bodyText1!
+                                        .bodyLarge!
                                         .color!
                                         .withOpacity(.95),
                                     fontSize: 11.sp,
@@ -143,7 +143,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                     labelStyle: TextStyle(
                                       color: Theme.of(context)
                                           .textTheme
-                                          .bodyText1!
+                                          .bodyLarge!
                                           .color!
                                           .withOpacity(.8),
                                       fontSize: 11.sp,
@@ -214,7 +214,7 @@ class _RegisterPageState extends State<RegisterPage> {
         cursorColor: colorTitle,
         cursorRadius: Radius.circular(30.0),
         style: TextStyle(
-          color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.95),
+          color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.95),
           fontSize: 11.sp,
           fontWeight: FontWeight.w500,
         ),
@@ -254,7 +254,7 @@ class _RegisterPageState extends State<RegisterPage> {
           border: InputBorder.none,
           labelText: title,
           labelStyle: TextStyle(
-            color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
+            color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.8),
             fontSize: 11.sp,
             fontWeight: FontWeight.w600,
           ),

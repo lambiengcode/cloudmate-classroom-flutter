@@ -47,7 +47,7 @@ class _SplashScreenState extends State<SplashScreen> {
                           fontSize: 26.sp,
                           fontWeight: FontWeight.w600,
                           fontFamily: FontFamily.dancing,
-                          color: Theme.of(context).textTheme.bodyText1!.color,
+                          color: Theme.of(context).textTheme.bodyLarge!.color,
                         ),
                       ),
                     ],

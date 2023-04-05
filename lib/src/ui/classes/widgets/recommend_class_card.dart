@@ -99,7 +99,7 @@ class _RecommendClassCardState extends State<RecommendClassCard> {
                                 fontFamily: FontFamily.lato,
                                 fontWeight: FontWeight.w600,
                                 color:
-                                    Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.6),
+                                    Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.6),
                               ),
                             ),
                           ],
@@ -188,7 +188,7 @@ class _RecommendClassCardState extends State<RecommendClassCard> {
               fontSize: 10.sp,
               fontFamily: FontFamily.lato,
               fontWeight: FontWeight.w600,
-              color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.75),
+              color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.75),
             ),
           ),
         ],

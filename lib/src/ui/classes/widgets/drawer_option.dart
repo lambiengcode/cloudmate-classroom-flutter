@@ -209,7 +209,7 @@ class _DrawerOptionState extends State<DrawerOption> {
                 style: TextStyle(
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w600,
-                  color: color ?? Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.75),
+                  color: color ?? Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.75),
                   fontFamily: FontFamily.lato,
                 ),
               ),

@@ -122,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                                         style: TextStyle(
                                           fontFamily: FontFamily.lato,
                                           fontSize: 10.sp,
-                                          color: Theme.of(context).textTheme.bodyText2!.color,
+                                          color: Theme.of(context).textTheme.bodyMedium!.color,
                                         ),
                                         children: [
                                           TextSpan(
@@ -221,7 +221,7 @@ class _LoginPageState extends State<LoginPage> {
         },
         cursorRadius: Radius.circular(30.0),
         style: TextStyle(
-          color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.95),
+          color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.95),
           fontSize: 11.sp,
           fontWeight: FontWeight.w500,
         ),
@@ -251,7 +251,7 @@ class _LoginPageState extends State<LoginPage> {
           border: InputBorder.none,
           labelText: title,
           labelStyle: TextStyle(
-            color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
+            color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.8),
             fontSize: 11.sp,
             fontWeight: FontWeight.w500,
           ),

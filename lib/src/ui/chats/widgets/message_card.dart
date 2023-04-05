@@ -57,7 +57,7 @@ class _MessageCardState extends State<MessageCard> {
                               fontSize: 13.sp,
                               fontWeight: FontWeight.w600,
                               fontFamily: FontFamily.lato,
-                              color: Theme.of(context).textTheme.bodyText2!.color!.withOpacity(.88),
+                              color: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(.88),
                             ),
                           ),
                           SizedBox(height: 4.5.sp),
@@ -65,7 +65,7 @@ class _MessageCardState extends State<MessageCard> {
                             widget.conversation.latestMessage?.message ?? 'Chưa có tin nhắn',
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
-                            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                   fontSize: 11.sp,
                                   fontWeight: FontWeight.w400,
                                 ),
@@ -83,7 +83,7 @@ class _MessageCardState extends State<MessageCard> {
                       Text(
                         DateFormat('HH:mm')
                             .format(widget.conversation.latestMessage?.createdAt ?? DateTime.now()),
-                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                               fontSize: 10.75.sp,
                               fontWeight: FontWeight.w500,
                               fontFamily: FontFamily.lato,

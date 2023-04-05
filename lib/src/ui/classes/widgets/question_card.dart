@@ -80,7 +80,7 @@ class _QuestionCardState extends State<QuestionCard> {
                               'Thời gian trả lời: ' + widget.question.duration.formatTwoDigits(),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
-                              style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                     fontSize: 10.5.sp,
                                     fontWeight: FontWeight.w400,
                                     fontFamily: FontFamily.lato,

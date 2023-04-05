@@ -72,7 +72,7 @@ class _RoadMapScreenState extends State<RoadMapScreen> {
                   fontSize: 15.sp,
                   fontFamily: FontFamily.lato,
                   fontWeight: FontWeight.bold,
-                  color: Theme.of(context).textTheme.bodyText1!.color,
+                  color: Theme.of(context).textTheme.bodyLarge!.color,
                 ),
               ),
               actions: [
@@ -281,7 +281,7 @@ class _TimelineStepsChild extends StatelessWidget {
             textAlign: isLeftAlign ? TextAlign.right : TextAlign.left,
             style: TextStyle(
               fontSize: 11.25.sp,
-              color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
+              color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.8),
             ),
           ),
         ],

@@ -63,7 +63,7 @@ class _DialogInputState extends State<DialogInput> {
                     ),
                     child: TextFormField(
                       style: TextStyle(
-                        color: Theme.of(context).textTheme.bodyText1!.color!,
+                        color: Theme.of(context).textTheme.bodyLarge!.color!,
                         fontSize: 11.sp,
                       ),
                       onChanged: (val) {
@@ -86,7 +86,7 @@ class _DialogInputState extends State<DialogInput> {
                         border: InputBorder.none,
                         hintText: widget.hideInputField,
                         hintStyle: TextStyle(
-                          color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.65),
+                          color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.65),
                           fontSize: 11.sp,
                         ),
                       ),

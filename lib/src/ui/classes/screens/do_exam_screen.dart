@@ -134,7 +134,7 @@ class _DoExamScreenState extends State<DoExamScreen> {
                           _buildTimeText(
                             context,
                             widget.questionModel.duration.toString(),
-                            color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.75),
+                            color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.75),
                           ),
                         ],
                       ),
@@ -210,7 +210,7 @@ class _DoExamScreenState extends State<DoExamScreen> {
                           fontSize: 12.75.sp,
                           fontWeight: FontWeight.w600,
                           fontFamily: FontFamily.lato,
-                          color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.85),
+                          color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.85),
                         ),
                       ),
                     ),
@@ -242,7 +242,7 @@ class _DoExamScreenState extends State<DoExamScreen> {
                 context,
                 widget.questionIndex,
                 PhosphorIcons.question,
-                Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.85),
+                Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.85),
               ),
               SizedBox(width: 12.sp),
               _buildOptionHeader(

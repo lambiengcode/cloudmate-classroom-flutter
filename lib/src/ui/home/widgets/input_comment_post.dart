@@ -62,7 +62,7 @@ class _BottomInputCommentInPostState extends State<BottomInputCommentInPost> {
                   onTap: () => _handleSendComment(),
                   controller: _commentController,
                   style: TextStyle(
-                    color: Theme.of(context).textTheme.bodyText1?.color,
+                    color: Theme.of(context).textTheme.bodyLarge?.color,
                     fontSize: 12.sp,
                   ),
                   keyboardType: TextInputType.multiline,
@@ -76,7 +76,7 @@ class _BottomInputCommentInPostState extends State<BottomInputCommentInPost> {
                     ),
                     hintText: 'Type a comment...',
                     hintStyle: TextStyle(
-                      color: Theme.of(context).textTheme.bodyText1?.color?.withOpacity(
+                      color: Theme.of(context).textTheme.bodyLarge?.color?.withOpacity(
                             ThemeService().isSavedDarkMode() ? .85 : .65,
                           ),
                       fontSize: 12.sp,

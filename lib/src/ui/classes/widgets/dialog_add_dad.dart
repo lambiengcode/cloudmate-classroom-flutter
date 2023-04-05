@@ -114,7 +114,7 @@ class _DialogAddDadState extends State<DialogAddDad> {
           ),
           child: TextFormField(
             style: TextStyle(
-              color: Theme.of(context).textTheme.bodyText1!.color!,
+              color: Theme.of(context).textTheme.bodyLarge!.color!,
               fontSize: 11.sp,
             ),
             onChanged: onChanged,
@@ -128,7 +128,7 @@ class _DialogAddDadState extends State<DialogAddDad> {
               border: InputBorder.none,
               hintText: '',
               hintStyle: TextStyle(
-                color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.65),
+                color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.65),
                 fontSize: 11.sp,
               ),
             ),

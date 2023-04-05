@@ -131,7 +131,7 @@ class _NewPostState extends State<NewPost> {
                     Flexible(
                       child: TextFormField(
                         style: TextStyle(
-                          color: Theme.of(context).textTheme.bodyText1!.color,
+                          color: Theme.of(context).textTheme.bodyLarge!.color,
                           fontSize: 11.sp,
                         ),
                         focusNode: _tweetFieldFocusNode,

@@ -68,7 +68,7 @@ class _ExamCardState extends State<ExamCard> {
                             widget.exam.description,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
-                            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                   fontSize: 10.5.sp,
                                   fontWeight: FontWeight.w400,
                                   fontFamily: FontFamily.lato,
@@ -79,7 +79,7 @@ class _ExamCardState extends State<ExamCard> {
                             'Đã sử dụng ${widget.exam.usedTimes} lần',
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
-                            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                   fontSize: 10.5.sp,
                                   fontWeight: FontWeight.w400,
                                   fontFamily: FontFamily.lato,

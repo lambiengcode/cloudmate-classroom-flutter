@@ -89,7 +89,7 @@ class _StatisticInExamScreenState extends State<StatisticInExamScreen> {
             fontSize: 15.sp,
             fontFamily: FontFamily.lato,
             fontWeight: FontWeight.bold,
-            color: Theme.of(context).textTheme.bodyText1!.color,
+            color: Theme.of(context).textTheme.bodyLarge!.color,
           ),
         ),
         actions: [
@@ -158,7 +158,7 @@ class _StatisticInExamScreenState extends State<StatisticInExamScreen> {
                     Text(
                       'Tiếp tục trong',
                       style: TextStyle(
-                        color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.75),
+                        color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.75),
                         fontFamily: FontFamily.lato,
                         fontSize: 15.sp,
                         fontWeight: FontWeight.w600,

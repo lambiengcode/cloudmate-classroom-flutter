@@ -100,7 +100,7 @@ class _CustomDayPickerState extends State<CustomDayPicker> {
     if (calendar[index] == currentDay) {
       return Colors.white;
     }
-    return Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.75);
+    return Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.75);
   }
 
   Color setDayBorderColor(context, index) {
@@ -163,7 +163,7 @@ class _CustomDayPickerState extends State<CustomDayPicker> {
                                       fontFamily: FontFamily.lato,
                                       color: Theme.of(context)
                                           .textTheme
-                                          .bodyText1!
+                                          .bodyLarge!
                                           .color!
                                           .withOpacity(.8),
                                     ),

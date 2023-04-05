@@ -87,7 +87,7 @@ class _SubmitDeadlineScreenState extends State<SubmitDeadlineScreen> {
                           fontSize: 11.5.sp,
                           fontWeight: FontWeight.w600,
                           fontStyle: FontStyle.italic,
-                          color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
+                          color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.8),
                         ),
                       ),
                     ),

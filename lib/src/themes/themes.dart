@@ -29,10 +29,10 @@ class AppTheme {
         ),
       ),
       textTheme: TextTheme(
-        headline1: TextStyle(color: appColors.header),
-        headline2: TextStyle(color: appColors.header),
-        bodyText1: TextStyle(color: appColors.contentText1),
-        bodyText2: TextStyle(color: appColors.contentText2),
+        displayLarge: TextStyle(color: appColors.header),
+        displayMedium: TextStyle(color: appColors.header),
+        bodyLarge: TextStyle(color: appColors.contentText1),
+        bodyMedium: TextStyle(color: appColors.contentText2),
       ),
       dividerColor: appColors.divider,
     );
@@ -64,10 +64,10 @@ class AppTheme {
         ),
       ),
       textTheme: TextTheme(
-        headline1: TextStyle(color: appColors.header),
-        headline2: TextStyle(color: appColors.header),
-        bodyText1: TextStyle(color: appColors.contentText1),
-        bodyText2: TextStyle(color: appColors.contentText2),
+        displayLarge: TextStyle(color: appColors.header),
+        displayMedium: TextStyle(color: appColors.header),
+        bodyLarge: TextStyle(color: appColors.contentText1),
+        bodyMedium: TextStyle(color: appColors.contentText2),
       ),
       dividerColor: appColors.divider,
     );

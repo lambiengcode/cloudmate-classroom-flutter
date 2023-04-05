@@ -190,7 +190,7 @@ class _ClassCardState extends State<ClassCard> {
               fontSize: 9.sp,
               fontFamily: FontFamily.lato,
               fontWeight: FontWeight.w600,
-              color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.75),
+              color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.75),
             ),
           ),
         ],

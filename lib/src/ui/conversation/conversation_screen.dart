@@ -98,13 +98,13 @@ class _ConversationScreenState extends State<ConversationScreen> {
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w600,
                           fontFamily: FontFamily.lato,
-                          color: Theme.of(context).textTheme.bodyText1!.color,
+                          color: Theme.of(context).textTheme.bodyLarge!.color,
                         ),
                       ),
                       SizedBox(height: 2.5),
                       Text(
                         widget.conversation.idClass.intro,
-                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                               fontSize: _size.width / 30.0,
                               fontWeight: FontWeight.w400,
                               fontFamily: FontFamily.lato,

@@ -1,5 +1,5 @@
 name: cloudmate
-description: A new Flutter project.
+description: Cloudmate - An open-source online learning platform built with Flutter. Create classes, quizzes, and assignments, take attendance, and communicate with students. Easy to install and use.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -50,10 +50,10 @@ dependencies:
   file_picker: ^4.2.7
 
   # Firebase
-  firebase_core: ^1.10.0
-  firebase_messaging: ^11.1.0
-  firebase_storage: ^10.3.7
-  cloud_firestore: ^1.0.3
+  firebase_core: ^2.9.0
+  firebase_messaging: ^14.4.0
+  firebase_storage: ^11.1.0
+  cloud_firestore: ^4.5.0
 
   # Image
   cached_network_image: ^3.1.0

@@ -59,7 +59,7 @@ class _ListQuestionScreenState extends State<ListQuestionScreen> {
                   fontSize: 15.sp,
                   fontFamily: FontFamily.lato,
                   fontWeight: FontWeight.bold,
-                  color: Theme.of(context).textTheme.bodyText1!.color,
+                  color: Theme.of(context).textTheme.bodyLarge!.color,
                 ),
               ),
               actions: [

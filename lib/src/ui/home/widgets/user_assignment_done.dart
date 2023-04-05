@@ -82,7 +82,7 @@ class _UserAssignmentDoneState extends State<UserAssignmentDone> {
                                     fontFamily: FontFamily.lato,
                                     color: Theme.of(context)
                                         .textTheme
-                                        .bodyText2!
+                                        .bodyMedium!
                                         .color!
                                         .withOpacity(.88),
                                   ),
@@ -92,7 +92,7 @@ class _UserAssignmentDoneState extends State<UserAssignmentDone> {
                                   'File: ${widget.assignment.fileName}',
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
-                                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                         fontSize: 10.5.sp,
                                         fontWeight: FontWeight.w400,
                                         fontFamily: FontFamily.lato,
@@ -104,7 +104,7 @@ class _UserAssignmentDoneState extends State<UserAssignmentDone> {
                                       .format(widget.assignment.createdAt.toDate()),
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
-                                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                         fontSize: 10.5.sp,
                                         fontWeight: FontWeight.w400,
                                         fontFamily: FontFamily.lato,

@@ -101,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   fontSize: 22.sp,
                   fontWeight: FontWeight.w600,
                   fontFamily: FontFamily.dancing,
-                  color: Theme.of(context).textTheme.bodyText1!.color,
+                  color: Theme.of(context).textTheme.bodyLarge!.color,
                 ),
               ),
             ],

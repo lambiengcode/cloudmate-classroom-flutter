@@ -44,7 +44,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   fontSize: 15.sp,
                   fontFamily: FontFamily.lato,
                   fontWeight: FontWeight.bold,
-                  color: Theme.of(context).textTheme.bodyText1!.color,
+                  color: Theme.of(context).textTheme.bodyLarge!.color,
                 ),
               ),
             ),

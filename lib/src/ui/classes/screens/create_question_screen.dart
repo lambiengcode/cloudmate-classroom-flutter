@@ -185,7 +185,7 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
             fontSize: 15.sp,
             fontFamily: FontFamily.lato,
             fontWeight: FontWeight.bold,
-            color: Theme.of(context).textTheme.bodyText1!.color,
+            color: Theme.of(context).textTheme.bodyLarge!.color,
           ),
         ),
         actions: [
@@ -424,7 +424,7 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
                                           fontWeight: FontWeight.w400,
                                           color: Theme.of(context)
                                               .textTheme
-                                              .bodyText1!
+                                              .bodyLarge!
                                               .color!
                                               .withOpacity(.8),
                                         ),
@@ -675,10 +675,10 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
       child: TextFormField(
         maxLines: null,
         controller: controller,
-        cursorColor: Theme.of(context).textTheme.bodyText1!.color,
+        cursorColor: Theme.of(context).textTheme.bodyLarge!.color,
         cursorRadius: Radius.circular(30.0),
         style: TextStyle(
-          color: Theme.of(context).textTheme.bodyText1!.color,
+          color: Theme.of(context).textTheme.bodyLarge!.color,
           fontSize: _size.width / 26.0,
           fontWeight: FontWeight.w500,
         ),
@@ -726,7 +726,7 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
           border: InputBorder.none,
           labelText: title,
           labelStyle: TextStyle(
-            color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
+            color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.8),
             fontSize: _size.width / 26.0,
             fontWeight: FontWeight.w600,
           ),
@@ -758,7 +758,7 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
               fontSize: 12.sp,
               fontWeight: FontWeight.w600,
               fontFamily: FontFamily.lato,
-              color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.72),
+              color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.72),
             ),
           ),
           !isShowSuffix

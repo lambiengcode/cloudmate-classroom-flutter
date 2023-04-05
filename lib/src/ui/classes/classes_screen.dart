@@ -49,7 +49,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w600,
                 // fontFamily: FontFamily.lato,
-                color: Theme.of(context).textTheme.bodyText1!.color,
+                color: Theme.of(context).textTheme.bodyLarge!.color,
               ),
             ),
             actions: [

@@ -79,7 +79,7 @@ class _HistoryQuizCardState extends State<HistoryQuizCard> {
                               'Tổng Điểm: ${widget.historyQuizModel.score}',
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
-                              style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                     fontSize: 11.sp,
                                     fontWeight: FontWeight.w400,
                                     fontFamily: FontFamily.lato,
@@ -90,7 +90,7 @@ class _HistoryQuizCardState extends State<HistoryQuizCard> {
                               'Ngày kiểm tra: ${DateFormat('HH:mm - dd/MM/yyyy').format(widget.historyQuizModel.createdAt)}',
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
-                              style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                     fontSize: 11.sp,
                                     fontWeight: FontWeight.w400,
                                     fontFamily: FontFamily.lato,

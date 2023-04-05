@@ -64,7 +64,7 @@ class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
             fontSize: 15.sp,
             fontFamily: FontFamily.lato,
             fontWeight: FontWeight.bold,
-            color: Theme.of(context).textTheme.bodyText1!.color,
+            color: Theme.of(context).textTheme.bodyLarge!.color,
           ),
         ),
       ),
@@ -177,10 +177,10 @@ class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
       child: TextFormField(
         maxLines: null,
         controller: controller,
-        cursorColor: Theme.of(context).textTheme.bodyText1!.color,
+        cursorColor: Theme.of(context).textTheme.bodyLarge!.color,
         cursorRadius: Radius.circular(30.0),
         style: TextStyle(
-          color: Theme.of(context).textTheme.bodyText1!.color,
+          color: Theme.of(context).textTheme.bodyLarge!.color,
           fontSize: _size.width / 26.0,
           fontWeight: FontWeight.w500,
         ),
@@ -210,7 +210,7 @@ class _CreateRoadmapScreenState extends State<CreateRoadmapScreen> {
           border: InputBorder.none,
           labelText: title,
           labelStyle: TextStyle(
-            color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
+            color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.8),
             fontSize: _size.width / 26.0,
             fontWeight: FontWeight.w600,
           ),

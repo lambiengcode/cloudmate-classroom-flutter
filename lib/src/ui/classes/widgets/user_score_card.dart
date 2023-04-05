@@ -60,7 +60,7 @@ class _UserScoreCardState extends State<UserScoreCard> {
                               fontSize: 12.sp,
                               fontWeight: FontWeight.w600,
                               fontFamily: FontFamily.lato,
-                              color: Theme.of(context).textTheme.bodyText2!.color!.withOpacity(.88),
+                              color: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(.88),
                             ),
                           ),
                           SizedBox(height: 2.sp),
@@ -68,7 +68,7 @@ class _UserScoreCardState extends State<UserScoreCard> {
                             widget.user.intro == '' ? '☃ Chưa cập nhật ☃' : widget.user.intro!,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
-                            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                   fontSize: 10.5.sp,
                                   fontWeight: FontWeight.w400,
                                   fontFamily: FontFamily.lato,
@@ -79,7 +79,7 @@ class _UserScoreCardState extends State<UserScoreCard> {
                             widget.user.role!.getRoleName(),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
-                            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                   fontSize: 10.5.sp,
                                   fontWeight: FontWeight.w400,
                                   fontFamily: FontFamily.lato,
@@ -101,7 +101,7 @@ class _UserScoreCardState extends State<UserScoreCard> {
                     '${widget.user.score}/${widget.totalScore}',
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
-                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                           fontSize: 10.5.sp,
                           fontWeight: FontWeight.w600,
                           fontFamily: FontFamily.lato,

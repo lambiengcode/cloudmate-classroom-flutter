@@ -128,7 +128,7 @@ class _NavigationState extends State<Navigation> {
                   size: 21.5.sp,
                   color: index == currentPage
                       ? colorPrimary
-                      : Theme.of(context).textTheme.bodyText2!.color,
+                      : Theme.of(context).textTheme.bodyMedium!.color,
                 ),
               ),
               SizedBox(height: 2.5.sp),

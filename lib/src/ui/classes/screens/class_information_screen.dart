@@ -283,7 +283,7 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                                         fontWeight: FontWeight.w400,
                                         color: _classModel.members.isEmpty
                                             ? Theme.of(context).primaryColor
-                                            : Theme.of(context).textTheme.bodyText1!.color!,
+                                            : Theme.of(context).textTheme.bodyLarge!.color!,
                                       ),
                                     ),
                                   ],
@@ -329,7 +329,7 @@ class _ClassInformationScreenState extends State<ClassInformationScreen>
                               fontSize: 12.sp,
                               fontFamily: FontFamily.lato,
                               fontWeight: FontWeight.w400,
-                              color: Theme.of(context).textTheme.bodyText2!.color!.withOpacity(.8),
+                              color: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(.8),
                             ),
                           ),
                         ],

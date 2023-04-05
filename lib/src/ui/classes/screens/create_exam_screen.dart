@@ -62,7 +62,7 @@ class _CreateExamScreenState extends State<CreateExamScreen> {
             fontSize: 15.sp,
             fontFamily: FontFamily.lato,
             fontWeight: FontWeight.bold,
-            color: Theme.of(context).textTheme.bodyText1!.color,
+            color: Theme.of(context).textTheme.bodyLarge!.color,
           ),
         ),
       ),
@@ -185,10 +185,10 @@ class _CreateExamScreenState extends State<CreateExamScreen> {
       child: TextFormField(
         maxLines: null,
         controller: controller,
-        cursorColor: Theme.of(context).textTheme.bodyText1!.color,
+        cursorColor: Theme.of(context).textTheme.bodyLarge!.color,
         cursorRadius: Radius.circular(30.0),
         style: TextStyle(
-          color: Theme.of(context).textTheme.bodyText1!.color,
+          color: Theme.of(context).textTheme.bodyLarge!.color,
           fontSize: _size.width / 26.0,
           fontWeight: FontWeight.w500,
         ),
@@ -218,7 +218,7 @@ class _CreateExamScreenState extends State<CreateExamScreen> {
           border: InputBorder.none,
           labelText: title,
           labelStyle: TextStyle(
-            color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(.8),
+            color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.8),
             fontSize: _size.width / 26.0,
             fontWeight: FontWeight.w600,
           ),

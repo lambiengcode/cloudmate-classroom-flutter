@@ -49,12 +49,12 @@ class _DateBarPickerState extends State<DateBarPicker> {
             : AppDecoration.buttonActionCircle(context).decoration,
         child: Text(
           values[index],
-          style: Theme.of(context).textTheme.bodyText1!.copyWith(
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                 fontSize: 9.5.sp,
                 fontWeight: currentPicked == index ? FontWeight.bold : FontWeight.w500,
                 color: currentPicked == index
                     ? colorPrimary
-                    : Theme.of(context).textTheme.bodyText1!.color!.withOpacity(
+                    : Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(
                           ThemeService().isSavedDarkMode() ? .88 : .65,
                         ),
               ),
