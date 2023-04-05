@@ -1,5 +1,6 @@
 ## Cloudmate - Classroom on Cloud :beers:
 
+> _Not available on Google Play Store and AppStore_
 <p>
 <a href="https://apps.apple.com/vn/app/hi-school/id1623113857"><img src="https://askany.com/images/app-store.png" height="60px" width="180px"/></a>
 <a href="https://play.google.com/store/apps/details?id=com.wanted.cloudmate"><img src="https://askany.com/images/ch-play.png" height="60px" width="180px"/></a>
@@ -27,6 +28,11 @@ Cloudmate is an open-source online learning platform developed with Flutter to h
 
 ## Requirements
 - Flutter >= 3.0
+- API Documents: https://services.streamos.tk/api/docs/
+- Admin site: https://streamos.tk/
+- If you want to deploy api by yourself, here is source 
+  - `backend`: [Cloudmate Backend Source](https://github.com/lamhan3012cmvn/NestJS_2School/tree/dev)
+  - `admin`: [Cloudmate Admin Source](https://github.com/lamhan3012cmvn/admin-cloudmate/tree/master)
 
 ## Installation
 
@@ -34,19 +40,19 @@ To get started with Cloudmate, follow these steps:
 
 1. Clone this repository to your local machine.
 2. Install the required dependencies using `flutter pub get`.
-3. Start the app using `bash run.sh`.
+3. Start the app using `flutter run`.
 4. Connect a mobile device or emulator to run the app.
 
 - My environment
 ```terminal
 Doctor summary (to see all details, run flutter doctor -v):
-[✓] Flutter (Channel stable, 3.3.8, on macOS 13.0.1 22A400 darwin-arm (Rosetta),
-    locale en-VN)
+[✓] Flutter (Channel stable, 3.7.9, on macOS 13.2.1 22D68 darwin-arm64
+    (Rosetta), locale en-VN)
 [✓] Android toolchain - develop for Android devices (Android SDK version 33.0.0)
-[✓] Xcode - develop for iOS and macOS (Xcode 14.0.1)
+[✓] Xcode - develop for iOS and macOS (Xcode 14.2)
 [✓] Chrome - develop for the web
-[✓] Android Studio (version 2021.2)
-[✓] VS Code (version 1.73.1)
+[✓] Android Studio (version 2022.1)
+[✓] VS Code (version 1.77.0)
 [✓] Connected device (3 available)
 [✓] HTTP Host Availability
 

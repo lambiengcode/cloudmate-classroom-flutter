@@ -14,9 +14,9 @@ class Application {
   Future<void> initialAppLication() async {
     try {
       await GetStorage.init();
-      baseUrl = 'http://45.76.148.139:4005/';
+      baseUrl = 'https://services.streamos.tk/';
       imageUrl = baseUrl + 'api/up-load-file?id=';
-      socketUrl = 'http://45.76.148.139:4005/';
+      socketUrl = 'https://services.streamos.tk/';
       mode = 'PRODUCTION'; 
       requestPermission();
       handleReceiveNotification();
