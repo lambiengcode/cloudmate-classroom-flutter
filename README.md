@@ -30,6 +30,8 @@ Cloudmate is an open-source online learning platform developed with Flutter to h
 - Flutter >= 3.0
 - API Documents: https://services.streamos.tk/api/docs/
 - Admin site: https://streamos.tk/
+  - username: `admin@gmail.com`
+  - password: `123456`
 - If you want to deploy api by yourself, here is source 
   - `backend`: [Cloudmate Backend Source](https://github.com/lamhan3012cmvn/NestJS_2School/tree/dev)
   - `admin`: [Cloudmate Admin Source](https://github.com/lamhan3012cmvn/admin-cloudmate/tree/master)
