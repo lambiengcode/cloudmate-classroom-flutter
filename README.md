@@ -5,9 +5,9 @@
 <a href="https://play.google.com/store/apps/details?id=com.wanted.cloudmate"><img src="https://askany.com/images/ch-play.png" height="60px" width="180px"/></a>
 </p>
 
-### Description:
-- This is mobile application about cloud classroom, students and teachers can 
-exchange about lesson. Support submit homework and take the test online... :panda_face:
+### Description
+
+Cloudmate is an open-source online learning platform developed with Flutter to help teachers and students connect and interact with each other through a variety of features. With Cloudmate, teachers can create classes, quizzes, and assignments, as well as take attendance and communicate with students using the built-in messaging system. Meanwhile, students can join classes, complete assignments, and take quizzes to test their knowledge.
 
 <div>
 <img src="https://github.com/hongvinhmobile/flutter_mobile_cloudmate/blob/master/screenshots/home.png?raw=true" width="195px"/>
@@ -16,10 +16,26 @@ exchange about lesson. Support submit homework and take the test online... :pand
 <img src="https://github.com/hongvinhmobile/flutter_mobile_cloudmate/blob/master/screenshots/profile.png?raw=true" width="195px"/>
 </div>
 
-### How I can run it? 
-- Support Flutter >= 2.0
-- Support Null-Safety
-- Run file bash ***run.sh***
+## Features
+
+- Create and manage classes
+- Create and assign quizzes
+- Take attendance
+- Submit assignments
+- Communicate with students via messaging system
+- View and analyze quiz results
+
+## Requirements
+- Flutter >= 3.0
+
+## Installation
+
+To get started with Cloudmate, follow these steps:
+
+1. Clone this repository to your local machine.
+2. Install the required dependencies using `flutter pub get`.
+3. Start the app using `bash run.sh`.
+4. Connect a mobile device or emulator to run the app.
 
 - My environment
 ```terminal
@@ -37,7 +53,16 @@ Doctor summary (to see all details, run flutter doctor -v):
 • No issues found!
 ```
 
-### Coding Guideline 
+## Contributing
+
+We welcome contributions from anyone! To contribute to Cloudmate, please follow these steps:
+
+1. Fork this repository to your own GitHub account.
+2. Create a new branch from the `master` branch.
+3. Make your changes and test them locally.
+4. Submit a pull request to the `master` branch.
+
+## Coding Guideline 
 
 - BLoC pattern
 <img src="https://bloclibrary.dev/assets/bloc_architecture_full.png"/>
