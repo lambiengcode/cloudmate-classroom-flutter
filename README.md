@@ -48,15 +48,15 @@ To get started with Cloudmate, follow these steps:
 - My environment
 ```terminal
 Doctor summary (to see all details, run flutter doctor -v):
-[✓] Flutter (Channel stable, 3.7.9, on macOS 13.2.1 22D68 darwin-arm64
+[✓] Flutter (Channel stable, 3.10.5, on macOS 13.3.1 22E772610a darwin-arm64
     (Rosetta), locale en-VN)
 [✓] Android toolchain - develop for Android devices (Android SDK version 33.0.0)
-[✓] Xcode - develop for iOS and macOS (Xcode 14.2)
+[✓] Xcode - develop for iOS and macOS (Xcode 14.3)
 [✓] Chrome - develop for the web
-[✓] Android Studio (version 2022.1)
-[✓] VS Code (version 1.77.0)
-[✓] Connected device (3 available)
-[✓] HTTP Host Availability
+[✓] Android Studio (version 2022.2)
+[✓] VS Code (version 1.79.2)
+[✓] Connected device (2 available)
+[✓] Network resources
 
 • No issues found!
 ```
